@@ -1,7 +1,7 @@
-*.a
-*.o
+*.[oa]
 *~
 .deps
+!dummy.*
 /build-*
 /acinclude.m4
 /aclocal.m4
