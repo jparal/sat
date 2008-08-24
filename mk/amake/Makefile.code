@@ -1,0 +1,5 @@
+
+LDADD += $(libs_dir)/code/libsatcode.a
+
+include $(top_srcdir)/mk/amake/Makefile.simul
+include $(top_srcdir)/mk/amake/Makefile.pint

@@ -1,0 +1,7 @@
+CXX=CC
+enable_64bit=yes
+
+enable_mpi=yes
+with_mpirun="mpirun -np @NP @PROG @ARGS"
+with_mpi_include="/usr/include"
+with_mpi_libs="mpi"

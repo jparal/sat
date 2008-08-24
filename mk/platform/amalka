@@ -1,0 +1,5 @@
+enable_openmp=yes
+
+enable_mpi=yes
+with_mpirun="mpirun -np @NP @PROG @ARGS"
+

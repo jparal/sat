@@ -1,0 +1,29 @@
+
+simul:
+{
+  step    = 0.1;
+  max     = 1.;
+  start   = 0.;
+  restart = false;
+};
+
+output:
+{
+  format:
+  {
+    type = "stw";
+    runname = "test";
+    version = 1;
+  };
+  dtout    = .5;
+  sensors:
+  {
+    magfield = { enable = true; dtout = .3; tag = "B"; };
+    elfield  = { enable = true; dtout = .5; tag = "E"; };
+    velocity = { enable = true; dtout = 1.; tag = "U"; };
+    pressure = { enable = true; dtout = 1.; tag = "P"; };
+    density  = { enable = true; dtout = 1.; tag = "Dn"; };
+    particle = { enable = true; dtout = 1.; tag = "Pcle"; };
+    distfnc  = { enable = true; dtout = 1.; tag = "Df"; };
+  };
+};

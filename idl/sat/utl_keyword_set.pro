@@ -1,0 +1,8 @@
+FUNCTION UTL_KEYWORD_SET, key
+
+  s = SIZE (key,/TYPE)
+
+  IF (s EQ 0) THEN RETURN, 0
+
+  RETURN, 1
+END

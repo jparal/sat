@@ -1,0 +1,5 @@
+
+CXX=icpc CC=icc ./configure --with-platform=glacier --enable-mode=optimize
+make -j2 -k
+# make check
+./tools/info/sat-info

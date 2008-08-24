@@ -1,0 +1,7 @@
+
+SAT core libraries
+
+base  Base support (config file, array, string, ...)
+cont  Containers (i.e. Field, Particles, ...)
+pint  Parallel INTerface
+test  Library supporting Testing and Benchamerking

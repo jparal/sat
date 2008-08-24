@@ -1,0 +1,12 @@
+
+Various utilities and tools.
+
+info
+  extract various information from satconfig.h
+
+pds
+  Planetary Data System application for browsing and exporting data (for
+  example Mariner 10)
+
+version
+  print version info of SAT

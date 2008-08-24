@@ -1,0 +1,6 @@
+PRO UTL_KEYWORD_DEF, key, val
+
+  IF NOT(UTL_KEYWORD_SET(key)) THEN key = val
+
+  RETURN
+END

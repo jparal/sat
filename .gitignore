@@ -1,0 +1,17 @@
+*.a
+*.o
+*~
+.deps
+/build-*
+/acinclude.m4
+/aclocal.m4
+/autom4te.cache
+/config.log
+/config.status
+/configure
+Makefile
+Makefile.in
+TEMPLATE.c.tpl
+TEMPLATE.cpp.tpl
+TEMPLATE.cxx.tpl
+TEMPLATE.h.tpl

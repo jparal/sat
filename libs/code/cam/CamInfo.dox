@@ -1,0 +1,99 @@
+/******************************************************************************
+ *   Copyright (C) by Jan Paral and SAT team                                  *
+ *   See docs/license/sat file for copying and redistribution conditions.     *
+ ******************************************************************************/
+
+/** @addtogroup code_cam
+ *  @{
+ */
+
+/**
+ * @page cfg_cam CAM-CL configuration file
+ * The example of working configure file for CAM-CL:
+ * @code
+ * #---------------------------------------------------------------------------
+ * # CAM Config file
+ * #---------------------------------------------------------------------------
+ *
+ * simul:
+ * {
+ *   step    = 0.0025;
+ *   max     = 1000.;
+ *   start   = 0.;
+ *   restart = false;
+ *   momsmooth = 1; // Steps between moment smooth
+ *   esmooth = 1; // Steps between el. field smooth
+ * };
+ *
+ * grid:
+ * {
+ *   cells  = [ 500 , 200, 200 ];
+ *   resol  = [ 0.15, 0.1, 0.1 ];
+ *   openbc = [ true, true, true ]; // Open Boundary Conditions
+ * };
+ *
+ * field:
+ * {
+ *   nsub   = 10;
+ *   imf    = { phi = 90.; psi = 0.; };
+ *   dnmin  = 0.05;
+ *   resist = 0.001;
+ * };
+ *
+ * plasma:
+ * {
+ *   betae = 0.5;
+ *   specie:
+ *   {
+ *     proton = { pcles = 70.; beta = 0.5; rvth = 0.5; rmds = 1.; qms = 1.; v0 = [3.,0.,0.]; };
+ * };
+ *
+ * output:
+ * {
+ *   format:
+ *   {
+ *     type     = "xdmf"; // "xdmf" (default) | "stw"
+ *     version  = 1;
+ *     parallel = false;  // unstable
+ *     runname  = "test";
+ *     compress = { gz = 6; shuffle = true; };
+ *   };
+ *   dtout = 1.; // Default value for sensors
+ *   sensors:
+ *   {
+ *     magfield = { enable = false; dtout = .3; tag = "B"; };
+ *     elfield  = { enable = true;  dtout = .5; tag = "E"; };
+ *     velocity = { enable = true;  dtout = 1.; tag = "U"; };
+ *     pressure = { enable = true;  dtout = 1.; tag = "P"; };
+ *     density  = { enable = true;  dtout = 1.; tag = "Dn"; };
+ *     particle = { enable = true;  dtout = 1.; tag = "Pcle"; };
+ *     distfnc  = { enable = true;  dtout = 1.; tag = "Df"; };
+ *   };
+ * };
+ *
+ * parallel:
+ * {
+ *   mpi = { proc = [ 3, 2, 1 ]; };
+ *   omp = { threads = -1; }; // -1 when setup is dynamically
+ * };
+ *
+ * // log.file  = "bla.log"; // Default: progname.log
+ * sat:
+ * {
+ *   version = [0,3,0];
+ * };
+ * @endcode
+ *
+ * Various parts of configure file are parsed on several places:
+ * - @ref cfg_specie "Specie"
+ * - @ref cfg_io "Input/Output"
+ */
+
+/** @} */
+
+// EMACS
+// Local variables:
+// mode: c++
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

@@ -1,0 +1,15 @@
+
+output:
+{
+  format:
+  {
+    type = "xdmf";
+    version = 1;
+    parallel = false;
+    compress:
+    {
+      gz = 9;
+      shuffle = true;
+    };
+  };
+};

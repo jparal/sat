@@ -1,0 +1,13 @@
+
+LDADD =
+libs_dir = $(top_srcdir)/libs
+
+LDADD += $(libs_dir)/test/libsattest.a
+
+TESTS_ENVIRONMENT = bash $(top_srcdir)/mk/scripts/runbench.sh $(top_builddir)
+
+all:
+	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
+
+# For including of test classes
+include $(top_srcdir)/mk/amake/Makefile.base

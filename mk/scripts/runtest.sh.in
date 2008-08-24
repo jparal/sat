@@ -1,0 +1,27 @@
+#!/bin/sh
+
+xmlfile=tests.xml
+
+mpiboot="@MPIBOOT@"
+mpirun="@MPIRUN@"
+mpihalt="@MPIHALT@"
+
+prog=$2
+name=`echo $prog | sed -e 's/test-//'`
+args="--test --xml --file $1/$xmlfile"
+progmpi=${name}.mpi
+
+if test -r $progmpi; then
+    source $progmpi
+    for proc in $procs; do
+	runtmp="`echo "$mpirun" | sed "s|@NP|${proc}|g"`"
+	runtmp="`echo "$runtmp" | sed "s|@PROG|${prog}|g"`"
+	runtmp="`echo "$runtmp" | sed "s|@ARGS|${args}|g"`"
+
+	$mpiboot
+	$runtmp
+	$mpihalt
+    done
+else
+    $2 ${args}
+fi

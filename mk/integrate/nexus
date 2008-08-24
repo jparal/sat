@@ -1,0 +1,5 @@
+
+./configure --enable-mode=optimize
+MAKE=gmake gmake
+MAKE=gmake gmake check
+./tools/info/sat-info

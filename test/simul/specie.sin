@@ -1,0 +1,9 @@
+
+plasma:
+{
+  betae = 0.5;
+  specie:
+  {
+    proton = { pcles = 20; beta = 0.5; rvth = 0.5; rmds = 1.; qms = 1.; v0 = [3.,0.,0.]; };
+  };
+};

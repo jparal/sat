@@ -1,0 +1,17 @@
+
+CC=gcc CXX=g++ ./configure --enable-mode=optimize
+make -j2 -k
+make check
+./tools/info/sat-info
+make clean
+
+CC=icc CXX=icpc ./configure --enable-mode=optimize
+make -j2 -k
+make check
+./tools/info/sat-info
+make clean
+
+CC=pgcc CXX=pgCC ./configure --enable-mode=optimize
+make -j2 -k
+make check
+./tools/info/sat-info

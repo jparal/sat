@@ -1,0 +1,5 @@
+
+LDADD += $(libs_dir)/pint/libsatpint.a
+
+LDADD += $(LDFLAGS_MPI)
+CXXFLAGS += $(CXXFLAGS_MPI)

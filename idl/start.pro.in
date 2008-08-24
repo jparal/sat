@@ -1,0 +1,47 @@
+;-----------------------------------------------------------------------------;
+;              Initialization of SAT IDL library:                             ;
+; NOTE:                                                                       ;
+;   To use IDL library from SAT package add these lines into your '.bashrc'   ;
+;   file:                                                                     ;
+;                                                                             ;
+;   export SAT_HOME=/sat/installation/path                                    ;
+;   source $SAT_HOME/etc/satrc                                                ;
+;-----------------------------------------------------------------------------;
+
+PRINT, '                You are using SAT v@SAT_VERSION@ IDL library'
+PRINT, ''
+
+sat_idl=getenv("SAT_HOME")+'/idl'
+
+mypath=                       $
+sat_idl+'/mpfit:'            +$
+sat_idl+'/pro:'              +$
+sat_idl+'/sat:'              +$
+sat_idl+'/stw:'              +$
+sat_idl+'/textoidl:'         +$
+sat_idl+'/todo:'             +$
+sat_idl+'/zamb:'             +$
+sat_idl+'/zamb/analysis:'    +$
+sat_idl+'/zamb/misc:'        +$
+sat_idl+'/zamb/menus:'       +$
+sat_idl+'/zamb/plot1d:'      +$
+sat_idl+'/zamb/plot2d:'      +$
+sat_idl+'/zamb/plot3d:'      +$
+sat_idl+'/zamb/InputValues:'
+
+;-------------------------------------------------------;
+
+!PATH=mypath+!PATH
+
+; lib_path=sat_idl+'/lib/'+STRLOWCASE(strcompress(!VERSION.OS+'_'+!VERSION.ARCH+'_'+string(!VERSION.MEMORY_BITS),/REMOVE_ALL))
+
+; Setup !DLM_PATH forfuture
+; PREF_SET, 'IDL_DLM_PATH', lib_path, /COMMIT
+; PRINT, "Lib path: ", !DLM_PATH
+
+LOADCT, 13
+;WINDOW, /PIXMAP & WDELETE
+;DEVICE, BYPASS_TRANSLATION=0
+DEVICE,DECOMPOSED = 0,RETAIN=2,TRUE_COLOR=24
+
+;-------------------------------------------------------;

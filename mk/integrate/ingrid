@@ -1,0 +1,5 @@
+
+./configure --enable-mode=optimize
+make
+make check
+./tools/info/sat-info

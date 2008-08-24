@@ -1,0 +1,22 @@
+#
+# Source this file in your .bashrc file to export SAT paths by adding
+# these lines:
+#
+# export SAT_HOME=/sat/installation/path
+# source $SAT_HOME/etc/satrc
+#
+
+DIRS="bin analyse/shock tools/info tools/version"
+
+if [ -f $SAT_HOME/configure.ac ]; then
+    for i in $DIRS;
+    do
+	SATPATHS="$SATPATHS$SAT_HOME/$i:"
+    done
+    export PATH=$SATPATHS$PATH:
+else
+    export PATH=$PATH:$SAT_HOME/bin
+fi
+
+# export LDPATH=$LDPATH:$SAT_HOME/lib
+export IDL_STARTUP=$SAT_HOME/idl/start.pro

@@ -1,0 +1,179 @@
+/*
+    Copyright (C) 1998-2001 by Jorrit Tyberghein
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+
+/**
+ * \mainpage
+ *
+ * This is the Application Programmer's Interface (API) reference for
+ * SAT package.  This manual documents the interfaces and
+ * functions available to clients of the SAT software development
+ * toolkit.
+ *
+ * \htmlonly
+ The API reference consists of the following sections:
+ 
+ <ul>
+ <li><a href="idl.html">IDL Library documentation</a></li>
+ <li><a href="files.html">File List</a></li>
+ <li><a href="globals.html">File Members</a></li>
+ <li><a href="modules.html">Module List</a></li>
+ </ul>
+ \endhtmlonly
+ */
+
+/*
+ * Doxygen group(aka "Module") definitions.
+ * These are here, in their own file, rather than the includes because:
+ *  a) Module names aren't sorted; so we can do that here
+ *  b) It's easier to see what Modules there are and what identifiers they
+ *     have.
+ *  c) It's easier to change a description.
+ *
+ * Not much else interesting here.
+ */
+ 
+
+/**
+ * \defgroup base Base
+ * Basic classes with simulation and anylyse support (\b libsatbase.a)
+ * @{ */
+
+  /**
+   * \defgroup base_common Common
+   * Common classes and containers (String, List, Set, ... )
+   */
+
+  /**
+   * \defgroup base_config Config
+   * Support for configuration file (parsing, managing, ...)
+   */
+
+  /**
+   * \defgroup base_sys System
+   * System definitions and system abstract layer.
+   */
+
+/** @} */
+
+/**
+ * \defgroup code Simulation Codes
+ * Various simulation codes
+ * @{ */
+
+  /**
+   * \defgroup code_cam CAM-CL
+   * Current Advance Method-Cyclic Leapfrog
+   */
+
+/** @} */
+
+/**
+ * \defgroup io Input/Output
+   * Input/Output
+ * @{ */
+
+  /**
+   * \defgroup io_stw STW format
+   * Input/Output using STW file format
+   */
+
+  /**
+   * \defgroup io_xdmf XDMF format
+   * Input/Output using XDMF file format (www.xdmf.org)
+   */
+
+  /**
+   * \defgroup io_misc Miscellaneous
+   * Various utilities for I/O module
+   */
+
+/** @} */
+
+/**
+ * \defgroup math Mathematics
+ * Mathematical primitives, random number generators, ...
+ * @{ */
+
+  /**
+   * \defgroup math_misc Miscellaneous
+   * Various mathematical primitives
+   */
+
+  /**
+   * \defgroup math_rand Random
+   * Random number generators
+   */
+
+/** @} */
+
+/**
+ * \defgroup pint Parallel
+ * Support for Parallel INTerface (PINT) in SAT package.
+ * @{ */
+
+  /**
+   * \defgroup pint_mpi MPI
+   * MPI support for SAT package
+   */
+
+  /**
+   * \defgroup pint_omp OpenMP
+   * OpenMP support for SAT package
+   */
+
+/** @} */
+
+/**
+ * \defgroup simul Simulation
+ * Simulation and physics related stuff
+ * @{ */
+
+  /**
+   * \defgroup simul_field Field
+   * Field class and operations
+   */
+
+  /**
+   * \defgroup simul_pcle Particles
+   * Particle container optimized for dynamic allocation
+   */
+
+  /**
+   * \defgroup simul_sensor Sensor
+   * Sensor of the variables
+   */
+
+  /**
+   * \defgroup simul_misc Miscellaneous
+   * Simulation utilities
+   */
+
+/** @} */
+
+
+/**
+ * \defgroup test Test
+ * Quality assurance
+ * @{ */
+
+  /**
+   * \defgroup test_tester Tester
+   * Testing support for SAT package
+   */
+
+/** @} */

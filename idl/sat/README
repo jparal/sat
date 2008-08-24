@@ -1,0 +1,19 @@
+sat_info = {
+  sat_ver=[0,2,0]
+  nfo_ver=[0,0,0]
+  resolution=[.4,1.,1.]
+  runname = 'hions'
+  format = 'stw'
+  sensors = ['DnPSD','EnPSD','DnMap','EnMap']
+  ndim = 3
+  dt = [0.02]
+  iters = [ [0,5000,30000] , [0,5000,30000], [0,5000,30000], [0,5000,30000]]
+
+  boundary = ['planet']
+
+  ;; Values filled by funcions:
+  _dir = '/home/jparal/....'
+  _loaded = []
+  _data = []
+
+}

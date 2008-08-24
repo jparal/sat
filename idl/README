@@ -1,0 +1,24 @@
+The IDL scripts are organized as follows:
+
+Prefix:  Description:
+===========================================================================
+ ali     Scripts you cant sort somewhere else (alien)
+ ana     Analysation scripts
+ ani     Animation scripts
+ dat     Data manupulation (cuts of data, converting, ...)
+ hil     High level functions
+ mth     Math functions (FFT, ...)
+ pcl     Particle analyse scripts
+ phy     Physics analyse (temperature, preasure, ...)
+ plt     Plotting functions independent of the problem
+ sat     Working with !SAT structure (load, free mem, compability
+         issue, resources, ...)
+ spc     Problem specific functions (???)
+ uin     User interface
+ utl     Utility functions (read, write, parameters checking, ...)
+ sio     SAT Input/Output
+
+Others directories:
+pro  .. functions I got from Pavel
+stw  .. STW IDL functions
+todo .. quickly made function which need to bo sorted and polished

@@ -1,0 +1,248 @@
+#!/bin/bash
+#
+# Simulate & Analyse Toolkit (SAT)
+# See Copyright agreement
+#
+
+SUBS_TAG="{TEX}"
+
+function print_help()
+{
+    echo "TeX substitutions in postscript files"
+    echo
+    echo "  USAGE: $SCRIPTNAME [options] <input ps file> [output ps file]"
+    echo
+    echo "Substitute strings in ps file for LaTeX strings. LaTeX strings must"
+    echo "be between $SUBS_TAG tags (i.e. $SUBS_TAG\$\alpha\$$SUBS_TAG )."
+    echo "NOTE: programs ps2epsi, latex and dvips are needed."
+    echo
+    echo "output file:"
+    echo "  if output file isn't specified then input file is used"
+    echo
+    echo "options:"
+    echo "  -h | --help     this help page"
+    echo "  -height <num>   set height in [cm] (default 10)"
+    echo "  -angle <num>    set angle in [deg] (default 90)"
+    echo "  -font <num>     set the font size from 1 to 10 (default 5)"
+    echo "  -v              verbose: show output from latex calling"
+    echo "  -tmp            don't remove tmp files"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+}
+
+
+function generate_tex_file()
+{
+    echo "\documentclass[12pt]{article}" >  $TEXFILE
+    echo "\usepackage{times,a4wide}"     >> $TEXFILE
+    echo "\usepackage{graphicx,psfrag}"  >> $TEXFILE
+    echo "\oddsidemargin=0mm"            >> $TEXFILE
+    echo "\evensidemargin=0mm"           >> $TEXFILE
+    echo "\pagestyle{empty}"             >> $TEXFILE
+    echo "\begin{document}"              >> $TEXFILE
+
+###############################################
+#       Set font size
+###############################################
+    case "$FONTSIZE" in
+	"1")
+	    FONT="tiny" ;;
+	"2")
+	    FONT="scriptsize" ;;
+	"3")
+	    FONT="footnotesize" ;;
+	"4")
+	    FONT="small" ;;
+	"5")
+	    FONT="normalsize" ;;
+	"6")
+	    FONT="large" ;;
+	"7")
+	    FONT="Large" ;;
+	"8")
+	    FONT="LARGE" ;;
+	"9")
+	    FONT="huge" ;;
+	"10")
+	    FONT="Huge" ;;
+	*)
+            my_exit "unknown font size"
+	    ;;
+    esac
+
+    echo "\\$FONT"              >> $TEXFILE
+
+###############################################
+#       Create rules
+###############################################
+
+    STRINGS=`eval grep -o '$SUBS_TAG.*$SUBS_TAG' "$INFILE_EPSI"`
+
+    STRINGS=`echo "$STRINGS" | uniq`
+
+    ###############################################
+    #   Generate psfrag rules
+    ###############################################
+    echo "$STRINGS" | while read ; do
+        #Remove doubled beckaspace
+        #ITMP=`echo "$REPLY" | sed -e 's/\\\\\\\\/\\\\/g'`
+
+        #Remove $SUBS_TAG
+	ITMP=`echo "$REPLY" | eval "sed -e 's/$SUBS_TAG//g'"`
+        #Double backslash because read removes them
+	REPLY=`echo "$REPLY" | sed -e 's/\\\\/\\\\\\\\/g'`
+
+	echo -n "\psfrag{"                   >> $TEXFILE
+	echo -n "$REPLY"                     >> $TEXFILE
+	echo -n "}[][]{"                     >> $TEXFILE
+	echo -n "$ITMP"                      >> $TEXFILE
+	echo "}"                             >> $TEXFILE
+    done
+
+###############################################
+#       Finish file
+###############################################
+    echo "\begin{figure}[!]"             >> $TEXFILE
+    echo -n "\includegraphics[angle="    >> $TEXFILE
+    echo -n "$ANGLE]{"                   >> $TEXFILE
+    echo -n "$INFILE_EPSI"               >> $TEXFILE
+    echo    "}"                          >> $TEXFILE
+    echo "\end{figure}"                  >> $TEXFILE
+    echo "\end{document}"                >> $TEXFILE
+#     echo -n "\includegraphics[height="    >> $TEXFILE
+#     echo -n "$HEIGHT"                     >> $TEXFILE
+#     echo -n "cm,angle="                  >> $TEXFILE
+}
+
+
+function my_exit()
+{
+    if [ "$RMTMP" = "1" ]; then
+        echo -n "Removing tmp files ... "
+        rm -rf $TEXFILE $DVIFILE $AUXFILE $LOGFILE $INFILE_EPSI
+        echo "OK"
+    else
+        echo "Leaving tmp files ... OK"
+    fi
+
+    if [ d"$1" != d"" ]; then
+	echo "Error: $1"
+	exit 1
+    else
+	exit 0
+    fi
+}
+
+######################################
+# Lets Begin
+######################################
+
+
+TMPDIR="/tmp/$$"
+SCRIPTNAME=`basename $0`
+
+if [ $# -lt 1 ]; then
+    print_help
+fi
+
+echo -n "Parsing params ... "
+
+######################################
+# Parse aguments BEGIN
+######################################
+
+#Set variables to standart values
+HEIGHT=18
+ANGLE=90
+FONTSIZE=5
+OUTPUT=">/dev/null 2>&1"
+RMTMP=1
+
+while [ x"$1" != x"" ]
+do
+    case "$1" in
+	"-height")
+	    shift
+	    HEIGHT_OPT=$1
+	    ;;
+	"-angle")
+	    shift
+	    ANGLE_OPT=$1
+	    ;;
+	"-font")
+	    shift
+	    FONTSIZE_OPT=$1
+	    ;;
+	"-v")
+	    OUTPUT=""
+	    HEIGHT=$1
+	    ;;
+	"-tmp")
+	    RMTMP=0
+	    ;;
+	"-h"|"--help")
+	    print_help
+	    ;;
+	*)
+	    INFILE="$1"
+	    if [ ! -e "$INFILE" ]; then
+		my_exit "Input file $INFILE doesnt exist" 
+	    fi
+	    INFILE_BASE=`basename "$INFILE"`
+	    INFILE_CORE=`basename "$INFILE" | sed -e 's/\.ps$//'`
+	    INFILE_PATH=`dirname "$INFILE"`
+	    INFILE_EPSI="$INFILE_CORE.epsi"
+	    shift
+	    if [ "$1" != "" ]
+	    then
+		OUTFILE="$1"
+	    else
+		OUTFILE="$INFILE"
+	    fi
+	    ;;
+    esac
+    shift
+done
+
+TEXFILE="$INFILE_PATH/$INFILE_CORE.tex"
+DVIFILE="$INFILE_PATH/$INFILE_CORE.dvi"
+AUXFILE="$INFILE_PATH/$INFILE_CORE.aux"
+LOGFILE="$INFILE_PATH/$INFILE_CORE.log"
+EPSFILE="$INFILE_PATH/$INFILE_CORE.eps"
+CFGFILE="$INFILE_PATH/$INFILE_CORE.pssubst"
+
+[ -f "$CFGFILE" ] && . "$CFGFILE"
+
+[ -n "$HEIGHT_OPT" ]   && HEIGHT="$HEIGHT_OPT"
+[ -n "$ANGLE_OPT" ]    && ANGLE="$ANGLE_OPT"
+[ -n "$FONTSIZE_OPT" ] && FONTSIZE="$FONTSIZE_OPT"
+
+echo "OK"
+######################################
+# Parse aguments END
+######################################
+
+echo -n "Generating eps file ... "
+eval ps2epsi $INFILE $INFILE_EPSI $OUTPUT
+echo "OK"
+
+echo -n "Generating tex file ... "
+eval generate_tex_file $OUTPUT
+echo "OK"
+
+echo -n "Generating dvi file ... "
+eval latex "$TEXFILE" $OUTPUT
+echo "OK"
+
+echo -n "Generating output file ... "
+eval dvips "$DVIFILE" -o "$OUTFILE" $OUTPUT
+echo "OK"
+
+echo -n "Generating eps file ... "
+eval ps2epsi "$OUTFILE" "$EPSFILE" $OUTPUT
+echo "OK"
+
+my_exit

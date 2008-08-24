@@ -1,0 +1,10 @@
+*.css
+*.gif
+*.html
+*.map
+*.md5
+*.png
+/formula.repository
+/installdox
+/search.idx
+/search.php

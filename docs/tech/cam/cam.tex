@@ -1,0 +1,576 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[oneside,branding,toc,article]{sat}
+\usepackage{a4,url,epsfig,amssymb,amsbsy,color,times}
+\usepackage[ps2pdf]{hyperref}
+\hypersetup{
+  pdfauthor = {Jan Paral},
+  pdftitle = {CAM},
+  pdfsubject = {Hybrid Code},
+  pdfkeywords = {hybrid code, plasma},
+  pdfcreator = {LaTeX with hyperref package},
+  pdfproducer = {dvips + ps2pdf},
+  bookmarks=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  colorlinks=true,
+  linkcolor=blue,
+  anchorcolor=blue,
+  citecolor=blue
+}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}              % bf in math mode: vectors
+\newcommand{\trm}[1]{\textrm{#1}}              % normal font in math mode
+\newcommand{\mrm}[1]{\mathrm{#1}}              % normal font in math mode
+\newcommand{\udx}[1]{ \, \mathrm{d}#1}         % dx after integral: \udx{x}
+
+% \doublespacing
+
+\title{CAM Hybrid code}
+
+\SATauthor{Jan Paral}{jparal@phys.ualberta.ca}
+\SATmodification{2008/01/21}
+\SATdocversion{1.0}
+\SATaddrevision{2008/01/21}{1.0}{Initial version}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+As computer resources available to researchers increases, numerical simulations
+are becoming more and more important as a tool standing between theoretical
+results and pure experiment.  We can compare the theoretical results of the
+research with the computational simulations before investing enormous money
+into the equipment needed to perform the experiment.  This is true especially
+in space physics where budget to build a spacecraft can reach millions of
+dollars.
+
+\begin{figure}[!hbp]
+  \centering
+  \includegraphics[width=11cm]{pic/codesnfo.eps.gz}
+  \caption{Plasma codes.}
+  \label{fig:nfo}
+\end{figure}
+
+Several different techniques how to simulate the plasma are available to the
+researches, depending on the physical problem, temporal or spatial scales they
+need to resolve.  Two of the most common techniques are particle-in-cell (PIC)
+and magnetohydrodynamics (MHD) codes summarized in Fig.  \ref{fig:nfo}.  The
+former one (PIC) uses a single point in the phase-space representing a cloud of
+particles with similar velocity at similar position.  This particle approach is
+used for ions as well as electrons which enforce the limit on a range of time
+steps $\triangle t$ available for particle advancing (i.e. $\triangle t <
+\Omega_e^{-1}$) where $\Omega_e$ is electron gyrofrequency.  The second
+approach is to approximate plasma by fluid and couple the system with Maxwell's
+equations through the force acting on a single fluid element by Lorentz
+force. This system is called magnetohydrodynamics.
+
+In many cases, ions play an important role in studied processes and we can
+easily neglect electrons. The codes where different component (specie) of the
+plasma is treated by different technique is called hybrid code. The most common
+example is where ions are treated as PIC and electrons as a charge neutralizing
+fluid treated by MHD formalism.  For several different approximations you can
+see \cite{lipatov02} which gives good overview of today status of the hybrid
+plasma simulation technology.
+
+\section{Hybrid code}
+
+Several different techniques are used to advance the hybrid code into the next
+time level (i.e. \cite{winske85, wiom93, wiom96}).  We choose to use Current
+Advance Method and Cyclic Leapfrog (CAM-CL) published by \cite{matthews94}
+which has the advantage of going through the particles only once instead of
+pre-pushing of particles in order to obtain electric field \citep{harned82}.
+The various implementations of the codes employ different numerical techniques:
+\cite{harned82} is using a predictor-corrector scheme (see \cite{nr92});
+\cite{wiqu88} using a moment method or \cite{hoshan89} substepping magnetic
+field.  The CAM-CL implementation is using advantage of field sub-stepping
+instead of using the same step as for particles.  Recently, this code was
+expanded into 3D by \cite{travea07} and used to explore magnetosphere of
+Mercury.
+
+There are few differences when compared to other hybrid codes:
+\begin{itemize}
+\item Multiple ion species are treated in a single computational pass through
+  data arrays.
+\item CAM advances ionic current density instead of fluid velocity.
+\item Velocity is collected a half time step ahead, before equation of motion
+  is applied.
+\item Magnetic field is sub-stepped using modified midpoint method \citep{nr92}
+  for better time resolution and to prevent dispersion.
+\end{itemize}
+
+The system is governed by Vlasov-fluid equations:
+
+\begin{equation}
+  \frac{\, {\mathrm d}{\mathbf{x}_s}}{\, {\mathrm d}{t}} = \mathbf{v}_s
+\end{equation}
+
+\begin{equation}
+  \frac{\, {\mathrm d}{\mathbf{v}_s}}{\, {\mathrm d}{t}} =
+  \frac{q_s}{m_s} ( \mathbf{E} + \mathbf{v}_s \times \mathbf{B} )
+\end{equation}
+
+\begin{equation}
+  \frac{\partial \mathbf{B}}{\partial t} = - \nabla \times \mathbf{E}
+  \label{eq:faraday}
+\end{equation}
+
+\begin{equation}
+  \nabla \times \mathbf{B} = \mu_0 \mathbf{J}
+  \label{eq:ampere}
+\end{equation}
+
+\begin{equation}
+  n_e m_e \frac{\, {\mathrm d}{\mathbf{u}_e}}{\, {\mathrm d}{t}} =
+  - n_e e \mathbf{E} + \mathbf{J}_e \times \mathbf{B} - \nabla p_e
+  \label{eq:fluid}
+\end{equation}
+
+\begin{equation}
+  p_e = n_e k_B T_e
+  \label{eq:eos}
+\end{equation}
+where the symbols mean: ion position $\mbf{x}_s$; ion velocity $\mbf{v}_s$; ion
+mass $m_s$; ion charge $q_s$; electric field $\mbf{E}$; magnetic field
+$\mbf{B}$; magnetic permeability $\mu_0$; current density $\mbf{J}$; electron
+number density $n_e$; electron mass $m_e$; electron fluid velocity $\mbf{u}_e$;
+magnitude of electronic charge $e$; electronic current density $\mbf{J}_e = -
+n_e e \mbf{u}_e$; electron fluid pressure $p_e$; Boltzmann's constant $k_B$;
+and electron temperature $T_e$. The subscript $s$ refers to the ion specie. We
+are using Darwin's approximation so the displacement current is neglected in
+Maxwell's equation \ref{eq:ampere} and we are assuming massless electron fluid
+so lefthand term of equation \ref{eq:fluid} can be neglected. By adding a term
+$\eta \mathbf{J_e}$ on the right-side of equation \ref{eq:fluid}, where $\eta$
+is resistivity of plasma, we can introduce an artificial resistivity into the
+system which cause the damping of high frequency waves.  In the real situation,
+Eq. \ref{eq:eos} describing isotropic and isothermal plasma is not valid and we
+have to use rather adiabatic approximation where we substitute electron
+temperature $T_e$ by $T_e = T_{e0} (n_e / n_{e0})^{\gamma - 1}$, where $\gamma$
+is an adiabatic index.
+
+In our case the electric field is not time dependent and can be evaluated as a
+function of current density, magnetic field, charge density and electron
+pressure when we combine \ref{eq:fluid}, \ref{eq:ampere}, and substitute
+electron current density by $\mbf{J} = \mbf{J}_e + \mbf{J}_i$ and charge
+density by $\rho_c = n_s q_s$
+\begin{equation}
+  \label{eq:e}
+  \mbf{E} = - \frac{\mbf{J}_i \times \mbf{B}}{\rho_c} +
+  \frac{(\nabla \times \mbf{B}) \times \mbf{B}}{\mu_0 \rho_c} -
+  \frac{\nabla p_e}{\rho_c}
+\end{equation}
+substituting into equation \ref{eq:faraday} we obtain relation for advancing of
+magnetic field given by
+\begin{equation}
+  \label{eq:b}
+  \frac{\partial \mbf{B}}{\partial t} =
+  \nabla \times \frac{\mbf{J}_i \times \mbf{B}}{\rho_c} -
+  \nabla \times \frac{(\nabla \times \mbf{B}) \times \mbf{B}}{\mu_o \rho_c}
+\end{equation}
+
+Then all other variables are defined as
+\begin{equation}
+  n_s = \int f_s(\mathbf{x}_s,\mathbf{v}_s) ~ \, \mathrm{d\mathbf{v}_s}
+\end{equation}
+is the density and $f$ is distribution function. Bulk velocity:
+\begin{equation}
+  \mathbf{u}_s =
+  \frac{1}{n_s} \int \mathbf{v}_s f_s(\mathbf{x}_s,\mathbf{v}_s) \, \mathrm{d\mathbf{v}_s}
+\end{equation}
+\begin{equation}
+  \rho_c = \sum_{s}n_sq_s
+\end{equation}
+\begin{equation}
+  \rho_m = \sum_{s}n_sm_s
+\end{equation}
+\begin{equation}
+  \mathbf{J}_s = q_sn_s\mathbf{u}_s
+\end{equation}
+\begin{equation}
+  \mathbf{J}_i = \sum_{s}\mathbf{J}_s
+\end{equation}
+\begin{equation}
+  \mathbf{J} = \mathbf{J}_i + \mathbf{J}_e
+\end{equation}
+
+\section{Particle advancing}
+We keep ion velocity $\mathbf{v}_s$ and its position $\mathbf{x}_s$ in the
+different time levels $t$ and $t+1/2 \triangle t$ respectively so we can employ
+leapfrog algorithm as follows: First, we evaluate velocity half timestep ahead
+to obtain best estimate for velocity
+\begin{equation}
+  \label{eq:vh}
+  \mathbf{v}_s^{1/2} = \mathbf{v}_s^{0} + \frac{\triangle t}{2} \frac{q}{m}
+  \left( \mathbf{E}^{1/2} + \mathbf{v}_s^{0} \times \mathbf{B}^{1/2} \right)
+\end{equation}
+and then evaluate entire step by using estimate of velocity
+$\mathbf{v}_s^{1/2}$ as follows
+\begin{equation}
+  \label{eq:vf}
+  \mathbf{v}_s^{1} = \mathbf{v}_s^{0} + \triangle t \frac{q}{m}
+  \left( \mathbf{E}^{1/2} + \mathbf{v}_s^{1/2} \times \mathbf{B}^{1/2} \right)
+\end{equation}
+when the velocity is known in time step 1 we can simply advance the position of
+particle as
+\begin{equation}
+  \label{eq:x}
+  \mathbf{x}_s^{3/4} = \mathbf{x}_s^{1/2} + \triangle t \mathbf{v}_s^{1}
+\end{equation}
+where $\mathbf{v}_s^{1}$ is already known from previous step.
+
+\section{Magnetic field and current density advancing}
+Magnetic field is advanced using equation \ref{eq:b}. We apply the same
+leap-frog technique as for velocity advancing described in \cite{nr92} which is
+a modified midpoint method \citep{nr92}.  We keep two copies of magnetic field
+and leapfrog one copy over the other.  We substep magnetic field with time step
+$\triangle t_B = \triangle t / n$ as a fraction of time step for particles
+advancing.  This allow us to resolve even high frequency changes in the
+magnetic field.  Because magnetic field is a function of electric field we need
+to evaluate electric field in each step. Then magnetic field will be advanced
+as
+\begin{eqnarray}
+  B_1 & = & B_0 - \triangle t_B \nabla \times E_0 \nonumber \\
+  B_2 & = & B_1 - 2 \triangle t_B \nabla \times E_1 \nonumber \\
+  ... \nonumber \\
+  B_{p+1} & = & B_{p-1} - 2 \triangle t_B \nabla \times E_p \nonumber \\
+  ... \nonumber \\
+  B_{n} & = & B_{n-2} - 2 \triangle t_B \nabla \times E_{n-1} \nonumber \\
+  B_{p}^* & = & B_{n-1} - \triangle t_B \nabla \times E_{n}
+\end{eqnarray}
+where odd subscript together with $B^*$ represents one copy of the field and
+even subscript represent the second copy of the magnetic field.  On the end of
+field advancing we can average two copies of the field or use the difference
+between $B^*$ and $B_n$ as a measure of the error and change number of substeps
+accordingly.
+
+Because we need to evaluate electric field during the processes of advancing as
+\begin{equation}
+  E_p = E (\rho_c^{1/2}, J_i^{1/2}, B_p, T_e)
+\end{equation}
+we require current density $J_i$ to be known at time level 1/2. Velocity of
+particles is not known at time level 1/2, we have to approximate current
+density by advancing it from $J_i^* = J (v_i^{0}, x_i^{1/2})$ into $J_i^{1/2}$
+by using moment equation:
+\begin{equation}
+  \label{eq:curradv}
+  J_i^{1/2} = J_i^* = \frac{\triangle t}{2} (\Lambda E^* + \Gamma B^{1/2})
+\end{equation}
+where $\Lambda$ and $\Gamma$ are defined as follows:
+\begin{equation}
+  \label{eq:lambda}
+  \Lambda = \sum_s \phi_{sj}^{1/2} \frac{q_s^2}{m_s}
+\end{equation}
+\begin{equation}
+  \label{eq:lambda}
+  \Gamma = \sum_s \phi_{sj}^{1/2} \frac{q_s^2}{m_s} v_x^0
+\end{equation}
+and $\phi$ is a weighting function $\phi (\mathbf{x}_s)$.
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=12cm]{pic/weight.eps.gz}
+  \caption{Example of weighting functions a) delta function, b) linear
+    weighting function. Courtesy by \cite{bila85}.}
+  \label{fig:weight}
+\end{figure}
+Weighting function is, in the most cases, a linear basis function as in
+Fig. \ref{fig:weight}b, prescribed by
+\begin{eqnarray}
+  \label{eq:weight}
+  \phi (0,0) & = & (1-x)(1-y) \nonumber \\
+  \phi (1,0) & = & x(1-y)     \nonumber \\
+  \phi (1,1) & = & xy         \nonumber \\
+  \phi (0,1) & = & (1-x)y
+  \end{eqnarray}
+in the case of 2D, where $x$ and $y$ are normalized distance $(x,y) \in [0,1]
+\times [0,1]$ and parameter 0 and 1 represent the vertex of the computational
+cell.
+
+\section{Main Loop}
+
+In Fig. \ref{fig:loop} you can see the steps described above assembled
+together.
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=11cm,width=11cm]{pic/camsch.eps.gz}
+  \caption{Cartoon representing loop of CAM-CL code. Courtesy by
+    \cite{matthews94}.}
+  \label{fig:loop}
+\end{figure}
+To advance simulation into next time step we need to perform three steps.  Lets
+assume we are given these variables at the beginning of the simulation:
+$x^{1/2}$, $v^0$, $\rho_c^{0}$, $\rho_c^{1/2}$, $J_i^0$, $\Lambda$, $\Gamma$
+and $J_i^+ = J_i^* (x^{1/2},v^0)$ where electron temperature $T_e$ is constant.
+
+Advance magnetic field $B^0$ into $B^{1/2}$, make an estimate of current
+density by advancing $J_i^*$ into $J_i^{1/2}$ to get electric field $E^{1/2}$
+
+\begin{eqnarray}
+  \label{eq:step1}
+  B^{1/2} & = & B^0 - \int_0^{\triangle t/2} \nabla \times E(\rho_c^0, J_i^0,
+  B(t), T_e) dt \nonumber \\
+  E^* & = & E(\rho_c^{1/2}, J_i^0, B^{1/2}, T_e) \nonumber \\
+  J_i^{1/2} & = & J_i^* + \frac{\triangle t}{2}(\Lambda E^* + \Gamma
+  \times B^{1/2}) \nonumber \\
+  E^{1/2} & = & E(\rho_c^{1/2}, J_i^{1/2}, B^{1/2}, T_e) \nonumber
+\end{eqnarray}
+
+Advance particles ($v^1$, $x^{3/2}$) and collect moments of distribution
+function.
+
+\begin{eqnarray}
+  \label{eq:step2a}
+  v_s^{1/2} & = & v_s^{0} + \frac{\triangle t}{2} \frac{q}{m}
+  (E^{1/2} + v_s^{0} \times B^{1/2}) \nonumber \\
+  v_s^{1} & = & v_s^{0} + \triangle t \frac{q}{m}(E^{1/2} + v_s^{1/2} \times
+  B^{1/2}) \nonumber \\
+  x_s^{3/4} & = & x_s^{1/2} + \triangle t v_s^{1} \nonumber
+\end{eqnarray}
+
+\begin{eqnarray}
+  \label{eq:step2b}
+  \rho_c^{3/2} & = & \rho_c (x^{3/2}) \nonumber \\
+  J_i^- & = & J_i^* (x^{1/2}, v^1) \nonumber \\
+  J_i^+ & = & J_i^* (x^{3/2}, v^1) \nonumber \\
+  \Gamma & = & \Gamma (x^{3/2}, v^1) \nonumber \\
+  \Lambda & = & \Lambda (x^{3/2}, v^1) \nonumber
+\end{eqnarray}
+
+From these variables we can easily obtain $\rho_c^{1}$ and $J_i^{1}$ by taking
+average and finish advancing of magnetic field into time level $B^1$
+
+\begin{eqnarray}
+  \label{eq:step2b}
+  \rho_c^{1} & = & \frac{1}{2} (\rho_c^{1/2} + \rho_c^{3/2}) \nonumber \\
+  J_i^{1} & = & \frac{1}{2} (J_i^- + J_i^+) \nonumber \\
+  B^{1} & = & B^{1/2} - \int_{\triangle t/2}^{\triangle t} \nabla \times
+  E(\rho_c^{1}, J_i^1, B(t), T_e) dt \nonumber
+\end{eqnarray}
+
+Because we expected the position at the beginning to be already at $x^{1/2}$ we
+have to perform first and the last step before and after any output of
+variables as follows:
+
+\begin{eqnarray}
+  \label{eq:first}
+  \rho_c^{0} & = & \rho_c (x^{0}) \nonumber \\
+  J_i^0 & = & J_i^* (x^{0}, v^0) \nonumber \\
+  x_s^{1/2} & = & x_s^{0} + \frac{\triangle t}{2} v_s^{0} \nonumber \\
+  \rho_c^{1/2} & = & \rho_c (x^{1/2}) \nonumber \\
+  J_i^+ & = & J_i^* (x^{1/2}, v^0) \nonumber \\
+  \Gamma & = & \Gamma (x^{1/2}, v^0) \nonumber \\
+  \Lambda & = & \Lambda (x^{1/2}, v^0) \nonumber
+\end{eqnarray}
+
+and last step
+\begin{eqnarray}
+  \label{eq:last}
+  x_s^{1} & = & x_s^{3/2} - \frac{\triangle t}{2} v_s^{1} \nonumber \\
+  \rho_m^{1} & = & \rho_m (x^{1}) \nonumber \\
+  u_i^{1} & = & u_i (x^{1}, v^1) \nonumber
+\end{eqnarray}
+
+\section{Model Scaling}
+For better scaling of the physical problems we use a scaling called
+\emph{hybrid units}. We usually take protons of the solar wind as a reference
+to express other species and variables so hybrid units are dimensionless. If we
+mark all simulation hybrid units by index $H$ and physical units by $SI$ then
+each variable $x$ can be expressed $[x]_{\rm H} = [x]_{\rm SI} / u$ where $u$
+is physical unit. Then when we adopt mass of the proton $m_p$ as unit of mass
+and charge $e$ then we can define \emph{hybrid units}: unit of magnetic field
+$B_{\rm SW}$ (magnetic field of solar wind); unit of speed $v_A$ Alfv\'en
+speed; unit of time $\Omega_{p \rm SW}$ (solar wind proton cyclotron time);
+unit of length $\Lambda_{p \rm SW} = c/\omega_{pi} = v_A / \Omega_{p \rm SW}$
+(inertial length); unit of charge density $n_{p \rm SW} e$; unit of electric
+field $v_A B_{\rm SW}$; unit of energy $\rho_m (c/\omega_{p \rm SW})^3 v_A^2$
+where $c$ is the speed of light, $\Omega_{p \rm SW} = e B_{\rm SW} / m_p$ is
+solar wind proton gyrofrequency, and $\omega_{pi}^2 = n_0 e^2 / \epsilon_0 m_p$
+is ion plasma frequency. Note that in hybrid units we keep magnetic
+permeability $\mu_0 = 1$, ion beta
+\begin{equation}
+  \label{eq:betai}
+  \beta_s = \frac{p_s}{p_B} = \frac{v_{th,s}^2 ~ \rho_{m,s}}{v_A^2 ~ \rho_m}
+\end{equation}
+electron beta $\beta_e = 2 \tau_e$, and speed of sound
+\begin{equation}
+  \label{eq:cs}
+  c_s^2 = \frac{p_i + p_e}{\rho_m} = \frac{1}{2}(\beta_i + \beta_e)^2 v_A^2
+\end{equation}
+where $\tau_e = k_B T_e/e$ is a measure of the electron temperature. Alv\'en
+speed $v_A$ is defined as
+\begin{equation}
+  \label{eq:va}
+  v_A^2 = \frac{B^2}{\mu \rho_m}
+\end{equation}
+
+\section{Shock wave simulations}
+To demonstrate the code we implemented 1D quasi-perpendicular shock wave. 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=13cm]{pic/shock.eps.gz}
+  \caption{Cartoon of the shock wave formed by interaction of solar wind with
+    magnetic obstacle of the Earth. Courtesy of \cite{bt96}.}
+  \label{fig:shock}
+\end{figure}
+The shock wave is a discontinuity (see Fig. \ref{fig:shock}) formed when solar
+wind slow down from super-magnetosonic to sub-magnetosonic speed due to the
+magnetic obstacle (i.e. Earth). The discontinuity is represented by a change in
+particle density and magnetic field.  Depending on the angle between
+interplanetary magnetic field (IMF) and normal to the surface of the shock wave
+we can categorize a shock wave profile as: parallel, perpendicular and oblique.
+Shock waves research was summarized in \cite{kennel85} followed by many others
+studies \cite{winske85, thomas89, hema97}.
+
+To initialize simulation we load Maxwell-Boltzmann distribution of particles
+drifting in positive $x$ direction with bulk velocity $\mbf{u}$ and we keep
+injecting particles from the left boundary during the entire simulation.  Then,
+we reflect all particles which reach the right boundary of simulation box by
+changing the sign of $v_x$ component of its velocity. Because magnetic field is
+directly computed from electric field, we need to specify only boundary
+conditions for electric field. We keep the electric field constant at left
+boundary by imposing $\mathbf{E} = - \mathbf{u} \times \mathbf{B}$ and we set
+the tangential component of electric field to 0 at the right boundary.  Note
+that we can speed up the entire process of building up of shock wave by loading
+$\tanh$-like profile of number density and magnetic field in the
+simulation box during initialization process.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=15cm]{pic/cfgfile.eps.gz}
+  \caption{Example of configuration file for shock wave simulation by hybrid
+    code.}
+  \label{fig:cfg}
+\end{figure}
+
+In Fig. \ref{fig:cfg} you can see an example of initialization we used to
+simulate shock wave by hybrid code.  First three parameters describe simulation
+time \texttt{time.t0} is a starting time of simulation, where we expect to
+implement a restarting mechanism of simulation from the later times in the near
+future.  Parameter \texttt{time.max} and \texttt{time.dt} represent maximal
+time and time step for the particles in units of ion cyclotron period
+$\Omega_i^{-1}$.  Magnetic field is sub-stepped with 10 times smaller time step
+(\texttt{field.nsub}) as compared to the time step used for particles.  We
+build mesh with 500 cells in $x$ direction (\texttt{grid.ncg}) with resolution
+0.15 (\texttt{grid.dl}) of inertial length $L_{in}$.  At the beginning of the
+simulation we load 70 protons (\texttt{np}) into each of the cells with
+Maxwell-Boltzmann distribution described by parameters $\beta_e = 0.5$
+(\texttt{betae}), $\beta_i = 0.5$ (\texttt{betas}), and temperature anisotropy
+$T_\perp / T_\parallel = 1$ (\texttt{rmds}).  Entire distribution is drifting
+with $u_x = 3 v_A$ in $x$ direction (\texttt{vxs}).  Artificial resistivity,
+included by an extra term $\eta J$ in general Ohm's law represented by
+Eq. \ref{eq:e}, is set to be 0.001 by parameter \texttt{resist}.  The external
+magnetic filed forms 90$^\circ$ with $x$ axis, initialized by parameters
+\texttt{phi} and \texttt{psi} defining magnetic field as $B_x = \cos (\phi)$,
+$B_y = \sin (\phi) \cos (\psi)$ and $B_z = \sin (\psi)$.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=12cm,angle=90]{fig/bft_c3.eps.gz}
+  \caption{Magnetic field magnitude as measured by CLUSTER II/SC3 during the
+    crossing of quasi-parallel shock wave.}
+  \label{fig:cluster}
+\end{figure}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=10cm]{pic/shocks.eps.gz}
+  \caption{Typical profiles of shock wave for different orientation of magnetic
+    field. Courtesy by \cite{bt96}. }
+  \label{fig:shocks}
+\end{figure}
+
+These initial parameters and boundary conditions form a parallel shock wave
+travelling in $-x$ direction in the frame reference of the simulation box. As
+you can see in Fig. \ref{fig:shocks} adopted from \cite{bt96}, the shock
+structure is very clearly separated into the three regions: 1) upstream in the
+solar wind, 2) transition region with high gradient discontinuity in density;
+and 3) downstream.  To compare with real measurement we plotted the real
+measurements taken by third satellite of CLUSTER II mission during passing
+through quasi-parallel shock wave on Fig. \ref{fig:cluster}, plotting magnetic
+field magnitude versus time with very similar parameters of solar wind and
+interplanetary magnetic field we used for our simulation.
+
+We took the output from out simulation at time $t=8 \Omega_i^{-1}$, when the
+shock front is formed properly, and plot distribution function of particles in
+$x$ direction and the first moment (i.e. bulk velocity $u_x$) and plot those
+variables a function of spatial $x$ axis in Fig. \ref{fig:dist}.  You can see
+that particles are drifting with the mean velocity of $3 v_A$ in the $x$
+direction in the upstream region and they are rapidly slowed down and partially
+reflected back in the transition region.  Particle density and $y$ component of
+magnetic field in Fig. \ref{fig:dnby} form a discontinuity in transition region
+where magnetic field jumps approximately three times of its value in the
+upstream which is in the agreement with experimental results in
+Fig. \ref{fig:cluster}.
+
+In Fig. \ref{fig:bref} you can compare magnetic field evolution for two
+different study cases of ion beta $\beta_i$ as a function of time.  In the
+upper plot for $\beta_p = 0.2$ and in the lower plot for $\beta_p = 1$.  You
+can clearly see a phenomenon called reformation where the part of the shock
+front is teared from the transition region and travel faster then the rest of
+the shock wave.  Note that results in Fig. \ref{fig:bref} are not from our
+simulation code but from the different implementation of the CAM-CL hybrid code
+developed by Pavel Travnicek.  Results from these simulation will serve us as a
+reference in future.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=14cm]{fig/pclux.eps.gz}
+  \includegraphics[width=14cm]{fig/ux.eps.gz}
+  \caption{$x$ direction of particle distribution function in upper plot and
+    first moment (i.e. bulk velocity) in lower plot. }
+  \label{fig:dist}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=14cm]{fig/dn.eps.gz}
+  \includegraphics[width=14cm]{fig/by.eps.gz}
+  \caption{Density profile in the units of solar wind density $n_{sw}$ in upper
+    plot and magnetic field $y$ component in the units of solar wind magnetic
+    field $B_{sw}$}
+  \label{fig:dnby}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=12cm]{fig/brefb02m40.eps.gz}
+  \includegraphics[width=12cm]{fig/brefb10m40.eps.gz}
+  \caption{Evolution of magnetic field in time (y-axis) for mach number $M_A =
+    4$ and two various betas: upper plot $\beta_p = 0.2$, lower plot $\beta_p =
+    1$. Colour scale represents magnitude of magnetic field in units of
+    $B_{sw}$. }
+  \label{fig:bref}
+\end{figure}
+
+\section{Conclusions}
+Several aspects still need to be addressed.  In the most of the outputs you can
+clearly see the output variables to be very noisy which is a direct result of
+technique how the particles are described (i.e. discrete points in the phase
+space).  We can prevent this phenomenon by further smoothing of electric field
+and moments of distribution function.  Another possible solution would be to
+implement better description of a single particle by introducing a shape
+function as described in \cite{coppea96}, which uses ``blobs'' giving the
+particle the shape in the phase space.
+
+Shock waves posses very sharp transition region in particle density and
+magnetic field.  To resolve better the transition region we need to increase
+spatial resolution.  In the case of 2D or even 3D simulation we need to employ
+more sophisticated methods.  The possible solution is using Adaptive Mesh
+Refinement Method (AMR) which increase the spatial resolution by creating
+sub-mesh with higher resolution in the regions of interest (i.e. high
+gradient).
+
+When expanding the code into 2D or even 3D a parallel computer is needed
+because number of particles grow as $O(n^d)$, where $n$ is spatial resolution
+and $d$ is dimensionality of the code.  The most suitable choice would be
+Message Passing Interface (MPI) which is a standard library supporting
+communication in the parallel environment of clusters or shared memory
+computers as well.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% References
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{sat}
+\bibliography{articles}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\end{document}

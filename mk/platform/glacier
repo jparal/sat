@@ -1,0 +1,10 @@
+
+with_cxxflags="-L/global/software/HDF5/intel/lib -I/global/software/HDF5/intel/include"
+
+# enable_openmp=yes
+enable_64bit=yes
+enable_mpi=yes
+with_mpirun="mpirun -np @NP @PROG @ARGS"
+
+with_hdf5="/global/software/HDF5/intel"
+

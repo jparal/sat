@@ -1,0 +1,4 @@
+
+LDADD =
+CXXFLAGS += -I$(top_srcdir)/libs
+libs_dir = $(top_builddir)/libs

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+    echo "Compress eps files and generate bounding box description file (*.bb)"
+    echo
+    echo "  USAGE: gzeps [options] files"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+fi
+
+while [ x"$1" != x"" ]
+do
+    cat $1 | grep BoundingBox > $1.bb
+    echo -n "Packing $1  -->  $1.gz ... "
+    gzip --best -f $1
+    echo done
+    shift
+done

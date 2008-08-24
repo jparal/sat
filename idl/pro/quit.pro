@@ -1,0 +1,4 @@
+;
+   pro quit
+   lo
+end

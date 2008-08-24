@@ -1,0 +1,91 @@
+#------------------------------------------------------------------------------
+# CAM Config file
+#------------------------------------------------------------------------------
+
+boundary:
+{
+  type = "pml"; //Perfectly Matching Layer (pml); Standart (std)
+  pml = { cells = [10, 10, 10]; damping = 10.; };
+  std = { resist = 0.1; ramp = 0.1; collisions = 0.1; };
+};
+
+simul:
+{
+  step  = 0.0025;
+  max   = 1000.;
+  start = 0.; 
+  restart = false;
+};
+
+grid:
+{
+  cells = [ 500 , 200, 200 ];
+  resol = [ 0.15, 0.1, 0.1 ];
+  amr:
+  {
+    enable = true;
+    dttest = 0.2;
+    probe  = [ "density", "gradb" ];
+    regrid = [2, 2];
+  };
+  splitting = { enable = true; min = 20; max = 200; };
+};
+
+field:
+{
+  nsub   = 10;
+  ntestb = 1;
+  limit  = 0.000005;
+  imf    = { phi = 90.; psi = 0; };
+  dnmin  = 0.05;
+  resist = 0.001;
+};
+
+plasma:
+{
+  betae = 0.5;
+  pcles = [ 70,  20  ];
+  betai = [ 0.5, 1.2 ];
+  rvth  = [ 0.5, 1.0 ];
+  rmds  = [ 1.0, 1.0 ];
+  qms   = [ 1.0, 1.0 ];
+  vxs   = [ 3.0, 0.0 ];
+  vys   = [ 0.0, .0  ];
+  vzs   = [ 0.0, .0  ];
+};
+
+output:
+{
+  runname = "test";
+  format     = { type = "sh5"; version = 1; }; //sh5, stw, ...
+  ioparallel = false;  // Unstable
+  dtout      = 1.;     // Global settings (you can overide it)
+  sensors:
+  {
+    density  = { enable = true; dtout = 0.5; };
+    velocity = { enable = true; /* dtout = 0.5; */ };
+    pressure = { enable = true; /* dtout = 0.5; */ };
+  };
+};
+
+parallel:
+{
+  mpi = { proc = [ 3, 2, 1 ]; };
+  omp = { threads = 2; };
+};
+
+sat:
+{
+  version = [0,3,0];
+  type    = "cam";
+  log     = "*";
+//  logfile = "${output.runname}.log";
+  ioflush = false;
+};
+
+#------------------------------------------------------------------------------
+# Variables:
+# ==========
+#
+# boundary.type - bla bla ...
+#------------------------------------------------------------------------------

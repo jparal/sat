@@ -1,0 +1,104 @@
+#!/bin/bash
+
+##
+##  Script for shock unziping, shock-bin invocation and
+##  parsing params hyb2.in from directory of last file on
+##  command line
+##
+
+# Parsing params from hyb2.in file:
+
+# INPUT : dir : dir path with hyb2.in file
+# OUTPUT: g_dt_param ,g_dx_param, g_dy_param, g_vpx_param
+function parse_hyb2_in()
+{
+    hyb2_in="$1/hyb2.in"
+    if ! [ -e $hyb2_in ]; then
+	g_dt_param=""
+	g_dx_param=""
+	g_dy_param=""
+	g_vpx_param=""
+	return
+    fi
+
+    local dt=`cat $hyb2_in | head -11 | tail -1 | \
+              sed 's/^[ \t]*//' | sed 's/[ \t]+/ /g'`
+
+    local dx=`cat $hyb2_in | head -28 | tail -1 | \
+              sed 's/^[ \t]*//' | sed 's/[ \t]+/ /g' | cut -d ' ' -f 1`
+
+    local dy=`cat $hyb2_in | head -28 | tail -1 | \
+              sed 's/^[ \t]*//' | sed 's/[ \t]+/ /g' | cut -d ' ' -f 3`
+
+    local vpx=`cat $hyb2_in | head -44 | tail -1 | \
+               sed 's/^[ \t]*//' | sed 's/[ \t]+/ /g'`
+
+    g_dt_param="-dt $dt"
+    g_dx_param="-dx $dx"
+    g_dy_param="-dy $dy"
+    g_vpx_param="-vpx $vpx"
+}
+
+
+if ! [ -x `which gzip` ]; then
+    echo "Cant find gzip program."
+    exit 1
+fi
+
+param_num=$#
+without_gz1=""
+file_name=`eval echo "\\${$param_num}"`
+# parse params
+parse_hyb2_in "`dirname "$file_name"`"
+
+# FILE 1(From right to left)
+echo "$file_name" | grep "\.gz" >/dev/null
+if [ $? -eq 0 ]; then
+    if [ -e "$file_name" ]; then
+	mkdir "/tmp/$$"
+	without_gz1=`basename "$file_name"`
+	without_gz1=`echo "$without_gz1" | tr -d ".gz"`
+	without_gz1="/tmp/$$/$without_gz1"
+	gzip -d -c "$file_name" > "$without_gz1"
+    else
+	echo "Input file $file_name doesnt exist."
+	exit 1
+    fi
+else
+    let param_num=param_num+1
+fi
+
+
+let param_num=param_num-1
+without_gz2=""
+file_name=`eval echo "\\${$param_num}"`
+
+# FILE 2(From right to left)
+echo "$file_name" | grep "\.gz" >/dev/null
+if [ $? -eq 0 ]; then
+    if [ -e "$file_name" ]; then
+	without_gz2=`basename "$file_name"`
+	without_gz2=`echo "$without_gz2" | tr -d ".gz"`
+	without_gz2="/tmp/$$/$without_gz2"
+	gzip -d -c "$file_name" > "$without_gz2"
+    else
+	echo "Input file $file_name doesnt exist."
+	exit 1
+    fi
+else
+    let param_num=param_num+1
+fi
+
+# command building
+params_cnt=1
+params="$g_dt_param $g_dx_param $g_dy_param $g_vpx_param"
+while [ $params_cnt -lt $param_num ] ;do
+    params=`eval echo \""\\$params \\${$params_cnt}\""`
+    let params_cnt=params_cnt+1
+done
+
+eval shock-bin "$params $without_gz2 $without_gz1"
+
+if [ -d "/tmp/$$" ]; then
+    rm -rf "/tmp/$$"
+fi

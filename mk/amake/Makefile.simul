@@ -1,0 +1,5 @@
+
+LDADD += $(libs_dir)/simul/libsatsimul.a
+
+include $(top_srcdir)/mk/amake/Makefile.math
+include $(top_srcdir)/mk/amake/Makefile.base

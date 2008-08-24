@@ -1,0 +1,13 @@
+rd3,'by*.gz',/compres,by
+ss=size(by)
+icx=25
+icy=0
+dx=.1
+dy=.2
+bicoherence_red,by,amp,ra,/ver,nxh=40,ix=ix,iy=iy,icx,icy
+ix=ix*2*!pi/(ss(1)*dx)
+iy=iy*2*!pi/(ss(2)*dy)
+;imco,ra,ix,iy
+bicohnorm,amp,ra,.5,ramp
+imco,ramp,ix,iy
+end

@@ -1,0 +1,9 @@
+
+simul:
+{
+  runname = "test";
+  step    = 0.0025;
+  max     = 1000.;
+  start   = 0.;
+  restart = false;
+};

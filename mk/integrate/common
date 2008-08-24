@@ -1,0 +1,12 @@
+GATHER="tests.xml config.log libs/satconfig.h"
+
+localhost=localhost
+goya=localhost
+amalka=s3@amalka.ufa.cas.cz
+ingrid=jparal@ingrid.phys.ualberta.ca
+cortex=jparal@cortex.westgrid.ca
+nexus=jparal@nexus.westgrid.ca
+prague=jparal@prague
+matrix=jparal@matrix.westgrid.ca
+glacier=jparal@glacier.westgrid.ca
+verunka=s3@verunka.ufa.cas.cz

@@ -1,0 +1,134 @@
+#!/bin/bash
+#
+# Simulate & Analyse Toolkit (SAT)
+# See Copyright agreement
+#
+
+file=out
+FONT=2
+OUTPUT=">/dev/null"
+RMTMP=1
+CPP2LATEX=0
+
+SCRIPTNAME=`basename $0`
+function print_help()
+{
+    echo "Convert files into PostScript file"
+    echo
+    echo "  USAGE: $SCRIPTNAME [options] <files ...>"
+    echo
+    echo "output file:"
+    echo "  out.ps"
+    echo
+    echo "options:"
+    echo "  -c2l            use cpp2latex program"
+    echo "  -font <num>     set the font size from 1 to 10 (default 2)"
+    echo "  -v              verbose: show output from latex calling"
+    echo "  -tmp            don't remove tmp files"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    print_help
+    exit 0
+fi
+
+while [ x"$1" != x"" ]
+do
+    case "$1" in
+        "-c2l")
+            CPP2LATEX=1 
+            ;;
+        "-font")
+            shift
+            FONT=$1
+            ;;
+        "-v")
+            OUTPUT=""
+            ;;
+        "-tmp")
+            RMTMP=0
+            ;;
+        *)
+            break
+            ;;
+    esac
+    shift
+done
+
+###############################################
+#       Set font size
+###############################################
+case "$FONT" in
+    "1")
+        FONT="tiny" ;;
+    "2")
+        FONT="scriptsize" ;;
+    "3")
+        FONT="footnotesize" ;;
+    "4")
+        FONT="small" ;;
+    "5")
+        FONT="normalsize" ;;
+    "6")
+        FONT="large" ;;
+    "7")
+        FONT="Large" ;;
+    "8")
+        FONT="LARGE" ;;
+    "9")
+        FONT="huge" ;;
+    "10")
+        FONT="Huge" ;;
+    *)
+        ;;
+esac
+
+echo > $file
+echo "\\documentclass{article}"           >> $file
+echo "\\usepackage{amssymb}"              >> $file
+echo "\\usepackage{times,helvet,courier}" >> $file
+echo "\\usepackage[T1]{fontenc}"          >> $file
+echo "\\topmargin-1.5cm"                  >> $file
+echo "\\textwidth15cm"                    >> $file
+echo "\\textheight24cm"                   >> $file
+echo "\\oddsidemargin.5cm"                >> $file
+echo "\\evensidemargin.5cm"               >> $file
+echo "\\begin{document}"                  >> $file
+echo "\\tableofcontents"                  >> $file
+
+echo                                      >> $file
+while [ x"$1" != x"" ]
+do
+    filename="`echo $1 | sed -n 's/\_/\\\\_/g;p'`"
+    echo "\\section{$filename}"           >> $file
+    echo "\\begin{$FONT}"                 >> $file
+    echo                                  >> $file
+    if [ "$CPP2LATEX" = 1 ]; then
+        cpp2latex -h -s 0 $1 | sed 's/\\small//g' >> $file
+    else
+        echo "\\begin{verbatim}"          >> $file
+        cat $1                            >> $file
+        echo "\\end{verbatim}"            >> $file
+    fi
+    echo "\\end{$FONT}"                   >> $file
+    echo "\\vfill\\eject"                 >> $file
+    echo ""                               >> $file
+    shift
+done
+
+echo "\end{document}"                     >> $file
+
+latex $file
+latex $file
+dvips $file.dvi -o $file.ps
+
+if [ "$RMTMP" == 1 ]; then
+    rm $file $file.dvi $file.aux $file.log $file.toc
+fi
+
+exit 0

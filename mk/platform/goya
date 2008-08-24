@@ -1,0 +1,25 @@
+# Intel ICC has problems with gdb debuging (otherwise should be faster)
+# CXX=g++
+# CC=gcc
+# CXX=pgCC
+# CC=pgcc
+# CXX=icpc
+# CC=icc
+
+prefix=/home/jparal/tmp/install/sat
+with_hdf5_libs=-lz
+
+# enable_openmp=yes
+# enable_debug=yes
+# enable_debug=memory,reference
+
+# with_opt_cxxflags="-mtune=native -march=native"
+
+enable_mpi=yes
+with_mpicc=mpicc
+
+with_mpirun="mpirun -np @NP @PROG @ARGS"
+
+# with_mpirun="mpirun.lam -np @NP @PROG @ARGS"
+# with_mpiboot=lamboot
+# with_mpihalt=lamhalt
