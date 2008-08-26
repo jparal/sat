@@ -1,6 +1,6 @@
 
 SUBDIRS= bin mk libs tools test example tmpl docs etc analyse bench connect \
- extern idl simul
+ contrib extern idl simul
 
 ACLOCAL_AMFLAGS  = -I mk/config
 
