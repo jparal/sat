@@ -1,8 +1,8 @@
-!dummy.*
 *.[oa]
 *.h5
 *~
 .deps
+!dummy.*
 /build-*
 /*.tar.gz
 /acinclude.m4

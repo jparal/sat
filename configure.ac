@@ -79,6 +79,8 @@ AC_CONFIG_FILES([
     bench/tmpl/TEMPLATE.cxx.tpl
     bin/Makefile
     connect/Makefile
+    contrib/Makefile
+    contrib/emacs/Makefile
     docs/Makefile
     docs/html/Makefile
     docs/html/figs/Makefile
