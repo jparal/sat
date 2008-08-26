@@ -198,7 +198,7 @@ public:
   void Exec (size_t ipcle, pclecmd_t cmd)
   {
     size_t pos =_cmdqueue.InsertSortedUnique (PcleCommandInfo (ipcle, cmd));
-    // @todo we could use third parameter of InsertSortedUnique to update cmd
+    // @TODO we could use third parameter of InsertSortedUnique to update cmd
     //       parameter only in the case when command already exists (faster)
     _cmdqueue[pos].cmd |= cmd;
   }
@@ -227,10 +227,12 @@ public:
    *
    * @param ipcle ID of the particle
    */
-  void Remove (size_t ipcle);
+  //  void Remove (size_t ipcle);
 
-  /// Debugging function checking the consistency of command queue
-  void Check ();
+  // Debugging function checking the consistency of command queue
+  // opt = 0 .. check whether all particles id < maximal one
+  // opt = 1 .. check info[i].pid < info[i+1].pid for i=0..N
+  void Check (int opt);
 
   /// @}
 

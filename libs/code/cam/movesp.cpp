@@ -82,9 +82,7 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
   /* 2) remove old particles                                            */
   /**********************************************************************/
   int send = 0, recv = 0, clean = 0;
-  sp->Check ();
   sp->Sync (&send, &recv);
-  sp->Check ();
 
   TSpecieCommandIterator iter = sp->GetCommandIterator (PCLE_CMD_ARRIVED);
   while (iter.HasNext ())
@@ -98,7 +96,5 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     CartStencil::BilinearWeightAdd (Usb, cache, pcle.vel);
   }
 
-  sp->Check ();
   sp->Clean (&clean);
-  sp->Check ();
 }

@@ -117,44 +117,41 @@ template<class T, int D>
 int Specie<T,D>::Clean (int *clean)
 {
   int cleaned = 0;
-  typedef ArrayCmp<PcleCommandInfo,size_t> PcleCmdArrayCmp;
 
-  size_t ncmd = _cmdqueue.GetSize ();
+  size_t icmdlast = _cmdqueue.GetSize ();
+  PcleCommandInfo *ilast;
 
-  for (int i=(int)ncmd-1; i>=0; --i)
+  do
   {
-    const PcleCommandInfo& info = _cmdqueue.Get (i);
+    ilast = &(_cmdqueue.Get (--icmdlast));
+  }
+  while (!(ilast->cmd) || (ilast->cmd & PCLE_CMD_REMOVE));
+
+  for (int i=(int)_cmdqueue.GetSize ()-1; i>=0; --i)
+  {
+    PcleCommandInfo& info = _cmdqueue.Get (i);
+
     if (info.cmd & PCLE_CMD_REMOVE)
     {
-      _pcles.DeleteIndexFast (info.pid);
-      _cmdqueue.DeleteIndexFast (i);
+      info.cmd = PCLE_CMD_NONE;
+      size_t rmvd = _pcles.DeleteIndexFast (info.pid);
 
-      // @TODO remove this
-      // update record on cmdqueue for moved pcle
-      // size_t iold = _pcles.GetSize ();
-      // size_t inew = info.pid;
-      // size_t iupd = _cmdqueue.FindSortedKey (PcleCmdArrayCmp (iold));
-      // if (iupd != ArrayItemNotFound)
-      // {
-      // 	SAT_ASSERT_MSG (false, "How unexpected ...");
-      // 	PcleCommandInfo& info = _cmdqueue.Get (iupd);
-      // 	info.pid = inew;
-      // }
+      if (ilast->pid == rmvd)
+      {
+	info.cmd = ilast->cmd;
+	ilast->cmd = PCLE_CMD_NONE;
 
-      //      _cmdqueue.DeleteIndexFast (i);
+	do
+	{
+	  ilast = &(_cmdqueue.Get (--icmdlast));
+	}
+	while (!(ilast->cmd) || (ilast->cmd & PCLE_CMD_REMOVE));
+      }
 
       ++cleaned;
-      continue;
-    }
-
-    if (info.cmd == PCLE_CMD_NONE)
-    {
-      _cmdqueue.DeleteIndexFast (i);
     }
   }
 
-  // @TODO is it really needed?
-  //  _cmdqueue.Sort ();
   if (clean != NULL) *clean = cleaned;
 
   return cleaned;
@@ -185,9 +182,7 @@ int Specie<T,D>::Send (int dim, bool left)
     for (int i=0; i<3; ++i) os1 << pcle.vel[i];
     os2 << info.cmd;
 
-    // if we need to send to other direction Sync will take care of it
-    info.cmd |= PCLE_CMD_REMOVE;
-    info.cmd &= ~PCLE_CMD_SEND;
+    info.cmd = PCLE_CMD_REMOVE;
 
     ++nsend;
   }
@@ -208,7 +203,7 @@ int Specie<T,D>::Recv (int dim, bool left)
   MpiIStream<T> is1 (prc, tag, dec.GetComm ());
   MpiIStream<pclecmd_t> is2 (prc, tag+2, dec.GetComm ());
 
-  size_t pid;
+  pclecmd_t cmd;
   int nrecv = 0;
   TParticle pcle;
   PcleCommandInfo info;
@@ -216,17 +211,16 @@ int Specie<T,D>::Recv (int dim, bool left)
   {
     for (int i=0; i<D; ++i) is1 >> pcle.pos[i];
     for (int i=0; i<3; ++i) is1 >> pcle.vel[i];
-    is2 >> info.cmd;
+    is2 >> cmd;
 
-    pid =_pcles.Push (pcle);
-    info.pid = pid;
-    info.cmd |= PCLE_CMD_ARRIVED;
+    info.pid = _pcles.Push (pcle);
+    info.cmd = cmd | PCLE_CMD_ARRIVED;
 
+    // the push is actually 'sorted insert' since new particle is on the end
     _cmdqueue.Push (info);
 
     ++nrecv;
   }
-  //  _cmdqueue.Sort ();
 
   return nrecv;
 }
@@ -273,16 +267,38 @@ bool Specie<T,D>::Sync (int *send, int *recv)
 }
 
 template<class T, int D>
-void Specie<T,D>::Check ()
+void Specie<T,D>::Check (int opt)
 {
 #ifdef SAT_DEBUG
   size_t npcle = _pcles.GetSize ();
-  size_t ncmd = _cmdqueue.GetSize ();
 
-  //  _cmdqueue.Sort ();
+  switch (opt)
+  {
+  case 1:
+  {
+    size_t pid = _cmdqueue.Get (0).pid;
+    for (int i=1; i<(int)_cmdqueue.GetSize (); i++)
+    {
+      const PcleCommandInfo &info = _cmdqueue.Get (i);
+      if (info.cmd)
+      {
+	SAT_ASSERT (pid < info.pid);
+	pid = info.pid;
+      }
+    }
+  }
+  break;
 
-  const PcleCommandInfo &cmdinfo = _cmdqueue.Get (ncmd-1);
-  SAT_ASSERT (cmdinfo.pid < npcle);
+  default:
+
+    for (int i=0; i<(int)_cmdqueue.GetSize (); i++)
+    {
+      const PcleCommandInfo &info = _cmdqueue.Get (i);
+      if (info.cmd) SAT_ASSERT (info.pid < npcle);
+    }
+    break;
+  };
+
 #endif  // SAT_DEBUG
 }
 
