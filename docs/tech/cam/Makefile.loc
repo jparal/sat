@@ -1,0 +1,52 @@
+.SILENT:
+
+FILENAME = cam
+
+#OUTPUT = >/dev/null
+OUTPUT =
+
+#====================================================================
+#====================================================================
+
+TEXFILE = $(FILENAME).tex
+DVIFILE = $(FILENAME).dvi
+PSFILE =  $(FILENAME).ps
+PDFFILE = $(FILENAME).pdf
+
+PS2PDF = ps2pdf
+BIBTEXCMD = bibtex
+LATEXCMD  = latex
+PDFTEXCMD = pdflatex
+
+TMPFILES = *.aux *.lof *.lot *.log *.toc *.bbl *.blg *.out
+
+all: pdf
+
+dvi: $(TEXFILE)
+	@echo -n " - Making dvi file ..."
+	@$(LATEXCMD) $(TEXFILE) $(OUTPUT)
+	@echo " done."
+	@echo -n " - Making bbl file ..."
+	@$(BIBTEXCMD) $(FILENAME) $(OUTPUT)
+	@echo " done."
+	@echo -n " - Making dvi file ..."
+	@$(LATEXCMD) $(TEXFILE) $(OUTPUT)
+	@echo " done."
+	@echo -n " - Making dvi file ..."
+	@$(LATEXCMD) $(TEXFILE) $(OUTPUT)
+	@echo " done."
+
+ps: dvi
+	@echo -n " - Making ps file \"$(PSFILE)\" ..."
+	@dvips $(DVIFILE) -o $(PSFILE) $(OUTPUT) 2>&1
+	@echo " done."
+
+pdf: ps
+	@echo -n " - Making pdf file \"$(PDFFILE)\" ..."
+	@$(PS2PDF) $(PSFILE) $(OUTPUT)
+	@echo " done."
+
+clean:
+	@echo -n " - Cleaning in \"`pwd`\" ..."
+	@rm -f *~ $(DVIFILE) $(PSFILE) $(PDFFILE) $(TMPFILES)
+	@echo " done."

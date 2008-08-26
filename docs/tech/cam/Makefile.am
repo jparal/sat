@@ -3,6 +3,6 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = cam
+SUBDIRS = fig pic
 
-EXTRA_DIST = articles.bib sat.bst sat.cls sat.eps
+EXTRA_DIST = articles.bib cam.tex sat.bst sat.cls sat.eps

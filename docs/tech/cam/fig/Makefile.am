@@ -3,6 +3,5 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = cam
+EXTRA_DIST = *.bb *.gz
 
-EXTRA_DIST = articles.bib sat.bst sat.cls sat.eps

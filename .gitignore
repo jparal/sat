@@ -1,9 +1,10 @@
+!dummy.*
 *.[oa]
 *.h5
 *~
 .deps
-!dummy.*
 /build-*
+/*.tar.gz
 /acinclude.m4
 /aclocal.m4
 /autom4te.cache

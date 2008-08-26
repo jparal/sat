@@ -84,6 +84,10 @@ AC_CONFIG_FILES([
     docs/html/figs/Makefile
     docs/license/Makefile
     docs/logos/Makefile
+    docs/tech/Makefile
+    docs/tech/cam/Makefile
+    docs/tech/cam/fig/Makefile
+    docs/tech/cam/pic/Makefile
     etc/Makefile
     example/Makefile
     example/ref/Makefile
