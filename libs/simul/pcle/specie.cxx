@@ -302,6 +302,15 @@ void Specie<T,D>::Check (int opt)
 #endif  // SAT_DEBUG
 }
 
+template<class T, int D>
+size_t Specie<T,D>::GetTotalSize ()
+{
+  long total = GetSize ();
+  Mpi::SumReduce (&total);
+
+  return total;
+}
+
 /*******************/
 /* Specialization: */
 /*******************/

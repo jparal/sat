@@ -203,9 +203,12 @@ public:
     _cmdqueue[pos].cmd |= cmd;
   }
 
-  /// return number of particles
-  int GetSize ()
+  /// return the number of particles on the current processor
+  size_t GetSize ()
   { return _pcles.GetSize (); }
+
+  /// return the total number of particles on all current processor together
+  size_t GetTotalSize ();
 
   /// get particle by ID
   TParticle& Get (size_t id)
@@ -228,11 +231,6 @@ public:
    * @param ipcle ID of the particle
    */
   //  void Remove (size_t ipcle);
-
-  // Debugging function checking the consistency of command queue
-  // opt = 0 .. check whether all particles id < maximal one
-  // opt = 1 .. check info[i].pid < info[i+1].pid for i=0..N
-  void Check (int opt);
 
   /// @}
 
@@ -277,6 +275,16 @@ public:
   /// Charge represented by single super-particle
   double ChargePerPcle () const
   { return  _sq; }
+
+  /// @}
+
+  /// @name Debug
+  /// @{
+
+  // Debugging function checking the consistency of command queue
+  // opt = 0 .. check whether all particles id < maximal one
+  // opt = 1 .. check info[i].pid < info[i+1].pid for i=0..N
+  void Check (int opt);
 
   /// @}
 

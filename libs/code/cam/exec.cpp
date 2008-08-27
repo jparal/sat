@@ -22,10 +22,19 @@ void CAMCode<B,T,D>::Exec ()
     _sensmng.SaveAll (_time);
     _sensmng.SetNextOutput (_time);
 
+    size_t total = 0;
+    for (int i=0; i<_specie.GetSize (); ++i)
+    {
+      TSpecie *sp = _specie.Get (i);
+      total += sp->GetTotalSize ();
+    }
+    DBG_INFO ("total particles: " << total);
+
     Hyb ();
   }
   while (_time.Iter () < _time.ItersMax ());
 
   _sensmng.SaveAll (_time);
   _sensmng.SetNextOutput (_time);
+
 }
