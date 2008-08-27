@@ -118,14 +118,14 @@ int Specie<T,D>::Clean (int *clean)
 {
   int cleaned = 0;
 
-  size_t icmdlast = _cmdqueue.GetSize ();
-  PcleCommandInfo *ilast;
+  size_t lcmd = _cmdqueue.GetSize ();
+  PcleCommandInfo *linfo;
 
   do
   {
-    ilast = &(_cmdqueue.Get (--icmdlast));
+    linfo = &(_cmdqueue.Get (--lcmd));
   }
-  while (!(ilast->cmd) || (ilast->cmd & PCLE_CMD_REMOVE));
+  while ((!(linfo->cmd) || (linfo->cmd & PCLE_CMD_REMOVE)) && lcmd>0);
 
   for (int i=(int)_cmdqueue.GetSize ()-1; i>=0; --i)
   {
@@ -136,16 +136,16 @@ int Specie<T,D>::Clean (int *clean)
       info.cmd = PCLE_CMD_NONE;
       size_t rmvd = _pcles.DeleteIndexFast (info.pid);
 
-      if (ilast->pid == rmvd)
+      if (linfo->pid == rmvd)
       {
-	info.cmd = ilast->cmd;
-	ilast->cmd = PCLE_CMD_NONE;
+	info.cmd = linfo->cmd;
+	linfo->cmd = PCLE_CMD_NONE;
 
 	do
 	{
-	  ilast = &(_cmdqueue.Get (--icmdlast));
+	  linfo = &(_cmdqueue.Get (--lcmd));
 	}
-	while (!(ilast->cmd) || (ilast->cmd & PCLE_CMD_REMOVE));
+	while ((!(linfo->cmd) || (linfo->cmd & PCLE_CMD_REMOVE)) && lcmd>0);
       }
 
       ++cleaned;
