@@ -14,7 +14,7 @@ simul:
 
 grid:
 {
-  cells  = [ 100, 100, 50 ];
+  cells  = [ 1000, 100, 50 ];
   resol  = [ 1., 1., 1.0 ];
   openbc = [ false, false, false ]; // Open Boundary Conditions
 };
@@ -32,8 +32,8 @@ plasma:
   betae = 0.5;
   specie:
   {
-    proton = { pcles = 70.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
-      v0 = [0.,5.,0.]; };
+    proton = { pcles = 100.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
+      v0 = [1.,0.,0.]; };
   };
 };
 
@@ -65,7 +65,4 @@ parallel:
   omp = { threads = -1; }; // -1 when setup is dynamically
 };
 
-sat:
-{
-  version = [1,0,0];
-};
+sat= { version = [1,0,0]; };

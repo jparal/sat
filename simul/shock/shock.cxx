@@ -32,7 +32,7 @@ int main (int argc, char **argv)
   _FPU_SETCW (flags);
   signal(SIGFPE, error_action);
 
-  ShockCAMCode<float,2> shock;
+  ShockCAMCode<float,1> shock;
   shock.Initialize (&argc, &argv);
   shock.Exec ();
 
