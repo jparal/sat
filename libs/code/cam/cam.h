@@ -341,7 +341,7 @@ protected:
   int _momsmooth;    ///< moment smoothing
   int _esmooth;      ///< electric field smoothing
 
-  RefArray<Specie<T,D> > _specie; ///< proton species
+  RefArray<TSpecie> _specie; ///< proton species
   PosVector _pmin, _pmax;         ///< minimal/maximal position of particle
 
   SensorManager _sensmng;   ///< sensor manager
