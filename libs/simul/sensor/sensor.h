@@ -38,7 +38,7 @@ public:
   /// Destructor
   virtual ~Sensor ();
 
-  void Initialize (const char*id, ConfigFile &cfg);
+  void Initialize (const char *id, ConfigFile &cfg);
 
   bool RequireSave (const SimulTime &stime);
 
@@ -48,16 +48,19 @@ public:
   /// Actual function saving the data (overloaded by all sensors)
   virtual void SaveData (IOManager &iomng, const SimulTime &stime) {};
 
-  const char* GetID ()
+  const char* GetEntryID () const
+  { return _eid.GetData (); }
+
+  const char* GetID () const
   { return _id.GetData (); }
 
-  const char* GetTag ()
+  const char* GetTag () const
   { return _tag.GetData (); }
 
-  bool Enabled ()
+  bool Enabled () const
   { return _enabled; }
 
-  double GetDtOut ()
+  double GetDtOut () const
   { return _dtout; }
 
   void SetDtOut (double dtout)
@@ -66,6 +69,7 @@ public:
 private:
   String _id;
   String _tag;
+  String _eid; ///< ConfigEntry ID
   double _dtout;
   bool _enabled;
 };

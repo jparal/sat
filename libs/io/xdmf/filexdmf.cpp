@@ -32,20 +32,24 @@ void XdmfFile::Write (const Field<T,D> &fld,
   fld.GetDomain (dom);
 
   bool average = false;
-  if (mesh.Center () == Cell)
+
+  if (fld.HaveGrid ())
   {
-    if (center == Node)
+    if (mesh.Center () == Cell)
     {
-      for (int i=0; i<D; ++i) dom[i].Lo () -= 1;
-      average = true;
+      if (center == Node)
+      {
+	for (int i=0; i<D; ++i) dom[i].Lo () -= 1;
+	average = true;
+      }
     }
-  }
-  else // if (mesh.Center () == Node)
-  {
-    if (center == Cell)
+    else // if (mesh.Center () == Node)
     {
-      for (int i=0; i<D; ++i) dom[i].Hi () -= 1;
-      average = true;
+      if (center == Cell)
+      {
+	for (int i=0; i<D; ++i) dom[i].Hi () -= 1;
+	average = true;
+      }
     }
   }
 
@@ -189,20 +193,24 @@ void XdmfFile::Write (const Field<Vector<T,R>,D> &fld,
   fld.GetDomain (dom);
 
   bool average = false;
-  if (mesh.Center () == Cell)
+
+  if (fld.HaveGrid ())
   {
-    if (center == Node)
+    if (mesh.Center () == Cell)
     {
-      for (int i=0; i<D; ++i) dom[i].Lo () -= 1;
-      average = true;
+      if (center == Node)
+      {
+	for (int i=0; i<D; ++i) dom[i].Lo () -= 1;
+	average = true;
+      }
     }
-  }
-  else // if (mesh.Center () == Node)
-  {
-    if (center == Cell)
+    else // if (mesh.Center () == Node)
     {
-      for (int i=0; i<D; ++i) dom[i].Hi () -= 1;
-      average = true;
+      if (center == Cell)
+      {
+	for (int i=0; i<D; ++i) dom[i].Hi () -= 1;
+	average = true;
+      }
     }
   }
 

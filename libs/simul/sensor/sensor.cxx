@@ -31,6 +31,7 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
   _id = id;
   char sensentry[SENS_ENTRY_SIZE];
   snprintf (sensentry, SENS_ENTRY_SIZE, "output.sensors.%s", id);
+  _eid = sensentry;
 
   // Enable/Disable
   if (!cfg.Exists (sensentry))

@@ -50,3 +50,6 @@ void Layout<D>::Initialize (const Vector<int,D> &ghost,
 template class Layout<1>;
 template class Layout<2>;
 template class Layout<3>;
+template class Layout<4>;
+template class Layout<5>;
+template class Layout<6>;

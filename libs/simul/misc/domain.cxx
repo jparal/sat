@@ -25,3 +25,6 @@ int Domain<D>::Length () const
 template class Domain<1>;
 template class Domain<2>;
 template class Domain<3>;
+template class Domain<4>;
+template class Domain<5>;
+template class Domain<6>;

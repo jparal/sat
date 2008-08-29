@@ -52,3 +52,6 @@ void Mesh<D>::Initialize (const ConfigEntry &cfg)
 template class Mesh<1>;
 template class Mesh<2>;
 template class Mesh<3>;
+template class Mesh<4>;
+template class Mesh<5>;
+template class Mesh<6>;

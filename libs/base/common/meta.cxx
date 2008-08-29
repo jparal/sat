@@ -18,3 +18,6 @@ template<> const double MetaInv<2>::Is  = double(1./2.);
 template<> const double MetaInv<4>::Is  = double(1./4.);
 template<> const double MetaInv<8>::Is  = double(1./8.);
 template<> const double MetaInv<12>::Is = double(1./12.);
+template<> const double MetaInv<16>::Is = double(1./16.);
+template<> const double MetaInv<32>::Is = double(1./32.);
+template<> const double MetaInv<64>::Is = double(1./64.);

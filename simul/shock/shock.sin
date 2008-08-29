@@ -14,7 +14,7 @@ simul:
 
 grid:
 {
-  cells  = [ 1000, 100, 50 ];
+  cells  = [ 100, 100, 100 ];
   resol  = [ 1., 1., 1.0 ];
   openbc = [ false, false, false ]; // Open Boundary Conditions
 };
@@ -32,7 +32,7 @@ plasma:
   betae = 0.5;
   specie:
   {
-    proton = { pcles = 100.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
+    proton = { pcles = 70.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
       v0 = [1.,0.,0.]; };
   };
 };
@@ -46,7 +46,7 @@ output:
     runname = "test";
     compress = { gz = 6; shuffle = true; };
   };
-  dtout = .2;
+  dtout = 1.;
   sensors:
   {
     density  = { tag = "Dn"; };
@@ -55,7 +55,8 @@ output:
     velocity = { tag = "U"; };
     pressure = { tag = "P"; };
     particle = { tag = "Pcle"; };
-    distfnc  = { tag = "Df"; };
+    distfnc  = { tag = "Df"; bins = [11, 11, 11];
+      vmin = [-5., -5., -20.]; vmax = [5., 5., 20.]; };
   };
 };
 

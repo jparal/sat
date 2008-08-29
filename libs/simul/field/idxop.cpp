@@ -175,7 +175,8 @@ T& Field<T,D>::operator() (const Vector<int,D> &ii)
 
 template<int D> struct IdxUtils
 {
-  static Vector<int,MetaPow<2,D>::Is> GetOffset (const int *str);
+  static Vector<int,MetaPow<2,D>::Is> GetOffset (const int *str)
+  { SAT_CASSERT (true); }
 };
 
 template<> struct IdxUtils<1>

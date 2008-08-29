@@ -264,16 +264,19 @@ void CAMCode<B,T,D>::Initialize (const char *file)
   VecFieldSensor<T,3,D> *bsens = new VecFieldSensor<T,3,D>;
   VecFieldSensor<T,3,D> *esens = new VecFieldSensor<T,3,D>;
   VecFieldSensor<T,3,D> *usens = new VecFieldSensor<T,3,D>;
+  DistFncSensor<T,D> *dfsens = new DistFncSensor<T,D>;
 
   nsens->Initialize (&_dn, "density", _cfg);
   esens->Initialize (&_E, "elfield", _cfg);
   bsens->Initialize (&_B, "magfield", _cfg);
   usens->Initialize (&_U, "velocity", _cfg);
+  dfsens->Initialize (&_specie, "distfnc", _cfg);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);
   _sensmng.AddSensor (esens);
   _sensmng.AddSensor (usens);
+  _sensmng.AddSensor (dfsens);
 
   for (int i=0; i<_specie.GetSize (); ++i)
   {
