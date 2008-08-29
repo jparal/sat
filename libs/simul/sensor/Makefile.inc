@@ -4,6 +4,7 @@
 ###############################################################################
 
 headers += \
+	sensor/distfnc.h \
 	sensor/fldsens.h \
 	sensor/sensmng.h \
 	sensor/sensor.h
@@ -11,6 +12,7 @@ headers += \
 # preproc += 
 
 sources += \
+	sensor/distfnc.cxx \
 	sensor/sensmng.cxx \
 	sensor/sensor.cxx
 

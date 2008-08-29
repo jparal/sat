@@ -218,6 +218,14 @@ public:
   const TParticle& Get (size_t id) const
   { return _pcles.Get (id); }
 
+  /// get particles Mesh<> object
+  const Mesh<D>& GetMesh () const
+  { return _mesh; }
+
+  /// get particles Layout<> object
+  const Layout<D>& GetLayout () const
+  { return _layout; }
+
   /**
    * @brief Schedule remove of the particle.
    * Execute remove command on the particle which is the same as calling:

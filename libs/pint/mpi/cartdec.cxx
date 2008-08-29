@@ -149,3 +149,6 @@ void CartDomDecomp<D>::SplitProcessors (Vector<int,D>& ratio, int nproc)
 template class CartDomDecomp<1>;
 template class CartDomDecomp<2>;
 template class CartDomDecomp<3>;
+template class CartDomDecomp<4>;
+template class CartDomDecomp<5>;
+template class CartDomDecomp<6>;
