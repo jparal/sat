@@ -33,11 +33,13 @@ template <class T, int D>
 class DistFncSensor : public Sensor
 {
 public:
+  typedef Field<Vector<T,3>,D> TVecField;
   typedef Specie<T,D> TSpecie;
   typedef typename TSpecie::TParticle TParticle;
   typedef RefArray<TSpecie> TSpecieRefArray;
 
-  void Initialize (TSpecieRefArray *sparr, const char *id, ConfigFile &cfg);
+  void Initialize (TSpecieRefArray *sparr, TVecField *bfld,
+		   const char *id, ConfigFile &cfg);
 
   virtual void SaveData (IOManager &iomng, const SimulTime &stime);
 
@@ -45,6 +47,8 @@ private:
   TSpecieRefArray *_species;
   Vector<int,3> _bins;
   Vector<float,3> _vmin, _vmax;
+  bool _perpar;
+  TVecField *_bfld;
 };
 
 /** @} */

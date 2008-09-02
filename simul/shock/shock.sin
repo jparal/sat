@@ -55,7 +55,7 @@ output:
     velocity = { tag = "U"; };
     pressure = { tag = "P"; };
     particle = { tag = "Pcle"; };
-    distfnc  = { tag = "Df"; bins = [11, 11, 11];
+    distfnc  = { tag = "Df"; bins = [11, 11, 11]; perpar = true;
       vmin = [-5., -5., -20.]; vmax = [5., 5., 20.]; };
   };
 };

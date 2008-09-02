@@ -270,7 +270,7 @@ void CAMCode<B,T,D>::Initialize (const char *file)
   esens->Initialize (&_E, "elfield", _cfg);
   bsens->Initialize (&_B, "magfield", _cfg);
   usens->Initialize (&_U, "velocity", _cfg);
-  dfsens->Initialize (&_specie, "distfnc", _cfg);
+  dfsens->Initialize (&_specie, &_B, "distfnc", _cfg);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);

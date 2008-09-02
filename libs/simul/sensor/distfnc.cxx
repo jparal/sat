@@ -15,11 +15,12 @@
 #include "distfnc.h"
 
 template <class T, int D>
-void DistFncSensor<T,D>::Initialize (TSpecieRefArray *sparr,
+void DistFncSensor<T,D>::Initialize (TSpecieRefArray *sparr, TVecField *bfld,
 				     const char *id, ConfigFile &cfg)
 {
   Sensor::Initialize (id, cfg);
   _species = sparr;
+  _bfld = bfld;
 
   // local configuration
   if (Enabled ())
@@ -31,6 +32,7 @@ void DistFncSensor<T,D>::Initialize (TSpecieRefArray *sparr,
     ent.GetValue ("vmin", _vmin);
     ent.GetValue ("vmax", _vmax);
     SAT_ASSERT (_vmin < _vmax);
+    ent.GetValue ("perpar", _perpar, true);
     DBG_INFO (" => bins = "<<_bins<<"; velocity = "<<_vmin<<" -> "<<_vmax);
   }
 }
