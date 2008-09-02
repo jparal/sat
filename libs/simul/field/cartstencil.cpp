@@ -34,8 +34,8 @@ void CartStencil::Grad (const Field<T,1> &fld,
   fld.GetAdj (iter.GetLoc (), adj);
   T dxi = 1. / fld.GetMesh ().GetSpacing (0);
   val[0] = dxi * (adj[1] - adj[0]);
-  val[0] = 0.;
-  val[0] = 0.;
+  val[1] = 0.;
+  val[2] = 0.;
 }
 
 template<class T> SAT_INLINE_FLATTEN

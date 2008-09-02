@@ -37,7 +37,7 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
   if (!cfg.Exists (sensentry))
   {
     _enabled = false;
-    DBG_WARN ("sensor disabled: "<<_id);
+    DBG_WARN ("sensor ("<<_id<<"): disabled");
     return;
   }
   else
