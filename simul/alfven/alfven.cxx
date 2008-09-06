@@ -3,8 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   main.cxx
- * @brief  Shock wave CAM-CL simulation
+ * @file   alfven.cxx
+ * @brief  Alfven wave CAM-CL simulation
  * @author @jparal
  *
  * @revision{1.0}
@@ -12,7 +12,7 @@
  * @revmessg{Initial version}
  */
 
-#include "shock.h"
+#include "alfven.h"
 #include <signal.h>
 #include <fpu_control.h>
 
@@ -32,9 +32,9 @@ int main (int argc, char **argv)
   _FPU_SETCW (flags);
   signal(SIGFPE, error_action);
 
-  ShockCAMCode<float,1> shock;
-  shock.Initialize (&argc, &argv);
-  shock.Exec ();
+  AlfvenCAMCode<float,1> alfven;
+  alfven.Initialize (&argc, &argv);
+  alfven.Exec ();
 
   return 0;
 }

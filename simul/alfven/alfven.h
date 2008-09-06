@@ -3,8 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   shcam.h
- * @brief  Shock wave CAM simulation class
+ * @file   alfven.h
+ * @brief  Alfven wave CAM simulation class
  * @author @jparal
  *
  * @revision{1.0}
@@ -12,34 +12,34 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_SHCAM_H__
-#define __SAT_SHCAM_H__
+#ifndef __SAT_ALFVEN_CAM_H__
+#define __SAT_ALFVEN_CAM_H__
 
 #include "sat.h"
 
 /**
- * @brief Shock wave CAM simulation class
+ * @brief Alfven wave CAM simulation class
  *
  * @revision{1.0}
  * @reventry{2008/07, @jparal}
  * @revmessg{Initial version}
  */
 template<class T, int D>
-class ShockCAMCode : public CAMCode<ShockCAMCode<T,D>,T,D>
+class AlfvenCAMCode : public CAMCode<AlfvenCAMCode<T,D>,T,D>
 {
 public:
-  typedef CAMCode<ShockCAMCode<T,D>,T,D> TBase;
+  typedef CAMCode<AlfvenCAMCode<T,D>,T,D> TBase;
   typedef typename TBase::TSpecie TSpecie;
   typedef typename TBase::ScaField ScaField;
   typedef typename TBase::VecField VecField;
 
   /// Constructor
-  ShockCAMCode ()
+  AlfvenCAMCode ()
   {
     // NewMemTrackerModule ();
   };
   /// Destructor
-  virtual ~ShockCAMCode ()
+  virtual ~AlfvenCAMCode ()
   {
     //    FreeMemTrackerModule ();
   };
@@ -61,4 +61,4 @@ public:
 private:
 };
 
-#endif /* __SAT_SHCAM_H__ */
+#endif /* __SAT_ALFVEN_CAM_H__ */

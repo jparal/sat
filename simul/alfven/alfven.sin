@@ -39,7 +39,7 @@ plasma:
 
 output:
 {
-  logfile = "shock.log"; // Default: progname.log
+  logfile = "alfven.log"; // Default: progname.log
   format:
   {
     type = "xdmf"; version = 1; parallel = false;
