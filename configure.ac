@@ -91,6 +91,7 @@ AC_CONFIG_FILES([
     docs/tech/cam/fig/Makefile
     docs/tech/cam/pic/Makefile
     etc/Makefile
+    etc/pbs/Makefile
     example/Makefile
     example/ref/Makefile
     example/tmpl/Makefile

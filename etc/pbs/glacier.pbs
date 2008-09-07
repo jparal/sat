@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+#PBS -S /bin/sh
+#PBS -l ncpus=2
+#PBS -M jparal@gmail.com
+#PBS -m bea
+#PBS -l walltime=240:00:00
+#PBS -l mem=4gb
+
+export MP_PROCS=2
+##PBS -q normal
+
+cd $PBS_O_WORKDIR
+echo "Current working directory is `pwd`"
+export OMP_NUM_THREADS=$MP_PROCS
+
+echo "Starting run at: `date`"
+./hions --omp-threads=$MP_PROCS
+echo "Job finished at: `date`" 

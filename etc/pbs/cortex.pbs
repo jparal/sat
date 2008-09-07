@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+#PBS -S /bin/sh
+#PBS -l ncpus=32
+#PBS -M jparal@gmail.com
+#PBS -m bea
+#PBS -q ibms
+#PBS -l walltime=24:00:00
+
+# Script for running OpenMP sample program pi on cortex
+# 2007-01-19 DSP
+
+cd $PBS_O_WORKDIR
+
+echo "Current working directory is `pwd`"
+
+# Note: MP_PROCS should be set to the number of processors required.
+# This should never exceed the TORQUE ncpus request above, but,
+# in the case of large memory jobs, may be less than ncpus.
+export MP_PROCS=32
+
+export OMP_NUM_THREADS=$MP_PROCS
+
+echo "Starting run at: `date`"
+./hions --omp-threads=$MP_PROCS
+echo "Job finished at: `date`" 

@@ -3,9 +3,4 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = pbs
-
-files = satrc
-
-sysconf_DATA = $(files)
-EXTRA_DIST = $(files)
+EXTRA_DIST = cortex.pbs glacier.pbs
