@@ -32,7 +32,7 @@ int main (int argc, char **argv)
   _FPU_SETCW (flags);
   signal(SIGFPE, error_action);
 
-  AlfvenCAMCode<float,1> alfven;
+  AlfvenCAMCode<float,2> alfven;
   alfven.Initialize (&argc, &argv);
   alfven.Exec ();
 

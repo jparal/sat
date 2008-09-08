@@ -36,6 +36,8 @@ public:
   /// Constructor
   AlfvenCAMCode ()
   {
+    _nperiod = 4;
+    _amp = 0.1;
     // NewMemTrackerModule ();
   };
   /// Destructor
@@ -44,21 +46,46 @@ public:
     //    FreeMemTrackerModule ();
   };
 
-  // void DnInitAdd (TSpecie *sp, ScaField &dn)
-  // {
-  //   int nx = dn.Size (1);
-  //   for (int i=0; i<nx; ++i)
-  //     dn(i) = (T)1.0 + 0.1 * Math::Sin (2. * M_2PI * (T)i / (nx-1));
-  // }
+  void BulkInitAdd (TSpecie *sp, VecField &U)
+  {
+    int nx = U.Size (0);
+    int ny = U.Size (1);
+    int ghostx = U.GetLayout ().GetGhost (0);
+    T dx = U.GetMesh ().GetSpacing (0);
+    int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
+    int npx = U.GetLayout ().GetDecomp ().GetSize (0);
+    T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx) * dx);
 
-  // void BInitAdd (VecField &b)
-  // {
-  //   int nx = b.Size (1);
-  //   for (int i=0; i<nx; ++i)
-  //     b(i)[1] += 0.1 * Math::Sin (2. * M_2PI * (T)i / (nx-1));
-  // }
+    for (int j=0; j<ny; ++j)
+      for (int i=0; i<nx; ++i)
+      {
+	T x = (T)(i - ghostx + ipx * nx);
+	U(i,j)[1] = - _amp * Math::Cos (kx * x);
+	U(i,j)[2] = + _amp * Math::Sin (kx * x);
+      }
+  }
+
+  void BInitAdd (VecField &b)
+  {
+    int nx = b.Size (0);
+    int ny = b.Size (1);
+    T dx = b.GetMesh ().GetSpacing (0);
+    int ipx = b.GetLayout ().GetDecomp ().GetPosition (0);
+    int npx = b.GetLayout ().GetDecomp ().GetSize (0);
+    T kx = (M_2PI * (T)_nperiod) / ((T)(nx * npx) * dx);
+
+    for (int j=0; j<ny; ++j)
+      for (int i=0; i<nx; ++i)
+      {
+	T x = (T)(i + ipx * nx);
+	b(i,j)[1] += _amp * Math::Cos (kx * x);
+	b(i,j)[2] -= _amp * Math::Sin (kx * x);
+      }
+  }
 
 private:
+  int _nperiod;
+  T _amp;
 };
 
 #endif /* __SAT_ALFVEN_CAM_H__ */
