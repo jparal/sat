@@ -53,8 +53,8 @@
     typedef __int64           int64_t;
     typedef unsigned __int64 uint64_t;
 
-    typedef          int     intptr_t; 
-    typedef unsigned int    uintptr_t; 
+    typedef          int     intptr_t;
+    typedef unsigned int    uintptr_t;
     /* Cray's UnicOS */
 #  elif defined(PLATFORM_OS_UNICOS)
     /* oddball architecture lacking a 16-bit type */
@@ -68,8 +68,8 @@
     typedef int               int64_t;
     typedef unsigned int     uint64_t;
 
-    typedef          int     intptr_t; 
-    typedef unsigned int    uintptr_t; 
+    typedef          int     intptr_t;
+    typedef unsigned int    uintptr_t;
 #  elif defined(PLATFORM_OS_MTA)
 #    include <sys/types.h>
     typedef u_int8_t          uint8_t;
@@ -87,11 +87,11 @@
     typedef long              int64_t;
     typedef unsigned long    uint64_t;
 
-    typedef          long    intptr_t; 
-    typedef unsigned long   uintptr_t; 
+    typedef          long    intptr_t;
+    typedef unsigned long   uintptr_t;
 #  elif defined(PLATFORM_OS_FAMILYNAME)
-    /* what a mess - 
-       inttypes.h and stdint.h are incomplete or missing on 
+    /* what a mess -
+       inttypes.h and stdint.h are incomplete or missing on
        various versions of cygwin, with no easy way to check */
 #    ifdef HAVE_INTTYPES_H
 #      include <inttypes.h>
@@ -104,13 +104,13 @@
 #    endif
 #    ifndef __uint32_t_defined
       typedef u_int8_t     uint8_t;
-      typedef u_int16_t   uint16_t; 
+      typedef u_int16_t   uint16_t;
       typedef u_int32_t   uint32_t;
       typedef u_int64_t   uint64_t;
 #    endif
 #    ifndef __intptr_t_defined
-      typedef          int     intptr_t; 
-      typedef unsigned int    uintptr_t; 
+      typedef          int     intptr_t;
+      typedef unsigned int    uintptr_t;
 #    endif
 #  elif defined(SIZEOF_CHAR) && \
         defined(SIZEOF_SHORT) && \
@@ -195,8 +195,8 @@
         typedef unsigned long long _pit_uintptr_t;
 #    else
 #      error Cannot find a integral pointer-sized type for your platform
-#    endif  
-      
+#    endif
+
 #    define  int8_t    _pit_int8_t
 #    define uint8_t   _pit_uint8_t
 #    define  int16_t   _pit_int16_t
@@ -208,8 +208,8 @@
 #    define  intptr_t  _pit_intptr_t
 #    define uintptr_t _pit_uintptr_t
 #  else
-    /* no information available, so try inttypes.h and hope for the best 
-       if we die here, the correct fix is to detect the sizes using configure 
+    /* no information available, so try inttypes.h and hope for the best
+       if we die here, the correct fix is to detect the sizes using configure
        (and include *config.h before this file).
      */
 #    include <inttypes.h>
