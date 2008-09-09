@@ -77,8 +77,16 @@ public:
    */
   void Initialize (int *pargc, char ***pargv);
 
-  /// Initialize from configuration file name (*.sin)
-  void Initialize (const char *fname);
+  /// Initialize from configuration file name @p _cfg
+  void Initialize ();
+
+  /// Problem specific initialization called before Initialize()
+  /// @remarks @p _cfg is already initialized
+  virtual void PreInitialize (const ConfigFile &cfg) {};
+
+  /// Problem specific initialization called after Initialize()
+  /// @remarks @p _cfg is already initialized
+  virtual void PostInitialize (const ConfigFile &cfg) {};
 
   /// @}
 
@@ -325,7 +333,7 @@ public:
 
   /// @}
 
-protected:
+public:
   ConfigFile _cfg;   ///< parsed configuration file
   satversion_t _ver; ///< version of configuration file
 

@@ -5,7 +5,7 @@
 alfven:
 {
   nperiod = 4;
-  amplitude = 0.1;
+  amplitude = 0.05;
 };
 
 simul:
@@ -20,17 +20,17 @@ simul:
 
 grid:
 {
-  cells  = [ 100, 100, 100 ];
-  resol  = [ 2., 2., 1.0 ];
+  cells  = [ 50, 100, 100 ];
+  resol  = [ 1., 1., 1.0 ];
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
 field:
 {
   nsub   = 10;
-  imf    = { phi = 90.; psi = 0.; };
+  imf    = { phi = 0.; psi = 0.; };
   dnmin  = 0.05;
-  resist = 0.001;
+  resist = 0.01;
 };
 
 plasma:
@@ -38,8 +38,8 @@ plasma:
   betae = 0.5;
   specie:
   {
-    proton = { pcles = 70.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
-      v0 = [1.,0.,0.]; };
+    proton = { pcles = 100.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
+      v0 = [0.,0.,0.]; };
   };
 };
 

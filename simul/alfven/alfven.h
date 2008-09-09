@@ -36,8 +36,6 @@ public:
   /// Constructor
   AlfvenCAMCode ()
   {
-    _nperiod = 4;
-    _amp = 0.1;
     // NewMemTrackerModule ();
   };
   /// Destructor
@@ -46,41 +44,57 @@ public:
     //    FreeMemTrackerModule ();
   };
 
+  virtual void PreInitialize (const ConfigFile &cfg)
+  {
+    cfg.GetValue ("alfven.nperiod", _nperiod, 4);
+    cfg.GetValue ("alfven.amplitude", _amp, 0.1);
+
+    DBG_INFO ("Alfven simulation: nperiod "<<_nperiod<<"; amplitude "<<_amp);
+  }
+
   void BulkInitAdd (TSpecie *sp, VecField &U)
   {
     int nx = U.Size (0);
-    int ny = U.Size (1);
     int ghostx = U.GetLayout ().GetGhost (0);
-    T dx = U.GetMesh ().GetSpacing (0);
+    //    T dx = U.GetMesh ().GetSpacing (0);
     int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
     int npx = U.GetLayout ().GetDecomp ().GetSize (0);
-    T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx) * dx);
+    T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx));
 
-    for (int j=0; j<ny; ++j)
-      for (int i=0; i<nx; ++i)
-      {
-	T x = (T)(i - ghostx + ipx * nx);
-	U(i,j)[1] = - _amp * Math::Cos (kx * x);
-	U(i,j)[2] = + _amp * Math::Sin (kx * x);
-      }
+    Domain<D> dom;
+    U.GetDomainAll (dom);
+    DomainIterator<D> it (dom);
+
+    while (it.HasNext ())
+    {
+      T x = (T)(it.GetLoc()[0] + ipx * nx);
+      U(it.GetLoc())[1] = - _amp * Math::Cos (kx * x);
+      //      U(it.GetLoc())[2] = + _amp * Math::Sin (kx * x);
+
+      it.Next ();
+    }
   }
 
   void BInitAdd (VecField &b)
   {
     int nx = b.Size (0);
-    int ny = b.Size (1);
-    T dx = b.GetMesh ().GetSpacing (0);
+    //    T dx = b.GetMesh ().GetSpacing (0);
     int ipx = b.GetLayout ().GetDecomp ().GetPosition (0);
     int npx = b.GetLayout ().GetDecomp ().GetSize (0);
-    T kx = (M_2PI * (T)_nperiod) / ((T)(nx * npx) * dx);
+    T kx = (M_2PI * (T)_nperiod) / ((T)(nx * npx));
 
-    for (int j=0; j<ny; ++j)
-      for (int i=0; i<nx; ++i)
-      {
-	T x = (T)(i + ipx * nx);
-	b(i,j)[1] += _amp * Math::Cos (kx * x);
-	b(i,j)[2] -= _amp * Math::Sin (kx * x);
-      }
+    Domain<D> dom;
+    b.GetDomainAll (dom);
+    DomainIterator<D> it (dom);
+
+    while (it.HasNext ())
+    {
+      T x = (T)(it.GetLoc()[0] + ipx * nx);
+      b(it.GetLoc())[1] += _amp * Math::Cos (kx * x);
+      //      b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
+
+      it.Next ();
+    }
   }
 
 private:

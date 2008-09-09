@@ -57,14 +57,7 @@ void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
   DBG_INFO ("Report bugs to <"PACKAGE_BUGREPORT">");
   DBG_INFO ("CAM-CL simulation code");
 
-  Initialize (_cfgname.GetData ());
-
-  // Update parameters based on the command line parameters
-}
-
-template<class B, class T, int D>
-void CAMCode<B,T,D>::Initialize (const char *file)
-{
+  const char *file = _cfgname.GetData ();
   DBG_INFO1 ("reading configuration file: "<<file);
   try
   {
@@ -81,6 +74,16 @@ void CAMCode<B,T,D>::Initialize (const char *file)
     SAT_ABBORT ("Parsing file: '"<<file<<"'");
   }
 
+  PreInitialize (_cfg);
+  Initialize ();
+  PostInitialize (_cfg);
+
+  // Update parameters based on the command line parameters
+}
+
+template<class B, class T, int D>
+void CAMCode<B,T,D>::Initialize ()
+{
   int ver[3];
   if (_cfg.Exists ("sat.version"))
   {
