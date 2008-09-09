@@ -11,8 +11,8 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-EXTRA_DIST = shock.sin
+EXTRA_DIST = alfven.sin
 
-bin_PROGRAMS = shock
+bin_PROGRAMS = alfven
 
-shock_SOURCES = shock.cxx shock.h
+alfven_SOURCES = alfven.cxx alfven.h

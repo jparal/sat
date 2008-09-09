@@ -19,4 +19,14 @@ else
 fi
 
 # export LDPATH=$LDPATH:$SAT_HOME/lib
-export IDL_STARTUP=$SAT_HOME/idl/start.pro
+
+if [ -f $SAT_HOME/idl/start.pro ]; then
+    export IDL_STARTUP=$SAT_HOME/idl/start.pro
+else
+    export IDL_STARTUP=$SAT_HOME/idl/start.pro.in
+fi
+
+# Emacs
+# Local variables:
+# mode: sh
+# End:
