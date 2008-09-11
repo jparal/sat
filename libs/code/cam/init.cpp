@@ -165,8 +165,6 @@ void CAMCode<B,T,D>::Initialize ()
     DBG_INFO1 ("processing specie: '"<<species[i].GetName ()<<"'");
     TSpecie *sp = new Specie<T,D> ();
     sp->Initialize (species[i], _meshp, _layop);
-    DBG_INFO1 ("charge per particle (sq): "<<sp->ChargePerPcle ());
-    DBG_INFO1 ("mass per particle (sm): "<<sp->MassPerPcle ());
     _specie.PushNew (sp);
   }
 

@@ -252,36 +252,36 @@ public:
   /// @brief Plasma beta of the specie.
   /// Is a ratio of the plasma pressure to the magnetic pressure defined as:
   /// @f[ \beta = \frac{p}{B^2/2 \mu_0} @f]
-  double Beta () const
+  float Beta () const
   { return _beta; }
   /// Number of macro-particles per cell at initialization
-  double InitalPcles () const
+  float InitalPcles () const
   { return _ng; }
   /// Species initial bulk velocity
-  const Vector<double,3>& InitalVel () const
+  const Vector<float,3>& InitalVel () const
   { return _vs; }
   /// ration between perpendicular and parallel temperature
   /// @f$ v_{th,\perp}/v_{th,\parallel} @f$
-  double RatioVth () const
+  float RatioVth () const
   { return _rvth; }
   /// Parallel thermal velocity
-  double Vthpar () const
+  float Vthpar () const
   { return _vthpa; }
   /// Perpendicular thermal velocity
-  double Vthper () const
+  float Vthper () const
   { return _vthpe; }
   /// relative mass density particle represent with respect to @f$ n_0 @f$
-  double RelMassDens () const
+  float RelMassDens () const
   { return _rmds; }
   /// charge/mass ratio in units of electron charge @f$ e @f$ and proton
   /// mass @f$ m_i @f$
-  double ChargeMassRatio () const
+  float ChargeMassRatio () const
   { return  _qms; }
   /// Mass represented by single super-particle
-  double MassPerPcle () const
+  float MassPerPcle () const
   { return  _sm; }
   /// Charge represented by single super-particle
-  double ChargePerPcle () const
+  float ChargePerPcle () const
   { return  _sq; }
 
   /// @}
@@ -300,23 +300,23 @@ private:
   String _name;
 
   /// Ion beta of the specie
-  double _beta;
+  float _beta;
   /// Number of macro-particles per cell at initialization
-  double _ng;
+  float _ng;
   /// Species initial bulk velocity
-  Vector<double,3> _vs;
+  Vector<float,3> _vs;
   /// vth_perpendicular/vth_parallel
-  double _rvth;
+  float _rvth;
   /// Parallel and perpendicular thermal velocity
-  double _vthpa, _vthpe;
+  float _vthpa, _vthpe;
   /// relative mass density particle represent with respect to n0
-  double _rmds;
+  float _rmds;
   /// charge/mass ratio in units of electron charge 'e' and proton mass 'm_i'
-  double _qms;
+  float _qms;
   /// Mass represented by single super-particle
-  double _sm;
+  float _sm;
   /// Charge represented by single super-particle
-  double _sq;
+  float _sq;
 
   RandomGen<T> _rnd;
 

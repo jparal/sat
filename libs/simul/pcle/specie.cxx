@@ -32,9 +32,7 @@ void Specie<T,D>::Initialize (const ConfigEntry &cfg,
     cfg.GetValue ("rvth", _rvth);
     cfg.GetValue ("rmds", _rmds);
     cfg.GetValue ("qms", _qms);
-
-    ConfigEntry &v0 = cfg ["v0"];
-    for (int i=0; i<3; ++i) _vs[i] = v0[i];
+    cfg.GetValue ("v0", _vs);
   }
   catch (ConfigFileException &exc)
   {
@@ -47,15 +45,21 @@ void Specie<T,D>::Initialize (const ConfigEntry &cfg,
 
   _sm = _rmds / _ng;
   _sq = _qms * _sm;
+
+  DBG_INFO1 ("charge per particle (sq) = "<< ChargePerPcle ());
+  DBG_INFO1 ("mass per particle (sm)   = "<< MassPerPcle ());
+  DBG_INFO1 ("specie beta (beta)       = "<< Beta ());
+  DBG_INFO1 ("vth_per / vth_par (rvth) = "<< RatioVth ());
+  DBG_INFO1 ("initial velocity (v0)    = "<< InitalVel ());
 }
 
 template<class T, int D>
 void Specie<T,D>::LoadPcles (const Field<T,D> &dn,
 			     const Field<Vector<T,3>,D> &u, Vector<T,3> b)
 {
-  double bb;
+  float bb;
   T vpar, vper1, vper2;
-  Vector<double,3> v1, v2;
+  Vector<float,3> v1, v2;
   TParticle pcle;
   T dnl;
   Vector<T,D> pos;
@@ -121,6 +125,12 @@ int Specie<T,D>::Clean (int *clean)
   size_t lcmd = _cmdqueue.GetSize ();
   PcleCommandInfo *linfo;
 
+  if (lcmd == 0)
+  {
+    if (clean != NULL) *clean = cleaned;
+    return 0;
+  }
+
   do
   {
     linfo = &(_cmdqueue.Get (--lcmd));
@@ -153,7 +163,6 @@ int Specie<T,D>::Clean (int *clean)
   }
 
   if (clean != NULL) *clean = cleaned;
-
   return cleaned;
 }
 
