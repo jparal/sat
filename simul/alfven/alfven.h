@@ -68,7 +68,7 @@ public:
     while (it.HasNext ())
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
-      U(it.GetLoc())[1] = - _amp * Math::Cos (kx * x);
+      U(it.GetLoc())[1] = - _amp * Math::Sin (kx * x);
       //      U(it.GetLoc())[2] = + _amp * Math::Sin (kx * x);
 
       it.Next ();
@@ -90,7 +90,7 @@ public:
     while (it.HasNext ())
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
-      b(it.GetLoc())[1] += _amp * Math::Cos (kx * x);
+      b(it.GetLoc())[1] += _amp * Math::Sin (kx * x);
       //      b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
 
       it.Next ();
