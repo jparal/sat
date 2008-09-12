@@ -153,7 +153,6 @@ AC_CONFIG_FILES([
     mk/scripts/runbench.sh
     simul/Makefile
     simul/alfven/Makefile
-    simul/test/Makefile
     simul/tmpl/Makefile
     simul/tmpl/TEMPLATE.cxx.tpl
     test/Makefile

@@ -1,4 +1,4 @@
 
-SUBDIRS = test alfven tmpl
+SUBDIRS = alfven tmpl
 
 dist_noinst_DATA = README
