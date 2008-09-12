@@ -33,7 +33,7 @@ AC_LOAD_PLATFORM
 #   subdir-objects .. move object file into the subdirectories
 AM_INIT_AUTOMAKE([foreign no-define 1.10])
 
-AC_PROG_CXX([xlc++ xlC icpc icc pathCC cxx aCC c++ CC g++ pgCC KCC FCC])
+AC_PROG_CXX([g++ xlc++ xlC icpc icc pathCC cxx aCC c++ CC pgCC KCC FCC])
 AC_PROG_LN_S
 
 # C++ compiler
