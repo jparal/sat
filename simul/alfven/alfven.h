@@ -54,7 +54,7 @@ public:
 
   void BulkInitAdd (TSpecie *sp, VecField &U)
   {
-    int nx = U.Size (0);
+    int nx = U.Size (0)-1;
     int ghostx = U.GetLayout ().GetGhost (0);
     //    T dx = U.GetMesh ().GetSpacing (0);
     int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
@@ -77,7 +77,7 @@ public:
 
   void BInitAdd (VecField &b)
   {
-    int nx = b.Size (0);
+    int nx = b.Size (0)-1;
     //    T dx = b.GetMesh ().GetSpacing (0);
     int ipx = b.GetLayout ().GetDecomp ().GetPosition (0);
     int npx = b.GetLayout ().GetDecomp ().GetSize (0);
