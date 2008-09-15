@@ -4,10 +4,7 @@
 #PBS -M jparal@gmail.com
 #PBS -m bea
 #PBS -q ibms
-#PBS -l walltime=24:00:00
-
-# Script for running OpenMP sample program pi on cortex
-# 2007-01-19 DSP
+#PBS -l walltime=240:00:00
 
 cd $PBS_O_WORKDIR
 
