@@ -1,3 +1,8 @@
+###############################################################################
+##   Copyright (C) by Jan Paral and SAT team                                  #
+##   See docs/license/sat file for copying and redistribution conditions.     #
+###############################################################################
+
 # CXXFLAGS += -I$(top_srcdir)/libs/base $(CXXFLAGS_OPT)
 
 shock_bin_CFLAGS = $(GSL_CFLAGS)
