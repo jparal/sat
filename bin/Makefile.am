@@ -3,8 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = 
+genscripts = filetops gzeps pssubst
 
-bin_SCRIPTS = filetops pssubst
-CLEANFILES = $(bin_SCRIPTS)
-EXTRA_DIST = filetops.in pssubst.in
+bin_SCRIPTS = $(genscripts)
+CLEANFILES = $(genscripts)
+EXTRA_DIST = $(genscripts:=.m)
