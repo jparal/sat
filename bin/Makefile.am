@@ -7,4 +7,4 @@ genscripts = filetops gzeps pssubst
 
 bin_SCRIPTS = $(genscripts)
 CLEANFILES = $(genscripts)
-EXTRA_DIST = $(genscripts:=.m)
+EXTRA_DIST = $(genscripts:=.in)
