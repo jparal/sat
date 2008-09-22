@@ -11,7 +11,8 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-EXTRA_DIST = alfven.sin
+#EXTRA_DIST = alfven.sin
+sysconf_DATA = alfven.sin
 
 bin_PROGRAMS = alfven
 
