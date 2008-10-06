@@ -4,7 +4,7 @@
 ###############################################################################
 
 SUBDIRS= bin mk libs tools test example tmpl docs etc analyse bench connect \
- contrib extern idl simul
+ contrib extern idl matlab simul
 
 ACLOCAL_AMFLAGS  = -I mk/config
 

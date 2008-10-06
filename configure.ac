@@ -142,6 +142,8 @@ AC_CONFIG_FILES([
     libs/test/Makefile
     libs/test/tester/Makefile
     libs/tmpl/Makefile
+    matlab/Makefile
+    matlab/todo/Makefile
     mk/Makefile
     mk/amake/Makefile
     mk/config/Makefile

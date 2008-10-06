@@ -3,6 +3,7 @@
 *~
 .deps
 !dummy.*
+/.rsync
 /build-*
 /*.tar.gz
 /acinclude.m4
