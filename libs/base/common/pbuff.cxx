@@ -14,6 +14,8 @@
 #include "pbuff.h"
 #include "base/sys/assert.h"
 
+#include <string.h>
+
 ParallelBuffer plog_buff;
 
 ParallelBuffer::ParallelBuffer ()

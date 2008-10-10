@@ -58,9 +58,10 @@
 #  define SAT_DBG_ASSERT_MSG(exp,msg)
 #endif
 
-#if PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
-#  define SAT_CASSERT_MSG(expr, msg) static_assert (expr, msg)
-#else // PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
+// #if PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
+// Note: require -std=c++0x flag to g++
+// #  define SAT_CASSERT_MSG(expr, msg) static_assert (expr, msg)
+// #else // PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
 namespace SAT
 {
   namespace Debug {
@@ -68,9 +69,9 @@ namespace SAT
     template<> struct CompileTimeError<true> {};
   }
 }
-#  define SAT_CASSERT_MSG(expr, msg)					\
+#define SAT_CASSERT_MSG(expr, msg)					\
   { SAT::Debug::CompileTimeError<((expr) != 0)> ERROR_##msg; (void)ERROR_##msg; }
-#endif // PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
+// #endif // PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
 
 #define SAT_CASSERT(expr) SAT_CASSERT_MSG(expr,Unknown)
 
