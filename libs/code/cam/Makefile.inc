@@ -3,10 +3,10 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-headers += \
+headers_cam = \
 	cam/cam.h
 
-preproc += \
+preproc_cam = \
 	cam/advmom.cpp \
 	cam/advfld.cpp \
 	cam/calcb.cpp \
@@ -33,3 +33,10 @@ preproc += \
 
 extrsrc += \
 	cam/CamInfo.dox
+
+headers += headers_cam
+preproc += preproc_cam
+
+print-cam:
+	a2ps -o cam.ps -A virtual $(headers_cam) $(preproc_cam)
+	ps2pdf cam.ps && rm -f cam.ps

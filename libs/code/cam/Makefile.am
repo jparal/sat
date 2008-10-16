@@ -5,3 +5,6 @@
 
 all:
 	cd .. && $(MAKE) libs
+
+print:
+	cd .. && $(MAKE) print-cam
