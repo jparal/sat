@@ -34,8 +34,8 @@ preproc_cam = \
 extrsrc += \
 	cam/CamInfo.dox
 
-headers += headers_cam
-preproc += preproc_cam
+headers += $(headers_cam)
+preproc += $(preproc_cam)
 
 print-cam:
 	a2ps -o cam.ps -A virtual $(headers_cam) $(preproc_cam)
