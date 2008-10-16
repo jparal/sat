@@ -2,43 +2,39 @@
 # CAM Config file
 #------------------------------------------------------------------------------
 
-alfven:
-{
-  nperiod = 4;
-  amplitude = 0.05;
-};
+alfven = { nperiod = 4; amplitude = 0.02; grpvel = 2.0; };
 
 simul:
 {
   step    = 0.02;
   max     = 60.;
   start   = 0.;
-  restart = false;
-  momsmooth = 1; # Steps between moment smooth 
-  esmooth   = 1; # Steps between el. field smooth
+  restart = false;     # restart app
+  momsmooth = 1;       # Steps between moment smooth 
+  esmooth   = 1;       # Steps between el. field smooth
 };
 
 grid:
 {
-  cells  = [ 50, 100, 100 ];
-  resol  = [ 1., 1., 1.0 ];
+  cells  = [ 75, 100, 100 ];
+  resol  = [ 1.5, 1., 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
 field:
 {
-  nsub   = 10;
-  imf    = { phi = 0.; psi = 0.; };
-  dnmin  = 0.05;
-  resist = 0.01;
+  nsub   = 10;                       # number of sub-steps of B-field
+  imf    = { phi = 0.; psi = 0.; };  # orientation of B-field
+  dnmin  = 0.005;                    # minimal density to resolve
+  resist = 0.01;                     # artificial resistivity
 };
 
 plasma:
 {
-  betae = 0.5;
+  betae = 0.1;
   specie:
   {
-    proton = { pcles = 100.; beta = 1.; rvth = 1.; rmds = 1.; qms = 1.;
+    proton = { pcles = 500.; beta = .1; rvth = 1.; rmds = 1.; qms = 1.;
       v0 = [0.,0.,0.]; };
   };
 };
@@ -50,9 +46,9 @@ output:
   {
     type = "xdmf"; version = 1; parallel = false;
     runname = "test";
-    compress = { gz = 6; shuffle = true; };
+    compress = { gz = 6; shuffle = true; };   # output compression
   };
-  dtout = 1.;
+  dtout = .2;
   sensors:
   {
     density  = { tag = "Dn"; };
@@ -61,14 +57,14 @@ output:
     velocity = { tag = "U"; };
     pressure = { tag = "P"; };
     particle = { tag = "Pcle"; };
-#     distfnc  = { tag = "Df"; bins = [11, 11, 11]; perpar = true;
-#       vmin = [-5., -5., -20.]; vmax = [5., 5., 20.]; };
+     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
+       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
   };
 };
 
 parallel:
 {
-  mpi = { proc = [ 1, 1, 1 ]; };
+  mpi = { proc = [ 1, 1, 1 ]; };  # ratio of CPU splitting in X,Y,Z dimensions
   omp = { threads = -1; };        # -1 when setup is dynamically
 };
 

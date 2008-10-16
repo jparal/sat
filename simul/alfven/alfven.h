@@ -48,8 +48,12 @@ public:
   {
     cfg.GetValue ("alfven.nperiod", _nperiod, 4);
     cfg.GetValue ("alfven.amplitude", _amp, 0.1);
+    cfg.GetValue ("alfven.grpvel", _grpvel, 1.0);
 
-    DBG_INFO ("Alfven simulation: nperiod "<<_nperiod<<"; amplitude "<<_amp);
+    DBG_INFO ("Alfven wave simulation:");
+    DBG_INFO ("  nperiod   = "<<_nperiod);
+    DBG_INFO ("  amplitude = "<<_amp);
+    DBG_INFO ("  grpvel    = "<<_grpvel);
   }
 
   void BulkInitAdd (TSpecie *sp, VecField &U)
@@ -68,7 +72,8 @@ public:
     while (it.HasNext ())
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
-      U(it.GetLoc())[1] = - _amp * Math::Sin (kx * x);
+      U(it.GetLoc())[1] = - _amp * _grpvel * Math::Sin (kx * x - M_PI_2);
+      // uncomment for cyclically polarized
       //      U(it.GetLoc())[2] = + _amp * Math::Sin (kx * x);
 
       it.Next ();
@@ -91,6 +96,7 @@ public:
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
       b(it.GetLoc())[1] += _amp * Math::Sin (kx * x);
+      // uncomment for cyclically polarized
       //      b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
 
       it.Next ();
@@ -100,6 +106,7 @@ public:
 private:
   int _nperiod;
   T _amp;
+  T _grpvel;
 };
 
 #endif /* __SAT_ALFVEN_CAM_H__ */
