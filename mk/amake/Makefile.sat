@@ -7,6 +7,9 @@ include $(top_srcdir)/mk/amake/Makefile.simul
 include $(top_srcdir)/mk/amake/Makefile.code
 include $(top_srcdir)/mk/amake/Makefile.io
 
+# Circular dependency!!
+include $(top_srcdir)/mk/amake/Makefile.simul
+
 all-local:
 	@for i in $(EXTRA_DIST); do \
 	  if test ! -f $$i; then \

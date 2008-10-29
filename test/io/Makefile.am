@@ -7,16 +7,7 @@
 # optimization CXXFLAGS. By specifying prog_CXXFLAGS or prog_LDADD you override
 # those settings
 #
-# Uncoment libraries you want to use:
-#
-include $(top_srcdir)/mk/amake/Makefile.first
-include $(top_srcdir)/mk/amake/Makefile.test
-include $(top_srcdir)/mk/amake/Makefile.base
-# include $(top_srcdir)/mk/amake/Makefile.code
-include $(top_srcdir)/mk/amake/Makefile.io
-# include $(top_srcdir)/mk/amake/Makefile.math
-include $(top_srcdir)/mk/amake/Makefile.pint
-include $(top_srcdir)/mk/amake/Makefile.simul
+include $(top_srcdir)/mk/amake/Makefile.sat
 
 EXTRA_DIST = hdf5.sin
 LDADD += $(HDF5_LIBS)

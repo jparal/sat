@@ -125,6 +125,7 @@ AC_CONFIG_FILES([
     libs/code/Makefile
     libs/code/cam/Makefile
     libs/io/Makefile
+    libs/io/hdf5/Makefile
     libs/io/misc/Makefile
     libs/io/stw/Makefile
     libs/io/xdmf/Makefile

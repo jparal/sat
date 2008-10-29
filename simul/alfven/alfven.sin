@@ -16,7 +16,7 @@ simul:
 
 grid:
 {
-  cells  = [ 75, 100, 100 ];
+  cells  = [ 1000, 100, 100 ];
   resol  = [ 1.5, 1., 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };

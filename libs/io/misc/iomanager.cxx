@@ -16,7 +16,7 @@
 
 IOManager::IOManager ()
 {
-  Initialize (IO_FORMAT_XDMF, "out");
+  Initialize (IO_FORMAT_HDF5, "out");
 }
 
 void IOManager::Initialize (IOFormat format, String runname)
@@ -28,16 +28,20 @@ void IOManager::Initialize (IOFormat format, String runname)
 void IOManager::Initialize (const ConfigEntry &cfg)
 {
   String type, runname;
-  cfg.GetValue ("type", type, "xdmf");
+  cfg.GetValue ("type", type, "hdf5");
   cfg.GetValue ("runname", runname, "out");
 
   IOFormat format;
   if (type == "xdmf")
     format = IO_FORMAT_XDMF;
+  else if (type == "hdf5")
+    format = IO_FORMAT_HDF5;
+  else if (type == "stw")
+    format = IO_FORMAT_STW;
   else
   {
     DBG_WARN ("output format not supported: "<<type);
-    format = IO_FORMAT_XDMF;
+    format = IO_FORMAT_HDF5;
   }
 
   Initialize (format, runname);
@@ -45,7 +49,7 @@ void IOManager::Initialize (const ConfigEntry &cfg)
   /**********************/
   /* Initialize drivers */
   /**********************/
-  _xdmf.Initialize (cfg);
+  _hdf5.Initialize (cfg);
 }
 
 void IOManager::Initialize (const ConfigFile &cfg)

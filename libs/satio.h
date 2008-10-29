@@ -2,6 +2,7 @@
 #define __sat_satio_h__
 
 #include "satsysdef.h"
+#include "io/sathdf5.h"
 #include "io/satmisc.h"
 #include "io/satstw.h"
 #include "io/satxdmf.h"

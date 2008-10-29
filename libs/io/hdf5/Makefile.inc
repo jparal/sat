@@ -4,18 +4,14 @@
 ###############################################################################
 
 headers += \
-	misc/fmanip.h \
-	misc/gzstream.h \
-	misc/iofile.h \
-	misc/iomanager.h
+	hdf5/filehdf5.h
 
-preproc += \
-	misc/iomanager.cpp
+# preproc +=
 
 sources += \
-	misc/fmanip.cxx \
-	misc/gzstream.cxx \
-	misc/iofile.cxx \
-	misc/iomanager.cxx
+	hdf5/filehdf5.cxx
 
-# extrsrc += 
+extrsrc += \
+	hdf5/fakehdf5.cpp \
+	hdf5/readhdf5.cpp \
+	hdf5/writehdf5.cpp

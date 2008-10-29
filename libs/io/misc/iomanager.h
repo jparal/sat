@@ -18,7 +18,7 @@
 #include "base/satcfgfile.h"
 #include "base/common/string.h"
 #include "simul/satfield.h"
-#include "io/satxdmf.h"
+#include "io/sathdf5.h"
 
 /** @addtogroup io_misc
  *  @{
@@ -27,6 +27,7 @@
 enum IOFormat
 {
   IO_FORMAT_STW,
+  IO_FORMAT_HDF5,
   IO_FORMAT_XDMF
 };
 
@@ -52,7 +53,7 @@ public:
 
 private:
   IOFormat _format;
-  XdmfFile _xdmf;
+  HDF5File _hdf5;
   String _runname;
 };
 

@@ -27,10 +27,12 @@ void IOManager::Write (Field<T,D> &fld, const SimulTime &stime, const char *tag)
 
   switch (_format)
   {
+  case IO_FORMAT_STW:
+    DBG_WARN ("");
   case IO_FORMAT_XDMF:
-    // Mpi::Barrier ();
-    // DBG_INFO ("saving tag: "<<tag);
-    _xdmf.Write (fld, Cell, tag, fname);
+    // write XDMF
+  case IO_FORMAT_HDF5:
+    _hdf5.Write (fld, Cell, tag, fname);
     break;
   }
 }

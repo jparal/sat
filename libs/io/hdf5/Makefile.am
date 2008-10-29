@@ -3,19 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-headers += \
-	misc/fmanip.h \
-	misc/gzstream.h \
-	misc/iofile.h \
-	misc/iomanager.h
+all:
+	cd .. && $(MAKE) libs
 
-preproc += \
-	misc/iomanager.cpp
-
-sources += \
-	misc/fmanip.cxx \
-	misc/gzstream.cxx \
-	misc/iofile.cxx \
-	misc/iomanager.cxx
-
-# extrsrc += 
+# dist_noinst_DATA =
