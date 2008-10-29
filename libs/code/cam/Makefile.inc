@@ -37,6 +37,6 @@ extrsrc += \
 headers += $(headers_cam)
 preproc += $(preproc_cam)
 
-print-cam:
+pdf-cam:
 	a2ps -o cam.ps -A virtual $(headers_cam) $(preproc_cam)
 	ps2pdf cam.ps && rm -f cam.ps

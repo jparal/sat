@@ -6,5 +6,5 @@
 all:
 	cd .. && $(MAKE) libs
 
-print:
-	cd .. && $(MAKE) print-cam
+pdf:
+	cd .. && $(MAKE) pdf-cam
