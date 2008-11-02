@@ -21,6 +21,8 @@ void CAMCode<B,T,D>::Hyb ()
 
   while (_time.Next ())
   {
+    static_cast<B*>(this)->PreMove ();
+
     AdvMom ();
     Move ();
 

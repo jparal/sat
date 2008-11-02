@@ -17,7 +17,7 @@ simul:
 grid:
 {
   cells  = [ 1000, 100, 100 ];
-  resol  = [ 1.5, 1., 1. ];           # [c/omega_p]
+  resol  = [ 1., 1., 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
@@ -34,7 +34,7 @@ plasma:
   betae = 0.1;
   specie:
   {
-    proton = { pcles = 500.; beta = .1; rvth = 1.; rmds = 1.; qms = 1.;
+    proton = { pcles = 200.; beta = .1; rvth = 1.; rmds = 1.; qms = 1.;
       v0 = [0.,0.,0.]; };
   };
 };
@@ -57,8 +57,8 @@ output:
     velocity = { tag = "U"; };
     pressure = { tag = "P"; };
     particle = { tag = "Pcle"; };
-     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
-       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
+#     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
+#       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
   };
 };
 

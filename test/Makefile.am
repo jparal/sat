@@ -3,6 +3,6 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = base io math pint simul tmpl
+SUBDIRS = base code io math pint simul tmpl
 
 dist_noinst_DATA = README

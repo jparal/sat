@@ -134,7 +134,7 @@ void CAMCode<B,T,D>::Initialize ()
   //    B         #cells + 1       0         0    #cells + 1    Node
   //    U         #cells + 1       1         1    #cells + 3    Node
   //    dn        #cells + 1       1         1    #cells + 3    Node
-  //    Pickles   #cells           0         0    #cells + 1    Node
+  //    Particles #cells           0         0    #cells + 1    Node
   //
   // Note that dn and U needs extra 1 grid points of both side (even when is
   // defined on the same grid like B) just to have a space for boundary
@@ -234,7 +234,7 @@ void CAMCode<B,T,D>::Initialize ()
   }
   _te = _betae / (2. * cd);
 
-  DBG_INFO1 ("ion beta: "<<_betai);
+  DBG_INFO1 ("total ion beta: "<<_betai);
   DBG_INFO1 ("electron temperature: "<<_te);
 
   /****************************/

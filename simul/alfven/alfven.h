@@ -30,19 +30,33 @@ class AlfvenCAMCode : public CAMCode<AlfvenCAMCode<T,D>,T,D>
 public:
   typedef CAMCode<AlfvenCAMCode<T,D>,T,D> TBase;
   typedef typename TBase::TSpecie TSpecie;
+  typedef Particle<T,D> TParticle;
   typedef typename TBase::ScaField ScaField;
   typedef typename TBase::VecField VecField;
 
   /// Constructor
   AlfvenCAMCode ()
   {
+    _file = fopen ("traj", "w");
     // NewMemTrackerModule ();
   };
   /// Destructor
   virtual ~AlfvenCAMCode ()
   {
+    fclose (_file);
     //    FreeMemTrackerModule ();
   };
+
+  void PreMove ()
+  {
+    TSpecie *sp = this->_specie[0];
+    size_t npcle = sp->GetSize ();
+    const TParticle &pcle = sp->Get (npcle/2);
+    for (int i=0; i<D; ++i) fprintf (_file, " %lf", pcle.pos[i]);
+    for (int i=0; i<3; ++i) fprintf (_file, " %lf", pcle.vel[i]);
+    fprintf (_file, "\n");
+    fflush (_file);
+  }
 
   virtual void PreInitialize (const ConfigFile &cfg)
   {
@@ -58,26 +72,26 @@ public:
 
   void BulkInitAdd (TSpecie *sp, VecField &U)
   {
-    int nx = U.Size (0)-1;
-    int ghostx = U.GetLayout ().GetGhost (0);
-    //    T dx = U.GetMesh ().GetSpacing (0);
-    int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
-    int npx = U.GetLayout ().GetDecomp ().GetSize (0);
-    T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx));
+    // int nx = U.Size (0)-1;
+    // int ghostx = U.GetLayout ().GetGhost (0);
+    // //    T dx = U.GetMesh ().GetSpacing (0);
+    // int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
+    // int npx = U.GetLayout ().GetDecomp ().GetSize (0);
+    // T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx));
 
-    Domain<D> dom;
-    U.GetDomainAll (dom);
-    DomainIterator<D> it (dom);
+    // Domain<D> dom;
+    // U.GetDomainAll (dom);
+    // DomainIterator<D> it (dom);
 
-    while (it.HasNext ())
-    {
-      T x = (T)(it.GetLoc()[0] + ipx * nx);
-      U(it.GetLoc())[1] = - _amp * _grpvel * Math::Sin (kx * x - M_PI_2);
-      // uncomment for cyclically polarized
-      //      U(it.GetLoc())[2] = + _amp * Math::Sin (kx * x);
+    // while (it.HasNext ())
+    // {
+    //   T x = (T)(it.GetLoc()[0] + ipx * nx);
+    //   U(it.GetLoc())[1] = - _amp * _grpvel * Math::Sin (kx * x - M_PI_2);
+    //   // uncomment for cyclically polarized
+    //   //      U(it.GetLoc())[2] = + _amp * Math::Sin (kx * x);
 
-      it.Next ();
-    }
+    //   it.Next ();
+    // }
   }
 
   void BInitAdd (VecField &b)
@@ -107,6 +121,7 @@ private:
   int _nperiod;
   T _amp;
   T _grpvel;
+  FILE *_file;
 };
 
 #endif /* __SAT_ALFVEN_CAM_H__ */

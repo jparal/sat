@@ -160,6 +160,7 @@ AC_CONFIG_FILES([
     simul/tmpl/TEMPLATE.cxx.tpl
     test/Makefile
     test/base/Makefile
+    test/code/Makefile
     test/io/Makefile
     test/math/Makefile
     test/pint/Makefile

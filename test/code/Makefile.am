@@ -9,11 +9,19 @@
 #
 # Uncoment libraries you want to use:
 #
-include $(top_srcdir)/mk/amake/Makefile.sat
+include $(top_srcdir)/mk/amake/Makefile.first
+include $(top_srcdir)/mk/amake/Makefile.test
+include $(top_srcdir)/mk/amake/Makefile.base
+include $(top_srcdir)/mk/amake/Makefile.code
+include $(top_srcdir)/mk/amake/Makefile.io
+include $(top_srcdir)/mk/amake/Makefile.math
+include $(top_srcdir)/mk/amake/Makefile.pint
+include $(top_srcdir)/mk/amake/Makefile.simul
 
-EXTRA_DIST = alfven.sin
-# sysconf_DATA = alfven.sin
+EXTRA_DIST = test-cam.sin
 
-bin_PROGRAMS = alfven
+check_PROGRAMS = test-cam
 
-alfven_SOURCES = alfven.cxx alfven.h
+test_cam_SOURCES = camupdates.cxx
+
+TESTS = $(check_PROGRAMS)

@@ -216,7 +216,8 @@ public:
   void Last ();
   /// Drive simulation from one output to another
   void Hyb ();
-
+  /// Called before moving the particles (for DEBUG purpose, I suppose)
+  void PreMove () {};
   //@}
 
   /// @name Particles
