@@ -166,7 +166,7 @@ public:
    *
    * @return return true when you want to remove particle
    */
-  bool PcleBCAdd (TSpecie *sp, size_t id, PosVector &pos, VelVector &vel)
+  bool PcleBCAdd (TSpecie *sp, size_t id, TParticle &pcle)
   { return false; }
 
   /// Problem specific moment boundary conditions
@@ -193,7 +193,7 @@ public:
    *
    * @return return true when you want to remove particle
    */
-  bool PcleBC (TSpecie *sp, size_t id, PosVector &pos, VelVector &vel);
+  bool PcleBC (TSpecie *sp, size_t id, TParticle &pcle);
 
   /// @brief Moment boundary conditions.
   /// Just add values from neighbour processes and call MomAdd function to take

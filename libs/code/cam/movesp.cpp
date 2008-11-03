@@ -59,8 +59,8 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     pcle.pos = p;
     pcle.vel = v;
 
-    if_pf (static_cast<B*>(this)->PcleBCAdd (sp, pid, pcle.pos, pcle.vel) ||
-	   PcleBC (sp, pid, pcle.pos, pcle.vel))
+    if_pf (static_cast<B*>(this)->PcleBCAdd (sp, pid, pcle) ||
+	   PcleBC (sp, pid, pcle))
     {
       continue;
     }

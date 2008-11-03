@@ -12,10 +12,10 @@
  */
 
 template<class B, class T, int D>
-bool CAMCode<B,T,D>::PcleBC (TSpecie *sp, size_t id,
-			     PosVector &pos, VelVector &vel)
+bool CAMCode<B,T,D>::PcleBC (TSpecie *sp, size_t id, TParticle &pcle)
 {
   bool remove = false;
+  PosVector &pos = pcle.pos;
 
   for (int i=0; i<D; ++i)
   {
