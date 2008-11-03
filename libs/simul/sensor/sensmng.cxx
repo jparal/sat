@@ -32,6 +32,8 @@ void SensorManager::SetNextOutput (SimulTime &stime)
   for (int i=0; i<_sensors.GetSize (); ++i)
   {
     Sensor *sensor = _sensors.Get (i);
+    if (!sensor->Enabled ())
+      continue;
 
     double dtout = sensor->GetDtOut ();
     int niter = (int)(0.5 + dtout / dt);
@@ -40,7 +42,8 @@ void SensorManager::SetNextOutput (SimulTime &stime)
     while (tmp<=it) tmp += niter;
     niter = tmp - it;
 
-    if (niter<nminiter) nminiter = niter;
+    if (niter<nminiter)
+      nminiter = niter;
   }
 
   stime.SetMilestone (nminiter);

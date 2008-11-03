@@ -44,15 +44,8 @@ void SimulTime::Initialize (ConfigEntry &cfg, satversion_t ver)
   double dt, max, start;
   bool restart;
 
-  try
-  {
-    cfg.GetValue ("step", dt);
-    cfg.GetValue ("max", max);
-  }
-  catch (ConfigFileException &exc)
-  {
-    SAT_ABBORT ("Missing key: "<<exc.GetMessage ());
-  }
+  cfg.GetValue ("step", dt);
+  cfg.GetValue ("max", max);
 
   cfg.GetValue ("start", start, 0.);
   cfg.GetValue ("restart", restart, false);
