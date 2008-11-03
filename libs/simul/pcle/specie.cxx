@@ -314,12 +314,12 @@ void Specie<T,D>::Check (int opt)
 }
 
 template<class T, int D>
-size_t Specie<T,D>::GetTotalSize ()
+size_t Specie<T,D>::GetTotalSize () const
 {
   long total = GetSize ();
   Mpi::SumReduce (&total);
 
-  return total;
+  return (size_t)total;
 }
 
 /*******************/

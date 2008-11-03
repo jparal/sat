@@ -42,7 +42,7 @@
  *          someone did copy of one Field into another it copied the pointer of
  *          _data instead of data itself.}
  * @reventry{2008/08, @jparal}
- * @revmessg{490, Sync function is more complex and support share/ghost cells
+ * @revmessg{Sync function is more complex and support share/ghost cells
  *          introduced in Layout class during synchronization process.}
  */
 template<class T, int D>

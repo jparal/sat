@@ -204,11 +204,11 @@ public:
   }
 
   /// return the number of particles on the current processor
-  size_t GetSize ()
+  size_t GetSize () const
   { return _pcles.GetSize (); }
 
   /// return the total number of particles on all current processor together
-  size_t GetTotalSize ();
+  size_t GetTotalSize () const;
 
   /// get particle by ID
   TParticle& Get (size_t id)
