@@ -41,7 +41,7 @@
  * @revmessg{change CalcB function to have only one parameter (the field which
  *          we need to advance); since we call the function only with two same
  *          parameters anyway}
- * @revmessg{490, I found out that moment smoothing expects values in the ghost
+ * @revmessg{I found out that moment smoothing expects values in the ghost
  *          zones to be the first inner values of the neighbour patch; rather
  *          then shared values on the boundary}
  */
@@ -320,17 +320,39 @@ public:
   /// @name Smoothing
   /// @{
 
-  // Smooth scalar field
-  //  void MomSmooth (ScaField &f) {}
-  // Smooth vector field
-  // void MomSmooth (VecField &f) {}
-  // Smooth electric field  field
-  //  void EfieldSmooth () {}
-
   /// Smooth any field
   /// @todo add desription about smoothing algorithm
   template<class T2, int D2>
   void Smooth (Field<T2,D2> &fld);
+
+  /// @}
+
+  /// @name Get/Set
+  /// @{
+
+  /// Get simulation time class
+  const SimulTime& GetTime () const
+  { return _time; }
+
+  /// return configuration file class
+  const ConfigFile& GetCfgFile () const
+  { return _cfg; }
+
+  /// return number of species
+  int GetSpecieSize () const
+  { return _specie.Size(); }
+
+  /// return given specie by ID
+  const TSpecie* GetSpecie (int i) const
+  { return _specie[i]; }
+
+  /// get gamma constant of pressure
+  const double GetGamma () const
+  { return _gamma; }
+
+  /// get electron temperature
+  const double GetTe () const
+  { return _te; }
 
   /// @}
 
@@ -345,7 +367,7 @@ public:
   double _resist;    ///< global resistivity for code stability
 
   double _betae;     ///< electron beta
-  double _betai;     ///< total ion beta
+  double _betai;     ///< total ion beta of all species
 
   int _momsmooth;    ///< moment smoothing
   int _esmooth;      ///< electric field smoothing
