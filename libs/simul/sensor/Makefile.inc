@@ -4,6 +4,7 @@
 ###############################################################################
 
 headers += \
+	sensor/dbdt.h \
 	sensor/distfnc.h \
 	sensor/fldsens.h \
 	sensor/sensmng.h \
