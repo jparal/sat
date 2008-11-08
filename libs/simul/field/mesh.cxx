@@ -20,6 +20,7 @@ void Mesh<D>::Initialize ()
   _dim = 0;
   _spacing = 1.;
   _origin = 0.;
+  UpdateSpacing ();
 }
 
 template<int D>
@@ -32,6 +33,7 @@ void Mesh<D>::Initialize (const Vector<int,D>& dim,
   _spacing = spacing;
   _center = center;
   _origin = origin;
+  UpdateSpacing ();
 }
 
 template<int D>
@@ -47,6 +49,18 @@ void Mesh<D>::Initialize (const ConfigEntry &cfg)
     _origin[i] = 0.;
   }
   _center = Node;
+  UpdateSpacing ();
+}
+
+template<int D>
+void Mesh<D>::UpdateSpacing ()
+{
+  for (int i=0; i<D; i++)
+  {
+    _finvspacing[i] = 1.00 / _spacing[i];
+    _hinvspacing[i] = 0.50 / _spacing[i];
+    _qinvspacing[i] = 0.25 / _spacing[i];
+  }
 }
 
 template class Mesh<1>;

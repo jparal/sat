@@ -63,6 +63,16 @@ public:
   double GetSpacing (int i) const
   { return _spacing[i]; }
 
+  double GetSpacingInvF (int i) const
+  { return _finvspacing[i]; }
+
+  double GetSpacingInvQ (int i) const
+  { return _qinvspacing[i]; }
+
+  double GetSpacingInvH (int i) const
+  { return _hinvspacing[i]; }
+
+
   double GetOrigin (int i) const
   { return _origin[i]; }
 
@@ -91,10 +101,15 @@ public:
   { return _center; }
 
 private:
+  void UpdateSpacing ();
+
   /// Dimensions of the data
   Vector<int,D> _dim;
   /// Spacing between the grid points.
   Vector<double,D> _spacing;
+  Vector<double,D> _finvspacing;
+  Vector<double,D> _qinvspacing;
+  Vector<double,D> _hinvspacing;
   /// Local origin (can change when Distribution class is provided)
   Vector<double,D> _origin;
   /// Placement of the values

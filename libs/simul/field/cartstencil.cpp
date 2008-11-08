@@ -32,8 +32,7 @@ void CartStencil::Grad (const Field<T,1> &fld,
 {
   Vector<T,MetaPow<2,1>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T dxi = 1. / fld.GetMesh ().GetSpacing (0);
-  val[0] = dxi * (adj[1] - adj[0]);
+  val[0] = fld.GetMesh().GetSpacingInvF (0) * (adj[1] - adj[0]);
   val[1] = 0.;
   val[2] = 0.;
 }
@@ -45,10 +44,10 @@ void CartStencil::Grad (const Field<T,2> &fld,
 {
   Vector<T,MetaPow<2,2>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T dxi = .5 / fld.GetMesh ().GetSpacing (0);
-  T dyi = .5 / fld.GetMesh ().GetSpacing (1);
-  val[0] = dxi * (adj[1] + adj[3] - adj[0] - adj[2]);
-  val[1] = dyi * (adj[2] + adj[3] - adj[0] - adj[1]);
+  val[0] = fld.GetMesh().GetSpacingInvH(0) *
+    (adj[1] + adj[3] - adj[0] - adj[2]);
+  val[1] = fld.GetMesh().GetSpacingInvH (1) *
+    (adj[2] + adj[3] - adj[0] - adj[1]);
   val[2] = 0.;
 }
 
@@ -59,15 +58,12 @@ void CartStencil::Grad (const Field<T,3> &fld,
 {
   Vector<T,MetaPow<2,3>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T dxi = .25 / fld.GetMesh ().GetSpacing (0);
-  T dyi = .25 / fld.GetMesh ().GetSpacing (1);
-  T dzi = .25 / fld.GetMesh ().GetSpacing (2);
-  val[0] = dxi * (adj[1] + adj[3] + adj[5] + adj[7] -
-		  adj[0] - adj[2] - adj[4] - adj[6]);
-  val[1] = dyi * (adj[2] + adj[3] + adj[6] + adj[7] -
-		  adj[0] - adj[1] - adj[4] - adj[5]);
-  val[2] = dzi * (adj[4] + adj[5] + adj[6] + adj[7] -
-		  adj[0] - adj[1] - adj[2] - adj[3]);
+  val[0] = fld.GetMesh().GetSpacingInvQ (0) *
+    (adj[1] + adj[3] + adj[5] + adj[7] - adj[0] - adj[2] - adj[4] - adj[6]);
+  val[1] = fld.GetMesh().GetSpacingInvQ (1) *
+    (adj[2] + adj[3] + adj[6] + adj[7] - adj[0] - adj[1] - adj[4] - adj[5]);
+  val[2] = fld.GetMesh().GetSpacingInvQ (2) *
+    (adj[4] + adj[5] + adj[6] + adj[7] - adj[0] - adj[1] - adj[2] - adj[3]);
 }
 
 template<class T> SAT_INLINE_FLATTEN
@@ -77,9 +73,8 @@ void CartStencil::Curl (const Field<Vector<T,3>,1> &fld,
 {
   Vector<Vector<T,3>,MetaPow<2,1>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T dxi = 1. / fld.GetMesh ().GetSpacing (0);
-  T deydx = dxi * (adj[1][1] - adj[0][1]);
-  T dezdx = dxi * (adj[1][2] - adj[0][2]);
+  T deydx = fld.GetMesh().GetSpacingInvF (0) * (adj[1][1] - adj[0][1]);
+  T dezdx = fld.GetMesh().GetSpacingInvF (0) * (adj[1][2] - adj[0][2]);
   val[0] = 0.;
   val[1] = -dezdx;
   val[2] =  deydx;
@@ -92,12 +87,14 @@ void CartStencil::Curl (const Field<Vector<T,3>,2> &fld,
 {
   Vector<Vector<T,3>,MetaPow<2,2>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T dxi = .5 / fld.GetMesh ().GetSpacing (0);
-  T dyi = .5 / fld.GetMesh ().GetSpacing (1);
-  T deydx = dxi * (adj[1][1] + adj[3][1] - adj[0][1] - adj[2][1]);
-  T dezdx = dxi * (adj[1][2] + adj[3][2] - adj[0][2] - adj[2][2]);
-  T dexdy = dyi * (adj[2][0] + adj[3][0] - adj[0][0] - adj[1][0]);
-  T dezdy = dyi * (adj[2][2] + adj[3][2] - adj[0][2] - adj[1][2]);
+  T deydx = fld.GetMesh().GetSpacingInvH (0) *
+    (adj[1][1] + adj[3][1] - adj[0][1] - adj[2][1]);
+  T dezdx = fld.GetMesh().GetSpacingInvH (0) *
+    (adj[1][2] + adj[3][2] - adj[0][2] - adj[2][2]);
+  T dexdy = fld.GetMesh().GetSpacingInvH (1) *
+    (adj[2][0] + adj[3][0] - adj[0][0] - adj[1][0]);
+  T dezdy = fld.GetMesh().GetSpacingInvH (1) *
+    (adj[2][2] + adj[3][2] - adj[0][2] - adj[1][2]);
   val[0] = dezdy;
   val[1] =       - dezdx;
   val[2] = deydx - dexdy;
@@ -110,21 +107,24 @@ void CartStencil::Curl (const Field<Vector<T,3>,3> &fld,
 {
   Vector<Vector<T,3>,MetaPow<2,3>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T dxi = .25 / fld.GetMesh ().GetSpacing (0);
-  T dyi = .25 / fld.GetMesh ().GetSpacing (1);
-  T dzi = .25 / fld.GetMesh ().GetSpacing (2);
-  T deydx = dxi * (adj[1][1] + adj[3][1] + adj[5][1] + adj[7][1] -
-		   adj[0][1] - adj[2][1] - adj[4][1] - adj[6][1]);
-  T dezdx = dxi * (adj[1][2] + adj[3][2] + adj[5][2] + adj[7][2] -
-		   adj[0][2] - adj[2][2] - adj[4][2] - adj[6][2]);
-  T dexdy = dyi * (adj[2][0] + adj[3][0] + adj[6][0] + adj[7][0] -
-		   adj[0][0] - adj[1][0] - adj[4][0] - adj[5][0]);
-  T dezdy = dyi * (adj[2][2] + adj[3][2] + adj[6][2] + adj[7][2] -
-		   adj[0][2] - adj[1][2] - adj[4][2] - adj[5][2]);
-  T deydz = dzi * (adj[4][1] + adj[5][1] + adj[6][1] + adj[7][1] -
-		   adj[0][1] - adj[1][1] - adj[2][1] - adj[3][1]);
-  T dexdz = dzi * (adj[4][0] + adj[5][0] + adj[6][0] + adj[7][0] -
-		   adj[0][0] - adj[1][0] - adj[2][0] - adj[3][0]);
+  T deydx = fld.GetMesh().GetSpacingInvQ (0) *
+    (adj[1][1] + adj[3][1] + adj[5][1] + adj[7][1] -
+     adj[0][1] - adj[2][1] - adj[4][1] - adj[6][1]);
+  T dezdx = fld.GetMesh().GetSpacingInvQ (0) *
+    (adj[1][2] + adj[3][2] + adj[5][2] + adj[7][2] -
+     adj[0][2] - adj[2][2] - adj[4][2] - adj[6][2]);
+  T dexdy = fld.GetMesh().GetSpacingInvQ (1) *
+    (adj[2][0] + adj[3][0] + adj[6][0] + adj[7][0] -
+     adj[0][0] - adj[1][0] - adj[4][0] - adj[5][0]);
+  T dezdy = fld.GetMesh().GetSpacingInvQ (1) *
+    (adj[2][2] + adj[3][2] + adj[6][2] + adj[7][2] -
+     adj[0][2] - adj[1][2] - adj[4][2] - adj[5][2]);
+  T deydz = fld.GetMesh().GetSpacingInvQ (2) *
+    (adj[4][1] + adj[5][1] + adj[6][1] + adj[7][1] -
+     adj[0][1] - adj[1][1] - adj[2][1] - adj[3][1]);
+  T dexdz = fld.GetMesh().GetSpacingInvQ (2) *
+    (adj[4][0] + adj[5][0] + adj[6][0] + adj[7][0] -
+     adj[0][0] - adj[1][0] - adj[2][0] - adj[3][0]);
   val[0] = dezdy - deydz;
   val[1] = dexdz - dezdx;
   val[2] = deydx - dexdy;
