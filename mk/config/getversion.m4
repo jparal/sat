@@ -6,14 +6,14 @@ dnl                         Corporation.  All rights reserved.
 dnl Copyright (c) 2004-2005 The University of Tennessee and The University
 dnl                         of Tennessee Research Foundation.  All rights
 dnl                         reserved.
-dnl Copyright (c) 2004-2005 High Performance Computing Center Stuttgart, 
+dnl Copyright (c) 2004-2005 High Performance Computing Center Stuttgart,
 dnl                         University of Stuttgart.  All rights reserved.
 dnl Copyright (c) 2004-2005 The Regents of the University of California.
 dnl                         All rights reserved.
 dnl $COPYRIGHT$
-dnl 
+dnl
 dnl Additional copyrights may follow
-dnl 
+dnl
 dnl $HEADER$
 dnl
 
@@ -25,7 +25,7 @@ dnl
 # -----------------------------------------------
 # parse version_file for version information, setting
 # the following shell variables:
-#  
+#
 #  prefix_VERSION
 #  prefix_VERSION_BASE
 #  prefix_VERSION_MAJOR
@@ -33,7 +33,7 @@ dnl
 #  prefix_VERSION_MICRO
 #  prefix_VERSION_GREEK
 #  prefix_VERSION_PATCH
-#  prefix_WANT_SVN
+#  prefix_WANT_REVISION
 m4_define([AC_GET_VERSION],[
     : ${ac_ver_need_svn=1}
     : ${srcdir=.}
@@ -45,7 +45,7 @@ m4_define([AC_GET_VERSION],[
       $2_VERSION_MINOR="`sed '/^minor=*/!d; s///;q' < \"\$1\"`"
       $2_VERSION_MICRO="`sed '/^micro=*/!d; s///;q' < \"\$1\"`"
       $2_VERSION_GREEK="`sed '/^greek=*/!d; s///;q' < \"\$1\"`"
-      $2_WANT_SVN="`sed '/^want_svn=*/!d; s///;q' < \"\$1\"`"
+      $2_WANT_REVISION="`sed '/^revision=*/!d; s///;q' < \"\$1\"`"
       $2_VERSION_PATCH="`sed '/^patch=*/!d; s///;q' < \"\$1\"`"
 
 #         # Only print release version if it isn't 0
@@ -56,10 +56,10 @@ m4_define([AC_GET_VERSION],[
 #         fi
       if test "$$2_VERSION_GREEK" != "" ; then
         $2_VERSION="${$2_VERSION}-${$2_VERSION_GREEK}"
-      fi    
+      fi
       $2_VERSION_BASE=$$2_VERSION
 
-      if test "$$2_WANT_SVN" -eq 1 && test "$ac_ver_need_svn" -eq 1 ; then
+      if test "$$2_WANT_REVISION" -eq 1 && test "$ac_ver_need_svn" -eq 1 ; then
         if test "$svnversion_result" != "-1" ; then
           $2_VERSION_PATCH=$svnversion_result
         fi
@@ -70,10 +70,12 @@ m4_define([AC_GET_VERSION],[
             $2_VERSION_PATCH=r`svnversion "$srcdir" | tr ':' '.'`
                     # make sure svnversion worked
             if test $? -ne 0 ; then
-              $2_VERSION_PATCH=`date '+%Y%m%d'` 
+              $2_VERSION_PATCH=`date '+%Y%m%d'`
             fi
             svnversion_result="$$2_VERSION_PATCH"
-          else
+          elif test -z "`git status > /dev/null`" -a "$?" -eq 1; then
+            $2_VERSION_PATCH=`git branch -v | grep '^* ' | cut -d ' ' -f 3`
+	  else
             $2_VERSION_PATCH=`date '+%Y%m%d'`
           fi
           m4_ifdef([AC_MSG_RESULT],

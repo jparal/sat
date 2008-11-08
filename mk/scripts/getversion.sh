@@ -33,7 +33,7 @@
 #  prefix_VERSION_MICRO
 #  prefix_VERSION_GREEK
 #  prefix_VERSION_PATCH
-#  prefix_WANT_SVN
+#  prefix_WANT_REVISION
 
 
 
@@ -63,7 +63,7 @@ else
       SAT_VERSION_MINOR="`sed '/^minor=*/!d; s///;q' < \"\$srcfile\"`"
       SAT_VERSION_MICRO="`sed '/^micro=*/!d; s///;q' < \"\$srcfile\"`"
       SAT_VERSION_GREEK="`sed '/^greek=*/!d; s///;q' < \"\$srcfile\"`"
-      SAT_WANT_SVN="`sed '/^want_svn=*/!d; s///;q' < \"\$srcfile\"`"
+      SAT_WANT_REVISION="`sed '/^revision=*/!d; s///;q' < \"\$srcfile\"`"
       SAT_VERSION_PATCH="`sed '/^patch=*/!d; s///;q' < \"\$srcfile\"`"
 
 #         # Only print release version if it isn't 0
@@ -77,7 +77,7 @@ else
       fi
       SAT_VERSION_BASE=$SAT_VERSION
 
-      if test "$SAT_WANT_SVN" -eq 1 && test "$ac_ver_need_svn" -eq 1 ; then
+      if test "$SAT_WANT_REVISION" -eq 1 && test "$ac_ver_need_svn" -eq 1 ; then
         if test "$svnversion_result" != "-1" ; then
           SAT_VERSION_PATCH=$svnversion_result
         fi
@@ -90,7 +90,9 @@ else
               SAT_VERSION_PATCH=`date '+%Y%m%d'`
             fi
             svnversion_result="$SAT_VERSION_PATCH"
-          else
+          elif test -z "`git status > /dev/null`" -a "$?" -eq 1; then
+            SAT_VERSION_PATCH=`git branch -v | grep '^* ' | cut -d ' ' -f 3`
+	  else
             SAT_VERSION_PATCH=`date '+%Y%m%d'`
           fi
 
@@ -141,7 +143,7 @@ $0 <srcfile> <option>
     --minor   - Minor version number
     --micro   - Micro version number
     --greek   - Greek (alpha, beta, etc) version number
-    --patch   - Subversion repository number or date
+    --patch   - Subversion/GIT revision number or date
     --all     - Show all version numbers, separated by :
     --base    - Show base version number (no patch number)
     --help    - This message
