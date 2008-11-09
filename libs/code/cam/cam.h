@@ -253,9 +253,15 @@ public:
 
   /**
    * @brief Calculate magnetic field.
+   * Solve the equation:
+   * @f[
+   * \frac{\partial \mathbf{B}}{\partial t} = - \nabla \times \mathbf{E}
+   * @f]
+   * where electric field @f$ \mathbf{E} @f$ is taken from internal
+   * variable @p _E and the result is store in @p Ba parameter.
    *
-   * @param dt time step
-   * @param Ba magnetic field to advance
+   * @param[in] dt time step
+   * @param[in,out] Ba magnetic field to advance
    */
   void CalcB (double dt, VecField &Ba);
 
