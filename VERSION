@@ -15,7 +15,7 @@ micro=0
 # Computing 2005 release).  The only requirement is that it must be entirely
 # printable ASCII characters and have no white space.
 
-greek=rc3
+greek=rc4
 
 # If revision=1, then the SVN/GIT revision number will be included in the
 # overall SAT version number in some form.
