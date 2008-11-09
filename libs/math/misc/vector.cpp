@@ -98,6 +98,14 @@ Vector<T,D>& Vector<T,D>::operator-= (const Vector<T2,D> &v)
 
 template <class T, int D>
 template <class T2> inline
+Vector<T,D>& Vector<T,D>::operator-= (const T2 &val)
+{
+  for (int i=0; i<D; ++i) _d[i] -= (T)val;
+  return *this;
+}
+
+template <class T, int D>
+template <class T2> inline
 Vector<T,D>& Vector<T,D>::operator*= (T2 v)
 {
   for (int i=0; i<D; ++i) _d[i] *= (T)(v);

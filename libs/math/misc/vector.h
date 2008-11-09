@@ -84,17 +84,21 @@ public:
   /// Returns reference to vector component
   T& operator[] (size_t n);
 
-  /// Add Vector to this one
+  /// Add a vector to this one
   template <class T2>
   TVector& operator+= (const Vector<T2,D> &v);
 
-  /// Add constant to this vector
+  /// Add a constant to this vector
   template <class T2>
   TVector& operator+= (const T2 &val);
 
-  /// Substract Vector from this one
+  /// Subtract Vector from this one
   template <class T2>
   TVector& operator-= (const Vector<T2,D> &v);
+
+  /// Subtract a constant from this vector
+  template <class T2>
+  TVector& operator-= (const T2 &val);
 
   /// Multiply vector by constant
   template <class T2>
@@ -126,7 +130,7 @@ public:
     return retval;
   }
 
-  /// Substract two vectors
+  /// Subtract two vectors
   template <class T2>
   friend TVector operator- (const TVector &v1, const Vector<T2, D> &v2)
   {
