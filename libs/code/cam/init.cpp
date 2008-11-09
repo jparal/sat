@@ -267,6 +267,8 @@ void CAMCode<B,T,D>::Initialize ()
   VecFieldSensor<T,3,D> *usens = new VecFieldSensor<T,3,D>;
   DistFncSensor<T,D> *dfsens = new DistFncSensor<T,D>;
   DbDtVecFieldSensor<T,3,D> *dbdtsens = new DbDtVecFieldSensor<T,3,D>;
+  JxBSensor<T,3,D> *jxbsens = new JxBSensor<T,3,D>;
+  CurlBxBSensor<T,3,D> *cbxbsens = new CurlBxBSensor<T,3,D>;
 
   nsens->Initialize (&_dn, "density", _cfg);
   esens->Initialize (&_E, "elfield", _cfg);
@@ -274,6 +276,8 @@ void CAMCode<B,T,D>::Initialize ()
   usens->Initialize (&_U, "velocity", _cfg);
   dfsens->Initialize (&_specie, &_B, "distfnc", _cfg);
   dbdtsens->Initialize (&_E, &_B, "dbdt", _cfg);
+  jxbsens->Initialize (&_U, &_B, &_dn, "jxb", _cfg);
+  cbxbsens->Initialize (&_B, &_dn, "cbxb", _cfg);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);
@@ -281,6 +285,8 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (usens);
   _sensmng.AddSensor (dfsens);
   _sensmng.AddSensor (dbdtsens);
+  _sensmng.AddSensor (jxbsens);
+  _sensmng.AddSensor (cbxbsens);
 
   for (int i=0; i<_specie.GetSize (); ++i)
   {

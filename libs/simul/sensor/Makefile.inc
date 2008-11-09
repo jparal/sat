@@ -4,9 +4,11 @@
 ###############################################################################
 
 headers += \
+	sensor/cbxb.h \
 	sensor/dbdt.h \
 	sensor/distfnc.h \
 	sensor/fldsens.h \
+	sensor/jxb.h \
 	sensor/sensmng.h \
 	sensor/sensor.h
 
