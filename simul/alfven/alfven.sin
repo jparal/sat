@@ -2,7 +2,7 @@
 # CAM Config file
 #------------------------------------------------------------------------------
 
-alfven = { nperiod = 4; amplitude = 0.02; grpvel = 2.0; };
+alfven = { nperiod = 4; amplitude = 0.1; grpvel = 1.0; };
 
 simul:
 {
@@ -16,7 +16,7 @@ simul:
 
 grid:
 {
-  cells  = [ 1000, 100, 100 ];
+  cells  = [ 200, 100, 100 ];
   resol  = [ 1., 1., 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
@@ -31,10 +31,10 @@ field:
 
 plasma:
 {
-  betae = 0.1;
+  betae = 0.5;
   specie:
   {
-    proton = { pcles = 200.; beta = .1; rvth = 1.; rmds = 1.; qms = 1.;
+    proton = { pcles = 500.; beta = .01; rvth = 1.; rmds = 1.; qms = 1.;
       v0 = [0.,0.,0.]; };
   };
 };
@@ -57,6 +57,9 @@ output:
     velocity = { tag = "U"; };
     pressure = { tag = "P"; };
     particle = { tag = "Pcle"; };
+    dbdt     = { tag = "DbDt"; };
+    jxb      = { tag = "JxB"; };
+    cbxb     = { tag = "CBxB"; };
 #     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
 #       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
   };

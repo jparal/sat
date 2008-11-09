@@ -37,7 +37,7 @@ public:
   /// Constructor
   AlfvenCAMCode ()
   {
-    _file = fopen ("traj", "w");
+    _file = fopen ("traj.dat", "w");
     // NewMemTrackerModule ();
   };
   /// Destructor
@@ -72,26 +72,26 @@ public:
 
   void BulkInitAdd (TSpecie *sp, VecField &U)
   {
-    // int nx = U.Size (0)-1;
-    // int ghostx = U.GetLayout ().GetGhost (0);
-    // //    T dx = U.GetMesh ().GetSpacing (0);
-    // int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
-    // int npx = U.GetLayout ().GetDecomp ().GetSize (0);
-    // T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx));
+    int nx = U.Size (0)-1;
+    int ghostx = U.GetLayout ().GetGhost (0);
+    //    T dx = U.GetMesh ().GetSpacing (0);
+    int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
+    int npx = U.GetLayout ().GetDecomp ().GetSize (0);
+    T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx));
 
-    // Domain<D> dom;
-    // U.GetDomainAll (dom);
-    // DomainIterator<D> it (dom);
+    Domain<D> dom;
+    U.GetDomainAll (dom);
+    DomainIterator<D> it (dom);
 
-    // while (it.HasNext ())
-    // {
-    //   T x = (T)(it.GetLoc()[0] + ipx * nx);
-    //   U(it.GetLoc())[1] = - _amp * _grpvel * Math::Sin (kx * x - M_PI_2);
-    //   // uncomment for cyclically polarized
-    //   //      U(it.GetLoc())[2] = + _amp * Math::Sin (kx * x);
+    while (it.HasNext ())
+    {
+      T x = (T)(it.GetLoc()[0] + ipx * nx);
+      U(it.GetLoc())[1] = - _amp * _grpvel * Math::Sin (kx * x);
+      // UNCOMMENT FOR CIRCULARLY POLARIZED
+      //U(it.GetLoc())[2] = + _amp * _grpvel * Math::Sin (kx * x);
 
-    //   it.Next ();
-    // }
+      it.Next ();
+    }
   }
 
   void BInitAdd (VecField &b)
@@ -110,8 +110,8 @@ public:
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
       b(it.GetLoc())[1] += _amp * Math::Sin (kx * x);
-      // uncomment for cyclically polarized
-      //      b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
+      // UNCOMMENT FOR CIRCULARLY POLARIZED
+      //b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
 
       it.Next ();
     }
