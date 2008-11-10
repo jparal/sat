@@ -29,7 +29,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
 
   T dnc, resist;
   PosVector pos;
-  FldVector bc, uc, uxb, curlb, curlbxb, gradpe, tmp;
+  FldVector bc, uc, uxb, cb, cbxb, gpe, ef;
   while (ite.HasNext ())
   {
     // TODO: compute dnc and uc is quite a waste of time ... especially when we
@@ -38,31 +38,31 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     CartStencil::Average (dn,  itu, dnc);
     CartStencil::Average (blk, itu, uc);
     CartStencil::Average (mf,  itb, bc);
-    CartStencil::Curl (mf, itb, curlb);
-    if (enpe)
-      CartStencil::Grad (_pe, itu, gradpe);
+    CartStencil::Curl (mf, itb, cb);
+    if (enpe) CartStencil::Grad (_pe, itu, gpe);
 
     for (int i=0; i<D; ++i) pos[i] = (itb.GetLoc ())[i];
     resist = Resist (pos);
 
     if (dnc < _dnmin)
     {
-      _E(ite.GetLoc ()) = resist * curlb;
+      _E(ite.GetLoc ()) = resist * cb;
     }
     else
     {
       uxb = uc % bc;
-      curlbxb = curlb % bc;
+      cbxb = cb % bc;
       dnc = 1. / dnc;
 
-      tmp = curlbxb;
-      tmp -= uxb;
+      ef = cbxb;
+      ef -= uxb;
       if (enpe)
-      	tmp -= gradpe;
+      	ef -= gpe;
 
-      tmp *= dnc;
-      curlb *= resist;
-      _E(ite.GetLoc ()) = tmp + curlb;
+      ef *= dnc;
+      cb *= resist;
+      ef += cb;
+      _E(ite.GetLoc ()) = ef;
     }
 
     itb.Next ();
