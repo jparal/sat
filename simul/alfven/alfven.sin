@@ -42,13 +42,17 @@ plasma:
 output:
 {
   logfile = "alfven.log";    # Default: progname.log
+
   format:
   {
-    type = "xdmf"; version = 1; parallel = false;
-    runname = "test";
+    type     = "xdmf"; version = 1; parallel = false;
+    dir      = "out";
+    runname  = "test";
     compress = { gz = 6; shuffle = true; };   # output compression
   };
+
   dtout = .2;
+
   sensors:
   {
     density  = { tag = "Dn"; };

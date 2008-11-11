@@ -20,10 +20,17 @@ void IOManager::Write (Field<T,D> &fld, const SimulTime &stime, const char *tag)
   char fname[64];
 
   stime.IterStr (buff, 24, false);
-  snprintf (fname, 64, "%s%si%s", tag, _runname.GetData (), buff);
-  //  IO::Mkdir (fname);
-  // snprintf (fname, 64, "%si%s/%s%si%s", _runname.c_str (), buff, tag,
-  // 	    _runname.c_str (), buff);
+
+  if (_dir.IsEmpty ())
+  {
+    snprintf (fname, 64, "%s%si%s", tag, _runname.GetData (), buff);
+  }
+  else
+  {
+    IO::Mkdir (_dir);
+    snprintf (fname, 64, "%s/%s%si%s", _dir.GetData (), tag,
+	      _runname.GetData (), buff);
+  }
 
   switch (_format)
   {

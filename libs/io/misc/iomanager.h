@@ -44,8 +44,26 @@ public:
   /// Constructor
   IOManager ();
 
-  void Initialize (IOFormat format, String runname);
+  void Initialize (IOFormat format, String runname, String dir);
   void Initialize (const ConfigEntry &cfg);
+
+  /**
+   * Initialize IO manager.
+   * The accepted configuration file is:
+   * @code
+   * output:
+   * {
+   *   format:
+   *   {
+   *     type    = "xdmf"; // [default: "hdf5"]
+   *     dir     = "out";  // [default: ""]
+   *     runname = "test";
+   *   };
+   * };
+   * @endcode
+   *
+   * @param cfg configuration file
+   */
   void Initialize (const ConfigFile &cfg);
 
   template<class T, int D>
@@ -55,6 +73,7 @@ private:
   IOFormat _format;
   HDF5File _hdf5;
   String _runname;
+  String _dir;
 };
 
 #include "iomanager.cpp"

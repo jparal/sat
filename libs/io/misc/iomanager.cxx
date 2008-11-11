@@ -16,19 +16,21 @@
 
 IOManager::IOManager ()
 {
-  Initialize (IO_FORMAT_HDF5, "out");
+  Initialize (IO_FORMAT_HDF5, "out", "");
 }
 
-void IOManager::Initialize (IOFormat format, String runname)
+void IOManager::Initialize (IOFormat format, String runname, String dir)
 {
   _format = format;
+  _dir = dir;
   _runname = runname;
 }
 
 void IOManager::Initialize (const ConfigEntry &cfg)
 {
-  String type, runname;
+  String type, dir, runname;
   cfg.GetValue ("type", type, "hdf5");
+  cfg.GetValue ("dir", dir, "");
   cfg.GetValue ("runname", runname, "out");
 
   IOFormat format;
@@ -44,7 +46,7 @@ void IOManager::Initialize (const ConfigEntry &cfg)
     format = IO_FORMAT_HDF5;
   }
 
-  Initialize (format, runname);
+  Initialize (format, runname, dir);
 
   /**********************/
   /* Initialize drivers */
