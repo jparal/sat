@@ -1,0 +1,11 @@
+
+To add this directory into search path of MATLAB modify your startup.m file by
+adding folowing line:
+
+addpath(genpath(strcat(getenv('HOME'),'path/to/SAT/from/HOME')))
+
+
+Info:
+=====
+
+todo ... direcotry with the scripts which need to to sorted (finished)

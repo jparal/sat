@@ -1,31 +1,36 @@
 
 % create video
+function aviobj = video(basename,start,step,stop,dt,sentag,splot,aviname)
 
-sensor = 'B';
-tag = 'B1';
-basename = 'testi';
-dt = 0.02;
-start = 0;
-stop = 1400;
-step = 10;
-
-outsuff = 'va20Lx45dx10';
+ss = size(sentag);
 
 fig=figure;
 set(fig,'DoubleBuffer','on');
-set(fig,'nextplot','replace','Visible','off')
+set(fig,'nextplot','replace','Visible','off');
 
-aviobj = avifile(sprintf('%s_%s_%s.avi',basename,tag,outsuff));
+aviobj = avifile(aviname);
 
 for iter=start:step:stop
-    name = sprintf('%s%s%d.h5',sensor,basename,iter);
+
     time = sprintf('%.2f %s',dt*iter,'\Omega^{-1}');
-    data = hdf5read(name,tag);
-    h = plot(data);
-    ylim([-0.1 0.1]);
-    ylabel(tag);
-    xlabel('L_x [c/\omega_{p,sw}]');
-    legend(time);
+
+    for ipic=0:ss(1)/2-1
+        subplot(splot(1),splot(2),ipic+1);
+        sensor = deblank(sentag(2*ipic+1,:));
+        tag = deblank(sentag(2*ipic+2,:));
+        data = sh5_read(sensor,basename,iter,tag);
+        plot(data);
+        mm = mean(data);
+        if strcmp(sensor,'DbDt')
+            ylim([-0.03 0.03]+mm);
+        else
+            ylim([-0.15 0.15]+mm);
+        end
+        ylabel(tag);
+        xlabel('L_x [c/\omega_{p,sw}]');
+        legend(time);
+    end
+
     frame = getframe(fig);
     aviobj = addframe(aviobj,frame);
 end
