@@ -15,28 +15,33 @@ template<class B, class T, int D>
 template<class T2, int D2>
 void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
 {
-  Domain<D> dom;
+  Domain<D2> dom;
   fld.GetDomain (dom);
-  DomainIterator<D> it (dom);
+  DomainIterator<D2> it (dom);
 
-  Vector<int,D> loc;
-  T2 avg;
-  const double inv = MetaInv<4*D>::Is;
-  while (it.HasNext ())
+  Vector<int,D2> loc;
+  T2 avg, mid;
+  const double inv = 0.25; //MetaInv<4*D2>::Is;
+
+  for (int i=0; i<D2; ++i)
   {
+    it.Reset ();
     loc = it.GetLoc ();
-
-    avg = fld(loc) * 0.5;
-    for (int i=0; i<D; ++i)
+    loc[i] -= 1;
+    mid = fld(loc);
+    while (it.HasNext ())
     {
-      loc[i] -= 1;
-      avg += inv * fld (loc);
-      loc[i] += 2;
-      avg += inv * fld (loc);
-      loc[i] -= 1;
-    }
-    fld(loc) = avg;
+      loc = it.GetLoc ();
 
-    it.Next ();
+      avg = 0.25 * mid;
+      mid = fld(loc);
+      avg += 0.5 * mid;
+      loc[i] += 1;
+      avg += 0.25 * fld (loc);
+
+      loc[i] -= 1;
+      fld(loc) = avg;
+      it.Next ();
+    }
   }
 }
