@@ -15,12 +15,12 @@ micro=0
 # Computing 2005 release).  The only requirement is that it must be entirely
 # printable ASCII characters and have no white space.
 
-greek=rc4
+greek=
 
 # If revision=1, then the SVN/GIT revision number will be included in the
 # overall SAT version number in some form.
 
-revision=1
+revision=
 
 # If patch=-1, then the SVN r number will be obtained dynamically at a run
 # time, either 1) via the "svnversion" command (if this is a Subversion
