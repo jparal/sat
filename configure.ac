@@ -5,7 +5,7 @@
 
 AC_INIT(
     [Simalate & Analyse Toolkit],
-    [m4_normalize(esyscmd([mk/scripts/getversion.sh VERSION]))],
+    [m4_normalize(esyscmd([mk/scripts/getversion.sh VERSION --base]))],
     [jparal@gmail.com],
     [sat])
 
