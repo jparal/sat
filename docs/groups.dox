@@ -88,13 +88,18 @@
  * @{ */
 
   /**
-   * \defgroup io_stw STW format
-   * Input/Output using STW file format
+   * \defgroup io_hdf5 HDF5 format
+   * Input/Output using HDF5 file format (needed by XDMF)
    */
 
   /**
    * \defgroup io_xdmf XDMF format
    * Input/Output using XDMF file format (www.xdmf.org)
+   */
+
+  /**
+   * \defgroup io_stw STW format
+   * Input/Output using STW file format
    */
 
   /**

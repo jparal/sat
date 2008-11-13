@@ -77,6 +77,8 @@ else
       fi
       SAT_VERSION_BASE=$SAT_VERSION
 
+      # When nothing is specified as 'revision=' ...
+      if test -z "$SAT_WANT_REVISION"; then SAT_WANT_REVISION=0; fi
       if test "$SAT_WANT_REVISION" -eq 1 && test "$ac_ver_need_svn" -eq 1 ; then
         if test "$svnversion_result" != "-1" ; then
           SAT_VERSION_PATCH=$svnversion_result
@@ -98,6 +100,8 @@ else
 
         fi
         SAT_VERSION="${SAT_VERSION}_${SAT_VERSION_PATCH}"
+      else
+	SAT_VERSION_PATCH=""
       fi
     fi
 

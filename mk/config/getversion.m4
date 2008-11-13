@@ -59,6 +59,8 @@ m4_define([AC_GET_VERSION],[
       fi
       $2_VERSION_BASE=$$2_VERSION
 
+      # When nothing is specified as 'revision=' ...
+      if test -z "$$2_WANT_REVISION"; then $2_WANT_REVISION=0; fi
       if test "$$2_WANT_REVISION" -eq 1 && test "$ac_ver_need_svn" -eq 1 ; then
         if test "$svnversion_result" != "-1" ; then
           $2_VERSION_PATCH=$svnversion_result
@@ -82,6 +84,8 @@ m4_define([AC_GET_VERSION],[
             [AC_MSG_RESULT([done])])
         fi
         $2_VERSION="${$2_VERSION}_${$2_VERSION_PATCH}"
+      else
+	$2_VERSION_PATCH=""
       fi
     fi
   ])
