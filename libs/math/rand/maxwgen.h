@@ -23,7 +23,7 @@
 
 /**
  * @brief Maxwell random number generator.
- * Generator is using polar Box-Mueller method (@e wikipedia):
+ * Generator is using polar Box-Muller method (@e wikipedia):
  *
  * Suppose @f$ U_1 @f$ and @f$ U_2 @f$ are independent random variables that
  * are uniform distribution (continuous) in (0,1]. Let

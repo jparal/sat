@@ -40,8 +40,12 @@ void Specie<T,D>::Initialize (const ConfigEntry &cfg,
 	       cfg.GetPath ());
   }
 
-  _vthpa = Math::Sqrt (_beta / _rmds);
-  _vthpe = _rvth * _vthpa;
+  T rvth2 = _rvth*_rvth;
+  _vthpa = Math::Sqrt (_beta / (_rmds * (1 + rvth2)));
+  _vthpe = Math::Sqrt ((rvth2 * _beta) / (2. * _rmds * (1 + rvth2)));
+
+  // _vthpa = Math::Sqrt (_beta / _rmds);
+  // _vthpe = _rvth * _vthpa;
 
   _sm = _rmds / _ng;
   _sq = _qms * _sm;
