@@ -3,22 +3,31 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   alfven.cxx
- * @brief  Alfven wave CAM-CL simulation
+ * @file   fpe.h
+ * @brief  Enable handler of floating point exceptions.
  * @author @jparal
  *
  * @revision{1.0}
- * @reventry{2008/07, @jparal}
+ * @reventry{2008/12, @jparal}
  * @revmessg{Initial version}
  */
 
-#include "alfven.h"
+#ifndef __SAT_ONSIGNAL_H__
+#define __SAT_ONSIGNAL_H__
 
-int main (int argc, char **argv)
+#include <signal.h>
+#include <fpu_control.h>
+
+/** @addtogroup base_sys
+ *  @{
+ */
+
+namespace SAT
 {
-  AlfvenCAMCode<float,1> alfven;
-  alfven.Initialize (&argc, &argv);
-  alfven.Exec ();
+  /// Enable floating point exception
+  void EnableFPException ();
+};
 
-  return 0;
-}
+/** @} */
+
+#endif /* __SAT_ONSIGNAL_H__ */

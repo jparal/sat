@@ -7,6 +7,7 @@ headers += \
 	sys/extern.h \
 	sys/format.h \
 	sys/inline.h \
+	sys/fpe.h \
 	sys/platform.h \
 	sys/porttypes.h \
 	sys/predict.h \
@@ -22,4 +23,5 @@ preproc += \
 
 sources += \
 	sys/assert.cxx \
-	sys/clock.cxx
+	sys/clock.cxx \
+	sys/fpe.cxx

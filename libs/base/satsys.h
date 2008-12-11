@@ -9,6 +9,7 @@
 #include "base/sys/extern.h"
 #include "base/sys/format.h"
 #include "base/sys/inline.h"
+#include "base/sys/fpe.h"
 #include "base/sys/platform.h"
 #include "base/sys/porttypes.h"
 #include "base/sys/predict.h"

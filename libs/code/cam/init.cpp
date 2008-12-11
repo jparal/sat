@@ -24,6 +24,7 @@ CAMCode<B,T,D>::~CAMCode ()
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 {
+  SAT::EnableFPException ();
   Mpi::Initialize (pargc, pargv);
   int argc = *pargc;
   char **argv = *pargv;
