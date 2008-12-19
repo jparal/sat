@@ -73,7 +73,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
   // We better apply BC so smoothing has values from its neighbours
   EfieldBC ();
 
-  if (_esmooth)
+  if (_esmooth && (_time.Iter() % _esmooth == 0))
     Smooth (_E);
 
   EfieldBC ();

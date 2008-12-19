@@ -375,6 +375,12 @@ public:
   double _betae;     ///< electron beta
   double _betai;     ///< total ion beta of all species
 
+  /*
+   * @p _esmooth and @p _momsmooth parameters have the meaning of number of
+   *    iteration between smoothing. That means for esmooth == 1, smoothing is
+   *    done every step; for smooth == 2 every two steps and so on. When value
+   *    is 0 the smoothing is turned off.
+   */
   int _momsmooth;    ///< moment smoothing
   int _esmooth;      ///< electric field smoothing
 

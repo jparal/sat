@@ -70,7 +70,7 @@ void CAMCode<B,T,D>::Move ()
   MomBC (_dnf, _Uf);
   MomBC (_dna, _Ua);
 
-  if (_momsmooth)
+  if (_momsmooth && (_time.Iter() % _momsmooth == 0))
   {
     Smooth (_dna);
     Smooth (_dnf);
