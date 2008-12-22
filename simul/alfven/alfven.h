@@ -35,28 +35,28 @@ public:
   typedef typename TBase::VecField VecField;
 
   /// Constructor
-  AlfvenCAMCode ()
-  {
-    _file = fopen ("traj.dat", "w");
-    // NewMemTrackerModule ();
-  };
+  // AlfvenCAMCode ()
+  // {
+  //   _file = fopen ("traj.dat", "w");
+  //   // NewMemTrackerModule ();
+  // };
   /// Destructor
-  virtual ~AlfvenCAMCode ()
-  {
-    fclose (_file);
-    //    FreeMemTrackerModule ();
-  };
+  // virtual ~AlfvenCAMCode ()
+  // {
+  //   fclose (_file);
+  //   //    FreeMemTrackerModule ();
+  // };
 
-  void PreMove ()
-  {
-    TSpecie *sp = this->_specie[0];
-    size_t npcle = sp->GetSize ();
-    const TParticle &pcle = sp->Get (npcle/2);
-    for (int i=0; i<D; ++i) fprintf (_file, " %lf", pcle.pos[i]);
-    for (int i=0; i<3; ++i) fprintf (_file, " %lf", pcle.vel[i]);
-    fprintf (_file, "\n");
-    fflush (_file);
-  }
+  // void PreMove ()
+  // {
+  //   TSpecie *sp = this->_specie[0];
+  //   size_t npcle = sp->GetSize ();
+  //   const TParticle &pcle = sp->Get (npcle/2);
+  //   for (int i=0; i<D; ++i) fprintf (_file, " %lf", pcle.pos[i]);
+  //   for (int i=0; i<3; ++i) fprintf (_file, " %lf", pcle.vel[i]);
+  //   fprintf (_file, "\n");
+  //   fflush (_file);
+  // }
 
   virtual void PreInitialize (const ConfigFile &cfg)
   {
@@ -121,7 +121,7 @@ private:
   int _nperiod;
   T _amp;
   T _grpvel;
-  FILE *_file;
+  //  FILE *_file;
 };
 
 #endif /* __SAT_ALFVEN_CAM_H__ */
