@@ -15,9 +15,8 @@
 #ifndef __SAT_(>>>FILE_UPCASE<<<)_H__
 #define __SAT_(>>>FILE_UPCASE<<<)_H__
 
-/** @addtogroup (>>>DOXYGROUP<<<)
- *  @{
- */
+/// @addtogroup (>>>DOXYGROUP<<<)
+/// @{
 
 /**
  * @brief (>>>DESCRIPTION<<<)
@@ -37,6 +36,6 @@ public:
 private:
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_(>>>FILE_UPCASE<<<)_H__ */
