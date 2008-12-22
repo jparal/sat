@@ -124,6 +124,7 @@ AC_CONFIG_FILES([
     libs/base/sys/Makefile
     libs/code/Makefile
     libs/code/cam/Makefile
+    libs/code/mcarlo/Makefile
     libs/io/Makefile
     libs/io/hdf5/Makefile
     libs/io/misc/Makefile
@@ -156,6 +157,7 @@ AC_CONFIG_FILES([
     mk/scripts/runbench.sh
     simul/Makefile
     simul/alfven/Makefile
+    simul/hions/Makefile
     simul/tmpl/Makefile
     simul/tmpl/TEMPLATE.cxx.tpl
     test/Makefile

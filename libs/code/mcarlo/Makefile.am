@@ -3,6 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = alfven hions tmpl
+all:
+	cd .. && $(MAKE) libs
 
-dist_noinst_DATA = README
+pdf:
+	cd .. && $(MAKE) pdf-mcarlo

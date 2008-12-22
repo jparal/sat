@@ -81,6 +81,11 @@
    */
 
   /**
+   * \defgroup code_mcarlo Monte-Carlo
+   * Monte-Carlo simulation (hions)
+   */
+
+  /**
    * \defgroup code_misc Miscellaneous
    * Miscellaneous code snipplets.
    */

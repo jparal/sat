@@ -3,5 +3,6 @@
 
 #include "satsysdef.h"
 #include "code/satcam.h"
+#include "code/satmcarlo.h"
 
 #endif /* __sat_satcode_h__ */
