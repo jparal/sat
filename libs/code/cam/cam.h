@@ -353,11 +353,11 @@ public:
   { return _specie[i]; }
 
   /// get gamma constant of pressure
-  const double GetGamma () const
+  double GetGamma () const
   { return _gamma; }
 
   /// get electron temperature
-  const double GetTe () const
+  double GetTe () const
   { return _te; }
 
   /// @}
