@@ -164,7 +164,7 @@ void CAMCode<B,T,D>::Initialize ()
   for (int i=0; i<species.GetLength (); ++i)
   {
     DBG_INFO1 ("processing specie: '"<<species[i].GetName ()<<"'");
-    TSpecie *sp = new Specie<T,D> ();
+    TSpecie *sp = new CamSpecie<T,D> ();
     sp->Initialize (species[i], _meshp, _layop);
     _specie.PushNew (sp);
   }

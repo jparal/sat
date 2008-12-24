@@ -72,11 +72,16 @@ private:
     rhoc.GetDomain (dom);
     DomainIterator<D> itr (dom);
 
-    Vector<T,R> curle;
+    T rho;
     while (itb.HasNext ())
     {
-      _jxb (itb.GetLoc ()) = (J(itj.GetLoc()) % B(itb.GetLoc()))/
-	rhoc(itr.GetLoc());
+      rho = rhoc(itr.GetLoc());
+
+      if (rho > 0.0001)
+	_jxb (itb.GetLoc ()) = (J(itj.GetLoc()) % B(itb.GetLoc())) / rho;
+      else
+	_jxb (itb.GetLoc ()) = 0.;
+
       itb.Next ();
       itj.Next ();
       itr.Next ();

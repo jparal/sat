@@ -79,7 +79,11 @@ private:
       CartStencil::Average (B, itb, bc);
       CartStencil::Average (rhoc, itm, nc);
 
-      nc = 1./nc;
+      if (nc > 0.0001)
+	nc = 1./nc;
+      else
+	nc = 0.;
+
       _cbxb (ito.GetLoc ()) = nc * (cb % bc);
 
       ito.Next ();

@@ -4,13 +4,15 @@
 ###############################################################################
 
 headers += \
+	pcle/camspecie.h \
 	pcle/cmdpcle.h \
 	pcle/pcle.h \
 	pcle/specie.h
 
-preproc += 
+# preproc +=
 
 sources += \
+	pcle/camspecie.cxx \
 	pcle/specie.cxx
 
-extrsrc += 
+# extrsrc +=

@@ -16,7 +16,7 @@
 #define __SAT_DISTFNC_H__
 
 #include "sensor.h"
-#include "simul/pcle/specie.h"
+#include "simul/pcle/camspecie.h"
 
 /** @addtogroup simul_sensor
  *  @{
@@ -34,7 +34,7 @@ class DistFncSensor : public Sensor
 {
 public:
   typedef Field<Vector<T,3>,D> TVecField;
-  typedef Specie<T,D> TSpecie;
+  typedef CamSpecie<T,D> TSpecie;
   typedef typename TSpecie::TParticle TParticle;
   typedef RefArray<TSpecie> TSpecieRefArray;
 

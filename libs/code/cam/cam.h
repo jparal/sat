@@ -57,7 +57,7 @@ public:
   typedef Field<T, D> ScaField;
 
   typedef Particle<T,D> TParticle;
-  typedef Specie<T,D> TSpecie;
+  typedef CamSpecie<T,D> TSpecie;
   typedef typename TSpecie::Iterator TSpecieIterator;
   typedef typename TSpecie::CommandIterator TSpecieCommandIterator;
 

@@ -2,6 +2,7 @@
 #define __sat_simul_satpcle_h__
 
 #include "satsysdef.h"
+#include "simul/pcle/camspecie.h"
 #include "simul/pcle/cmdpcle.h"
 #include "simul/pcle/pcle.h"
 #include "simul/pcle/specie.h"
