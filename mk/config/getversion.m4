@@ -76,7 +76,7 @@ m4_define([AC_GET_VERSION],[
             fi
             svnversion_result="$$2_VERSION_PATCH"
           elif test -z "`git status > /dev/null`" -a "$?" -eq 1; then
-            $2_VERSION_PATCH=`git branch -v | grep '^* ' | cut -d ' ' -f 3`
+            $2_VERSION_PATCH=`git branch -v | sed -n 's/\* .* \([[a-f0-9]]*\) .*/\1/p'`
 	  else
             $2_VERSION_PATCH=`date '+%Y%m%d'`
           fi
