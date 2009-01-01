@@ -10,7 +10,7 @@ AC_INIT(
     [sat])
 
 PACKAGE_COPYRIGHT="\
-\"Copyright (c) 2005-2008 by SAT team. All rights reserved.\""
+\"Copyright (c) 2005-2009 by SAT team. All rights reserved.\""
 
 AC_DEFINE_UNQUOTED(PACKAGE_COPYRIGHT, [$PACKAGE_COPYRIGHT],
   [Copyright of the package])
