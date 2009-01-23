@@ -80,6 +80,11 @@
    * Current Advance Method-Cyclic Leapfrog
    */
 
+  /**
+   * \defgroup code_misc Miscellaneous
+   * Miscellaneous code snipplets.
+   */
+
 /** @} */
 
 /**
@@ -115,13 +120,13 @@
  * @{ */
 
   /**
-   * \defgroup math_misc Miscellaneous
-   * Various mathematical primitives
+   * \defgroup math_rand Random
+   * Random number generators
    */
 
   /**
-   * \defgroup math_rand Random
-   * Random number generators
+   * \defgroup math_misc Miscellaneous
+   * Various mathematical primitives
    */
 
 /** @} */
