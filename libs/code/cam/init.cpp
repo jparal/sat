@@ -120,14 +120,20 @@ void CAMCode<B,T,D>::Initialize ()
 
   _cfg.GetValue ("parallel.mpi.proc", ratio);
   _cfg.GetValue ("grid.openbc", openbc);
-  DBG_INFO1 ("MPI decomposition ratio: "<<ratio);
-  DBG_INFO1 ("open Boundary conditions: "<<openbc);
+
+  DBG_INFO1 ("MPI decomposition ratio  : "<<ratio);
+  DBG_INFO1 ("open Boundary conditions : "<<openbc);
 
   mesh.Initialize (_cfg.GetEntry ("grid"));
   _decomp.Initialize (ratio, Mpi::COMM_WORLD);
-  DBG_INFO1 ("decomposing mesh (cells): "<<mesh.Dim ());
+  DBG_INFO1 ("decomposing mesh (cells) : "<<mesh.Dim ());
   _decomp.Decompose (mesh.Dim ());
-  DBG_INFO1 ("mesh decomposed into (cells) => "<<mesh.Dim ());
+  DBG_INFO1 ("mesh decomposed (cells)  : "<<mesh.Dim ());
+
+  // Minimal/Maximal position of the particle:
+  _pmin = PosVector ((T)0.0);
+  _pmax = mesh.Dim ();
+  DBG_INFO1 ("pmin; pmax               : " << _pmin<< "; "<<_pmax);
 
   // Variable:  # grid points  # ghosts  # share   # total    Centring
   // =================================================================
@@ -169,11 +175,6 @@ void CAMCode<B,T,D>::Initialize ()
     _specie.PushNew (sp);
   }
 
-  // Minimal/Maximal position of the particle:
-  _pmin = PosVector ((T)0.0);
-  _pmax = mesh.Dim ();
-  DBG_INFO1 ("pmin, pmax: " << _pmin<< "; "<<_pmax);
-
   /******************/
   /* Section: FIELD */
   /******************/
@@ -182,10 +183,10 @@ void CAMCode<B,T,D>::Initialize ()
   _cfg.GetValue ("field.imf.psi", _psi, 0.);
   _cfg.GetValue ("field.dnmin", _dnmin, 0.05);
   _cfg.GetValue ("field.resist", _resist, 0.001);
-  DBG_INFO1 ("magnetic field sub-steps: "<<_nsub);
-  DBG_INFO1 ("IMF phi, psi: "<<_phi<<", "<<_psi);
-  DBG_INFO1 ("minimal density: "<<_dnmin);
-  DBG_INFO1 ("resistivity: "<<_resist);
+  DBG_INFO1 ("B field sub-steps : "<<_nsub);
+  DBG_INFO1 ("IMF phi; psi      : "<<_phi<<"; "<<_psi);
+  DBG_INFO1 ("minimal density   : "<<_dnmin);
+  DBG_INFO1 ("resistivity       : "<<_resist);
 
   /****************/
   /* Section: LOG */
@@ -201,7 +202,7 @@ void CAMCode<B,T,D>::Initialize ()
   _B0[0] = Math::Cos (_phi) * Math::Cos (_psi);
   _B0[1] = Math::Sin (_phi) * Math::Cos (_psi);
   _B0[2] = Math::Sin (_psi);
-  DBG_INFO1 ("background magnetic field: "<<_B0);
+  DBG_INFO1 ("background B field (B_0)   : "<<_B0);
 
   /*****************************************************************/
   /* Setup plasma bulk velocity _v0 and initial electric field _E0 */
@@ -217,8 +218,8 @@ void CAMCode<B,T,D>::Initialize ()
   }
   _v0 /= dnt;
   _E0 = - (_v0 % _B0);
-  DBG_INFO1 ("total bulk velocity: "<<_v0);
-  DBG_INFO1 ("background electric field: "<<_E0);
+  DBG_INFO1 ("background E field (E_0)   : "<<_E0);
+  DBG_INFO1 ("total bulk velocity (u_i)  : "<<_v0);
 
   /***********************************/
   /* Setup the rest of the variables */
@@ -234,9 +235,11 @@ void CAMCode<B,T,D>::Initialize ()
     cd += sp->ChargeMassRatio () * sp->RelMassDens ();
   }
   _te = _betae / (2. * cd);
+  _cs = Math::Sqrt (0.5 * (_betai + _betae));
 
-  DBG_INFO1 ("total ion beta: "<<_betai);
-  DBG_INFO1 ("electron temperature: "<<_te);
+  DBG_INFO1 ("total ion beta (beta_i)    : "<<_betai);
+  DBG_INFO1 ("electron temperature (T_e) : "<<_te);
+  DBG_INFO1 ("sound speed (c_s)          : "<<_cs);
 
   /****************************/
   /* Setup mesh related stuff */

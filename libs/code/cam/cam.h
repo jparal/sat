@@ -374,6 +374,7 @@ public:
 
   double _betae;     ///< electron beta
   double _betai;     ///< total ion beta of all species
+  double _cs;        ///< sound speed
 
   /*
    * @p _esmooth and @p _momsmooth parameters have the meaning of number of
