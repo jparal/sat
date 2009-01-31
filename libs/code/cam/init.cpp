@@ -238,6 +238,8 @@ void CAMCode<B,T,D>::Initialize ()
   _cs = Math::Sqrt (0.5 * (_betai + _betae));
 
   DBG_INFO1 ("total ion beta (beta_i)    : "<<_betai);
+  DBG_INFO1 ("ion temperature (T_i)      : "<< _betai / (2. * cd));
+  DBG_INFO1 ("electron beta (beta_e)     : "<<_betae);
   DBG_INFO1 ("electron temperature (T_e) : "<<_te);
   DBG_INFO1 ("sound speed (c_s)          : "<<_cs);
 
@@ -273,6 +275,7 @@ void CAMCode<B,T,D>::Initialize ()
   DbDtVecFieldSensor<T,3,D> *dbdtsens = new DbDtVecFieldSensor<T,3,D>;
   JxBSensor<T,3,D> *jxbsens = new JxBSensor<T,3,D>;
   CurlBxBSensor<T,3,D> *cbxbsens = new CurlBxBSensor<T,3,D>;
+  KineticEnergySensor<T,3,D> *ken = new KineticEnergySensor<T,3,D>;
 
   nsens->Initialize (&_dn, "density", _cfg);
   esens->Initialize (&_E, "elfield", _cfg);
@@ -282,6 +285,7 @@ void CAMCode<B,T,D>::Initialize ()
   dbdtsens->Initialize (&_E, &_B, "dbdt", _cfg);
   jxbsens->Initialize (&_U, &_B, &_dn, "jxb", _cfg);
   cbxbsens->Initialize (&_B, &_dn, "cbxb", _cfg);
+  ken->Initialize (&_specie, &_B, "kenergy", _cfg);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);
@@ -291,7 +295,11 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (dbdtsens);
   _sensmng.AddSensor (jxbsens);
   _sensmng.AddSensor (cbxbsens);
+  _sensmng.AddSensor (ken);
 
+  /***********************/
+  /* Boundary conditions */
+  /***********************/
   for (int i=0; i<_specie.GetSize (); ++i)
   {
     TSpecie *sp = _specie.Get (i);
