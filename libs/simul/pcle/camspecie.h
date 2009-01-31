@@ -10,6 +10,8 @@
  * @revision{1.0}
  * @reventry{2008/07, @jparal}
  * @revmessg{Initial version}
+ * @reventry{2009/01, @jparal}
+ * @revmessg{Move documentation of Initialize() into DocSpecie.dox file}
  */
 
 #ifndef __SAT_CAMSPECIE_H__
@@ -52,28 +54,11 @@ public:
 
   /**
    * @brief Initialize particles information.
-   * For configure file:
-   * @anchor cfg_specie
-   * @code
-   * plasma:
-   * {
-   *   specie:
-   *   {
-   *     proton:
-   *     {
-   *       pcles = 100;
-   *       beta = 0.5;
-   *       rvth = 0.5;
-   *       rmds = 1.;
-   *       qms = 1.;
-   *       v0 = [3.,0.,0.];
-   *     };
-   *   };
-   * };
-   * @endcode
-   * parameter @e cfg is expected to hold the group @e proton, for the example
-   * above.
+   * parameter @e cfg is expected to hold the group of the specie configuration
+   * file with parameters. (see @ref cfg_cam "CAM configuration").
+   *
    * @sa @ref cfg_cam
+   *
    * @param cfg configure entry with specie information
    * @param mesh mesh on which particles reside
    * @param layout layout of the processors

@@ -19,4 +19,5 @@ sources += \
 	sensor/sensmng.cxx \
 	sensor/sensor.cxx
 
-#extrsrc += 
+extrsrc += \
+	sensor/DocSensor.dox

@@ -8,7 +8,7 @@ SUBDIRS = hdf5 misc stw xdmf
 headers = sathdf5.h satmisc.h satstw.h satxdmf.h
 preproc =
 sources =
-extrsrc =
+extrsrc = DocIO.dox
 lochdrs =
 
 lib_LIBRARIES        = libsatio.a

@@ -15,4 +15,5 @@ sources += \
 	pcle/camspecie.cxx \
 	pcle/specie.cxx
 
-# extrsrc +=
+extrsrc += \
+	pcle/DocSpecie.dox

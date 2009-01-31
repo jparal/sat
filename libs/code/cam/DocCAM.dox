@@ -61,13 +61,8 @@
  *   dtout = 1.; // Default value for sensors
  *   sensors:
  *   {
- *     magfield = { enable = false; dtout = .3; tag = "B"; };
- *     elfield  = { enable = true;  dtout = .5; tag = "E"; };
- *     velocity = { enable = true;  dtout = 1.; tag = "U"; };
- *     pressure = { enable = true;  dtout = 1.; tag = "P"; };
- *     density  = { enable = true;  dtout = 1.; tag = "Dn"; };
- *     particle = { enable = true;  dtout = 1.; tag = "Pcle"; };
- *     distfnc  = { enable = true;  dtout = 1.; tag = "Df"; };
+ *     magfield = { dtout = .3; tag = "B"; };
+ *     // .... see the details in Sensor section
  *   };
  * };
  *
@@ -85,8 +80,9 @@
  * @endcode
  *
  * Various parts of configure file are parsed on several places:
- * - @ref cfg_specie "Specie"
- * - @ref cfg_io "Input/Output"
+ * - @ref cfg_specie
+ * - @ref cfg_io
+ * - @ref cfg_sensor
  */
 
 /** @} */

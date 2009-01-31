@@ -27,28 +27,6 @@
 /**
  * @brief Base class for all file formats
  *
- * @page cfgfile_iofile IOFile configure format
- * Configure file format accepted:
- * @anchor cfg_io
- * @code
- * output:
- * {
- *   format:
- *   {
- *     type = "TYPE";    // stw | xdmf | hdf5 (default: xdmf)
- *     version = 1;      // no use for now (default: 1)
- *     parallel = false; // do output in parallel? (default: false)
- *     compress =
- *     {
- *       gz = 6;         // 0-9, 0 turns off zlib support (default: 6)
- *       shuffle = true; // to the byte shuffle? (default: true)
- *     };
- *   };
- * };
- * @endcode
- *
- * @sa @ref cfg_cam
- *
  * @revision{1.0}
  * @reventry{2008/06, @jparal}
  * @revmessg{Initial version}
