@@ -83,6 +83,9 @@ public:
   bool IsOpen (int i) const
   { return _open[i]; }
 
+  const Vector<bool,D> GetOpen () const
+  { return _open; }
+
   /// return domain decomposition of the layout
   const CartDomDecomp<D>& GetDecomp () const
   { return _decomp; }
