@@ -19,6 +19,7 @@
 Sensor::Sensor ()
 {
   _enabled = false;
+  _perpar = false;
   _dtout = 1.;
 }
 
@@ -37,13 +38,15 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
   if (!cfg.Exists (sensentry))
   {
     _enabled = false;
-    DBG_WARN ("sensor ("<<_id<<"): disabled");
+    DBG_WARN ("sensor ("<<_id<<"): Disabled");
     return;
   }
   else
   {
     _enabled = true;
   }
+
+  DBG_INFO ("sensor ("<<_id<<"): Enabled");
 
   ConfigEntry &ent = cfg.GetEntry (sensentry);
   // ent.GetValue ("enable", _enabled, true);
@@ -53,7 +56,13 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
     ent.GetValue ("dtout", _dtout, _dtout);
   ent.GetValue ("tag", _tag, id);
 
-  DBG_INFO ("sensor ("<<_id<<"): dtout "<<_dtout<<" ; tag "<<_tag);
+  if (SupportPerPar ())
+    ent.GetValue ("perpar", _perpar, true);
+
+  DBG_INFO ("  tag    : "<<_tag);
+  DBG_INFO ("  dtout  : "<<_dtout);
+  if (SupportPerPar ())
+  DBG_INFO ("  perpar : "<<_perpar);
 }
 
 bool Sensor::RequireSave (const SimulTime &stime)
@@ -69,4 +78,11 @@ void Sensor::Save (IOManager &iomng, const SimulTime &stime)
     DBG_INFO ("saving sensor: "<<_id);
     SaveData (iomng, stime);
   }
+}
+
+String Sensor::GetTag (int i) const
+{
+  String tag (_tag.GetData ());
+  tag.Append (i);
+  return tag;
 }

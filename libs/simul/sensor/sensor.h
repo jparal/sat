@@ -26,9 +26,15 @@
 /**
  * @brief Base class of all sensors
  *
+ * @todo May it would be worth to change SupportPerPar into "pure" function and
+ *       improve sensor hierarchy and implement as necessary.
+ *
  * @revision{1.0}
  * @reventry{2008/06, @jparal}
  * @revmessg{Initial version}
+ * @reventry{2009/01, @jparal}
+ * @revmessg{add perpendicular and parallel output support}
+ * @revmessg{implement GetTag(int) function}
  */
 class Sensor : public RefCount
 {
@@ -57,8 +63,18 @@ public:
   const char* GetTag () const
   { return _tag.GetData (); }
 
+  /// return TAG# where number represent the specie
+  String GetTag (int i) const;
+
   bool Enabled () const
   { return _enabled; }
+
+  /// Overwrite this function when you support Perpendicular/Parallel output
+  virtual bool SupportPerPar () const
+  { return false; }
+
+  bool PerPar () const
+  { return _perpar; }
 
   double GetDtOut () const
   { return _dtout; }
@@ -72,6 +88,7 @@ private:
   String _eid; ///< ConfigEntry ID
   double _dtout;
   bool _enabled;
+  bool _perpar;
 };
 
 /** @} */

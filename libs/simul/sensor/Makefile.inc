@@ -9,6 +9,7 @@ headers += \
 	sensor/distfnc.h \
 	sensor/fldsens.h \
 	sensor/jxb.h \
+	sensor/kenergy.h \
 	sensor/sensmng.h \
 	sensor/sensor.h
 
