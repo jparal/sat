@@ -32,12 +32,12 @@
  * and
  * @f[ Z_1 = u + v_{th} \sqrt{-2 \ln U_1} \sin(2 \pi U_2) @f]
  *
- * Then @f$ Z_0 @f$ and @f$ Z_1 @f$ are statisticaly independent random
+ * Then @f$ Z_0 @f$ and @f$ Z_1 @f$ are statistically independent random
  * variables with a normal distribution of standard deviation @f$ v_{th} @f$
  * and values are shifted by bulk velocity @f$ u @f$.
  *
  * The derivation Sheldon Ross, ''A First Course in Probability'', (2002),
- * p.279-81 is based on the fact that, in a two-dimensional cartesian system
+ * p.279-81 is based on the fact that, in a two-dimensional Cartesian system
  * where X and Y coordinates are described by two independent and normally
  * distributed random variables, the random variables for
  * @f$ R^2 @f$ and @f$ \Theta @f$ (shown above) in the corresponding
