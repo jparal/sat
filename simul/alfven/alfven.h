@@ -34,30 +34,6 @@ public:
   typedef typename TBase::ScaField ScaField;
   typedef typename TBase::VecField VecField;
 
-  /// Constructor
-  // AlfvenCAMCode ()
-  // {
-  //   _file = fopen ("traj.dat", "w");
-  //   // NewMemTrackerModule ();
-  // };
-  /// Destructor
-  // virtual ~AlfvenCAMCode ()
-  // {
-  //   fclose (_file);
-  //   //    FreeMemTrackerModule ();
-  // };
-
-  // void PreMove ()
-  // {
-  //   TSpecie *sp = this->_specie[0];
-  //   size_t npcle = sp->GetSize ();
-  //   const TParticle &pcle = sp->Get (npcle/2);
-  //   for (int i=0; i<D; ++i) fprintf (_file, " %lf", pcle.pos[i]);
-  //   for (int i=0; i<3; ++i) fprintf (_file, " %lf", pcle.vel[i]);
-  //   fprintf (_file, "\n");
-  //   fflush (_file);
-  // }
-
   virtual void PreInitialize (const ConfigFile &cfg)
   {
     cfg.GetValue ("alfven.nperiod", _nperiod, 4);
@@ -86,9 +62,8 @@ public:
     while (it.HasNext ())
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
-      U(it.GetLoc())[1] = - _amp * _grpvel * Math::Sin (kx * x);
-      // UNCOMMENT FOR CIRCULARLY POLARIZED
-      //U(it.GetLoc())[2] = + _amp * _grpvel * Math::Sin (kx * x);
+      U(it.GetLoc())[1] = _amp * _grpvel * Math::Cos (kx * x);
+      U(it.GetLoc())[2] = _amp * _grpvel * Math::Sin (kx * x);
 
       it.Next ();
     }
@@ -109,9 +84,8 @@ public:
     while (it.HasNext ())
     {
       T x = (T)(it.GetLoc()[0] + ipx * nx);
-      b(it.GetLoc())[1] += _amp * Math::Sin (kx * x);
-      // UNCOMMENT FOR CIRCULARLY POLARIZED
-      //b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
+      b(it.GetLoc())[1] -= _amp * Math::Cos (kx * x);
+      b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
 
       it.Next ();
     }
