@@ -73,7 +73,7 @@ else
 #             SAT_VERSION="$SAT_VERSION_MAJOR.$SAT_VERSION_MINOR"
 #         fi
       if test "$SAT_VERSION_GREEK" != "" ; then
-        SAT_VERSION="${SAT_VERSION}-${SAT_VERSION_GREEK}"
+        SAT_VERSION="${SAT_VERSION}~${SAT_VERSION_GREEK}"
       fi
       SAT_VERSION_BASE=$SAT_VERSION
 

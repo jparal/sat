@@ -32,7 +32,7 @@ preproc_cam = \
 # sources +=
 
 extrsrc += \
-	cam/CamInfo.dox
+	cam/DocCAM.dox
 
 headers += $(headers_cam)
 preproc += $(preproc_cam)
