@@ -6,7 +6,7 @@
 # CXX=icpc
 # CC=icc
 
-prefix=/home/jparal/tmp/install/sat
+prefix=/home/jparal/install/sat
 with_hdf5_libs=-lz
 
 # enable_openmp=yes
