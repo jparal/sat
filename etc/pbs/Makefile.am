@@ -3,4 +3,9 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-EXTRA_DIST = cortex.pbs glacier.pbs
+files = cortex.pbs glacier.pbs
+
+sysconfpbsdir = $(sysconfdir)/pbs
+sysconfpbs_DATA = $(files)
+
+EXTRA_DIST = $(files)
