@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = html license logos tech
+SUBDIRS = html license tech
 
 EXTRA_DIST = doxygen.cfg genidldoc.pro groups.dox MAINTAINERS
 

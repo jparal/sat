@@ -81,11 +81,11 @@ AC_CONFIG_FILES([
     connect/Makefile
     contrib/Makefile
     contrib/emacs/Makefile
+    contrib/logo/Makefile
     docs/Makefile
     docs/html/Makefile
     docs/html/figs/Makefile
     docs/license/Makefile
-    docs/logos/Makefile
     docs/tech/Makefile
     docs/tech/cam/Makefile
     docs/tech/cam/fig/Makefile

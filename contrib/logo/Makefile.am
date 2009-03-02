@@ -7,6 +7,6 @@ logosfiles = *.png *.jpg *.svg *.eps*
 
 dist_data_DATA = $(logosfiles) README.uofa
 
-logosdocsdir = $(prefix)/docs/logos
+logosdocsdir = $(prefix)/contrib/logo
 
 nobase_logosdocs_DATA = $(logosfiles)
