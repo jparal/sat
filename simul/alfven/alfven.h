@@ -20,9 +20,14 @@
 /**
  * @brief Alfven wave CAM simulation class
  *
+ * Initialization is now dimension independent
+ *
  * @revision{1.0}
  * @reventry{2008/07, @jparal}
  * @revmessg{Initial version}
+ * @reventry{2008/03, @jparal}
+ * @revmessg{initialization is now dimension independent}
+ * @revmessg{print configuration of wave setup}
  */
 template<class T, int D>
 class AlfvenCAMCode : public CAMCode<AlfvenCAMCode<T,D>,T,D>
@@ -36,34 +41,58 @@ public:
 
   virtual void PreInitialize (const ConfigFile &cfg)
   {
-    cfg.GetValue ("alfven.nperiod", _nperiod, 4);
-    cfg.GetValue ("alfven.amplitude", _amp, 0.1);
+    cfg.GetValue ("alfven.nperiod", _npex);
+    cfg.GetValue ("alfven.amplitude", _amp);
     cfg.GetValue ("alfven.grpvel", _grpvel, 1.0);
+  }
+
+  virtual void PostInitialize (const ConfigFile &cfg)
+  {
+    Vector<T,D> l, k;
+    VecField &U = this->_U;
+
+    for (int i=0; i<D; ++i)
+    {
+      int nc = U.Size (i)-1;
+      int gh = U.GetLayout ().GetGhost (i);
+      int np = U.GetLayout ().GetDecomp ().GetSize (i);
+      T dx = U.GetMesh ().GetSpacing (i);
+      _k[i] = (M_2PI * (T)_npex[i]) / ((T)((nc - 2*gh) * np));
+
+      k[i] = _k[i] / dx;
+      l[i] = M_2PI/k[i];
+    }
 
     DBG_INFO ("Alfven wave simulation:");
-    DBG_INFO ("  nperiod   = "<<_nperiod);
-    DBG_INFO ("  amplitude = "<<_amp);
-    DBG_INFO ("  grpvel    = "<<_grpvel);
+    DBG_INFO ("  nperiod           : "<<_npex);
+    DBG_INFO ("  amplitude [B_0]   : "<<_amp);
+    DBG_INFO ("  grpvel    [v_A]   : "<<_grpvel);
+    DBG_INFO ("  k         [w_p/c] : "<< k);
+    DBG_INFO ("  lambda    [c/w_p] : "<< l);
   }
 
   void BulkInitAdd (TSpecie *sp, VecField &U)
   {
-    int nx = U.Size (0)-1;
-    int ghostx = U.GetLayout ().GetGhost (0);
-    //    T dx = U.GetMesh ().GetSpacing (0);
-    int ipx = U.GetLayout ().GetDecomp ().GetPosition (0);
-    int npx = U.GetLayout ().GetDecomp ().GetSize (0);
-    T kx = (M_2PI * (T)_nperiod) / ((T)((nx - 2*ghostx) * npx));
+    Vector<int,D> nc, ip;
+    for (int i=0; i<D; ++i)
+    {
+      nc[i] = U.Size (i)-1;
+      ip[i] = U.GetLayout ().GetDecomp ().GetPosition (i);
+    }
 
     Domain<D> dom;
     U.GetDomainAll (dom);
     DomainIterator<D> it (dom);
 
+    T pos;
     while (it.HasNext ())
     {
-      T x = (T)(it.GetLoc()[0] + ipx * nx);
-      U(it.GetLoc())[1] = _amp * _grpvel * Math::Cos (kx * x);
-      U(it.GetLoc())[2] = _amp * _grpvel * Math::Sin (kx * x);
+      pos = (T)0.;
+      for (int i=0; i<D; ++i)
+	pos += (T)(it.GetLoc()[i] + ip[i]*nc[i]) * _k[i];
+
+      U(it.GetLoc())[1] = _amp * _grpvel * Math::Cos (pos);
+      U(it.GetLoc())[2] = _amp * _grpvel * Math::Sin (pos);
 
       it.Next ();
     }
@@ -71,31 +100,36 @@ public:
 
   void BInitAdd (VecField &b)
   {
-    int nx = b.Size (0)-1;
-    //    T dx = b.GetMesh ().GetSpacing (0);
-    int ipx = b.GetLayout ().GetDecomp ().GetPosition (0);
-    int npx = b.GetLayout ().GetDecomp ().GetSize (0);
-    T kx = (M_2PI * (T)_nperiod) / ((T)(nx * npx));
+    Vector<int,D> nc, ip;
+    for (int i=0; i<D; ++i)
+    {
+      nc[i] = b.Size (i)-1;
+      ip[i] = b.GetLayout ().GetDecomp ().GetPosition (i);
+    }
 
     Domain<D> dom;
     b.GetDomainAll (dom);
     DomainIterator<D> it (dom);
 
+    T pos;
     while (it.HasNext ())
     {
-      T x = (T)(it.GetLoc()[0] + ipx * nx);
-      b(it.GetLoc())[1] -= _amp * Math::Cos (kx * x);
-      b(it.GetLoc())[2] -= _amp * Math::Sin (kx * x);
+      pos = (T)0.;
+      for (int i=0; i<D; ++i)
+	pos += (T)(it.GetLoc()[i] + ip[i]*nc[i]) * _k[i];
+
+      b(it.GetLoc())[1] -= _amp * Math::Cos (pos);
+      b(it.GetLoc())[2] -= _amp * Math::Sin (pos);
 
       it.Next ();
     }
   }
 
 private:
-  int _nperiod;
-  T _amp;
-  T _grpvel;
-  //  FILE *_file;
+  Vector<int,D> _npex;          /**< number of periods in X */
+  T _amp;			/**< amplitude */
+  T _grpvel;			/**< group velocity */
+  Vector<T,D> _k;
 };
 
 #endif /* __SAT_ALFVEN_CAM_H__ */
