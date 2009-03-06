@@ -75,11 +75,11 @@ void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
     SAT_ABBORT ("Parsing file: '"<<file<<"'");
   }
 
+  DBG_INFO ("=========== PreInitialize: ==========");
   PreInitialize (_cfg);
+  DBG_INFO ("=========== Initialize: =============");
   Initialize ();
-  PostInitialize (_cfg);
-
-  // Update parameters based on the command line parameters
+  DBG_INFO ("=====================================");
 }
 
 template<class B, class T, int D>
@@ -259,12 +259,10 @@ void CAMCode<B,T,D>::Initialize ()
   _Ua.Initialize (_meshu, _layou);
   _Uf.Initialize (_meshu, _layou);
 
-  _B = _B0; // _Bh is initialized in function First()
-  static_cast<B*>(this)->BInitAdd (_B);
-
   /*********************/
   /* Setup all sensors */
   /*********************/
+  DBG_INFO ("=========== Sensors: ================");
   _sensmng.Initialize (_cfg);
 
   ScaFieldSensor<T,D> *nsens = new ScaFieldSensor<T,D>;
@@ -297,9 +295,15 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (cbxbsens);
   _sensmng.AddSensor (ken);
 
-  /***********************/
-  /* Boundary conditions */
-  /***********************/
+  DBG_INFO ("=========== PostInitialize: =========");
+  PostInitialize (_cfg);
+
+  _B = _B0; // _Bh is initialized in function First()
+  static_cast<B*>(this)->BInitAdd (_B);
+
+  /*******************/
+  /* Species Loading */
+  /*******************/
   for (int i=0; i<_specie.GetSize (); ++i)
   {
     TSpecie *sp = _specie.Get (i);
@@ -310,6 +314,4 @@ void CAMCode<B,T,D>::Initialize ()
     static_cast<B*>(this)->BulkInitAdd (sp, _U);
     sp->LoadPcles (_dn, _U, _B0);
   }
-
-  DBG_INFO ("CAMCode::Initialize done!");
 }
