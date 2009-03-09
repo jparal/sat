@@ -3,8 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS= bin mk libs tools test example tmpl docs etc analyse bench connect \
- contrib extern idl matlab simul
+SUBDIRS= bin mk libs tools test example tmpl docs etc analyse bench contrib \
+ extern idl matlab simul
 
 ACLOCAL_AMFLAGS  = -I mk/config
 
