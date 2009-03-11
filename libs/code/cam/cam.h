@@ -88,6 +88,13 @@ public:
   /// @remarks @p _cfg is already initialized
   virtual void PostInitialize (const ConfigFile &cfg) {};
 
+  /**
+   * @brief Finalize and clean CAM simulation.
+   * This method is called by destructor so theoretically you don't need to
+   * call it explicitly.
+   */
+  void Finalize ();
+
   /// @}
 
   /// @name Problem Specific BC

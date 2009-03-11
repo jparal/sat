@@ -28,7 +28,7 @@ void CAMCode<B,T,D>::Exec ()
       TSpecie *sp = _specie.Get (i);
       total += sp->GetTotalSize ();
     }
-    DBG_INFO ("total particles: " << total);
+    DBG_INFO2 ("total particles: " << total);
 
     Hyb ();
   }
@@ -36,5 +36,4 @@ void CAMCode<B,T,D>::Exec ()
 
   _sensmng.SaveAll (_time);
   _sensmng.SetNextOutput (_time);
-
 }

@@ -12,16 +12,6 @@
  */
 
 template<class B, class T, int D>
-CAMCode<B,T,D>::CAMCode () {}
-
-template<class B, class T, int D>
-CAMCode<B,T,D>::~CAMCode ()
-{
-  DBG_INFO ("cleaning CAMCode ...");
-  plog.flush ();
-}
-
-template<class B, class T, int D>
 void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 {
   SAT::EnableFPException ();
@@ -314,4 +304,22 @@ void CAMCode<B,T,D>::Initialize ()
     static_cast<B*>(this)->BulkInitAdd (sp, _U);
     sp->LoadPcles (_dn, _U, _B0);
   }
+}
+
+
+template<class B, class T, int D>
+CAMCode<B,T,D>::CAMCode () {}
+
+template<class B, class T, int D>
+CAMCode<B,T,D>::~CAMCode ()
+{
+  DBG_INFO ("cleaning CAMCode ...");
+  Finalize ();
+  plog.flush ();
+}
+
+template<class B, class T, int D>
+void CAMCode<B,T,D>::Finalize ()
+{
+  Mpi::Finalize ();
 }
