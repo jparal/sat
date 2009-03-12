@@ -22,6 +22,6 @@ EXTRA_DIST = test-cam.sin
 
 check_PROGRAMS = test-cam
 
-test_cam_SOURCES = camupdates.cxx
+test_cam_SOURCES = camupdates.cxx efld.h
 
 TESTS = $(check_PROGRAMS)
