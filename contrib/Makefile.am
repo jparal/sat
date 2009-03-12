@@ -3,4 +3,4 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = emacs logo
+SUBDIRS = emacs extern logo

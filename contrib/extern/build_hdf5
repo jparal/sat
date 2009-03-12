@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DIR=hdf5-1.6.7
+
+tar xzfv $DIR.tar.gz
+cd $DIR
+./configure --prefix=$HOME/install --disable-cxx --disable-hl
+make -j2
+make install
+cd ..
+echo
+echo " Press ENTER to delete build directory:"
+read enter
+rm -rf $DIR

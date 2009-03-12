@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DIR=zlib-1.2.3
+
+tar xzfv $DIR.tar.gz
+cd $DIR
+./configure --prefix=$HOME/install
+make 
+make install
+cd ..
+echo
+echo " Press ENTER to delete build directory:"
+read enter
+rm -rf $DIR

@@ -80,6 +80,7 @@ AC_CONFIG_FILES([
     bin/Makefile
     contrib/Makefile
     contrib/emacs/Makefile
+    contrib/extern/Makefile
     contrib/logo/Makefile
     docs/Makefile
     docs/html/Makefile
