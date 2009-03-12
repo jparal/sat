@@ -1,0 +1,17 @@
+
+alias ls="ls --color=auto"
+alias ll="ls --color -l"
+alias lfind="find . -name"
+alias e="emacs"
+alias enw="emacs -nw"
+alias duh="du -hs"
+alias dfh="df -h"
+alias su="su -"
+alias jam="jam -j 2"
+alias make="make -j3"
+
+export PATH="~/bin:~/install/bin:$PATH"
+#export LD_LIBRARY_PATH="~/install/lib"
+export LD_LIBRARY_PATH=~/install/lib/:/usr/local/lib/
+
+PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
