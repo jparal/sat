@@ -5,7 +5,7 @@
 
 SUBDIRS = pbs
 
-files = satrc
+files = satrc bash_profile
 
 sysconf_DATA = $(files)
 EXTRA_DIST = $(files)
