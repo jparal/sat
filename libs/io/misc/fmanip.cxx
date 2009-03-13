@@ -52,10 +52,8 @@ void IO::Mkdir (const String &path, mode_t mode)
   {
     if ( !S_ISDIR(status.st_mode) )
     {
-      DBG_ERROR("Error in Utilities::recursiveMkdir...\n"
-		<< "    Cannot create directories in path = " << path
-		<< "\n    because some intermediate item in path exists and"
-		<< "is NOT a directory" << std::endl);
+      DBG_ERROR("IO::Mkdir(): cannot create directories in path: " << path);
+      DBG_ERROR("  => an item in path already exists and is NOT a directory");
     }
   }
   /* make all directories that do not already exist */
@@ -68,9 +66,7 @@ void IO::Mkdir (const String &path, mode_t mode)
   {
     if(mkdir(path_buf,mode) != 0)
     {
-      DBG_ERROR("Error in Utilities::recursiveMkdir...\n"
-		<< "    Cannot create directory  = "
-		<< path_buf << std::endl);
+      DBG_ERROR("IO::Mkdir(): Cannot create directory  = " << path_buf);
     }
     pos = 0;
   }
@@ -95,9 +91,7 @@ void IO::Mkdir (const String &path, mode_t mode)
     {
       if(mkdir(path_buf,mode) != 0)
       {
-	DBG_ERROR("Error in Utilities::recursiveMkdir...\n"
-		  << "    Cannot create directory  = "
-		  << path_buf << std::endl);
+	DBG_ERROR("IO::Mkdir(): Cannot create directory  = " << path_buf);
       }
     }
   }
