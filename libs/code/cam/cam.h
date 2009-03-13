@@ -156,7 +156,7 @@ public:
    * @param pos position
    * @return resistivity
    */
-  double ResistAdd (const PosVector &pos) const
+  T ResistAdd (const PosVector &pos) const
   { return 0.; }
 
   /**
@@ -270,7 +270,7 @@ public:
    * @param[in] dt time step
    * @param[in,out] Ba magnetic field to advance
    */
-  void CalcB (double dt, VecField &Ba);
+  void CalcB (T dt, VecField &Ba);
 
   /**
    * @brief Calculate moments density and bulk velocity for the given specie.
@@ -309,7 +309,7 @@ public:
 	      bool enpe = true);
 
   /// Advance Magnetic field by @p dt time using @p _nsub sub-steps.
-  void AdvField (double dt);
+  void AdvField (T dt);
 
   /// Advance moment
   void AdvMom ();
@@ -318,7 +318,7 @@ public:
   /// @todo We can add the extra parameter to the configuration file and add
   ///       extra resistivity at the box boundaries when we are dealing with
   ///       open boundary problem.
-  double Resist (const PosVector &pos)
+  T Resist (const PosVector &pos)
   { return _resist + static_cast<B*>(this)->ResistAdd (pos); };
 
   /// Normalize bulk velocity by the given density.
@@ -360,11 +360,11 @@ public:
   { return _specie[i]; }
 
   /// get gamma constant of pressure
-  double GetGamma () const
+  T GetGamma () const
   { return _gamma; }
 
   /// get electron temperature
-  double GetTe () const
+  T GetTe () const
   { return _te; }
 
   /// @}
@@ -376,12 +376,12 @@ public:
   SimulTime _time;   ///< simulation time
 
   int _nsub;         ///< number substep for magnetic field
-  double _dnmin;     ///< density threshold when fields are advanced
-  double _resist;    ///< global resistivity for code stability
+  T _dnmin;     ///< density threshold when fields are advanced
+  T _resist;    ///< global resistivity for code stability
 
-  double _betae;     ///< electron beta
-  double _betai;     ///< total ion beta of all species
-  double _cs;        ///< sound speed
+  T _betae;     ///< electron beta
+  T _betai;     ///< total ion beta of all species
+  T _cs;        ///< sound speed
 
   /*
    * @p _esmooth and @p _momsmooth parameters have the meaning of number of
@@ -398,8 +398,8 @@ public:
   SensorManager _sensmng;   ///< sensor manager
   CartDomDecomp<D> _decomp; ///< domain decomposition
 
-  double _gamma;     ///< Gamma constant in pressure computation
-  double _te;        ///<< Electron temperature
+  T _gamma;     ///< Gamma constant in pressure computation
+  T _te;        ///<< Electron temperature
   /**
    * Angle of IMF field defined as follows
    * @code

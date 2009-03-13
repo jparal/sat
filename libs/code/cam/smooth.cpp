@@ -21,7 +21,7 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
 
   Vector<int,D2> loc;
   T2 avg, mid;
-  const double inv = 0.25; //MetaInv<4*D2>::Is;
+  //const T inv = 0.25; //MetaInv<4*D2>::Is;
 
   for (int i=0; i<D2; ++i)
   {
@@ -33,11 +33,11 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
     {
       loc = it.GetLoc ();
 
-      avg = 0.25 * mid;
+      avg = mid * (T)0.25;
       mid = fld(loc);
-      avg += 0.5 * mid;
+      avg += (T)0.5 * mid;
       loc[i] += 1;
-      avg += 0.25 * fld (loc);
+      avg += (T)0.25 * fld (loc);
 
       loc[i] -= 1;
       fld(loc) = avg;

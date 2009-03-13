@@ -198,7 +198,7 @@ void CAMCode<B,T,D>::Initialize ()
   /* Setup plasma bulk velocity _v0 and initial electric field _E0 */
   /*****************************************************************/
   _v0 = 0.;
-  double dnt = 0., dns = 0.;
+  T dnt = 0., dns = 0.;
   for (int i=0; i<_specie.GetSize (); ++i)
   {
     TSpecie *sp = _specie.Get (i);
@@ -217,7 +217,7 @@ void CAMCode<B,T,D>::Initialize ()
   _gamma = 5. / 3.;
 
   _betai = 0.;
-  double cd = 0.;
+  T cd = 0.;
   for (int i=0; i<_specie.GetSize (); ++i)
   {
     TSpecie *sp = _specie.Get (i);

@@ -12,10 +12,10 @@
  */
 
 template<class B, class T, int D>
-void CAMCode<B,T,D>::AdvField (double dt)
+void CAMCode<B,T,D>::AdvField (T dt)
 {
-  double dtb = dt / ((double) _nsub);
-  double tbh = (double)0.5 * dtb;
+  T dtb = dt / ((T) _nsub);
+  T tbh = (T)0.5 * dtb;
 
   /******************************/
   /* Advance B to t = t + dt!   */

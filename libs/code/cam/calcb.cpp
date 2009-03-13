@@ -12,7 +12,7 @@
  */
 
 template<class B, class T, int D>
-void CAMCode<B,T,D>::CalcB (double dt, VecField &Ba)
+void CAMCode<B,T,D>::CalcB (T dt, VecField &Ba)
 {
   Domain<D> dom;
   Ba.GetDomain (dom);
