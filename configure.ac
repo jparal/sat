@@ -80,8 +80,10 @@ AC_CONFIG_FILES([
     bin/Makefile
     contrib/Makefile
     contrib/emacs/Makefile
+    contrib/etc/Makefile
     contrib/extern/Makefile
     contrib/logo/Makefile
+    contrib/pbs/Makefile
     docs/Makefile
     docs/html/Makefile
     docs/html/figs/Makefile
@@ -90,8 +92,6 @@ AC_CONFIG_FILES([
     docs/tech/cam/Makefile
     docs/tech/cam/fig/Makefile
     docs/tech/cam/pic/Makefile
-    etc/Makefile
-    etc/pbs/Makefile
     example/Makefile
     example/ref/Makefile
     example/tmpl/Makefile

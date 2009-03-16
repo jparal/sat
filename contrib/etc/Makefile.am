@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = pbs
+SUBDIRS = 
 
 files = satrc bash_profile
 

@@ -3,4 +3,4 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = emacs extern logo
+SUBDIRS = emacs etc extern logo pbs
