@@ -1,0 +1,70 @@
+SAT Software License Agreement
+
+SAT TEAM (SATT) REPRESENTED BY JAN PARAL
+
+SAT SOFTWARE USE AGREEMENT
+
+In order to register for an account to download a SAT distribution, you must
+read the following USE AGREEMENT which includes a FAIR USE POLICY, COPYRIGHT
+NOTICE, PUBLICATION POLICY, and USER SUPPORT POLICY. Click the "I Accept"
+button when you have read and agreed to the SOFTWARE USE AGREEMENT.
+
+FAIR USE POLICY
+
+The user is not allowed to distribute any source code, documentation, or other
+files included in the SAT distribution in any manner. This includes, but is not
+limited to, copying or distributing sections of the code, distributing the
+entire code, or sharing information about coding details with anyone,
+including, but not limited to, colleagues, students, or members of the user's
+research group. Users who wish to have students or colleagues use the SAT
+should list these individuals on the registration form or have them fill out
+their own registration form at http://www.phys.ualberta.ca/~jparal/.
+
+Registration forms are processed at the SAT working group at the University of
+Alberta after the application is received. Approved users will receive an email
+indicating how to obtain the current public distribution of the SAT. Users will
+receive further email containing information about updates and fixes of the
+code.
+
+As part of the registration the user must indicate the specific application for
+which he or she will use the SAT. Any significant change to this indicated use
+requires prior permission of The SAT Team (SATT).
+
+Submission of this registration indicates that the user agrees to report all
+bugs in a timely manner. In addition, the user agrees not to discuss features,
+bugs, timings, performance or any numerical aspect of the SAT with any other
+party without first obtaining express permission of SATT.
+
+The COPYRIGHT NOTICE indicates that users are given limited permission to
+modify the source code. Modifications to the SAT is most conveniently done
+through the use of "user files" which isolate changes to such things as
+boundary conditions and source terms. In addition, certain minor modifications
+must typically be made to port the framework to a new platform. Users are
+granted permission to make the necessary changes to port the code to a new
+platform. Users making code modifications are strongly encouraged to contact
+SATT to ensure proper implementation of changes.
+
+
+ACKNOWLEDGMENT
+
+I acknowledge that I have read and accept the conditions stated above.
+
+
+PRINT NAME:__________________________________________________________
+
+
+SIGNATURE:___________________________________________________________
+
+
+CONTACT INFORMATION
+
+Questions regarding the SAT, correspondence related to publications, or other
+related questions can be addressed to:
+
+Jan Paral
+11322 - 89 AVENUE
+University of Alberta
+EDMONTON, ALBERTA
+T6G 2G7, CANADA
+
+email: jparal@ualberta.ca

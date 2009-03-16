@@ -1,28 +1,109 @@
-Copyright (C) by Jan Paral and SAT team
+COPYRIGHT NOTICE
 
-Access and use of this software shall impose the following obligations
-and understandings on the user. The user is granted the right, without
-any fee or cost, to use, copy, modify, alter, enhance and distribute
-this software, and any derivative works thereof, and its supporting
-documentation for any purpose whatsoever, provided that this entire
-notice appears in all copies of the software, derivative works and
-supporting documentation.  Further, UCAR requests that the user credit
-UCAR/Unidata in any publications that result from the use of this
-software or in any product that includes this software, although this
-is not an obligation. The names UCAR and/or Unidata, however, may not
-be used in any advertising or publicity to endorse or promote any
-products or commercial entity unless specific written permission is
-obtained from UCAR/Unidata. The user also understands that
-UCAR/Unidata is not obligated to provide the user with any support,
-consulting, training or assistance of any kind with regard to the use,
-operation and performance of this software nor to provide the user
-with any updates, revisions, new versions or "bug fixes."
+COPYRIGHT (C) 2005-2009
+THE REGENTS OF THE SAT TEAM
+ALL RIGHTS RESERVED
 
-THIS SOFTWARE IS PROVIDED BY UCAR/UNIDATA "AS IS" AND ANY EXPRESS OR
-IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL UCAR/UNIDATA BE LIABLE FOR ANY SPECIAL,
-INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING
-FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-WITH THE ACCESS, USE OR PERFORMANCE OF THIS SOFTWARE.
+PERMISSION IS GRANTED TO A SINGLE USER TO USE THIS SOFTWARE FOR NONCOMMERCIAL
+EDUCATION AND RESEARCH PURPOSES. THE USER IS GIVEN PERMISSION TO INSTALL AND
+RUN THE SOFTWARE ON MULTIPLE PLATFORMS. NO PERMISSION IS GIVEN TO COPY OR
+REDISTRIBUTE THIS SOFTWARE IN ANY FORM INCLUDING, BUT NOT LIMITED TO, COPYING
+SECTIONS OF THE SOURCE CODE OR DOCUMENTATION AND DISTRIBUTING THE CODE TO OTHER
+USERS.
+
+THIS SOFTWARE IS PROVIDED AS IS, WITHOUT REPRESENTATION AS TO ITS FITNESS FOR
+ANY PURPOSE, AND WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+INCLUDING WITHOUT LIMITATION THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE. THE REGENTS OF THE UNIVERSITY OF MICHIGAN
+SHALL NOT BE LIABLE FOR ANY DAMAGES, INCLUDING SPECIAL, INDIRECT, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES, WITH RESPECT TO ANY CLAIM ARISING OUT OF OR IN
+CONNECTION WITH THE USE OF THE SOFTWARE, EVEN IF IT HAS BEEN OR IS HEREAFTER
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+PUBLICATION POLICY
+
+Users of the SAT are required to adhere to the publication policy outlined in
+this section of the USE AGREEMENT. The publication policy involves four
+separate sections: 1) limitations on publication topics, 2) submitted
+publications, 3) submitted abstracts and conference presentations, and 4)
+acknowledgments.
+
+In all cases of the presentation of results derived from the SAT, the user must
+acknowledge the SAT Team and its creators as outlined below.
+
+LIMITATIONS ON PUBLICATION TOPICS
+
+The SAT Team is the sole unit that may use the SAT to publish works pertaining
+to numerical methods, algorithms and parallel performance. Users may not use
+the SAT to do similar research without prior permission of CSEM. Users are
+granted permission to use the SAT to pursue the topics listed in the
+registration form only. Any significant change to this indicated use requires
+prior permission of The SAT Team.
+
+PUBLICATIONS
+
+The SAT has been developed by a large team of scientists. In order to
+acknowledge their work, we ask that the first paper using SAT results submitted
+by a user include one or more of the authors of the SAT as a co-author. Within
+SAT Team, a publication author agreement exists which determines what subset of
+developers should be listed as co-authors depending on the topic of the
+paper. We ask that users contact SAT TEam upon preparation of their first paper
+in order to determine which SAT developers should participate in preparation of
+the paper and should be listed as co-authors.
+
+Subsequent publications should include as co-authors those scientists who
+participate in the submitted research in a significant way either through
+providing help with the use of the SAT or through scientific
+collaboration. Because a thorough understanding of the numerical algorithms
+used in the SAT is generally required when interpreting simulation results, we
+highly encourage code users to speak with scientists of SAT Team before
+publication.
+
+In all papers submitted for publication, we require the authors to acknowledge
+the SAT Team and the developers of the SAT as outlined below in the
+ACKNOWLEDGMENTS section.
+
+In order to keep a comprehensive record of the applications for which the SAT
+is used, we ask authors to send a copy of all submitted abstracts. In addition,
+we ask that authors send a pre-print of articles being submitted for
+publication and re-prints of all accepted and published papers to SAT Team.
+
+ABSTRACTS AND CONFERENCE PRESENTATIONS
+
+In conference presentations, scientists at SAT Team should be included as
+co-authors when they have contributed to the presented research in a
+significant way either through providing help with the use of the SAT or
+through scientific collaboration. In all cases, we require authors to
+acknowledge the Center for Space Environment Modeling at the University of
+Michigan and the developers of the SAT as outlined below in the ACKNOWLEDGMENTS
+section.
+
+In order to keep a comprehensive record of the applications for which the SAT
+is used, we ask authors to submit to SAT Team a copy of all abstracts submitted
+to conferences.
+
+ACKNOWLEDGMENTS
+
+In all papers submitted for publication and conference presentations, we
+require the authors to acknowledge the developers of the SAT.
+
+In published papers, authors should use the following acknowledgment:
+Simulation results were obtained using the Simulate and Analyse Tookit (SAT),
+developed by the SAT Team represented by Jan Paral, at the University of
+Alberta with funding support from CSA.
+
+In conference presentations, author should acknowledge the "developers of the
+Simulate and Analyse Tookit (SAT)."
+
+USER SUPPORT POLICY
+
+As outlined in the COPYRIGHT NOTICE, this SAT distribution is provided as is,
+without representation as to its fitness for an purpose and without warranty of
+any kind.
+
+Although we cannot guarantee user support, questions can be sent to SAT
+Support. Bug reports can be submitted to the SAT Bug Tracking System. Please
+include the following information with any submitted bug report: version
+number, a copy of the PARAM.sin file, description of machine on which the code
+was run (#PEs, memory), a copy of the SAT output, and any error messages
+generated by the system.
