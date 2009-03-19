@@ -7,7 +7,7 @@ alfven = { nperiod = [4, 4]; amplitude = 0.05; grpvel = 1.0; };
 simul:
 {
   step    = 0.02;
-  max     = 300.;
+  max     = 300;
   start   = 0.;
   restart = false;     # restart app
   momsmooth = 2;       # Steps between moment smooth 
@@ -16,8 +16,8 @@ simul:
 
 grid:
 {
-  cells  = [ 200, 50, 100 ];
-  resol  = [ 1., 0.5, 1. ];           # [c/omega_p]
+  cells  = [ 100, 50, 100 ];
+  resol  = [ 1.0, 0.5, 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
@@ -31,7 +31,7 @@ field:
 
 plasma:
 {
-  betae = 0.1;
+  betae = 0.5;
   specie:
   {
     proton = { pcles = 500.; beta = 0.01; rvth = 1.; rmds = 1.; qms = 1.;
@@ -60,7 +60,7 @@ output:
     elfield  = { tag = "E"; };
     velocity = { tag = "U"; };
     temp     = { tag = "T"; };
-    # kenergy  = { tag = "KEn"; perpar = true; };
+    kenergy  = { tag = "KEn"; perpar = true; };
     # dbdt     = { tag = "DbDt"; };
     # jxb      = { tag = "JxB"; };
     # cbxb     = { tag = "CBxB"; };

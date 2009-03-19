@@ -16,7 +16,7 @@
 
 int main (int argc, char **argv)
 {
-  AlfvenCAMCode<float,2> alfven;
+  AlfvenCAMCode<float,1> alfven;
   alfven.Initialize (&argc, &argv);
   alfven.Exec ();
 
