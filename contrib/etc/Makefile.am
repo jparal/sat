@@ -3,9 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = 
+files = inputrc bash_profile satrc
+instdir = $(prefix)/contrib/etc
 
-files = satrc bash_profile
-
-sysconf_DATA = $(files)
-EXTRA_DIST = $(files)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

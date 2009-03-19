@@ -1,0 +1,13 @@
+# Completed names which are symbolic links to directories have a slash
+# appended.
+set mark-symlinked-directories on
+set completion-ignore-case on
+
+# konsole (alt + arrow key)
+"\e[1;3C": forward-word
+"\e[1;3D": backward-word
+# konsole (ctrl + arrow key)
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+# $include /etc/inputrc
