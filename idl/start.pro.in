@@ -18,7 +18,7 @@ sat_idl+'/mpfit:'            +$
 sat_idl+'/pro:'              +$
 sat_idl+'/sat:'              +$
 sat_idl+'/stw:'              +$
-sat_idl+'/textoidl:'         +$
+sat_idl+'/text2idl:'         +$
 sat_idl+'/todo:'             +$
 sat_idl+'/zamb:'             +$
 sat_idl+'/zamb/analysis:'    +$

@@ -3,10 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-idlzambfiles = *.pro
+files = *.pro
+instdir = $(prefix)/idl/zamb/Scripts
 
-idlzambdir = $(prefix)/idl/zamb/Scripts
-
-dist_data_DATA = $(idlzambfiles)
-
-nobase_idlzamb_DATA = $(idlzambfiles)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

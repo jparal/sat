@@ -3,10 +3,10 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = mpfit pro sat stw textoidl todo zamb
+SUBDIRS = mpfit pro sat stw text2idl todo zamb
 
-idldir = $(prefix)/idl
+files = README
+instdir = $(prefix)/idl
 
-dist_noinst_DATA = start.pro.in
-
-nobase_idl_DATA = start.pro
+dist_noinst_DATA = $(files) start.pro.in
+nobase_inst_DATA = $(files) start.pro

@@ -3,12 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-dist_noinst_DATA = COPYRIGHT DISCLAIMER LOCAL_MODIFICATIONS VERSIONS
+files = COPYRIGHT DISCLAIMER LOCAL_MODIFICATIONS README VERSIONS *.pro
+instdir = $(prefix)/idl/text2idl
 
-idltextoidlfiles = *.pro
-
-idltextoidldir = $(prefix)/idl/textoidl
-
-dist_data_DATA = $(idltextoidlfiles)
-
-nobase_idltextoidl_DATA = $(idltextoidlfiles)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

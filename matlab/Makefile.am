@@ -5,8 +5,8 @@
 
 SUBDIRS = todo
 
-matlabdir = $(prefix)/matlab
+files = README
+instdir = $(prefix)/matlab
 
-# dist_data_DATA = start.pro.in
-
-# nobase_matlab_DATA = start.pro.in
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

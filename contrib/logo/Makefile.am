@@ -3,10 +3,9 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-logosfiles = *.png *.jpg *.svg *.eps*
+files = *.png *.jpg *.svg *.eps* README.uofa
+instdir = $(prefix)/contrib/logo
 
-dist_data_DATA = $(logosfiles) README.uofa
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)
 
-logosdocsdir = $(prefix)/contrib/logo
-
-nobase_logosdocs_DATA = $(logosfiles)

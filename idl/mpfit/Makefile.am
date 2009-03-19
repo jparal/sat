@@ -3,12 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-dist_noinst_DATA = MPREADME fakedata.sav
+files = *.pro
+instdir = $(prefix)/idl/mpfit
 
-idlmpfitfiles = *.pro
-
-idlmpfitdir = $(prefix)/idl/mpfit
-
-dist_data_DATA = $(idlmpfitfiles)
-
-nobase_idlmpfit_DATA = $(idlmpfitfiles)
+dist_noinst_DATA = $(files) MPREADME fakedata.sav
+nobase_inst_DATA = $(files)

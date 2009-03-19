@@ -3,10 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-idltodofiles = *.pro
+files = *.pro
+instdir = $(prefix)/idl/todo
 
-idltododir = $(prefix)/idl/todo
-
-dist_data_DATA = $(idltodofiles)
-
-nobase_idltodo_DATA = $(idltodofiles)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

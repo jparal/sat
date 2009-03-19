@@ -3,12 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-dist_noinst_DATA = test_ranges
+files = test_ranges *.pro
+instdir = $(prefix)/idl/zamb/test
 
-idlzambfiles = *.pro
-
-idlzambdir = $(prefix)/idl/zamb/test
-
-dist_data_DATA = $(idlzambfiles)
-
-nobase_idlzamb_DATA = $(idlzambfiles)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

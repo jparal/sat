@@ -3,9 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-files = cortex.pbs glacier.pbs
+files = *.pbs
+instdir = $(prefix)/contrib/pbs
 
-sysconfpbsdir = $(sysconfdir)/pbs
-sysconfpbs_DATA = $(files)
-
-EXTRA_DIST = $(files)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

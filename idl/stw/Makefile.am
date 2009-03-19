@@ -3,10 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-idlstwfiles = *.pro
+files = *.pro
+instdir = $(prefix)/idl/stw
 
-idlstwdir = $(prefix)/idl/stw
-
-dist_data_DATA = $(idlstwfiles)
-
-nobase_idlstw_DATA = $(idlstwfiles)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

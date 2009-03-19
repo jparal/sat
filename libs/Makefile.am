@@ -6,7 +6,10 @@
 LIBDIRS = base code io math pint simul test
 SUBDIRS = $(LIBDIRS) tmpl
 
-include_HEADERS = newdisable.h newenable.h sat.h satbase.h satcode.h satio.h satmath.h satpint.h satsimul.h satsysdef.h sattest.h
+include_HEADERS = newdisable.h newenable.h sat.h satbase.h satcode.h satio.h \
+satmath.h satpint.h satsimul.h satsysdef.h sattest.h
+
+nodist_include_HEADERS = satconfig.h
 
 CLEANFILES = satconfig.h
 

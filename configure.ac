@@ -96,13 +96,12 @@ AC_CONFIG_FILES([
     example/ref/Makefile
     example/tmpl/Makefile
     example/tmpl/TEMPLATE.cxx.tpl
-    extern/Makefile
     idl/Makefile
     idl/start.pro
     idl/mpfit/Makefile
     idl/pro/Makefile
     idl/stw/Makefile
-    idl/textoidl/Makefile
+    idl/text2idl/Makefile
     idl/todo/Makefile
     idl/zamb/Makefile
     idl/zamb/InputValues/Makefile

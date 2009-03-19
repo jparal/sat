@@ -3,10 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-matlabtodofiles = *.m
+files = *.m
+instdir = $(prefix)/matlab/todo
 
-matlabtododir = $(prefix)/matlab/todo
-
-dist_data_DATA = $(matlabtodofiles)
-
-nobase_matlabtodo_DATA = $(matlabtodofiles)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

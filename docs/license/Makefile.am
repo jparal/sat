@@ -3,10 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-lics = libconfig sat
+files = libconfig register sat
+instdir = $(prefix)/docs/license
 
-EXTRA_DIST = $(lics)
-
-licdocsdir = $(prefix)/docs/license
-
-nobase_licdocs_DATA = $(lics)
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

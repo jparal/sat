@@ -3,12 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-idlsatfiles = *.pro
+files = README *.pro
+instdir = $(prefix)/idl/sat
 
-idlsatdir = $(prefix)/idl/sat
-
-dist_data_DATA = $(idlsatfiles)
-
-nobase_idlsat_DATA = $(idlsatfiles)
-
-dist_noinst_DATA = README
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)

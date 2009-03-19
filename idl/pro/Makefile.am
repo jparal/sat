@@ -3,12 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-dist_noinst_DATA = bic.tar.gz
+files = *.pro
+instdir = $(prefix)/idl/pro
 
-idlprofiles = *.pro
-
-idlprodir = $(prefix)/idl/pro
-
-dist_data_DATA = $(idlprofiles)
-
-nobase_idlpro_DATA = $(idlprofiles)
+dist_noinst_DATA = $(files) bic.tar.gz
+nobase_inst_DATA = $(files)
