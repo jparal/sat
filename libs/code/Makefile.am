@@ -3,9 +3,9 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = cam mcarlo
+SUBDIRS = cam mcarlo misc
 
-headers = satcam.h satmcarlo.h
+headers = satcam.h satmcarlo.h satmisc.h
 preproc =
 sources =
 extrsrc =
@@ -26,6 +26,7 @@ EXTRA_DIST = $(extrsrc)
 
 include cam/Makefile.inc
 include mcarlo/Makefile.inc
+include misc/Makefile.inc
 
 genheaders:
 	@$(top_srcdir)/mk/scripts/genheaders.sh code $(headers)

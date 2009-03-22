@@ -43,10 +43,11 @@ public:
   /// Destructor
   ~Code ();
 
+  /// Initialize code and MPI
   void Initialize (int *pargc, char ***pargv, bool enmpi);
 
-  bool IsInitialized () const
-  { return _initialized; }
+  /// Finalize all tasks (i.e. MPI)
+  void Finalize ();
 
   int GetAgrc () const
   { return _argc; }
@@ -73,15 +74,14 @@ public:
   { return _ver; }
 
 private:
-  ConfigFile _cfg;
-  satversion_t _ver;
+  ConfigFile _cfg;   ///< parsed configuration file
+  satversion_t _ver; ///< version of configuration file
 
   int _argc;
   char **_argv;
-  String _exename;
-  String _logname;
-  String _cfgname;
-  bool _initialized;
+  String _exename; ///< name of executable file
+  String _logname; ///< name of log file
+  String _cfgname; ///< name of configuration file
 };
 
 /** @} */

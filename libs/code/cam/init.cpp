@@ -14,59 +14,12 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 {
+  Code::Initialize (pargc, pargv, true);
+
   SAT::EnableFPException ();
-  Mpi::Initialize (pargc, pargv);
-  int argc = *pargc;
-  char **argv = *pargv;
-
-  _exename = argv[0];
-  _logname = _exename;
-  _logname += ".log";
-  _cfgname = _exename;
-  _cfgname += ".sin";
-
-  // TODO: temporarily
-  if (argc == 2) _cfgname = argv[1];
-
-  // Handle all parameters
-  for (int i=1; i<argc; ++i)
-  {
-  }
-
-  char cproc[6];
-  snprintf (cproc, 6, "%.3d> ", Mpi::Rank ());
-  DBG_PREFIX (cproc);
-  DBG_ENABLE (Mpi::Rank () == 0);
-
-  DBG_INFO (PACKAGE_NAME" v"PACKAGE_VERSION);
-  DBG_INFO ("architecture: "PLATFORM_NAME"/"PLATFORM_OS_NAME" v"<<
-	    PLATFORM_OS_VERSION<< "/"PLATFORM_PROCESSOR_NAME);
-  DBG_INFO ("compiler: "_STRINGIFY(PLATFORM_COMPILER_FAMILYNAME)"/v"
-	    PLATFORM_COMPILER_VERSION_STR);
-  DBG_INFO ("configured on: "CONFIGURE_DATE);
-  DBG_INFO (PACKAGE_COPYRIGHT);
-  DBG_INFO ("Report bugs to <"PACKAGE_BUGREPORT">");
-  DBG_INFO ("CAM-CL simulation code");
-
-  const char *file = _cfgname.GetData ();
-  DBG_INFO1 ("reading configuration file: "<<file);
-  try
-  {
-    _cfg.ReadFile (file);
-    _cfg.SetAutoConvert ();
-  }
-  catch (ParseException &ex)
-  {
-    SAT_ABBORT (file<<"(" << ex.GetLine() << "): Parsing error: " <<
-		ex.GetError() << endl);
-  }
-  catch (FileIOException &ex)
-  {
-    SAT_ABBORT ("Parsing file: '"<<file<<"'");
-  }
 
   DBG_INFO ("=========== PreInitialize: ==========");
-  PreInitialize (_cfg);
+  PreInitialize (Code::GetCfgFile ());
   DBG_INFO ("=========== Initialize: =============");
   Initialize ();
   DBG_INFO ("=====================================");
@@ -75,29 +28,15 @@ void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Initialize ()
 {
-  int ver[3];
-  if (_cfg.Exists ("sat.version"))
-  {
-    ConfigEntry &ent = _cfg.GetEntry ("sat.version");
-    int len = ent.GetLength ();
-    if (len>=1) ver[0] = ent[0]; else ver[0] = 0;
-    if (len>=2) ver[1] = ent[1]; else ver[1] = 0;
-    if (len>=3) ver[2] = ent[2]; else ver[2] = 0;
-  }
-  else
-  {
-    ver[0] = 0; ver[1] = 3; ver[2] = 0;
-  }
-  _ver = SAT_VERSION_MAKE (ver[0], ver[1], ver[2]);
-  DBG_INFO1 ("assuming config version: v"<<
-	     ver[0]<<"."<<ver[1]<<"."<<ver[2]);
+  ConfigFile  &cfg = Code::GetCfgFile ();
+  satversion_t ver = Code::GetCfgVersion ();
 
   /******************/
   /* Section: SIMUL */
   /******************/
-  _time.Initialize (_cfg.GetEntry ("simul"), _ver);
-  _cfg.GetValue ("simul.momsmooth", _momsmooth, 1);
-  _cfg.GetValue ("simul.esmooth", _esmooth, 1);
+  _time.Initialize (cfg.GetEntry ("simul"), ver);
+  cfg.GetValue ("simul.momsmooth", _momsmooth, 1);
+  cfg.GetValue ("simul.esmooth", _esmooth, 1);
   DBG_INFO1 ("moment/electric Field smoothing: "<<
 	     _momsmooth<<", "<<_esmooth);
 
@@ -108,13 +47,13 @@ void CAMCode<B,T,D>::Initialize ()
   Vector<int,D> ratio;
   Vector<bool,D> openbc;
 
-  _cfg.GetValue ("parallel.mpi.proc", ratio);
-  _cfg.GetValue ("grid.openbc", openbc);
+  cfg.GetValue ("parallel.mpi.proc", ratio);
+  cfg.GetValue ("grid.openbc", openbc);
 
   DBG_INFO1 ("MPI decomposition ratio  : "<<ratio);
   DBG_INFO1 ("open Boundary conditions : "<<openbc);
 
-  mesh.Initialize (_cfg.GetEntry ("grid"));
+  mesh.Initialize (cfg.GetEntry ("grid"));
   _decomp.Initialize (ratio, Mpi::COMM_WORLD);
   DBG_INFO1 ("decomposing mesh (cells) : "<<mesh.Dim ());
   _decomp.Decompose (mesh.Dim ());
@@ -155,8 +94,8 @@ void CAMCode<B,T,D>::Initialize ()
   /*******************/
   /* Section: SECIES */
   /*******************/
-  _cfg.GetValue ("plasma.betae", _betae);
-  ConfigEntry &species = _cfg.GetEntry ("plasma.specie");
+  cfg.GetValue ("plasma.betae", _betae);
+  ConfigEntry &species = cfg.GetEntry ("plasma.specie");
   for (int i=0; i<species.GetLength (); ++i)
   {
     DBG_INFO1 ("processing specie: '"<<species[i].GetName ()<<"'");
@@ -168,21 +107,15 @@ void CAMCode<B,T,D>::Initialize ()
   /******************/
   /* Section: FIELD */
   /******************/
-  _cfg.GetValue ("field.nsub", _nsub, 10);
-  _cfg.GetValue ("field.imf.phi", _phi, 90.);
-  _cfg.GetValue ("field.imf.psi", _psi, 0.);
-  _cfg.GetValue ("field.dnmin", _dnmin, 0.05);
-  _cfg.GetValue ("field.resist", _resist, 0.001);
+  cfg.GetValue ("field.nsub", _nsub, 10);
+  cfg.GetValue ("field.imf.phi", _phi, 90.);
+  cfg.GetValue ("field.imf.psi", _psi, 0.);
+  cfg.GetValue ("field.dnmin", _dnmin, 0.05);
+  cfg.GetValue ("field.resist", _resist, 0.001);
   DBG_INFO1 ("B field sub-steps : "<<_nsub);
   DBG_INFO1 ("IMF phi; psi      : "<<_phi<<"; "<<_psi);
   DBG_INFO1 ("minimal density   : "<<_dnmin);
   DBG_INFO1 ("resistivity       : "<<_resist);
-
-  /****************/
-  /* Section: LOG */
-  /****************/
-  String logname = _logname;
-  _cfg.GetValue ("output.logfile", _logname, logname);
 
   /************************************/
   /* Setup initial magnetic field _B0 */
@@ -253,7 +186,7 @@ void CAMCode<B,T,D>::Initialize ()
   /* Setup all sensors */
   /*********************/
   DBG_INFO ("=========== Sensors: ================");
-  _sensmng.Initialize (_cfg);
+  _sensmng.Initialize (cfg);
 
   ScaFieldSensor<T,D> *nsens = new ScaFieldSensor<T,D>;
   VecFieldSensor<T,3,D> *bsens = new VecFieldSensor<T,3,D>;
@@ -265,15 +198,15 @@ void CAMCode<B,T,D>::Initialize ()
   CurlBxBSensor<T,3,D> *cbxbsens = new CurlBxBSensor<T,3,D>;
   KineticEnergySensor<T,3,D> *ken = new KineticEnergySensor<T,3,D>;
 
-  nsens->Initialize (&_dn, "density", _cfg);
-  esens->Initialize (&_E, "elfield", _cfg);
-  bsens->Initialize (&_B, "magfield", _cfg);
-  usens->Initialize (&_U, "velocity", _cfg);
-  dfsens->Initialize (&_specie, &_B, "distfnc", _cfg);
-  dbdtsens->Initialize (&_E, &_B, "dbdt", _cfg);
-  jxbsens->Initialize (&_U, &_B, &_dn, "jxb", _cfg);
-  cbxbsens->Initialize (&_B, &_dn, "cbxb", _cfg);
-  ken->Initialize (&_specie, &_B, "kenergy", _cfg);
+  nsens->Initialize (&_dn, "density", cfg);
+  esens->Initialize (&_E, "elfield", cfg);
+  bsens->Initialize (&_B, "magfield", cfg);
+  usens->Initialize (&_U, "velocity", cfg);
+  dfsens->Initialize (&_specie, &_B, "distfnc", cfg);
+  dbdtsens->Initialize (&_E, &_B, "dbdt", cfg);
+  jxbsens->Initialize (&_U, &_B, &_dn, "jxb", cfg);
+  cbxbsens->Initialize (&_B, &_dn, "cbxb", cfg);
+  ken->Initialize (&_specie, &_B, "kenergy", cfg);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);
@@ -286,7 +219,7 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (ken);
 
   DBG_INFO ("=========== PostInitialize: =========");
-  PostInitialize (_cfg);
+  PostInitialize (cfg);
 
   _B = _B0; // _Bh is initialized in function First()
   static_cast<B*>(this)->BInitAdd (_B);
@@ -321,5 +254,4 @@ CAMCode<B,T,D>::~CAMCode ()
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Finalize ()
 {
-  Mpi::Finalize ();
 }

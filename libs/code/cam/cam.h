@@ -18,6 +18,7 @@
 
 #include "satmath.h"
 #include "satsimul.h"
+#include "code/satmisc.h"
 
 /// @addtogroup code_cam
 /// @{
@@ -46,7 +47,7 @@
  *          then shared values on the boundary}
  */
 template<class B, class T, int D>
-class CAMCode
+class CAMCode : public Code
 {
 public:
   typedef Vector<T, D> PosVector;
@@ -370,9 +371,6 @@ public:
   /// @}
 
 public:
-  ConfigFile _cfg;   ///< parsed configuration file
-  satversion_t _ver; ///< version of configuration file
-
   SimulTime _time;   ///< simulation time
 
   int _nsub;         ///< number substep for magnetic field
@@ -429,11 +427,6 @@ public:
   ScaField _pe;
   ScaField _dn, _dna, _dnf;
   VecField _U,  _Ua,  _Uf;
-
-  String _exename; ///< name of file executable
-  String _runname;
-  String _logname;
-  String _cfgname;
 };
 
 // Execute

@@ -14,11 +14,12 @@
 #include "code.h"
 #include "pint/satmpi.h"
 
-Code::Code ()
-  : _initialized(false)
-{}
+Code::Code () {}
 
-Code::~Code () {}
+Code::~Code ()
+{
+  Finalize ();
+}
 
 void Code::Initialize (int *pargc, char ***pargv, bool enmpi)
 {
@@ -51,7 +52,7 @@ void Code::Initialize (int *pargc, char ***pargv, bool enmpi)
   DBG_INFO (PACKAGE_COPYRIGHT);
   DBG_INFO ("Architecture: "PLATFORM_NAME"/"PLATFORM_OS_NAME" v"<<
 	    PLATFORM_OS_VERSION<< "/"PLATFORM_PROCESSOR_NAME);
-  DBG_INFO ("Compiler:     "_STRINGIFY(PLATFORM_COMPILER_FAMILYNAME)"/v"
+  DBG_INFO ("Compiler:     "_STRINGIFY(PLATFORM_COMPILER_FAMILYNAME)" v"
 	    PLATFORM_COMPILER_VERSION_STR);
   DBG_INFO ("Configured:   "CONFIGURE_DATE);
   DBG_INFO ("Report bugs:  <"PACKAGE_BUGREPORT">");
@@ -90,10 +91,13 @@ void Code::Initialize (int *pargc, char ***pargv, bool enmpi)
 
   _cfg.GetValue ("output.logfile", _logname, _logname);
 
-  DBG_INFO1 ("exe file:    "<<_exename);
-  DBG_INFO1 ("log file:    "<<_logname);
-  DBG_INFO1 ("cfg file:    "<<_cfgname);
-  DBG_INFO1 ("cfg version: v"<< ver[0]<<"."<<ver[1]<<"."<<ver[2]);
+  DBG_INFO1 ("exe file:     "<<_exename);
+  DBG_INFO1 ("log file:     "<<_logname);
+  DBG_INFO1 ("cfg file:     "<<_cfgname);
+  DBG_INFO1 ("cfg version:  v"<< ver[0]<<"."<<ver[1]<<"."<<ver[2]);
+}
 
-  _initialized = true;
+void Code::Finalize ()
+{
+  Mpi::Finalize ();
 }
