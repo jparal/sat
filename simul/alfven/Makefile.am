@@ -7,13 +7,13 @@
 # optimization CXXFLAGS. By specifying prog_CXXFLAGS or prog_LDADD you override
 # those settings
 #
-# Uncoment libraries you want to use:
-#
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-EXTRA_DIST = alfven.sin
-# sysconf_DATA = alfven.sin
+exename = alfven
+srcfile = alfven.cxx alfven.h alfven.sin
+instdir = $(prefix)/simul/alfven
 
-bin_PROGRAMS = alfven
-
-alfven_SOURCES = alfven.cxx alfven.h
+noinst_PROGRAMS = $(exename)
+alfven_SOURCES = $(srcfile)
+dist_noinst_DATA = $(srcfile)
+# nobase_inst_DATA = $(srcfile)
