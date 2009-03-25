@@ -2,7 +2,7 @@
 alias ls="ls --color=auto"
 alias ll="ls --color -l"
 alias lfind="find . -name"
-alias e="emacs"
+alias e="emacs -nw"
 alias enw="emacs -nw"
 alias duh="du -hs"
 alias dfh="df -h"
@@ -13,7 +13,5 @@ alias make="make -j3"
 export PATH="~/bin:~/install/bin:$PATH"
 export LD_LIBRARY_PATH=~/install/lib/:/usr/local/lib/
 
-# Green user red @ green machine blue work_dir $ black
-# PS1='\[\033[01;32m\]\u\[\033[01;31m\]@\[\033[01;32m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '
-# red machine blue work_dir $ black
+# RED machine BLUE work_dir $ BLACK
 PS1='\[\033[01;31m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '

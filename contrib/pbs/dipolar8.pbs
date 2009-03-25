@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -S /bin/sh
+#PBS -l ncpus=8
+#PBS -M jparal@gmail.com
+#PBS -m bea
+#PBS -q extend
+
+cd $PBS_O_WORKDIR
+
+echo "Current working directory is `pwd`"
+
+echo "Starting run at: `date`"
+./alfven
+echo "Job finished at: `date`" 
