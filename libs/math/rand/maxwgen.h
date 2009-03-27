@@ -52,7 +52,7 @@
  * @revmessg{Initial version}
  */
 template<class T>
-class MaxwellRandGen
+class MaxwellRandGen : public RandomGen<T>
 {
 public:
   /// Constructor
@@ -67,8 +67,6 @@ public:
    * @param vth thermal velocity
    */
   void Initialize (T vth);
-
-  void Seed (uint32_t seed);
 
   /**
    * Get generated value.
@@ -89,7 +87,6 @@ private:
   T _r1;
   T _r2;
   int _stat;
-  RandomGen<T> _gen;
 };
 
 /** @} */

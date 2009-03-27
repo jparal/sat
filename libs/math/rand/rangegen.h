@@ -17,7 +17,7 @@
 
 #include "rndgen.h"
 
-/// @addtogroup math_rnd
+/// @addtogroup math_rng
 /// @{
 
 /**
@@ -28,7 +28,7 @@
  * @revmessg{Initial version}
  */
 template<class T>
-class RangeRandGen
+class RangeRandGen : public RandomGen<T>
 {
 public:
   /// Constructor
@@ -48,8 +48,6 @@ public:
    */
   void Initialize (T min, T max);
 
-  void Seed (uint32_t seed);
-
   T GetMin () const
   { return _min; }
 
@@ -64,7 +62,6 @@ public:
 
 private:
   T _min, _max, _diff;
-  RandomGen<T> _gen;
 };
 
 /// @}
