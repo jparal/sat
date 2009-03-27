@@ -66,11 +66,9 @@ public:
    * Initialization function (default normal distribution)
    * @param vth thermal velocity
    */
-  void Initialize (T vth)
-  { _vth = vth; _stat = 0; }
+  void Initialize (T vth);
 
-  void Seed (uint32_t seed)
-  { _gen.Initialize (seed); }
+  void Seed (uint32_t seed);
 
   /**
    * Get generated value.
@@ -80,6 +78,10 @@ public:
 
   /// Return variance
   T ThermalVel () const
+  { return _vth; }
+
+  /// Return thermal velocity
+  T GetVth () const
   { return _vth; }
 
 private:

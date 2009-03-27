@@ -5,6 +5,7 @@
 
 headers += \
 	rand/maxwgen.h \
+	rand/rangegen.h \
 	rand/rndgen.h
 
 # preproc += \
@@ -12,6 +13,7 @@ headers += \
 
 sources += \
 	rand/maxwgen.cxx \
+	rand/rangegen.cxx \
 	rand/rndgen.cxx
 
 # extrsrc += 
