@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+
 #PBS -S /bin/sh
 #PBS -l ncpus=32
 #PBS -M jparal@gmail.com

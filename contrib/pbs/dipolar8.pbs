@@ -1,9 +1,19 @@
-#!/bin/bash
+
 #PBS -S /bin/sh
+#PBS -N alfven
 #PBS -l ncpus=8
 #PBS -M jparal@gmail.com
 #PBS -m bea
 #PBS -q extend
+
+# Queue            Memory CPU Time Walltime Node  Run Que Lm  State
+# ---------------- ------ -------- -------- ----  --- --- --  -----
+# short              --   00:59:59    --      --    0   0 --   E R
+# long               --   23:59:59    --      --    0   0 --   E R
+# extend             --      --       --      --    0   0 --   E R
+# backfill           --   00:14:59    --      --    0   0 --   E R
+# feed               --      --       --      --    0   0 --   E R
+# lowpri             --   23:59:59    --      --    0   0 --   E R
 
 cd $PBS_O_WORKDIR
 
