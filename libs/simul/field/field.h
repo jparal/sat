@@ -15,7 +15,7 @@
 #ifndef __SAT_FIELD_H__
 #define __SAT_FIELD_H__
 
-#include "math/misc/vector.h"
+#include "satmath.h"
 #include "simul/misc/domain.h"
 #include "mesh.h"
 #include "layout.h"

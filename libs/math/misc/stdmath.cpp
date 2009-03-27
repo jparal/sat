@@ -43,7 +43,9 @@ DEFINE_STDMATH_FNC(Ceil,  ceil,  ceilf,  ceill)
 DEFINE_STDMATH_FNC(Floor, floor, floorf, floorl)
 
 DEFINE_STDMATH_FNC(Sqrt,  sqrt,  sqrtf,  sqrtl)
+DEFINE_STDMATH_FNC(Ln,    log,   logf,   logl)
 DEFINE_STDMATH_FNC(Log,   log,   logf,   logl)
+DEFINE_STDMATH_FNC(Log10, log10, log10f, log10l)
 DEFINE_STDMATH_FNC2(Pow,  pow,   powf,   powl)
 
 DEFINE_STDMATH_FNC(Sin    ,sin,  sinf,   sinl)

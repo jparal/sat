@@ -15,9 +15,8 @@
 #ifndef __SAT_CARTDEC_H__
 #define __SAT_CARTDEC_H__
 
-// #include "satbase.h"
-#include "base/common/array.h"
-#include "math/misc/vector.h"
+#include "satbase.h"
+#include "satmath.h"
 #include "wrap.h"
 
 /** @addtogroup pint_mpi

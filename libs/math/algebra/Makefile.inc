@@ -4,12 +4,11 @@
 ###############################################################################
 
 headers += \
-	misc/stdmath.h
+	algebra/vector.h
 
 preproc += \
-	misc/stdmath.cpp
+	algebra/vector.cpp
 
-# sources += \
-# 	misc/stdmath.cxx
+# sources +=
 
 # extrsrc += 

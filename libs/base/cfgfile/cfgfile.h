@@ -23,12 +23,8 @@
 #ifndef __libconfig_hpp
 #define __libconfig_hpp
 
-// #include <stdio.h>
-// #include <string>
-// #include <map>
-
 #include "cfgcore.h"
-#include "math/misc/vector.h"
+#include "satmath.h"
 
 template<class T, int D> class Vector;
 

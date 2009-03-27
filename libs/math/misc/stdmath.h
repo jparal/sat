@@ -34,8 +34,12 @@ struct Math
   template <class T> static T Floor (T v);
   /// Sqrt
   template <class T> static T Sqrt (T v);
-  /// Log
+  /// Ln: the natural logarithm of v
+  template <class T> static T Ln (T v);
+  /// Log: the natural logarithm of v
   template <class T> static T Log (T v);
+  /// Log10: the base 10 logarithm of v
+  template <class T> static T Log10 (T v);
   /// Pow
   template <class T> static T Pow (T v1, T v2);
   /// Sin

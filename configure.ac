@@ -130,6 +130,7 @@ AC_CONFIG_FILES([
     libs/io/stw/Makefile
     libs/io/xdmf/Makefile
     libs/math/Makefile
+    libs/math/algebra/Makefile
     libs/math/misc/Makefile
     libs/math/rand/Makefile
     libs/pint/Makefile

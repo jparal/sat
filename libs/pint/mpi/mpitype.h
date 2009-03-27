@@ -15,7 +15,7 @@
 #ifndef __SAT_MPITYPE_H__
 #define __SAT_MPITYPE_H__
 
-#include "math/misc/vector.h"
+#include "math/algebra/vector.h"
 
 template<class T, int D> class Vector;
 

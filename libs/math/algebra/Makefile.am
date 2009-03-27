@@ -3,13 +3,5 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-headers += \
-	misc/stdmath.h
-
-preproc += \
-	misc/stdmath.cpp
-
-# sources += \
-# 	misc/stdmath.cxx
-
-# extrsrc += 
+all:
+	cd .. && $(MAKE) libs

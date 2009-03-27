@@ -15,7 +15,7 @@
 #ifndef __SAT_LOC_H__
 #define __SAT_LOC_H__
 
-#include "math/misc/vector.h"
+#include "satmath.h"
 
 /** @addtogroup simul_misc
  *  @{

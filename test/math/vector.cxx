@@ -14,7 +14,7 @@
 
 #include "sattest.h"
 #include "satbase.h"
-#include "math/misc/vector.h"
+#include "satmath.h"
 
 template<int D>
 class Loc : public Vector<int,D>

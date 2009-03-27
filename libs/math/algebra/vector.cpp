@@ -12,9 +12,7 @@
  * @revmessg{Initial version}
  */
 
-// #include <base/sys/assert.h>
-// #include <sstream>
-#include "stdmath.h"
+#include "math/misc/stdmath.h"
 
 template <class T, int D>
 template <class T2> inline

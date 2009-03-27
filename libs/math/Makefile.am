@@ -3,9 +3,9 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = misc rand
+SUBDIRS = algebra misc rand
 
-headers = satmisc.h satrand.h
+headers = satalgebra.h satmisc.h satrand.h
 preproc =
 sources =
 extrsrc =
@@ -24,6 +24,7 @@ nobase_mathinclude_HEADERS = $(headers) $(preproc) $(lochdrs)
 #noinst_HEADERS = $(lochdrs)
 EXTRA_DIST = $(extrsrc)
 
+include algebra/Makefile.inc
 include misc/Makefile.inc
 include rand/Makefile.inc
 

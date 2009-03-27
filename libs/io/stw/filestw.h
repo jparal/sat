@@ -17,7 +17,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "math/misc/vector.h"
+#include "satmath.h"
 #include "io/misc/gzstream.h"
 
 #define STWFILE_VALUES_PER_LINE 5

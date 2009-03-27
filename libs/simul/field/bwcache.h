@@ -16,7 +16,7 @@
 #define __SAT_BWCACHE_H__
 
 #include "base/sys/inline.h"
-#include "math/misc/vector.h"
+#include "satmath.h"
 
 /** @addtogroup simul_field
  *  @{

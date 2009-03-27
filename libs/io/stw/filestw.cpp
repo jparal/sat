@@ -12,7 +12,7 @@
  */
 
 #include "base/sys/inline.h"
-#include "math/misc/vector.h"
+#include "satmath.h"
 
 using namespace std;
 

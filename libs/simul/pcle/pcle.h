@@ -17,7 +17,7 @@
 
 #include <ostream>
 #include "pint/satmpi.h"
-#include "math/misc/vector.h"
+#include "satmath.h"
 
 /** @addtogroup simul_pcle
  *  @{
