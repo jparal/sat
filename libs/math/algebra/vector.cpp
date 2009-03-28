@@ -14,41 +14,36 @@
 
 #include "math/misc/stdmath.h"
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>::Vector (T2 v)
+template <class T, int D> inline
+Vector<T,D>::Vector (T v)
 {
   for (int i=0; i<D; ++i) _d[i] = (T)(v);
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>::Vector (T2 v0, T2 v1)
+template <class T, int D> inline
+Vector<T,D>::Vector (T v0, T v1)
 {
   SAT_CASSERT (D == 2);
   _d[0] = v0; _d[1] = v1;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>::Vector (T2 v0, T2 v1, T2 v2)
+template <class T, int D> inline
+Vector<T,D>::Vector (T v0, T v1, T v2)
 {
   SAT_CASSERT (D == 3);
   _d[0] = v0; _d[1] = v1; _d[2] = v2;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>::Vector (T2 v0, T2 v1, T2 v2, T2 v3)
+template <class T, int D> inline
+Vector<T,D>::Vector (T v0, T v1, T v2, T v3)
 {
   SAT_CASSERT (D == 4);
   _d[0] = v0; _d[1] = v1; _d[2] = v2; _d[3] = v3;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>::Vector (T2 v0, T2 v1, T2 v2, T2 v3,
-		     T2 v4, T2 v5, T2 v6, T2 v7)
+template <class T, int D> inline
+Vector<T,D>::Vector (T v0, T v1, T v2, T v3,
+		     T v4, T v5, T v6, T v7)
 {
   SAT_CASSERT (D == 8);
   _d[0] = v0; _d[1] = v1; _d[2] = v2; _d[3] = v3;
@@ -56,7 +51,7 @@ Vector<T,D>::Vector (T2 v0, T2 v1, T2 v2, T2 v3,
 }
 
 template <class T, int D>
-template <class T2> inline
+template<class T2> inline
 Vector<T,D>::Vector (Vector<T2,D> const &v)
 {
   for (int i=0; i<D; ++i) _d[i] = (T)(v._d[i]);
@@ -70,49 +65,43 @@ template <class T, int D> inline
 T& Vector<T,D>::operator[] (size_t n)
 { return _d[n]; }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>& Vector<T,D>::operator+= (const Vector<T2,D> &v)
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator+= (const Vector<T,D> &v)
 {
   for (int i=0; i<D; ++i) _d[i] += (T)(v._d[i]);
   return *this;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>& Vector<T,D>::operator+= (const T2 &val)
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator+= (const T &val)
 {
   for (int i=0; i<D; ++i) _d[i] += (T)val;
   return *this;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>& Vector<T,D>::operator-= (const Vector<T2,D> &v)
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator-= (const Vector<T,D> &v)
 {
   for (int i=0; i<D; ++i) _d[i] -= (T)(v._d[i]);
   return *this;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>& Vector<T,D>::operator-= (const T2 &val)
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator-= (const T &val)
 {
   for (int i=0; i<D; ++i) _d[i] -= (T)val;
   return *this;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>& Vector<T,D>::operator*= (T2 v)
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator*= (T v)
 {
   for (int i=0; i<D; ++i) _d[i] *= (T)(v);
   return *this;
 }
 
-template <class T, int D>
-template <class T2> inline
-Vector<T,D>& Vector<T,D>::operator/= (T2 v)
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator/= (T v)
 {
   for (int i=0; i<D; ++i) _d[i] /= (T)(v);
   return *this;
@@ -130,39 +119,35 @@ Vector<T,D> Vector<T,D>::operator- () const
   return retval;
 }
 
-template <class T, int D>
-template <class T2> inline
-void Vector<T,D>::Set (T2 v0)
+template <class T, int D> inline
+void Vector<T,D>::Set (T v0)
 {
   for (int i=0; i<D; ++i) _d[i] = v0;
 }
 
-template <class T, int D>
-template <class T2> inline
-void Vector<T,D>::Set (T2 v0, T2 v1)
+template <class T, int D> inline
+void Vector<T,D>::Set (T v0, T v1)
 {
   SAT_CASSERT (D == 2);
   _d[0] = v0; _d[1] = v1;
 }
 
-template <class T, int D>
-template <class T2> inline
-void Vector<T,D>::Set (T2 v0, T2 v1, T2 v2)
+template <class T, int D> inline
+void Vector<T,D>::Set (T v0, T v1, T v2)
 {
   SAT_CASSERT (D == 3);
   _d[0] = v0; _d[1] = v1; _d[2] = v2;
 }
 
-template <class T, int D>
-template <class T2> inline
-void Vector<T,D>::Set (T2 v0, T2 v1, T2 v2, T2 v3)
+template <class T, int D> inline
+void Vector<T,D>::Set (T v0, T v1, T v2, T v3)
 {
   SAT_CASSERT (D == 4);
   _d[0] = v0; _d[1] = v1; _d[2] = v2; _d[3] = v3;
 }
 
 template <class T, int D>
-template <class T2> inline
+template<class T2> inline
 void Vector<T,D>::Set (const Vector<T2,D> &v)
 {
   for (int i=0; i<D; ++i) _d[i] = (T)(v._d[i]);

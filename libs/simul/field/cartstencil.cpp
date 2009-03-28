@@ -21,7 +21,7 @@ void CartStencil::Average (const Field<T,D> &fld,
 {
   Vector<T,MetaPow<2,D>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  val = MetaInv<MetaPow<2,D>::Is>::Is * adj.Sum ();
+  val = (T)MetaInv<MetaPow<2,D>::Is>::Is * adj.Sum ();
 }
 
 
@@ -159,9 +159,9 @@ void CartStencil::BilinearWeight (const Field<T,D> &fld,
 {
   Vector<T,MetaPow<2,D>::Is> adj;
   fld.GetAdj (cache.ipos, adj);
-  val = adj[0] * cache.weight[0];
+  val = adj[0] * (T)cache.weight[0];
   for (int i=1; i<MetaPow<2,D>::Is; ++i)
-    val += adj[i] * cache.weight[i];
+    val += adj[i] * (T)cache.weight[i];
 }
 
 

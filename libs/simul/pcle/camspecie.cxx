@@ -65,7 +65,7 @@ void CamSpecie<T,D>::LoadPcles (const Field<T,D> &dn,
 {
   float bb;
   T vpar, vper1, vper2;
-  Vector<float,3> v1, v2;
+  Vector<T,3> v1, v2;
   TParticle pcle;
   T dnl;
   Vector<T,D> pos;

@@ -28,7 +28,7 @@ template<class T> class MpiIStream;
 /// Small value to compare Vector to be zero.
 #define SMALL_EPS 0.0001
 
-/** @addtogroup math_misc
+/** @addtogroup math_alg
  *  @{
  */
 
@@ -43,40 +43,47 @@ template<class T> class MpiIStream;
  * @revision{1.0}
  * @reventry{2008/08, @jparal}
  * @revmessg{added operator<< for class ostream}
+ * @reventry{2009/03, @jparal}
+ * @revmessg{Avoid many problems by removing second template type from all
+ *          calling except of constructor and Set function. This leads to much
+ *          cleaner type resolution by compiler in the expression and I guess
+ *          it could avoid troubles in the future.}
  */
 template <class T, int D = 3>
 class Vector
 {
 public:
-  typedef Vector<T, D> TVector;
+  typedef Vector<T,D> TVector;
 
-  //@{ \brief Constructors
+  /// @name Constructors
+  /// @{
 
   /// Create an \b uninitialized vector.
   Vector () {}
+
   /// Create Vector where all components are initialized to one number.
-  template <class T2>
-  Vector (T2 v);
+  Vector (T v);
+
   /// Create Vector and initialize
-  template <class T2>
-  Vector (T2 v0, T2 v1);
+  Vector (T v0, T v1);
+
   /// Create Vector and initialize
-  template <class T2>
-  Vector (T2 v0, T2 v1, T2 v2);
+  Vector (T v0, T v1, T v2);
+
   /// Create Vector and initialize
-  template <class T2>
-  Vector (T2 v0, T2 v1, T2 v2, T2 v3);
+  Vector (T v0, T v1, T v2, T v3);
+
   /// Create Vector and initialize
-  template <class T2>
-  Vector (T2 v0, T2 v1, T2 v2, T2 v3, T2 v4, T2 v5, T2 v6, T2 v7);
+  Vector (T v0, T v1, T v2, T v3, T v4, T v5, T v6, T v7);
 
   /// Construct Vector from any Vector of the same dimension.
-  template <class T2>
+  template<class T2>
   Vector (Vector<T2,D> const &v);
 
-  //@}
+  /// @}
 
-  //@{ @brief Operators
+  /// @name Operators
+  /// @{
 
   /// Returns component of Vector
   T operator[] (size_t n) const;
@@ -85,28 +92,22 @@ public:
   T& operator[] (size_t n);
 
   /// Add a vector to this one
-  template <class T2>
-  TVector& operator+= (const Vector<T2,D> &v);
+  TVector& operator+= (const Vector<T,D> &v);
 
   /// Add a constant to this vector
-  template <class T2>
-  TVector& operator+= (const T2 &val);
+  TVector& operator+= (const T &val);
 
   /// Subtract Vector from this one
-  template <class T2>
-  TVector& operator-= (const Vector<T2,D> &v);
+  TVector& operator-= (const Vector<T,D> &v);
 
   /// Subtract a constant from this vector
-  template <class T2>
-  TVector& operator-= (const T2 &val);
+  TVector& operator-= (const T &val);
 
   /// Multiply vector by constant
-  template <class T2>
-  TVector& operator*= (T2 v);
+  TVector& operator*= (T v);
 
   /// Divide vector by constant
-  template <class T2>
-  TVector& operator/= (T2 v);
+  TVector& operator/= (T v);
 
   /// Unary perator +
   TVector operator+ () const;
@@ -114,16 +115,14 @@ public:
   TVector operator- () const;
 
   /// Operator assign
-  template <class T2>
-  TVector& operator= (const Vector<T2,D> v)
+  TVector& operator= (const Vector<T,D> v)
   {
     for (int i=0; i<D; ++i) _d[i] = (T)v._d[i];
     return *this;
   }
 
   /// Add two vectors
-  template <class T2>
-  friend TVector operator+ (const TVector &v1, const Vector<T2, D> &v2)
+  friend TVector operator+ (const TVector &v1, const Vector<T, D> &v2)
   {
     TVector retval;
     for (int i=0; i<D; ++i) retval._d[i] = v1._d[i] + (T)(v2._d[i]);
@@ -131,8 +130,7 @@ public:
   }
 
   /// Subtract two vectors
-  template <class T2>
-  friend TVector operator- (const TVector &v1, const Vector<T2, D> &v2)
+  friend TVector operator- (const TVector &v1, const Vector<T, D> &v2)
   {
     TVector retval;
     for (int i=0; i<D; ++i) retval._d[i] = v1._d[i] - (T)(v2._d[i]);
@@ -140,8 +138,7 @@ public:
   }
 
   /// Dot product of two vectors
-  template <class T2>
-  friend T operator* (const TVector &v1, const Vector<T2, D> &v2)
+  friend T operator* (const TVector &v1, const Vector<T, D> &v2)
   {
     return MetaLoops<D>::Dot (v1._d, (T*)v2._d);
     // T retval = v1._d[0] * (T)(v2._d[0]);
@@ -150,8 +147,7 @@ public:
   }
 
   /// Cross product of two vectors (speciealized only for D = 3)
-  template <class T2>
-  friend TVector operator% (const TVector &v1, const Vector<T2, D> &v2)
+  friend TVector operator% (const TVector &v1, const Vector<T, D> &v2)
   {
     SAT_CASSERT (D == 3);
     return TVector (v1._d[1] * v2._d[2] - v1._d[2] * v2._d[1],
@@ -160,8 +156,7 @@ public:
   }
 
   /// Multiply vector by constant
-  template <class T2>
-  friend TVector operator* (const TVector &v1, T2 v2)
+  friend TVector operator* (const TVector &v1, T v2)
   {
     TVector retval;
     for (int i=0; i<D; ++i) retval._d[i] = v1._d[i] * (T)(v2);
@@ -169,8 +164,7 @@ public:
   }
 
   /// Multiply vector by constant
-  template <class T2>
-  friend TVector operator* (T2 v2, const TVector &v1)
+  friend TVector operator* (T v2, const TVector &v1)
   {
     TVector retval;
     for (int i=0; i<D; ++i) retval._d[i] = v1._d[i] * (T)(v2);
@@ -178,62 +172,55 @@ public:
   }
 
   /// Divide vector by constant
-  template <class T2>
-  friend TVector operator/ (const TVector &v1, T2 v2)
+  friend TVector operator/ (const TVector &v1, T v2)
   {
     TVector retval;
     for (int i=0; i<D; ++i) retval._d[i] = v1._d[i] / (T)(v2);
     return retval;
   }
 
-  /// Compare two vecors
-  template <class T2>
-  friend bool operator== (const TVector &v1, const Vector<T2, D> &v2)
+  /// Compare two vectors
+  friend bool operator== (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] == (T)(v2._d[0]);
     for (int i=1; i<D; ++i) retval = retval && (v1._d[i] == (T)(v2._d[i]));
     return retval;
   }
 
-  /// Compare two vecors
-  template <class T2>
-  friend bool operator!= (const TVector &v1, const Vector<T2, D> &v2)
+  /// Compare two vectors
+  friend bool operator!= (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] != (T)(v2._d[0]);
     for (int i=1; i<D; ++i) retval = retval || (v1._d[i] != (T)(v2._d[i]));
     return retval;
   }
 
-  /// Compare two vecors
-  template <class T2>
-  friend bool operator< (const TVector &v1, const Vector<T2, D> &v2)
+  /// Compare two vectors
+  friend bool operator< (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] < (T)(v2._d[0]);
     for (int i=1; i<D; ++i) retval = retval && (v1._d[i] < (T)(v2._d[i]));
     return retval;
   }
 
-  /// Compare two vecors
-  template <class T2>
-  friend bool operator> (const TVector &v1, const Vector<T2, D> &v2)
+  /// Compare two vectors
+  friend bool operator> (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] > (T)(v2._d[0]);
     for (int i=1; i<D; ++i) retval = retval && (v1._d[i] > (T)(v2._d[i]));
     return retval;
   }
 
-  /// Compare two vecors
-  template <class T2>
-  friend bool operator<= (const TVector &v1, const Vector<T2, D> &v2)
+  /// Compare two vectors
+  friend bool operator<= (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] <= (T)(v2._d[0]);
     for (int i=1; i<D; ++i) retval = retval && (v1._d[i] <= (T)(v2._d[i]));
     return retval;
   }
 
-  /// Compare two vecors
-  template <class T2>
-  friend bool operator>= (const TVector &v1, const Vector<T2, D> &v2)
+  /// Compare two vectors
+  friend bool operator>= (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] >= (T)(v2._d[0]);
     for (int i=1; i<D; ++i) retval = retval && (v1._d[i] >= (T)(v2._d[i]));
@@ -241,30 +228,24 @@ public:
   }
 
   /// Project right vector into the left one
-  template <class T2>
-  friend TVector operator<< (const TVector &v1, const Vector<T2, D> &v2)
+  friend TVector operator<< (const TVector &v1, const Vector<T, D> &v2)
   {
     return v1*(MetaLoops<D>::Dot (v1._d, (T*)v2._d))/v1.Norm2 ();
   }
 
   /// Project left vector into the right one
-  template <class T2>
-  friend TVector operator>> (const TVector &v1, const Vector<T2, D> &v2)
+  friend TVector operator>> (const TVector &v1, const Vector<T, D> &v2)
   {
     return v2*(MetaLoops<D>::Dot (v1._d, (T*)v2._d))/v2.Norm2 ();
   }
 
-  //@}
+  /// @}
 
   /// Set the Vector to specified values
-  template <class T2>
-  void Set (T2 v0);
-  template <class T2>
-  void Set (T2 v0, T2 v1);
-  template <class T2>
-  void Set (T2 v0, T2 v1, T2 v2);
-  template <class T2>
-  void Set (T2 v0, T2 v1, T2 v2, T2 v3);
+  void Set (T v0);
+  void Set (T v0, T v1);
+  void Set (T v0, T v1, T v2);
+  void Set (T v0, T v1, T v2, T v3);
   template <class T2>
   void Set (const Vector<T2,D> &v);
 
