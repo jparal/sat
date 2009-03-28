@@ -4,11 +4,13 @@
 ###############################################################################
 
 headers += \
+	algebra/quaternion.h \
 	algebra/vector.h
 
 preproc += \
 	algebra/vector.cpp
 
-# sources +=
+sources += \
+	algebra/quaternion.cxx
 
 # extrsrc += 
