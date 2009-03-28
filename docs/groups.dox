@@ -125,13 +125,18 @@
  * @{ */
 
   /**
+   * \defgroup math_alg Algebra
+   * Algebraic primitives.
+   */
+
+  /**
    * \defgroup math_rand Random
    * Random number generators
    */
 
   /**
    * \defgroup math_misc Miscellaneous
-   * Various mathematical primitives
+   * What doesnt fit onto the above.
    */
 
 /** @} */
