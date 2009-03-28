@@ -34,11 +34,13 @@ struct Math
   template <class T> static T Floor (T v);
   /// Sqrt
   template <class T> static T Sqrt (T v);
-  /// Ln: the natural logarithm of v
+  /// Exp
+  template <class T> static T Exp (T v);
+  /// Ln
   template <class T> static T Ln (T v);
-  /// Log: the natural logarithm of v
+  /// Log
   template <class T> static T Log (T v);
-  /// Log10: the base 10 logarithm of v
+  /// Log10
   template <class T> static T Log10 (T v);
   /// Pow
   template <class T> static T Pow (T v1, T v2);
@@ -54,6 +56,8 @@ struct Math
   template <class T> static T ACos (T v);
   /// ArcTan
   template <class T> static T ATan (T v);
+  /// ArcTan2
+  template <class T> static T ATan2 (T v1, T v2);
 };
 
 /** @} */

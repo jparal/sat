@@ -12,7 +12,7 @@
  * @revmessg{Initial version}
  */
 
-#define DEFINE_STDMATH_FNC(name,fn_double,fn_float,fn_ldouble)  \
+#define DEFINE_STDMATH_FNC1(name,fn_double,fn_float,fn_ldouble)  \
   template <class T> inline                                     \
   T Math::name (T v)						\
   { return (T)fn_double ((double)v); }                          \
@@ -38,20 +38,22 @@
   double Math::name (double v1, double v2)			\
   { return fn_double (v1, v2); }
 
-DEFINE_STDMATH_FNC(Abs,   fabs,  fabsf,  fabsl)
-DEFINE_STDMATH_FNC(Ceil,  ceil,  ceilf,  ceill)
-DEFINE_STDMATH_FNC(Floor, floor, floorf, floorl)
+DEFINE_STDMATH_FNC1(Abs,   fabs,   fabsf,  fabsl)
+DEFINE_STDMATH_FNC1(Ceil,  ceil,   ceilf,  ceill)
+DEFINE_STDMATH_FNC1(Floor, floor,  floorf, floorl)
 
-DEFINE_STDMATH_FNC(Sqrt,  sqrt,  sqrtf,  sqrtl)
-DEFINE_STDMATH_FNC(Ln,    log,   logf,   logl)
-DEFINE_STDMATH_FNC(Log,   log,   logf,   logl)
-DEFINE_STDMATH_FNC(Log10, log10, log10f, log10l)
-DEFINE_STDMATH_FNC2(Pow,  pow,   powf,   powl)
+DEFINE_STDMATH_FNC1(Sqrt,  sqrt,   sqrtf,  sqrtl)
+DEFINE_STDMATH_FNC1(Exp,   exp,    expf,   expl)
+DEFINE_STDMATH_FNC1(Ln,    log,    logf,   logl)
+DEFINE_STDMATH_FNC1(Log,   log,    logf,   logl)
+DEFINE_STDMATH_FNC1(Log10, log10,  log10f, log10l)
+DEFINE_STDMATH_FNC2(Pow,   pow,    powf,   powl)
 
-DEFINE_STDMATH_FNC(Sin    ,sin,  sinf,   sinl)
-DEFINE_STDMATH_FNC(Cos    ,cos,  cosf,   cosl)
-DEFINE_STDMATH_FNC(Tan    ,tan,  cosf,   tanl)
+DEFINE_STDMATH_FNC1(Sin,   sin,   sinf,   sinl)
+DEFINE_STDMATH_FNC1(Cos,   cos,   cosf,   cosl)
+DEFINE_STDMATH_FNC1(Tan,   tan,   tanf,   tanl)
 
-DEFINE_STDMATH_FNC(ASin   ,asin, asinf,  asinl)
-DEFINE_STDMATH_FNC(ACos   ,acos, acosf,  acosl)
-DEFINE_STDMATH_FNC(ATan   ,atan, acosf,  atanl)
+DEFINE_STDMATH_FNC1(ASin,  asin,  asinf,  asinl)
+DEFINE_STDMATH_FNC1(ACos,  acos,  acosf,  acosl)
+DEFINE_STDMATH_FNC1(ATan,  atan,  atanf,  atanl)
+DEFINE_STDMATH_FNC2(ATan2, atan2, atan2f, atan2l)
