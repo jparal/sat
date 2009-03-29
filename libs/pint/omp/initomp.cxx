@@ -15,12 +15,12 @@
 
 void Omp::Initialize (int threads)
 {
-#ifdef HAVE_OMP
+#ifdef HAVE_OPENMP
 
   // It seems that by OpenMP standard omp_set_dynamic(TRUE) let the system
   // decide how many threads to allocate at the beginning of each parallel
-  // section and thus the number of threads is changing.
-  // We want to have a control over the number so set to FALSE.
+  // section and thus the number of threads is changing.  We want to have a
+  // control over the number so set omp_set_dynamic to FALSE.
   // NOTE: ICC compiler has the opposite behavior.
   omp_set_dynamic (0);
 
@@ -31,15 +31,16 @@ void Omp::Initialize (int threads)
 
   omp_set_num_threads (threads);
 
-  Omp::PrintThreads (threads);
+#endif // HAVE_OPENMP
 
-#endif // HAVE_OMP
+  Omp::PrintInfo ();
 }
 
 void Omp::Initialize (ConfigFile& cfg)
 {
-#ifdef HAVE_OMP
   int threads;
+
+#ifdef HAVE_OPENMP
 
   // See the note in Omp::Initialize()
   omp_set_dynamic (0);
@@ -51,12 +52,24 @@ void Omp::Initialize (ConfigFile& cfg)
   }
   omp_set_num_threads (threads);
 
-  Omp::PrintThreads (threads);
+#endif // HAVE_OPENMP
 
-#endif // HAVE_OMP
+  Omp::PrintInfo ();
 }
 
-void Omp::PrintThreads (int threads)
+void Omp::PrintInfo ()
 {
-  DBG_INFO ("OpenMP: number of threads: " << threads);
+#ifdef HAVE_OPENMP
+  DBG_INFO ("OpenMP Initialization");
+  SAT_PRAGMA_OMP (parallel)
+  {
+    if (omp_get_thread_num () == 0)
+      DBG_INFO ("  omp_get_num_threads: " << omp_get_num_threads ());
+  }
+  DBG_INFO1 ("  omp_get_max_threads: " << omp_get_max_threads ());
+  DBG_INFO1 ("  omp_get_num_procs:   " << omp_get_num_procs ());
+  DBG_INFO1 ("  omp_get_dynamic:     " << omp_get_dynamic ());
+#else
+  DBG_WARN ("OpenMP: Support is not compiled in!");
+#endif // HAVE_OPENMP
 }

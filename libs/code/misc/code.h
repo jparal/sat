@@ -43,12 +43,6 @@ public:
   /// Destructor
   ~Code ();
 
-  /// Initialize code and MPI
-  void Initialize (int *pargc, char ***pargv, bool enmpi);
-
-  /// Finalize all tasks (i.e. MPI)
-  void Finalize ();
-
   int GetAgrc () const
   { return _argc; }
 
@@ -72,6 +66,13 @@ public:
 
   satversion_t GetCfgVersion () const
   { return _ver; }
+
+protected:
+  /// Initialize code and MPI
+  void Initialize (int *pargc, char ***pargv, bool mpi, bool omp);
+
+  /// Finalize all tasks (i.e. MPI)
+  void Finalize ();
 
 private:
   ConfigFile _cfg;   ///< parsed configuration file

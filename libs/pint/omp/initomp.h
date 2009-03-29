@@ -23,12 +23,12 @@
  *  @{
  */
 
-#ifdef HAVE_OMP
+#ifdef HAVE_OPENMP
 #  include <omp.h>
 #  define SAT_PRAGMA_OMP(p) SAT_PRAGMA(omp p)
 #else
 #  define SAT_PRAGMA_OMP(p)
-#endif // HAVE_OMP
+#endif // HAVE_OPENMP
 
 struct Omp
 {
@@ -49,7 +49,7 @@ struct Omp
    */
   static void Initialize (ConfigFile& cfg);
 
-  void PrintThreads (int threads);
+  static void PrintInfo ();
 };
 
 /** @} */

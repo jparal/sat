@@ -12,7 +12,7 @@
  */
 
 #include "code.h"
-#include "pint/satmpi.h"
+#include "satpint.h"
 
 Code::Code () {}
 
@@ -21,10 +21,9 @@ Code::~Code ()
   Finalize ();
 }
 
-void Code::Initialize (int *pargc, char ***pargv, bool enmpi)
+void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
 {
-  if (enmpi)
-    Mpi::Initialize (pargc, pargv);
+  if (mpi) Mpi::Initialize (pargc, pargv);
 
   _argc = *pargc;
   _argv = *pargv;
@@ -95,6 +94,8 @@ void Code::Initialize (int *pargc, char ***pargv, bool enmpi)
   DBG_INFO1 ("log file:     "<<_logname);
   DBG_INFO1 ("cfg file:     "<<_cfgname);
   DBG_INFO1 ("cfg version:  v"<< ver[0]<<"."<<ver[1]<<"."<<ver[2]);
+
+  if (omp) Omp::Initialize (_cfg);
 }
 
 void Code::Finalize ()

@@ -14,7 +14,7 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 {
-  Code::Initialize (pargc, pargv, true);
+  Code::Initialize (pargc, pargv, true, false);
 
   SAT::EnableFPException ();
 
