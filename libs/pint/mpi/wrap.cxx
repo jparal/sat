@@ -56,7 +56,8 @@ void Mpi::Initialize (int* argc, char*** argv)
 void Mpi::Finalize ()
 {
 #ifdef HAVE_MPI
-   MPI_Finalize();
+  if (s_isinit)
+    MPI_Finalize();
 #endif
 }
 

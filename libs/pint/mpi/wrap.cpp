@@ -36,7 +36,8 @@ int Mpi::Rank ()
 {
   int myid = 0;
 #ifdef HAVE_MPI
-  MPI_Comm_rank (s_comm, &myid);
+  if (s_isinit)
+    MPI_Comm_rank (s_comm, &myid);
 #endif
   return myid;
 }
