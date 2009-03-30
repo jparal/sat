@@ -7,7 +7,7 @@ alfven = { nperiod = [4, 4]; amplitude = 0.05; grpvel = 1.0; };
 simul:
 {
   step    = 0.02;
-  max     = 300;
+  tmax    = 300;
   start   = 0.;
   restart = false;     # restart app
   momsmooth = 2;       # Steps between moment smooth 

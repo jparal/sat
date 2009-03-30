@@ -27,8 +27,14 @@
 typedef uint32_t iter_t;
 
 /**
- * Simulation time class which keep track of current iteration and simulation
- * time.
+ * @brief Simulation time class which keep track of current iteration related
+ *        information.
+ *
+ * @revision{1.0}
+ * @reventry{2008/08, @jparal}
+ * @revmessg{Initial version}
+ * @reventry{2009/03, @jparal}
+ * @revmessg{change simul.max into simul.tmax SIN variable}
  */
 class SimulTime : public RefCount
 {
@@ -54,7 +60,7 @@ public:
    * simul:
    * {
    *   step    = 0.0025;
-   *   max     = 1000.;
+   *   tmax    = 1000.;
    *   start   = 0.;
    *   restart = false;
    * };

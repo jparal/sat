@@ -45,7 +45,7 @@ void SimulTime::Initialize (ConfigEntry &cfg, satversion_t ver)
   bool restart;
 
   cfg.GetValue ("step", dt);
-  cfg.GetValue ("max", max);
+  cfg.GetValue ("tmax", max);
 
   cfg.GetValue ("start", start, 0.);
   cfg.GetValue ("restart", restart, false);
