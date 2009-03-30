@@ -3,11 +3,9 @@
 # Initialization, version number, and other random setup/init stuff
 ############################################################################
 
-AC_INIT(
-    [Simalate & Analyse Toolkit],
-    [m4_normalize(esyscmd([mk/scripts/getversion.sh VERSION --base]))],
-    [jparal@gmail.com],
-    [sat])
+AC_INIT([Simalate & Analyse Toolkit],
+  [m4_normalize(esyscmd([mk/scripts/getversion.sh VERSION --base]))],
+  [Jan Paral <jparal@gmail.com>], [sat])
 
 PACKAGE_COPYRIGHT="\
 \"Copyright (c) 2005-2009 by SAT team. All rights reserved.\""
@@ -31,7 +29,7 @@ AC_LOAD_PLATFORM
 #
 # Init automake
 #   subdir-objects .. move object file into the subdirectories
-AM_INIT_AUTOMAKE([foreign no-define 1.10])
+AM_INIT_AUTOMAKE([foreign no-define subdir-objects 1.10])
 
 AC_PROG_CXX([g++ xlc++ xlC icpc icc pathCC cxx aCC c++ CC pgCC KCC FCC])
 AC_PROG_LN_S

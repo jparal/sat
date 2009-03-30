@@ -3,6 +3,7 @@
 *~
 .deps
 !dummy.*
+.dirstamp
 /.rsync
 /build-*
 /*.tar.gz
