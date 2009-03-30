@@ -64,6 +64,7 @@ struct Function
 #define DBG_INFO(msg)  DBG_PRINT(msg, "(II)")
 #define DBG_WARN(msg)  DBG_PRINT(msg, "(WW)")
 #define DBG_ERROR(msg) DBG_PRINT(msg, "(EE)")
+#define DBG_LINE(msg)  DBG_PRINT("===================================", "(==)");
 
 #if (DEBUG_LEVEL >= 1)
 #  define DBG_INFO1(msg) DBG_PRINT(msg, "(11)")

@@ -23,6 +23,9 @@ Code::~Code ()
 
 void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
 {
+  bool enthreads = false;
+  int threads = -1;
+
   if (mpi) Mpi::Initialize (pargc, pargv);
 
   _argc = *pargc;
@@ -34,12 +37,25 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
   _cfgname = _exename;
   _cfgname += ".sin";
 
-  // TODO: temporarily
-  if (_argc == 2) _cfgname = _argv[1];
-
   // Handle all parameters
   for (int i=1; i<_argc; ++i)
   {
+    if (!strcmp (_argv[i], "--threads"))
+    {
+      enthreads = true;
+      threads = atoi (_argv[++i]);
+    }
+    else if (!strcmp (_argv[i], "--help") || !strcmp (_argv[i], "-h"))
+    {
+#if HAVE_OPENMP
+      if (omp)
+	printf ("  --threads N   Number of threads which OpenMP should use.\n");
+#endif //HAVE_OPENMP
+    }
+    else
+    {
+      _cfgname = _argv[1];
+    }
   }
 
   char cproc[6];
@@ -54,8 +70,8 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
   DBG_INFO ("Compiler:     "_STRINGIFY(PLATFORM_COMPILER_FAMILYNAME)" v"
 	    PLATFORM_COMPILER_VERSION_STR);
   DBG_INFO ("Configured:   "CONFIGURE_DATE);
-  DBG_INFO ("Report bugs:  <"PACKAGE_BUGREPORT">");
-  DBG_INFO ("----");
+  DBG_INFO ("Report bugs:  "PACKAGE_BUGREPORT);
+  DBG_LINE ("");
 
   const char *file = _cfgname.GetData ();
   try
@@ -95,7 +111,11 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
   DBG_INFO1 ("cfg file:     "<<_cfgname);
   DBG_INFO1 ("cfg version:  v"<< ver[0]<<"."<<ver[1]<<"."<<ver[2]);
 
-  if (omp) Omp::Initialize (_cfg);
+  if (omp)
+    if (enthreads)
+      Omp::Initialize (threads);
+    else
+      Omp::Initialize (_cfg);
 }
 
 void Code::Finalize ()
