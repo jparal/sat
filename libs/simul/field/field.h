@@ -44,13 +44,16 @@
  * @reventry{2008/08, @jparal}
  * @revmessg{Sync function is more complex and support share/ghost cells
  *          introduced in Layout class during synchronization process.}
+ * @reventry{2009/04, @jparal}
+ * @revmessg{Add Initialized function which is synonym to Allocated}
  */
 template<class T, int D>
 class Field
 {
 public:
   /// @name Constructors/Destructor
-  //@{
+  /// @{
+
   Field ();
   Field (int d0);
   Field (int d0, int d1);
@@ -58,29 +61,46 @@ public:
   Field (int d0, int d1, int d2, int d3);
   Field (int d0, int d1, int d2, int d3, int d4);
   Field (int d0, int d1, int d2, int d3, int d4, int d5);
+
   template<int VD>
   Field (const Vector<int,VD> &d);
+
   Field (const Mesh<D> &mesh, const Layout<D> &layout = Layout<D> ());
+
+  /// Destructor
   ~Field ();
-  //@}
+
+  /// @}
 
   /// @name Allocate/Free
-  //@{
+  /// @{
   void Initialize (int d0);
   void Initialize (int d0, int d1);
   void Initialize (int d0, int d1, int d2);
   void Initialize (int d0, int d1, int d2, int d3);
   void Initialize (int d0, int d1, int d2, int d3, int d4);
   void Initialize (int d0, int d1, int d2, int d3, int d4, int d5);
+
   template<int VD>
   void Initialize (const Vector<int,VD> &d);
+
   void Initialize (const Mesh<D> &mesh, const Layout<D> &layout = Layout<D> ());
+
   /// Free allocated memory
   void Free ();
-  //@}
+
+  /// For the names to be consistent, add synonym for Allocated
+  bool Initialized () const
+  { return Allocated (); }
+
+  /// Are the data allocated?
+  bool Allocated () const
+  { return _data == NULL ? 0 : _tot * sizeof(T); }
+
+  /// @}
 
   /// @name Index operators
-  //@{
+  /// @{
   const T& operator() (int i0) const;
   const T& operator() (int i0, int i1) const;
   const T& operator() (int i0, int i1, int i2) const;
@@ -116,7 +136,7 @@ public:
   template<class T2>
   void AddAdj (const Vector<T2,D> &loc, const Vector<T,MetaPow<2,D>::Is> &adj);
 
-  //@}
+  /// @}
 
   /// @{
   /// @name Parallel support
@@ -165,9 +185,6 @@ public:
   void operator+= (const Field<T2,D>& val);
 
   /// @}
-
-  int Allocated () const
-  { return _data == NULL ? 0 : _tot * sizeof(T); }
 
   int Rank () const
   { return D; }
