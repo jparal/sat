@@ -5,10 +5,6 @@
 (if (>= emacs-major-version 23)
     (set-default-font "Monospace-8"))
 
-;;;     (if (>= display-pixels-per-inch 72)
-;;; 	(set-default-font "Monospace-8")
-;;;       (set-default-font "Monospace-10")))
-
 ;; My local elisp files
 (add-to-list 'load-path "~/.emacs.d/my-elisp")
 

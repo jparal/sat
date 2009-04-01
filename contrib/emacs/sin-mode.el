@@ -66,73 +66,50 @@ For generic-mode, each element is quoted. For generic, each element is unchanged
   ; Extra stuff to colorize
   (list
 
-    ; SAT keywords
+   ; SAT keywords
    (generic-make-keywords-list
-    (list "actions" "bind" "case" "default" "else" "existing" "for" "if"
-	  "ignore" "in" "include" "local" "on" "piecemeal" "quietly" "rule" "switch"
-	  "together" "updated")
+    (list "font-lock-keyword-face-EXAMPLE")
     'font-lock-keyword-face)
 
-    ; SAT built-in variables
+   ; SAT built-in variables
    (generic-make-keywords-list
     (list
-     "JAMDATE" "JAMSHELL" "JAMUNAME" "JAMVERSION" "MAC" "NT" "OS" "OS2"
-     "OSPLAT" "OSVER" "UNIX" "VMS")
+     "font-lock-constant-face-EXAMPLE")
     'font-lock-constant-face)
 
-    ; SAT built-in targets
+   ; SAT built-in targets
    (generic-make-keywords-list
     (list
-     "ALWAYS" "DEPENDS" "ECHO" "INCLUDES" "LEAVES" "LOCATE" "NOCARE"
-     "NOTFILE" "NOUPDATE" "SEARCH" "TEMPORARY")
+     "font-lock-builtin-face-EXAMPLE")
     'font-lock-builtin-face)
 
-	; SAT built-in targets (warnings)
+   ; SAT built-in targets (warnings)
    (generic-make-keywords-list
     (list
-     "EXIT")
+     "font-lock-warning-face-EXAMPLE1" "font-lock-warning-face-EXAMPLE2")
     'font-lock-warning-face)
 
-	; Jambase rules
+   ; Jambase rules
    (generic-make-keywords-list
     (sin-mode-quote-keywords
      (list
-      "Archive" "As" "Bulk" "Cc" "CcMv" "C++" "Chgrp" "Chmod" "Chown" "Clean" "CreLib"
-      "Depends" "File" "Fortran" "GenFile" "GenFile1" "HardLink"
-      "HdrRule" "Install" "InstallBin" "InstallFile" "InstallInto" "InstallLib" "InstallMan"
-      "InstallShell" "Lex" "Library" "LibraryFromObjects" "Link" "LinkLibraries"
-      "Main" "MainFromObjects" "MakeLocate" "MkDir" "MkDir1" "Object" "ObjectC++Flags"
-      "ObjectCcFlags" "ObjectHdrs" "Objects" "Ranlib" "RmTemps" "Setuid" "SubDir"
-      "SubDirC++Flags" "SubDirCcFlags" "SubDirHdrs" "SubInclude" "Shell" "Undefines"
-      "UserObject" "Yacc" "Yacc1" "BULK" "FILE" "HDRRULE" "INSTALL" "INSTALLBIN" "INSTALLLIB"
-      "INSTALLMAN" "LIBRARY" "LIBS" "LINK" "MAIN" "SETUID" "SHELL" "UNDEFINES"
-      "addDirName" "makeCommon" "makeDirName" "makeGrist" "makeGristedName" "makeRelPath"
-      "makeString" "makeSubDir" "makeSuffixed" "unmakeDir"))
+      "font-lock-function-name-face-EXAMPLE"))
     'font-lock-function-name-face)
 
-	; Jambase built-in targets
+   ; Jambase built-in targets
    (generic-make-keywords-list
     (list
-     "all" "clean" "dirs" "exe" "files" "first" "install" "lib" "obj" "shell" "uninstall")
+     "font-lock-builtin-face-EXAMPLE1" "font-lock-builtin-face-EXAMPLE2")
     'font-lock-builtin-face)
 
-	; Jambase built-in variables
+   ; Jambase built-in variables
    (generic-make-keywords-list
     (sin-mode-quote-keywords
      (list
-      "ALL_LOCATE_TARGET" "AR" "ARFLAGS" "AS" "ASFLAGS" "AWK" "BCCROOT" "BINDIR" "CC" "CCFLAGS"
-      "C++" "C++FLAGS" "CHMOD" "CP" "CRELIB" "CW" "CWGUSI" "CWMAC" "CWMSL" "DOT" "DOTDOT"
-      "EXEMODE" "FILEMODE" "FORTRAN" "FORTRANFLAGS" "GROUP" "HDRGRIST" "HDRPATTERN" "HDRRULE"
-      "HDRS" "HDRSCAN" "HDRSEARCH" "INSTALL" "JAMFILE" "JAMRULES" "LEX" "LIBDIR" "LINK"
-      "LINKFLAGS" "LINKLIBS" "LOCATE_SOURCE" "LOCATE_TARGET" "LN" "MACINC" "MANDIR" "MKDIR"
-      "MODE" "MSLIB" "MSLINK" "MSIMPLIB" "MSRC" "MSVC" "MSVCNT" "MV" "NEEDLIBS" "NOARSCAN"
-      "OSFULL" "OPTIM" "OWNER" "RANLIB" "RCP" "RELOCATE" "RM" "RSH" "RUNVMS" "SEARCH_SOURCE"
-      "SED" "SHELLHEADER" "SHELLMODE" "SLASH" "SLASHINC" "SOURCE_GRIST" "STDHDRS" "STDLIBPATH"
-      "SUBDIR" "SUBDIRASFLAGS" "SUBDIRC++FLAGS" "SUBDIRCCFLAGS" "SUBDIRHDRS" "SUBDIR_TOKENS"
-      "SUFEXE" "SUFLIB" "SUFOBJ" "UNDEFFLAG" "UNDEFS" "WATCOM" "YACC" "YACCFLAGS" "YACCFILES"))
+      "font-lock-function-name-face-EXAMPLE1"))
     'font-lock-function-name-face)
 
-     ; Jam variable references $(foo)
+   ; Jam variable references $(foo)
    '("$(\\([^ :\\[()\t\r\n]+\\)[)\\[:]" 1 font-lock-variable-name-face))
 
   ; Apply this mode to all files *.sin
@@ -142,7 +119,7 @@ For generic-mode, each element is quoted. For generic, each element is unchanged
   (list 'sin-mode-setup-function)
 
   ; Brief description
-  "Generic mode for SAT configuration files SIN (Sat IN")
+  "Generic mode for SIN (Sat INput) configuration files of SAT package.")
 
 (defun sin-mode-setup-function ()
   (modify-syntax-entry ?_ "w")
@@ -157,7 +134,7 @@ For generic-mode, each element is quoted. For generic, each element is unchanged
   (setq imenu-generic-expression
         '(("Rules" "^rule\\s-+\\([A-Za-z0-9_]+\\)" 1)
           ("Actions" "^actions\\s-+\\([A-Za-z0-9_]+\\)" 1)))
-  (imenu-add-to-menubar "sin")
+  (imenu-add-to-menubar "SIN")
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'sin-indent-line)
   (run-hooks 'sin-mode-hook)
