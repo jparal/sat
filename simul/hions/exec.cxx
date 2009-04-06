@@ -3,22 +3,34 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   hions.cxx
- * @brief  Monte-Carlo simulation of heavy ions
+ * @file   exec.cxx
+ * @brief  Main loop of heavy ions app.
  * @author @jparal
  *
  * @revision{1.0}
- * @reventry{2008/12, @jparal}
+ * @reventry{2009/03, @jparal}
  * @revmessg{Initial version}
  */
 
 #include "hions.h"
 
-int main (int argc, char **argv)
+void
+HeavyIonsCode::Exec ()
 {
-  HeavyIonsCode hions;
-  hions.Initialize (&argc, &argv);
-  hions.Exec ();
+  //  PreExec ();
 
-  return 0;
+  do
+  {
+    _sensmng.SaveAll (_time);
+    _sensmng.SetNextOutput (_time);
+
+    while (_time.Next ())
+      Iter ();
+  }
+  while (_time.Iter () < _time.ItersMax ());
+
+  _sensmng.SaveAll (_time);
+  _sensmng.SetNextOutput (_time);
+
+  //  PostExec ();
 }

@@ -10,7 +10,7 @@
 include $(top_srcdir)/mk/amake/Makefile.sat
 
 exename = hions
-srcfile = hions.cxx hions.h hions.sin
+srcfile = exec.cxx hions.cxx hions.h init.cxx iter.cxx load.cxx hions.sin
 instdir = $(prefix)/simul/hions
 
 noinst_PROGRAMS = $(exename)

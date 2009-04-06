@@ -1,1 +1,49 @@
 
+simul:
+{
+  step = 0.02;   # time step for pcles [1/Omega_pi]
+  tmax = 300;    # Max time to run to [1/Omega_pi]
+  clean = 10000; # Clean unused pcles [steps]
+  restart = false; start = 0.;
+};
+
+input:
+{
+  fname  = "b25Kai2000.gz";
+  cells  = [ 560, 200, 200 ];
+  resol  = [ 0.4, 1.0, 1.0 ]; # [c/omega_p]
+  planet = { rpos = [ 0.35, 0.5, 0.5 ]; radius = 12.48; grav = 1.; };
+  forces = { swaccel = [1.,0.,0.]; };
+  scalef = 4.81; # Alphelium
+  # scalef = 5.56; # Perihelium
+};
+
+ionize = { iters = 20000; sigma = 5000; };
+
+release: # ========= Aphelion ============
+{
+  psd = { sigma = 0.0090; mu = 0.0; pcles = 200; };
+  mmv = { sigma = 0.0127; mu = 0.0; pcles = 200; };
+  sws = { bind = 0.0183; mapfile = "PlSWSmap.gz"; pcles = 200; };
+};
+
+output:
+{
+  logfile = "hions.log";
+  format:
+  {
+    type     = "xdmf"; version = 1; parallel = false;
+    dir      = ".";
+    runname  = "test";
+    compress = { gz = 6; shuffle = true; };   # output compression
+  };
+};
+
+parallel= { omp= { threads = -1; }; };
+
+# release: # ========= Perihelion ============
+# {
+#   psd = { sigma = 0.0062; mu = 0.0; pcles = 200; };
+#   mmv = { sigma = 0.0088; mu = 0.0; pcles = 200; };
+#   sws = { bind = 0.0127; mapfile = "PlSWSmap.gz"; pcles = 200; };
+# };

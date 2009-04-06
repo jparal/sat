@@ -3,22 +3,19 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   hions.cxx
- * @brief  Monte-Carlo simulation of heavy ions
+ * @file   iter.cxx
+ * @brief  Single code interation.
  * @author @jparal
  *
  * @revision{1.0}
- * @reventry{2008/12, @jparal}
+ * @reventry{2009/03, @jparal}
  * @revmessg{Initial version}
  */
 
 #include "hions.h"
 
-int main (int argc, char **argv)
+void
+HeavyIonsCode::Iter ()
 {
-  HeavyIonsCode hions;
-  hions.Initialize (&argc, &argv);
-  hions.Exec ();
-
-  return 0;
+  //  DBG_INFO("Iter (): "<<_time.Iter ());
 }
