@@ -15,6 +15,7 @@
 #include "base/sys/assert.h"
 
 #include <string.h>
+#include <stdio.h>
 
 ParallelBuffer plog_buff;
 
