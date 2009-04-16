@@ -50,25 +50,26 @@ HeavyIonsCode::Initialize (int *pargc, char ***pargv)
   DBG_INFO ("  planet position:        "<<_rx);
   DBG_INFO ("  planet radius:          "<<_radius);
 
-  DBG_INFO ("=========== Sensors: ================");
+  DBG_LINE ("Sensors:");
   _sensmng.Initialize (cfg);
 
-  // SAT_PRAGMA_OMP (parallel sections)
-  // {
-  //   SAT_PRAGMA_OMP (section) Load (_B, 0, "Bx" + _stwname);
-  //   SAT_PRAGMA_OMP (section) Load (_B, 1, "By" + _stwname);
-  //   SAT_PRAGMA_OMP (section) Load (_B, 2, "Bz" + _stwname);
+  DBG_LINE ("Load Data:");
+  SAT_PRAGMA_OMP (parallel sections)
+  {
+    SAT_PRAGMA_OMP (section) Load (_B, 0, "Bx" + _stwname);
+    SAT_PRAGMA_OMP (section) Load (_B, 1, "By" + _stwname);
+    SAT_PRAGMA_OMP (section) Load (_B, 2, "Bz" + _stwname);
 
-  //   SAT_PRAGMA_OMP (section) Load (_E, 0, "Ex" + _stwname);
-  //   SAT_PRAGMA_OMP (section) Load (_E, 1, "Ey" + _stwname);
-  //   SAT_PRAGMA_OMP (section) Load (_E, 2, "Ez" + _stwname);
-  // }
+    SAT_PRAGMA_OMP (section) Load (_E, 0, "Ex" + _stwname);
+    SAT_PRAGMA_OMP (section) Load (_E, 1, "Ey" + _stwname);
+    SAT_PRAGMA_OMP (section) Load (_E, 2, "Ez" + _stwname);
+  }
 
-  // HDF5File file;
-  // file.Initialize (cfg);
-  // SAT_PRAGMA_OMP (parallel sections)
-  // {
-  //   SAT_PRAGMA_OMP (section) file.Write (_B, Cell, "B", "Bpokus");
-  //   SAT_PRAGMA_OMP (section) file.Write (_E, Cell, "E", "Epokus");
-  // }
+  HDF5File file;
+  file.Initialize (cfg);
+  SAT_PRAGMA_OMP (parallel sections)
+  {
+    SAT_PRAGMA_OMP (section) file.Write (_B, Cell, "B", "Bpokus");
+    SAT_PRAGMA_OMP (section) file.Write (_E, Cell, "E", "Epokus");
+  }
 }
