@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   thompsongen.h
+ * @file   thompson.h
  * @brief  Thompson-Sigmund energy distribution generator.
  * @author @jparal
  *
@@ -12,8 +12,8 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_THOMPSONGEN_H__
-#define __SAT_THOMPSONGEN_H__
+#ifndef __SAT_RAND_THOMPSON_H__
+#define __SAT_RAND_THOMPSON_H__
 
 #include "rndgen.h"
 
@@ -82,4 +82,4 @@ private:
 
 /** @} */
 
-#endif // __SAT_THOMPSONGEN_H__
+#endif // __SAT_RAND_THOMPSON_H__

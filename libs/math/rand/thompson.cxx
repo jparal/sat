@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   thompsongen.cxx
+ * @file   thompson.cxx
  * @author @jparal
  *
  * @revision{1.0}
@@ -11,7 +11,7 @@
  * @revmessg{Initial version}
  */
 
-#include "thompsongen.h"
+#include "thompson.h"
 #include "math/satmisc.h"
 
 template<class T>

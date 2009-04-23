@@ -2,8 +2,11 @@
 #define __sat_math_satrand_h__
 
 #include "satsysdef.h"
-#include "math/rand/maxwgen.h"
-#include "math/rand/rangegen.h"
+//#include "math/rand/arms.h"
+#include "math/rand/maxwell.h"
+#include "math/rand/range.h"
 #include "math/rand/rndgen.h"
+//#include "math/rand/sigmund.h"
+#include "math/rand/thompson.h"
 
 #endif /* __sat_math_satrand_h__ */

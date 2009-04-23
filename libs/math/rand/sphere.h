@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   sphgen.h
+ * @file   sphere.h
  * @brief  Uniform distribution in spherical coordinates.
  * @author @jparal
  *
@@ -12,8 +12,8 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_SPHGEN_H__
-#define __SAT_SPHGEN_H__
+#ifndef __SAT_RAND_SPHERE_H__
+#define __SAT_RAND_SPHERE_H__
 
 #include "rndgen.h"
 
@@ -47,4 +47,4 @@ private:
 
 /// @}
 
-#endif /* __SAT_SPHGEN_H__ */
+#endif /* __SAT_RAND_SPHERE_H__ */

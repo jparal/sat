@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   maxwgen.h
+ * @file   maxwell.h
  * @brief  Maxwell random number generator.
  * @author @jparal
  *
@@ -12,8 +12,8 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_MAXWGEN_H__
-#define __SAT_MAXWGEN_H__
+#ifndef __SAT_RAND_MAXWELL_H__
+#define __SAT_RAND_MAXWELL_H__
 
 #include "rndgen.h"
 
@@ -91,4 +91,4 @@ private:
 
 /** @} */
 
-#endif /* __SAT_MAXWGEN_H__ */
+#endif /* __SAT_RAND_MAXWELL_H__ */

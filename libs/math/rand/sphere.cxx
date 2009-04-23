@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   rangegen.cxx
+ * @file   sphere.cxx
  * @author @jparal
  *
  * @revision{1.0}
@@ -11,15 +11,18 @@
  * @revmessg{Initial version}
  */
 
-#include "rangegen.h"
+#include "sphere.h"
+#include "base/common/const.h"
+#include "math/satmisc.h"
 
 template<class T>
-void RangeRandGen<T>::Initialize (T min, T max)
-{ _min = min; _max = max; _diff = max-min; }
+T SphericalRandGen<T>::GetPhi ()
+{
+  return ((T)2 * M_PI * RandomGen<T>::Get ());
+}
 
 template<class T>
-T RangeRandGen<T>::Get ()
-{ return _min + _diff * RandomGen<T>::Get (); }
-
-template class RangeRandGen<float>;
-template class RangeRandGen<double>;
+T SphericalRandGen<T>::GetTht ()
+{
+  return Math::ACos ((T)2 * RandomGen<T>::Get () - (T)1);
+}
