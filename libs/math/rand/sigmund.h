@@ -46,12 +46,14 @@ public:
   /// Constructor
   SigmunRandGen ();
 
+  /// Evaluate DF at the point @p x.
   virtual double EvalDF (double x);
 
   /**
    * @brief Initialize Sigmund distribution function.
-   * To get the actual value call Get() function which is defined in
-   * ARMSRandGen class.
+   * To get the actual value from the distribution, call Get() function which
+   * is defined in ARMSRandGen class. Binding energy is usually in the range of
+   * 1-4 eV and transmitted energy in the range of thousands of electron volts.
    *
    * @param bind Binding energy of particle
    * @param trans Transmitted energy from the collision
@@ -69,6 +71,7 @@ public:
 private:
   double _bind;  ///< Binding energy of particle
   double _trans; ///< Transmitted energy from the collision
+  double _cnorm; ///< Normalization constant
   bool _initialized;
 };
 

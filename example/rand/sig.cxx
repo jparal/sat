@@ -18,10 +18,8 @@
 int main (int argc, char **argv)
 {
   SigmunRandGen sig;
-  sig.Initialize (2,5000);
+  sig.Initialize (3,800);
 
-  for (int i=0; i<5000000; i++)
-  {
+  for (int i=0; i<1000000; i++)
     printf ("%lf\n", sig.Get ());
-  }
 }

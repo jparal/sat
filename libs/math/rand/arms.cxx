@@ -19,6 +19,10 @@
 #define EYEPS 0.001              /* critical relative exp(y) difference */
 #define YCEIL 50.                /* maximum y avoiding overflow in exp(y) */
 
+// return at acceptance is NOT necessary here but produce a much nicer
+// distribution without repeating the same values
+#define SIGMUND_NICE 1
+
 ARMSRandGen::ARMSRandGen ()
 {
   _err = 0;
@@ -37,17 +41,18 @@ double ARMSRandGen::Get ()
   int i;
 
   /* now do adaptive rejection */
-  /* sample a new point */
-  Sample (&pwork);
+  do
+  {
+    /* sample a new point */
+    Sample (&pwork);
+    /* perform rejection (and perhaps metropolis) tests */
+    i = Test (&pwork);
 
-  /* perform rejection (and perhaps metropolis) tests */
-  i = Test (&pwork);
-  if(i == 1){
-    /* point accepted */
-    return pwork.x;
-  } else {
-    SAT_ASSERT_MSG (i == 0, "envelope error - violation without metropolis");
+    SAT_DBG_ASSERT_MSG (i != -1, "envelope error: violation without metropolis");
   }
+  while (i != 1); // while the point is accepted
+
+  return pwork.x;
 }
 
 void ARMSRandGen::Initialize (double xl, double xr, bool dometrop)
@@ -302,6 +307,9 @@ int ARMSRandGen::Test (Point *p)
     p->f = 1;
     p->pl = ql;
     p->pr = qr;
+#ifdef SIGMUND_NICE
+    return 0;
+#endif
   } else {
     /* trial point accepted by metropolis, so update previous Markov */
     /* chain iterate */
