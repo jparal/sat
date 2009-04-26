@@ -29,7 +29,7 @@ AC_LOAD_PLATFORM
 #
 # Init automake
 #   subdir-objects .. move object file into the subdirectories
-AM_INIT_AUTOMAKE([foreign no-define subdir-objects 1.10])
+AM_INIT_AUTOMAKE([foreign no-define 1.10])
 
 AC_PROG_CXX([g++ xlc++ xlC icpc icc pathCC cxx aCC c++ CC pgCC KCC FCC])
 AC_PROG_LN_S
@@ -91,6 +91,7 @@ AC_CONFIG_FILES([
     docs/tech/cam/fig/Makefile
     docs/tech/cam/pic/Makefile
     example/Makefile
+    example/rand/Makefile
     example/ref/Makefile
     example/tmpl/Makefile
     example/tmpl/TEMPLATE.cxx.tpl

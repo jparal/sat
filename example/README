@@ -1,5 +1,8 @@
 
 Usage example codes of SAT libraries
 
+rand:
+  Random number generators
+
 ref:
   Example of reference counting usage (just basics)
