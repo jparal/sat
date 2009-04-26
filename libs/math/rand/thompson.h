@@ -17,7 +17,7 @@
 
 #include "rndgen.h"
 
-/// @addtogroup math_rng
+/// @addtogroup math_rand
 /// @{
 
 /**

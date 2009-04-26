@@ -4,20 +4,24 @@
 ###############################################################################
 
 headers += \
-	rand/maxwgen.h \
-	rand/thompsongen.h \
-	rand/rangegen.h \
+	rand/arms.h \
+	rand/maxwell.h \
+	rand/thompson.h \
+	rand/range.h \
 	rand/rndgen.h \
-	rand/sphgen.h
+	rand/sigmund.h \
+	rand/sphere.h
 
 # preproc += \
 # 	rand/.cpp
 
 sources += \
-	rand/maxwgen.cxx \
-	rand/thompsongen.cxx \
-	rand/rangegen.cxx \
+	rand/arms.cxx \
+	rand/maxwell.cxx \
+	rand/thompson.cxx \
+	rand/range.cxx \
 	rand/rndgen.cxx \
-	rand/sphgen.cxx
+	rand/sigmund.cxx \
+	rand/sphere.cxx
 
 # extrsrc += 
