@@ -17,7 +17,7 @@
 
 int main (int argc, char **argv)
 {
-  SigmunRandGen sig;
+  SigmundRandGen sig;
   sig.Initialize (3,800);
 
   for (int i=0; i<1000000; i++)
