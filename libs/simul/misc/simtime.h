@@ -94,6 +94,9 @@ public:
   { return _iter; }
 
   bool IsLastHyb () const
+  { return _iter == _itout; }
+
+  bool IsBeforeLastHyb () const
   { return _iter == _itout-1; }
 
   void IterStr (char *buff, int size, bool fill = false) const;
