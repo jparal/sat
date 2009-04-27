@@ -279,6 +279,9 @@ public:
   /// Return squared magnitude of the Vector
   T SquaredNorm () const;
 
+  /// Distance between two vectors
+  T Distance (const TVector &v) const;
+
   /// Return unit vector of this vector. If you want to change this vector \see
   /// Normalize
   TVector Unit () const;

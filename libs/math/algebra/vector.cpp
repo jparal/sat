@@ -222,3 +222,11 @@ bool Vector<T,D>::IsZero (float eps) const
   for (int i=1; i<D; ++i) retval = retval && (_d[i] < eps);
   return retval;
 }
+
+template <class T, int D> inline
+T Vector<T,D>::Distance (const TVector &v) const
+{
+  T retval = (_d[0]-v._d[0])*(_d[0]-v._d[0]);
+  for (int i=1; i<D; ++i) retval += (_d[i]-v._d[i])*(_d[i]-v._d[i]);
+  return Math::Sqrt (retval);
+}
