@@ -17,10 +17,10 @@
 #define SDF_XLEFT  0.
 #define SDF_XRIGHT 100.
 
-SigmunRandGen::SigmunRandGen ()
+SigmundRandGen::SigmundRandGen ()
   : _initialized(false) {}
 
-void SigmunRandGen::Initialize (double bind, double trans)
+void SigmundRandGen::Initialize (double bind, double trans)
 {
   _bind = bind;
   _trans= trans;
@@ -34,7 +34,7 @@ void SigmunRandGen::Initialize (double bind, double trans)
   TBase::Initialize (SDF_XLEFT, SDF_XRIGHT, true);
 }
 
-double SigmunRandGen::EvalDF (double x)
+double SigmundRandGen::EvalDF (double x)
 {
   SAT_DBG_ASSERT (_initialized);
 

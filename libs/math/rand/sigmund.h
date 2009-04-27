@@ -38,13 +38,13 @@
  * @reventry{2009/04, @jparal}
  * @revmessg{Initial version}
  */
-class SigmunRandGen : public ARMSRandGen
+class SigmundRandGen : public ARMSRandGen
 {
 public:
   typedef ARMSRandGen TBase;
 
   /// Constructor
-  SigmunRandGen ();
+  SigmundRandGen ();
 
   /// Evaluate DF at the point @p x.
   virtual double EvalDF (double x);
