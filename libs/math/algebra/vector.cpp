@@ -224,9 +224,26 @@ bool Vector<T,D>::IsZero (float eps) const
 }
 
 template <class T, int D> inline
+T Vector<T,D>::SquaredDistance (const TVector &v) const
+{
+  T tmp = _d[0]-v._d[0];
+  T retval = tmp*tmp;
+  for (int i=1; i<D; ++i)
+  {
+    tmp = _d[i]-v._d[i];
+    retval += tmp*tmp;
+  }
+  return retval;
+}
+
+template <class T, int D> inline
+T Vector<T,D>::Distance2 (const TVector &v) const
+{
+  return SquaredDistance (v);
+}
+
+template <class T, int D> inline
 T Vector<T,D>::Distance (const TVector &v) const
 {
-  T retval = (_d[0]-v._d[0])*(_d[0]-v._d[0]);
-  for (int i=1; i<D; ++i) retval += (_d[i]-v._d[i])*(_d[i]-v._d[i]);
-  return Math::Sqrt (retval);
+  return Math::Sqrt (SquaredDistance (v));
 }
