@@ -74,6 +74,7 @@ public:
 
   /// @name Allocate/Free
   /// @{
+
   void Initialize (int d0);
   void Initialize (int d0, int d1);
   void Initialize (int d0, int d1, int d2);
@@ -83,8 +84,11 @@ public:
 
   template<int VD>
   void Initialize (const Vector<int,VD> &d);
-
   void Initialize (const Mesh<D> &mesh, const Layout<D> &layout = Layout<D> ());
+
+  template<class T2>
+  void Initialize (const Field<T2,D>& val);
+  void Initialize (const Field<T,D>& val);
 
   /// Free allocated memory
   void Free ();
@@ -101,6 +105,7 @@ public:
 
   /// @name Index operators
   /// @{
+
   const T& operator() (int i0) const;
   const T& operator() (int i0, int i1) const;
   const T& operator() (int i0, int i1, int i2) const;
@@ -138,8 +143,8 @@ public:
 
   /// @}
 
-  /// @{
   /// @name Parallel support
+  /// @{
 
   /**
    * @brief Synchronize ghost zones of Field class when Field is distributed
@@ -186,22 +191,33 @@ public:
 
   /// @}
 
-  int Rank () const
-  { return D; }
+  /// Return rank of the Field.
+  int Rank () const { return D; }
+  /// Return length in a specified dimension.
+  int Size (int dim) const { return _len[dim]; }
+  /// Return length in a specified dimension.
+  int GetSize (int dim) const { return _len[dim]; }
+  /// Return vector with length in each dimension.
+  const Vector<int,D>& GetDims () const { return _len; }
+  /// Return vector with length in each dimension.
+  const Vector<int,D>& GetSize () const { return _len; }
 
-  int Size (int dim)
-  { return _len[dim]; }
+  /// Return sum of all elements.
+  T Sum ();
+  /// Return maximal value (works only for types with defined comparison
+  /// operator.
+  T Max ();
+  /// Return minimal value (works only for types with defined comparison
+  /// operator.
+  T Min ();
+  /// Scale all values so that maximal value is equal to (T)1.
+  void Scale (const T &scale = 1.);
+  /// Return average value.
+  T Average ();
 
-  const Vector<int,D>& GetDims () const
-  { return _len; }
-
-  /// Return Domain including ghost zones
+  /// Return Domain including ghost zones.
   void GetDomainAll (Domain<D> &dom) const
-  {
-    for (int i=0; i<D; ++i)
-      dom[i] = Range (0, _len[i]-1);
-  }
-
+  { for (int i=0; i<D; ++i) dom[i] = Range (0, _len[i]-1); }
   /// Return Domain excluding ghost zones.
   void GetDomain (Domain<D> &dom) const
   {
@@ -214,9 +230,11 @@ public:
       dom[i] = Range (nghz, _len[i]-nghz-1);
     }
   }
-
+  /// Do we have grid information available?
   bool HaveGrid () const { return _havegrid; }
+  /// Return Mesh object of this Field.
   const Mesh<D>& GetMesh () const { return _mesh; }
+  /// Return Layout object of this Field.
   const Layout<D>& GetLayout () const { return _layout; }
 
 private:

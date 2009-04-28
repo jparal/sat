@@ -7,7 +7,7 @@
  * @author @jparal
  *
  * @revision{1.0}
- * @reventry{2008-03-03, @jparal}
+ * @reventry{2008/03, @jparal}
  * @revmessg{Initial version}
  */
 

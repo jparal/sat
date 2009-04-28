@@ -154,3 +154,62 @@ void Field<T,D>::Initialize (const Mesh<D> &mesh, const Layout<D> &layout)
   _layout = layout;
   _havegrid = true;
 }
+
+template<class T, int D>
+template<class T2> inline
+void Field<T,D>::Initialize (const Field<T2,D>& val)
+{
+  UpdateMeta (val);
+}
+
+template<class T, int D> inline
+void Field<T,D>::Initialize (const Field<T,D>& val)
+{
+  UpdateMeta (val);
+}
+
+template<class T, int D> inline
+T Field<T,D>::Sum ()
+{
+  T val = 0;
+  for (int i=0; i<_tot; ++i) val += _data[i];
+  return val;
+}
+
+template<class T, int D> inline
+T Field<T,D>::Max ()
+{
+  SAT_ASSERT (_tot > 0);
+
+  T max = _data[0];
+  for (int i=1; i<_tot; ++i)
+    if (max < _data[i])
+      max = _data[i];
+  return max;
+}
+
+template<class T, int D> inline
+T Field<T,D>::Min ()
+{
+  SAT_ASSERT (_tot > 0);
+
+  T min = _data[0];
+  for (int i=1; i<_tot; ++i)
+    if (_data[i] < min)
+      min = _data[i];
+  return min;
+}
+
+template<class T, int D> inline
+void Field<T,D>::Scale (const T &scale)
+{
+  *(this) *= scale/Max ();
+}
+
+template<class T, int D> inline
+T Field<T,D>::Average ()
+{
+  T val = Sum ();
+  val /= _tot;
+  return val;
+}

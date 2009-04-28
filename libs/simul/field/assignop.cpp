@@ -54,7 +54,7 @@ void Field<T,D>::operator= (const Field<T2,D>& val)
 {
   UpdateMeta (val);
   T2 *pdata = val._data;
-  for (int i=0; i<_tot; ++i) _data[i] = pdata[i];
+  for (int i=0; i<_tot; ++i) _data[i] = (T)pdata[i];
 }
 
 template<class T, int D>
