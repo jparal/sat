@@ -28,7 +28,8 @@ AC_LOAD_PLATFORM
 
 #
 # Init automake
-#   subdir-objects .. move object file into the subdirectories
+#   subdir-objects .. move object file into the sub-directories
+#   silent-rules .... build output is less verbose (make V=[0|1]) (>= v1.11)
 AM_INIT_AUTOMAKE([foreign no-define 1.10])
 
 AC_PROG_CXX([g++ xlc++ xlC icpc icc pathCC cxx aCC c++ CC pgCC KCC FCC])
