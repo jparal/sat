@@ -57,9 +57,6 @@ public:
   /// Return value from the range [min,max]
   T Get ();
 
-  /// Destructor
-  ~RangeRandGen ();
-
 private:
   T _min, _max, _diff;
 };
