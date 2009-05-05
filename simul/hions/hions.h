@@ -16,8 +16,11 @@
 #define __SAT_HIONS_H__
 
 #include "sat.h"
+#include "speciehi.h"
+#include "utils.h"
 
-#define HIONS_TYPE float
+/// @addtogroup hions
+/// @{
 
 /**
  * @brief Heavy ions Monte-Carlo simulation of Mercury
@@ -26,14 +29,16 @@
  * @reventry{2009/04, @jparal}
  * @revmessg{Initial version}
  */
+template<class T>
 class HeavyIonsCode : public Code
 {
 public:
-  typedef HIONS_TYPE TType;
-  typedef Vector<TType, 3> TVector;
-  typedef Field<TVector, 3> TField;
-  typedef Particle<TType,3> TParticle;
-  typedef CamSpecie<TType,3> TSpecie;
+  typedef Vector<T,3> TVector;
+  typedef Field<TVector,3> TField;
+  typedef HISpecie<T> TSpecie;
+  typedef RefArray<TSpecie> TSpecieArray;
+  typedef typename TSpecie::TParticleArray TParticleArray;
+  typedef typename TSpecie::TParticle TParticle;
 
   /// Constructor
   HeavyIonsCode ();
@@ -44,35 +49,53 @@ public:
   /// of the main function.
   void Initialize (int* pargc, char*** pargv);
 
-  /**
-   * @brief Load STW file into a Field.
-   * Specifically, load a file given by parameter @e path into the vector
-   * component @e idx of the vector Field. Variable @e path should be full path
-   * to the file including the suffix.
-   *
-   * @param fld field class reference
-   * @param idx index of the vector from the range [0,2]
-   * @param path path to the STW file (including gz suffix)
-   */
-  void Load (TField& fld, int idx, const char* path);
+  /// Load EM fields from STW files.
+  void LoadFields ();
+  /// Reset fields inside of planet to zero
+  void ResetFields ();
 
   /// Execute simulation.
   virtual void Exec ();
   /// Single iteration (called from Code::Exec)
   virtual void Iter ();
 
+  /// Calculate SW acceleration force + gravity
+  void CalcForce (const TVector &pos, TVector &force) const;
+
+  /// @brief Move ions by one time step (i.e. _time.Dt() )
+  void MoveIons (TSpecie &sp);
+  /// @brief Move neutrals by one time step (i.e. _time.Dt() )
+  void MoveNeutrals (TSpecie &sp);
+  /// @brief Ionize some of the particles.
+  void Ionize (TSpecie &sp);
+
+  /// @brief Apply boundary conditions.
+  /// @remarks parameters @p pdhit and @p plhit are not reset inside of the
+  ///          function but only UPDATED!
+  void ApplyBC (TParticleArray &pcles, int &bdhit, int &plhit);
+
+  void CheckPosition (TParticleArray &pcles);
+
 private:
   String _stwname;
   TField _B, _E;
-  TSpecie _mmvNax;
+  TSpecieArray _specs;
 
   SimulTime _time;        ///< simulation time
   SensorManager _sensmng; ///< sensor manager
   int _clean;
 
-  Vector<int,3> _nx;
-  Vector<TType,3> _dx, _rx;
-  TType _scalef, _radius;
+  Vector<int,3> _nx;     ///< Number of cells.
+  Vector<T,3> _dx, _dxi; ///< Resolution of input (STW) data.
+  Vector<T,3> _rx;       ///< Planet relative position.
+  Vector<T,3> _lx;       ///< Size of the simulation box (i.e. nx*dx)
+  Vector<T,3> _plpos;    ///< Planet position (i.e. nx*dx*rx)
+  T _scalef;             ///< Scaling factor for Lorentz force.
+  T _radius;             ///< Radius of the planet in hybrid units.
+  Vector<T,3> _swaccel;  ///< Solar wind acceleration.
+  T _cgrav;              ///< Gravitation constant.
 };
+
+/// @}
 
 #endif /* __SAT_HIONS_H__ */

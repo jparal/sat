@@ -13,17 +13,20 @@
  */
 
 #include "hions.h"
+#include "sws_emit.h"
 
-HeavyIonsCode::HeavyIonsCode ()
+template<class T>
+HeavyIonsCode<T>::HeavyIonsCode ()
 {
 }
 
-HeavyIonsCode::~HeavyIonsCode ()
+template<class T>
+HeavyIonsCode<T>::~HeavyIonsCode ()
 {
 }
 
-void
-HeavyIonsCode::Initialize (int *pargc, char ***pargv)
+template<class T>
+void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
 {
   // Don't initialize MPI but only OpenMP
   Code::Initialize (pargc, pargv, false, true);
@@ -37,39 +40,45 @@ HeavyIonsCode::Initialize (int *pargc, char ***pargv)
   cfg.GetValue ("input.cells", _nx);
   cfg.GetValue ("input.resol", _dx);
   cfg.GetValue ("input.scalef", _scalef);
-
+  cfg.GetValue ("input.swaccel", _swaccel);
+  cfg.GetValue ("input.cgrav", _cgrav);
   cfg.GetValue ("input.planet.rpos", _rx);
   cfg.GetValue ("input.planet.radius", _radius);
 
-  DBG_INFO ("Heavy ions simulation:");
-  DBG_INFO ("  clean particle every:   "<<_clean);
-  DBG_INFO ("  input STW file name:    "<<_stwname);
-  DBG_INFO ("  number of cells:        "<<_nx);
-  DBG_INFO ("  resolution of STW data: "<<_dx);
-  DBG_INFO ("  scale factor of ions:   "<<_scalef);
-  DBG_INFO ("  planet position:        "<<_rx);
-  DBG_INFO ("  planet radius:          "<<_radius);
+  for (int i=0; i<3; ++i)
+  {
+    _dxi[i] = (T)1./_dx[i];
+    _lx[i] = _nx[i] * _dx[i];
+    _plpos[i] = _lx[i] * _rx[i];
+  }
+
+  DBG_LINE ("Heavy Ions:");
+  DBG_INFO ("clean particle every:   "<<_clean);
+  DBG_INFO ("input STW file name:    "<<_stwname);
+  DBG_INFO ("number of cells:        "<<_nx);
+  DBG_INFO ("resolution of STW data: "<<_dx);
+  DBG_INFO ("scale factor of ions:   "<<_scalef);
+  DBG_INFO ("planet relative pos:    "<<_rx);
+  DBG_INFO ("planet absolute pos:    "<<_plpos);
+  DBG_INFO ("planet radius:          "<<_radius);
+  DBG_INFO ("SW acceleration:        "<<_swaccel);
+  DBG_INFO ("gravitation constant:   "<<_cgrav);
+
+  DBG_LINE ("Release:");
+  ConfigEntry &entry = cfg.GetEntry ("release");
+
+  SWSSphereEmitter<T> *swsemit = new SWSSphereEmitter<T>;
+  swsemit->Initialize (entry, "sws", _plpos, _radius);
+  TSpecie *swssp = new TSpecie;
+  swssp->Initialize (swsemit);
+  _specs.PushNew (swssp);
 
   DBG_LINE ("Sensors:");
   _sensmng.Initialize (cfg);
 
-  DBG_LINE ("Load Data:");
-  SAT_PRAGMA_OMP (parallel sections)
-  {
-    SAT_PRAGMA_OMP (section) Load (_B, 0, "Bx" + _stwname);
-    SAT_PRAGMA_OMP (section) Load (_B, 1, "By" + _stwname);
-    SAT_PRAGMA_OMP (section) Load (_B, 2, "Bz" + _stwname);
-
-    SAT_PRAGMA_OMP (section) Load (_E, 0, "Ex" + _stwname);
-    SAT_PRAGMA_OMP (section) Load (_E, 1, "Ey" + _stwname);
-    SAT_PRAGMA_OMP (section) Load (_E, 2, "Ez" + _stwname);
-  }
-
-  HDF5File file;
-  file.Initialize (cfg);
-  SAT_PRAGMA_OMP (parallel sections)
-  {
-    SAT_PRAGMA_OMP (section) file.Write (_B, Cell, "B", "Bpokus");
-    SAT_PRAGMA_OMP (section) file.Write (_E, Cell, "E", "Epokus");
-  }
+  LoadFields ();
+  ResetFields ();
 }
+
+#include "tmplspec.h"
+

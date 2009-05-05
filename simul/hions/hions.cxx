@@ -16,7 +16,7 @@
 
 int main (int argc, char **argv)
 {
-  HeavyIonsCode hions;
+  HeavyIonsCode<float> hions;
   hions.Initialize (&argc, &argv);
   hions.Exec ();
 
