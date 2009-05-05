@@ -17,6 +17,7 @@
 
 #include "satconfig.h"
 #include "plog.h"
+#include "base/sys/sysdefs.h"
 
 /** @addtogroup base_common
  *  @{
@@ -53,9 +54,11 @@ struct Function
 
 #if (DEBUG_LEVEL >= 3)
 #  define DBG_PRINT(msg, tag)						\
+  SAT_PRAGMA_OMP (critical)						\
   plog << tag " " << __FILE__ << "(" << __LINE__ << "): " << msg << endl;
 #else
 #  define DBG_PRINT(msg, tag)			\
+  SAT_PRAGMA_OMP (critical)			\
   plog << tag " " << msg << endl;
 #endif
 
