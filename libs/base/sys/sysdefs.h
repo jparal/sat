@@ -50,6 +50,13 @@
 #  define SAT_PRAGMA(x) _Pragma ( #x )
 #endif
 
+#ifdef HAVE_OPENMP
+#  include <omp.h>
+#  define SAT_PRAGMA_OMP(p) SAT_PRAGMA(omp p)
+#else
+#  define SAT_PRAGMA_OMP(p)
+#endif // HAVE_OPENMP
+
 /** @} */
 
 #endif /* __SAT_SYSDEFS_H__ */

@@ -9,11 +9,16 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
+headers = emitter.h hions.h pclehi.h speciehi.h sws_emit.h utils.h
+preproc = utils.cpp tmplspec.cpp
+sources = applybc.cxx calcout.cxx emitter.cxx exec.cxx hions.cxx init.cxx \
+ionize.cxx iter.cxx load.cxx misc.cxx move.cxx sws_emit.cxx
+extrsrc = hions.sin
+
 exename = hions
-srcfile = hions.cxx hions.h hions.sin
 instdir = $(prefix)/simul/hions
 
 noinst_PROGRAMS = $(exename)
-hions_SOURCES = $(srcfile)
+hions_SOURCES = $(headers) $(sources)
+EXTRA_DIST = $(extrsrc) $(preproc)
 dist_noinst_DATA = $(srcfile)
-# nobase_inst_DATA = $(srcfile)

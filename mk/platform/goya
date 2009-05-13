@@ -1,12 +1,13 @@
 # Intel ICC has problems with gdb debuging (otherwise should be faster)
-# CXX=g++
-# CC=gcc
+CXX=g++-4.4
+CC=gcc-4.4
 # CXX=pgCC
 # CC=pgcc
 # CXX=icpc
 # CC=icc
 
-# with_opt_cxxflags="-mtune=native -march=native"
+with_cxxflags_dbg="-mtune=native -march=native"
+with_cxxflags_opt="-mtune=native -march=native"
 # enable_debug=yes
 # enable_debug=memory,reference
 

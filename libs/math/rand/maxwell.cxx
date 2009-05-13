@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   maxwgen.cxx
+ * @file   maxwell.cxx
  * @author @jparal
  *
  * @revision{1.0}
@@ -11,7 +11,7 @@
  * @revmessg{Initial version}
  */
 
-#include "maxwgen.h"
+#include "maxwell.h"
 #include "math/misc/stdmath.h"
 #include "base/common/const.h"
 

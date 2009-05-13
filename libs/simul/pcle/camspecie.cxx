@@ -13,7 +13,7 @@
 
 #include "satsysdef.h"
 #include "camspecie.h"
-#include "math/rand/maxwgen.h"
+#include "math/rand/maxwell.h"
 #include "simul/field/cartstencil.h"
 
 template<class T, int D>

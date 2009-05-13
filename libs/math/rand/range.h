@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   rangegen.h
+ * @file   range.h
  * @brief  Uniform range generator.
  * @author @jparal
  *
@@ -12,12 +12,12 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_RANGEGEN_H__
-#define __SAT_RANGEGEN_H__
+#ifndef __SAT_RAND_RANGE_H__
+#define __SAT_RAND_RANGE_H__
 
 #include "rndgen.h"
 
-/// @addtogroup math_rng
+/// @addtogroup math_rand
 /// @{
 
 /**
@@ -57,13 +57,10 @@ public:
   /// Return value from the range [min,max]
   T Get ();
 
-  /// Destructor
-  ~RangeRandGen ();
-
 private:
   T _min, _max, _diff;
 };
 
 /// @}
 
-#endif /* __SAT_RANGEGEN_H__ */
+#endif /* __SAT_RAND_RANGE_H__ */

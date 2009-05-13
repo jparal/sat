@@ -3,13 +3,20 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   field.cxx
+ * @file   ionize.cxx
+ * @brief  Ionize particles
  * @author @jparal
  *
- * @revision{1.0}
- * @reventry{2008/03, @jparal}
+ * @revision{1.1}
+ * @reventry{2009/04, @jparal}
  * @revmessg{Initial version}
  */
 
-#include "satsysdef.h"
-#include "field.h"
+#include "hions.h"
+
+template<class T>
+void HeavyIonsCode<T>::Ionize (TSpecie &sp)
+{
+}
+
+#include "tmplspec.cpp"

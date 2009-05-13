@@ -3,23 +3,23 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   rangegen.cxx
+ * @file   sigmund.cxx
+ * @brief  Example of using Sigmund distribution
  * @author @jparal
  *
- * @revision{1.0}
- * @reventry{2009/03, @jparal}
+ * @revision{0.3.0}
+ * @reventry{2008/06, @jparal}
  * @revmessg{Initial version}
  */
 
-#include "rangegen.h"
+#include "sat.h"
+#include "stdlib.h"
 
-template<class T>
-void RangeRandGen<T>::Initialize (T min, T max)
-{ _min = min; _max = max; _diff = max-min; }
+int main (int argc, char **argv)
+{
+  SigmundRandGen sig;
+  sig.Initialize (3,800);
 
-template<class T>
-T RangeRandGen<T>::Get ()
-{ return _min + _diff * RandomGen<T>::Get (); }
-
-template class RangeRandGen<float>;
-template class RangeRandGen<double>;
+  for (int i=0; i<1000000; i++)
+    printf ("%lf\n", sig.Get ());
+}

@@ -3,7 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   sphgen.cxx
+ * @file   exec.cxx
+ * @brief  Main loop of heavy ions app.
  * @author @jparal
  *
  * @revision{1.0}
@@ -11,18 +12,24 @@
  * @revmessg{Initial version}
  */
 
-#include "sphgen.h"
-#include "base/common/const.h"
-#include "math/satmisc.h"
+#include "hions.h"
 
 template<class T>
-T SphericalRandGen<T>::GetPhi ()
+void HeavyIonsCode<T>::Exec ()
 {
-  return ((T)2 * M_PI * RandomGen<T>::Get ());
+  do
+  {
+    CalcOutput ();
+    _sensmng.SaveAll (_time);
+    _sensmng.SetNextOutput (_time);
+
+    while (_time.Next ())
+      Iter ();
+  }
+  while (_time.Iter () < _time.ItersMax ());
+
+  _sensmng.SaveAll (_time);
+  _sensmng.SetNextOutput (_time);
 }
 
-template<class T>
-T SphericalRandGen<T>::GetTht ()
-{
-  return Math::ACos ((T)2 * RandomGen<T>::Get () - (T)1);
-}
+#include "tmplspec.cpp"

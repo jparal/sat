@@ -1,0 +1,126 @@
+/******************************************************************************
+ *   Copyright (C) by Jan Paral and SAT team                                  *
+ *   See docs/license/sat file for copying and redistribution conditions.     *
+ ******************************************************************************/
+
+/// @addtogroup math_rand
+/// @{
+
+/**
+ * @page rng_arms Adaptive Rejection Metropolis Sampling method
+ *
+ * by Wally Gilks
+ *
+ * Medical Research Council Biostatistics Unit
+ * Institute of Public Health
+ * University Forvie Site
+ * Robinson Way
+ * Cambridge
+ * CB2 2SR
+ *
+ * e-mail: wally.gilks@mrc-bsu.cam.ac.uk
+ *
+ *
+ * @section intro Introduction
+ *
+ * Adaptive rejection Metropolis sampling (ARMS) is a method for efficiently
+ * sampling from complicated univariate densities, such as typically occur in
+ * applications of Gibbs sampling (Gilks, Best and Tan, 1995).  ARMS is a
+ * generalisation of the method of adaptive rejection sampling (ARS) (Gilks
+ * (1992)), which was itself a development of the original method proposed by
+ * Gilks and Wild (1992).  The ARMS generalisation includes a Metropolis step
+ * to accommodate non-concavity in the log density.
+ *
+ * These notes accompany a C function implementing ARMS (together with an
+ * example calling program also in C).  It should be possible to call this C
+ * function from a FORTRAN program, but I haven't tried this yet.  These notes
+ * describe how ARMS works, the arguments of the C function, and contain
+ * important notes on the use of ARMS.
+ *
+ * I hope you find this function useful. Please let me know if you have any
+ * difficulties in using it. I also have a FORTRAN subroutine for the Gilks and
+ * Wild (1992) method (see below). Please let me know if you would like it.
+ *
+ * @section method Method
+ *
+ * ARS works by constructing an envelope function of the log of the target
+ * density, which is then used in rejection sampling (see, for example, Ripley
+ * (1987)). Whenever a point is rejected by ARS, the envelope is updated to
+ * correspond more closely to the true log density, thereby reducing the chance
+ * of rejecting subsequent points. Fewer ARS rejection steps implies fewer
+ * point-evaluations of the log density. Such evaluations are typically very
+ * expensive computationally in applications of Gibbs sampling.
+ *
+ * In the original formulation of ARS, the envelope is constructed from a set
+ * of tangents to the log-density (Gilks and Wild (1992)). In a later version
+ * the envelope is constructed from chords (secants) intersecting on the
+ * log-density (Gilks (1992)). Both methods assume that the log density is
+ * concave, which is surprisingly often true even for very messy full
+ * conditional distributions encountered in Gibbs sampling.
+ *
+ * Occasionally however log-concavity does not obtain, typically in non-linear
+ * models, or with non-exponential-family distributions. This can be
+ * particularly frustrating when the target density is known to be very nearly
+ * log-concave. ARMS deals with this situation by performing a Metropolis step
+ * (Metropolis et al (1953)) on each point accepted at an ARS rejection
+ * step. In the Metropolis step, the new point is weighed against the previous
+ * point sampled (in applications of Gibbs sampling this is the previous value
+ * of the model parameter currently being updated by Gibbs). If the new point
+ * is rejected, the previous point is retained as the new point. The procedure
+ * is exact (in the sense of returning samples from the exact target density),
+ * regardless of the degree of convexity in the log density. However it is most
+ * efficient (rejecting fewer points at the Metropolis step) when the density
+ * is approximately log-concave. Indeed, when the density is truly log-concave,
+ * the Metropolis step will never reject.
+ *
+ * There is, however, an overhead in using ARMS instead of ARS when the log
+ * density is truly log-concave. This is for two reasons. Firstly, each call to
+ * the ARMS function will require an additional point-evaluation of the
+ * log-density (to prime the system for Metropolis); and secondly, when
+ * log-concavity is assured, squeezing functions can be constructed which may
+ * save a function evaluation at each ARS-rejection-step. If sampling only one
+ * point from the density, (as is typically the case for Gibbs sampling) the
+ * loss in efficiency will be small. If many samples from the same density are
+ * required, the loss in efficiency would be severe. Therefore the ARMS
+ * function includes a parameter which allows you to indicate if the density is
+ * known to be log-concave. If indicated thus, the ARMS function will not
+ * implement the Metropolis step, and will exit if non-concavity is detected.
+ *
+ * The ARMS function allows you to choose initial construction points for the
+ * envelope; (I will continue to call the ARMS rejection function an
+ * 'envelope', although for non-log-concave distributions this function is not
+ * in general an envelope any more). You can set these initial construction
+ * points anywhere you like; however, in applications of Gibbs sampling, when
+ * the distribution to be sampled is not log-concave, it is important that
+ * initial construction points are set independently of the current value of
+ * the parameter being updated. (CAUTION: the advice given in Gilks, Best and
+ * Tan, 1995, to set initial construction points based on the previous Gibbs
+ * iterate, is only valid if the target density is log-concave; a corrigendum
+ * has been submitted to Applied Statistics).  In many applications, for each
+ * variable to be updated by ARMS, a fixed set of 4 or 5 initial construction
+ * points will suffice.  When this would result in a large number of iterations
+ * of ARS, some exploration of the density to be sampled may assist in choosing
+ * an efficient set of initial construction points.
+ *
+ * Both ARS and ARMS can be used to generate many points from the target
+ * density (although in applications of Gibbs sampling only one point need be
+ * sampled from each target density). As the envelope function used by both
+ * methods progressively adapts to the shape of the target density, sampling
+ * becomes progressively more efficient as more points are sampled from the
+ * target density.  If the target density is log-concave, the sampled points
+ * will be independent from the exact target density. If there is non-log-
+ * concavity, the samples will only be 'from' the target density in the limit,
+ * i.e. only after many samples have been drawn, and even then they will be
+ * dependent samples. Note that this is not a concern in applications of Gibbs
+ * sampling: only one point need be sampled as the stationary distribution (of
+ * the induced Markov chain) is preserved by ARMS.
+ */
+
+/// @}
+
+// EMACS
+// Local variables:
+// mode: c++
+// c-basic-offset: 2
+// indent-tabs-mode: nil
+// End:

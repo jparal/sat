@@ -15,20 +15,11 @@
 #ifndef __SAT_INITOMP_H__
 #define __SAT_INITOMP_H__
 
-#include "satconfig.h"
-#include "base/sys/sysdefs.h"
 #include "satbase.h"
 
 /** @addtogroup pint_omp
  *  @{
  */
-
-#ifdef HAVE_OPENMP
-#  include <omp.h>
-#  define SAT_PRAGMA_OMP(p) SAT_PRAGMA(omp p)
-#else
-#  define SAT_PRAGMA_OMP(p)
-#endif // HAVE_OPENMP
 
 struct Omp
 {

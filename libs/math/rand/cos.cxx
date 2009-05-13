@@ -3,13 +3,26 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   field.cxx
+ * @file   cos.cxx
  * @author @jparal
  *
- * @revision{1.0}
- * @reventry{2008/03, @jparal}
+ * @revision{1.1}
+ * @reventry{2009/05, @jparal}
  * @revmessg{Initial version}
  */
 
-#include "satsysdef.h"
-#include "field.h"
+#include "cos.h"
+#include "math/misc/stdmath.h"
+
+template<class T>
+void CosRandGen<T>::Initialize ()
+{}
+
+template<class T>
+T CosRandGen<T>::Get ()
+{
+  return Math::ASin ((T)2. * RandomGen<T>::Get () - (T)1.);
+}
+
+template class CosRandGen<float>;
+template class CosRandGen<double>;

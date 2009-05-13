@@ -12,8 +12,8 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_RNDGEN_H__
-#define __SAT_RNDGEN_H__
+#ifndef __SAT_RAND_RNDGEN_H__
+#define __SAT_RAND_RNDGEN_H__
 
 #include "base/sys/porttypes.h"
 
@@ -92,4 +92,4 @@ private:
 
 /** @} */
 
-#endif /* __SAT_RNDGEN_H__ */
+#endif /* __SAT_RAND_RNDGEN_H__ */

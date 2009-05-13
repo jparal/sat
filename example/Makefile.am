@@ -3,6 +3,6 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = ref tmpl
+SUBDIRS = rand ref tmpl
 
 dist_noinst_DATA = README

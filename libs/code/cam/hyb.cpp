@@ -27,7 +27,7 @@ void CAMCode<B,T,D>::Hyb ()
     Move ();
 
     // we handle first half-step and the last half-step separately
-    if (_time.IsLastHyb ())
+    if (_time.IsBeforeLastHyb ())
     {
       _time.Next ();
       break;

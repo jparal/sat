@@ -283,7 +283,17 @@ public:
   /// Normalize
   TVector Unit () const;
 
+  /// Is the size less then @p eps?
   bool IsZero (float eps = SMALL_EPS) const;
+
+  /// Distance of two vectors squared
+  T SquaredDistance (const TVector &v) const;
+
+  /// Distance of two vectors squared (synonym for SquaredDistance() )
+  T Distance2 (const TVector &v) const;
+
+  /// Distance between two vectors
+  T Distance (const TVector &v) const;
 
   friend std::ostream& operator<< (std::ostream &os, const TVector &v)
   {

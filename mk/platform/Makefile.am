@@ -3,4 +3,4 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-EXTRA_DIST = amalka cortex dipolar8 glacier goya matrix nexus prague
+EXTRA_DIST = amalka dipolar8 goya matrix prague cortex glacier nexus ucla

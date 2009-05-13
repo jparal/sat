@@ -749,16 +749,16 @@ dnl ])dnl
 		        [Whether we have <mpi.h> header file and we are willing to use it])
    fi
 
-      AC_ARG_WITH(mpiboot,
-          [AC_HELP_STRING([--with-mpiboot=CMD],
+      AC_ARG_WITH(mpi-bootcmd,
+          [AC_HELP_STRING([--with-mpi-bootcmd=CMD],
                           [how to boot MPI (usualy mpiboot) environment])],
                   MPIBOOT=$withval)
-      AC_ARG_WITH(mpirun,
-          [AC_HELP_STRING([--with-mpirun=CMD],
+      AC_ARG_WITH(mpi-runcmd,
+          [AC_HELP_STRING([--with-mpi-runcmd=CMD],
                           [how to run MPI (default: mpirun -np @NP @PROG @ARGS) programs])],
                   MPIRUN=$withval)
-      AC_ARG_WITH(mpihalt,
-          [AC_HELP_STRING([--with-mpihalt=CMD],
+      AC_ARG_WITH(mpi-haltcmd,
+          [AC_HELP_STRING([--with-mpi-haltcmd=CMD],
                           [how to halt MPI environment])],
                   MPIHALT=$withval)
 
