@@ -221,18 +221,18 @@ AC_DEFUN([AC_FLAGS_PRESET],[
         [add extra CXXFLAGS]),
       [CXXFLAGS="$CXXFLAGS $withval"])
 
-    AC_ARG_WITH([opt-cxxflags],
-      AC_HELP_STRING([--with-opt-cxxflags],
+    AC_ARG_WITH([cxxflags-opt],
+      AC_HELP_STRING([--with-cxxflags-opt],
         [add extra optimization CXXFLAGS]),
       [CXXFLAGS_OPT="$CXXFLAGS_OPT $withval"])
 
-    AC_ARG_WITH([dbg-cxxflags],
-      AC_HELP_STRING([--with-dbg-cxxflags],
+    AC_ARG_WITH([cxxflags-dbg],
+      AC_HELP_STRING([--with-cxxflags-dbg],
         [add extra debug CXXFLAGS]),
       [CXXFLAGS_DBG="$CXXFLAGS_DBG $withval"])
 
-    AC_ARG_WITH([prf-cxxflags],
-      AC_HELP_STRING([--with-prf-cxxflags],
+    AC_ARG_WITH([cxxflags-prf],
+      AC_HELP_STRING([--with-cxxflags-prf],
         [add extra profile CXXFLAGS]),
       [CXXFLAGS_PRF="$CXXFLAGS_PRF $withval"])
 
