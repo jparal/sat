@@ -82,4 +82,4 @@ void HeavyIonsCode<T>::MoveIons (TSpecie &sp)
   }
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"

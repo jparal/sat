@@ -89,4 +89,4 @@ void HeavyIonsCode<T>::CheckPosition (TParticleArray &pcles)
   }
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"

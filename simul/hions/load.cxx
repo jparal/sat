@@ -38,4 +38,4 @@ void HeavyIonsCode<T>::LoadFields ()
   // }
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"

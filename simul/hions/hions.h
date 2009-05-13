@@ -61,6 +61,8 @@ public:
 
   /// Calculate SW acceleration force + gravity
   void CalcForce (const TVector &pos, TVector &force) const;
+  /// Calculate output
+  void CalcOutput () const;
 
   /// @brief Move ions by one time step (i.e. _time.Dt() )
   void MoveIons (TSpecie &sp);

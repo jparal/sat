@@ -47,4 +47,4 @@ void HeavyIonsCode<T>::ResetFields ()
       }
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"

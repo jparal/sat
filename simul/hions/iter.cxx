@@ -48,8 +48,9 @@ void HeavyIonsCode<T>::Iter ()
       nions += sp.GetIons ().GetSize ();
       nneut += sp.GetNeutrals ().GetSize ();
     }
-    DBG_INFO ("ions/neut particles: "<<nions<<" / "<<nneut);
+    DBG_INFO ("ions + neut particles: "<<nions<<" + "<<nneut<<
+	      " = "<<nions+nneut);
   }
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"

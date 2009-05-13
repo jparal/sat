@@ -19,4 +19,4 @@ void HeavyIonsCode<T>::Ionize (TSpecie &sp)
 {
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"

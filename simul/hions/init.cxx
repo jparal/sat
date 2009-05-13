@@ -80,5 +80,5 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
   ResetFields ();
 }
 
-#include "tmplspec.h"
+#include "tmplspec.cpp"
 
