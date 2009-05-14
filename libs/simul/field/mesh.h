@@ -63,7 +63,7 @@ public:
   double GetSpacing (int i) const
   { return _spacing[i]; }
 
-  double GetSpacingInvF (int i) const
+  double GetSpacingInv (int i) const
   { return _finvspacing[i]; }
 
   double GetSpacingInvQ (int i) const
@@ -72,6 +72,14 @@ public:
   double GetSpacingInvH (int i) const
   { return _hinvspacing[i]; }
 
+  Vector<int,D> GetSpacingInv () const
+  { return _finvspacing; }
+
+  Vector<int,D> GetSpacingInvQ () const
+  { return _qinvspacing; }
+
+  Vector<int,D> GetSpacingInvH () const
+  { return _hinvspacing; }
 
   double GetOrigin (int i) const
   { return _origin[i]; }

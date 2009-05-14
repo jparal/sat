@@ -21,7 +21,8 @@ void CartStencil::Average (const Field<T,D> &fld,
 {
   Vector<T,MetaPow<2,D>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  val = (T)MetaInv<MetaPow<2,D>::Is>::Is * adj.Sum ();
+  val = adj.Sum ();
+  val *= MetaInv<MetaPow<2,D>::Is>::Is;
 }
 
 
@@ -32,7 +33,7 @@ void CartStencil::Grad (const Field<T,1> &fld,
 {
   Vector<T,MetaPow<2,1>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  val[0] = fld.GetMesh().GetSpacingInvF (0) * (adj[1] - adj[0]);
+  val[0] = fld.GetMesh().GetSpacingInv (0) * (adj[1] - adj[0]);
   val[1] = 0.;
   val[2] = 0.;
 }
@@ -73,8 +74,8 @@ void CartStencil::Curl (const Field<Vector<T,3>,1> &fld,
 {
   Vector<Vector<T,3>,MetaPow<2,1>::Is> adj;
   fld.GetAdj (iter.GetLoc (), adj);
-  T deydx = fld.GetMesh().GetSpacingInvF (0) * (adj[1][1] - adj[0][1]);
-  T dezdx = fld.GetMesh().GetSpacingInvF (0) * (adj[1][2] - adj[0][2]);
+  T deydx = fld.GetMesh().GetSpacingInv (0) * (adj[1][1] - adj[0][1]);
+  T dezdx = fld.GetMesh().GetSpacingInv (0) * (adj[1][2] - adj[0][2]);
   val[0] = 0.;
   val[1] = -dezdx;
   val[2] =  deydx;
@@ -157,11 +158,20 @@ void CartStencil::BilinearWeight (const Field<T,D> &fld,
 				  const BilinearWeightCache<T2,D> &cache,
 				  T &val)
 {
+  // Vector<T,MetaPow<2,D>::Is> adj;
+  // fld.GetAdj (cache.ipos, adj);
+  // val = adj[0] * cache.weight[0];
+  // for (int i=1; i<MetaPow<2,D>::Is; ++i)
+  //   val += adj[i] * cache.weight[i];
   Vector<T,MetaPow<2,D>::Is> adj;
   fld.GetAdj (cache.ipos, adj);
-  val = adj[0] * (T)cache.weight[0];
+  adj[0] *= cache.weight[0];
+  val = adj[0];
   for (int i=1; i<MetaPow<2,D>::Is; ++i)
-    val += adj[i] * (T)cache.weight[i];
+  {
+    adj[i] *= cache.weight[i];
+    val += adj[i];
+  }
 }
 
 
@@ -192,7 +202,9 @@ void CartStencil::BilinearWeightAdd (Field<T,D> &fld,
 {
   Vector<T,MetaPow<2,D>::Is> adj;
   for (int i=0; i<MetaPow<2,D>::Is; ++i)
-    adj[i] = val * cache.weight[i];
-
+  {
+    adj[i] = val;
+    adj[i] *= cache.weight[i];
+  }
   fld.AddAdj (cache.ipos, adj);
 }

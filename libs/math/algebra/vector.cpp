@@ -17,7 +17,7 @@
 template <class T, int D> inline
 Vector<T,D>::Vector (T v)
 {
-  for (int i=0; i<D; ++i) _d[i] = (T)(v);
+  for (int i=0; i<D; ++i) _d[i] = v;
 }
 
 template <class T, int D> inline
@@ -54,7 +54,7 @@ template <class T, int D>
 template<class T2> inline
 Vector<T,D>::Vector (Vector<T2,D> const &v)
 {
-  for (int i=0; i<D; ++i) _d[i] = (T)(v._d[i]);
+  for (int i=0; i<D; ++i) _d[i] = v._d[i];
 }
 
 template <class T, int D> inline
@@ -68,42 +68,42 @@ T& Vector<T,D>::operator[] (size_t n)
 template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator+= (const Vector<T,D> &v)
 {
-  for (int i=0; i<D; ++i) _d[i] += (T)(v._d[i]);
+  for (int i=0; i<D; ++i) _d[i] += v._d[i];
   return *this;
 }
 
 template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator+= (const T &val)
 {
-  for (int i=0; i<D; ++i) _d[i] += (T)val;
+  for (int i=0; i<D; ++i) _d[i] += val;
   return *this;
 }
 
 template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator-= (const Vector<T,D> &v)
 {
-  for (int i=0; i<D; ++i) _d[i] -= (T)(v._d[i]);
+  for (int i=0; i<D; ++i) _d[i] -= v._d[i];
   return *this;
 }
 
 template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator-= (const T &val)
 {
-  for (int i=0; i<D; ++i) _d[i] -= (T)val;
+  for (int i=0; i<D; ++i) _d[i] -= val;
   return *this;
 }
 
 template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator*= (T v)
 {
-  for (int i=0; i<D; ++i) _d[i] *= (T)(v);
+  for (int i=0; i<D; ++i) _d[i] *= v;
   return *this;
 }
 
 template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator/= (T v)
 {
-  for (int i=0; i<D; ++i) _d[i] /= (T)(v);
+  for (int i=0; i<D; ++i) _d[i] /= v;
   return *this;
 }
 
@@ -150,7 +150,7 @@ template <class T, int D>
 template<class T2> inline
 void Vector<T,D>::Set (const Vector<T2,D> &v)
 {
-  for (int i=0; i<D; ++i) _d[i] = (T)(v._d[i]);
+  for (int i=0; i<D; ++i) _d[i] = v._d[i];
 }
 
 template <class T, int D> inline
@@ -165,8 +165,8 @@ String Vector<T,D>::Description () const
 template <class T, int D> inline
 void Vector<T,D>::Normalize ()
 {
-  T len = 0;
-  for (int i=0; i<D; ++i) len += _d[i] * _d[i];
+  T len = _d[0] * _d[0];
+  for (int i=1; i<D; ++i) len += _d[i] * _d[i];
   if (len < SMALL_EPS) return;
   *this /= Math::Sqrt (len);
 }
@@ -174,40 +174,40 @@ void Vector<T,D>::Normalize ()
 template <class T, int D> inline
 T Vector<T,D>::Mult () const
 {
-  T mult = (T)1;
-  for (int i=0; i<D; ++i) mult *= _d[i];
+  T mult = _d[0];
+  for (int i=1; i<D; ++i) mult *= _d[i];
   return mult;
 }
 
 template <class T, int D> inline
 T Vector<T,D>::Sum () const
 {
-  T mult = (T)0;
-  for (int i=0; i<D; ++i) mult += _d[i];
-  return mult;
+  T sum = _d[0];
+  for (int i=1; i<D; ++i) sum += _d[i];
+  return sum;
 }
 
 template <class T, int D> inline
 T Vector<T,D>::Norm () const
 {
-  T len = 0;
-  for (int i=0; i<D; ++i) len += _d[i] * _d[i];
+  T len = _d[0] * _d[0];
+  for (int i=1; i<D; ++i) len += _d[i] * _d[i];
   return Math::Sqrt (len);
 }
 
 template <class T, int D> inline
 T Vector<T,D>::Norm2 () const
 {
-  T len = 0;
-  for (int i=0; i<D; ++i) len += _d[i] * _d[i];
+  T len = _d[0] * _d[0];
+  for (int i=1; i<D; ++i) len += _d[i] * _d[i];
   return len;
 }
 
 template <class T, int D> inline
 T Vector<T,D>::SquaredNorm () const
 {
-  T len = 0;
-  for (int i=0; i<D; ++i) len += _d[i] * _d[i];
+  T len = _d[0] * _d[0];
+  for (int i=1; i<D; ++i) len += _d[i] * _d[i];
   return len;
 }
 
@@ -226,12 +226,12 @@ bool Vector<T,D>::IsZero (float eps) const
 template <class T, int D> inline
 T Vector<T,D>::SquaredDistance (const TVector &v) const
 {
-  T tmp = _d[0]-v._d[0];
-  T retval = tmp*tmp;
+  T tmp = _d[0] - v._d[0];
+  T retval = tmp * tmp;
   for (int i=1; i<D; ++i)
   {
-    tmp = _d[i]-v._d[i];
-    retval += tmp*tmp;
+    tmp = _d[i] - v._d[i];
+    retval += tmp * tmp;
   }
   return retval;
 }
