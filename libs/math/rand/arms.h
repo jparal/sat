@@ -141,7 +141,7 @@ private:
    *
    * @param p a working POINT to hold the sampled value
    */
-  void Sample (Point *p);
+  int Sample (Point *p);
 
   /**
    * to obtain a point corresponding to a qiven cumulative probability
@@ -149,7 +149,7 @@ private:
    * @param prob cumulative probability under envelope
    * @param p a working POINT to hold the sampled value
    */
-  void Invert (double prob, Point *p);
+  int Invert (double prob, Point *p);
 
   /**
    * to perform rejection, squeezing, and metropolis tests

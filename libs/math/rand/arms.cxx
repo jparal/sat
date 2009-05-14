@@ -38,19 +38,17 @@ ARMSRandGen::~ARMSRandGen ()
 double ARMSRandGen::Get ()
 {
   Point pwork;        /* a working point, not yet incorporated in envelope */
-  int i;
+  int rv1, rv2;
 
   /* now do adaptive rejection */
   do
   {
     /* sample a new point */
-    Sample (&pwork);
+    rv1 = Sample (&pwork);
     /* perform rejection (and perhaps metropolis) tests */
-    i = Test (&pwork);
-
-    SAT_DBG_ASSERT_MSG (i != -1, "envelope error: violation without metropolis");
+    rv2 = Test (&pwork);
   }
-  while (i != 1); // while the point is accepted
+  while (!rv1 && !rv2); // while the point is accepted
 
   return pwork.x;
 }
@@ -151,19 +149,17 @@ void ARMSRandGen::Initialize (double *xinit, int ninit, double *xl, double *xr,
 
 }
 
-void ARMSRandGen::Sample (Point *p)
+int ARMSRandGen::Sample (Point *p)
 {
   double prob;
 
   /* sample a uniform */
   prob = TRandomGen::Get ();
   /* get x-value corresponding to a cumulative probability prob */
-  Invert (prob,p);
-
-  return;
+  return Invert (prob,p);
 }
 
-void ARMSRandGen::Invert (double prob, Point *p)
+int ARMSRandGen::Invert (double prob, Point *p)
 {
   double u,xl,xr,yl,yr,eyl,eyr,prop,z;
   Point *q;
@@ -219,9 +215,9 @@ void ARMSRandGen::Invert (double prob, Point *p)
 
   /* guard against imprecision yielding point outside interval */
   if ((p->x < xl) || (p->x > xr))
-    exit(1);
+    return 1;
 
-  return;
+  return 0;
 }
 
 int ARMSRandGen::Test (Point *p)
@@ -249,7 +245,7 @@ int ARMSRandGen::Test (Point *p)
                /(qr->x - ql->x);
     if(y <= ysqueez){
       /* accept point at squeezing step */
-      return 1;
+      return 0;
     }
   }
 
@@ -264,15 +260,16 @@ int ARMSRandGen::Test (Point *p)
     p->f = 1;
     if(Update (p)){
       /* envelope violation without metropolis */
+      SAT_DBG_ASSERT_MSG (false, "envelope violation without metropolis");
       return -1;
     }
     /* perform rejection test */
     if(y >= ynew){
       /* reject point at rejection step */
-      return 0;
+      return 1;
     } else {
       /* accept point at rejection step */
-      return 1;
+      return 0;
     }
   }
 
@@ -308,7 +305,7 @@ int ARMSRandGen::Test (Point *p)
     p->pl = ql;
     p->pr = qr;
 #ifdef SIGMUND_NICE
-    return 0;
+    return 2;
 #endif
   } else {
     /* trial point accepted by metropolis, so update previous Markov */
@@ -316,7 +313,7 @@ int ARMSRandGen::Test (Point *p)
     _met_xprev = p->x;
     _met_yprev = ynew;
   }
-  return 1;
+  return 0;
 }
 
 int ARMSRandGen::Update (Point *p)
@@ -358,7 +355,7 @@ int ARMSRandGen::Update (Point *p)
     q->pl->pr = q;
   } else {
     /* this should be impossible */
-    exit(10);
+    SAT_ASSERT (false);
   }
 
   /* now adjust position of q within interval if too close to an endpoint */
@@ -443,10 +440,8 @@ int ARMSRandGen::Meet (Point *q)
   double gl,gr,grl,dl,dr;
   int il,ir,irl;
 
-  if(q->f){
-    /* this is not an intersection point */
-    exit(30);
-  }
+  /* this is not an intersection point */
+  SAT_ASSERT (!q->f);
 
   /* calculate coordinates of point of intersection */
   if ((q->pl != NULL) && (q->pl->pl->pl != NULL)){
@@ -529,12 +524,12 @@ int ARMSRandGen::Meet (Point *q)
     q->y = q->pr->y - gr * (q->pr->x - q->x);
   } else {
     /* gradient on neither side - should be impossible */
-    exit(31);
+    SAT_ASSERT (false); // exit(31);
   }
   if(((q->pl != NULL) && (q->x < q->pl->x)) ||
      ((q->pr != NULL) && (q->x > q->pr->x))){
     /* intersection point outside interval (through imprecision) */
-    exit(32);
+    SAT_ASSERT (false); // exit(32);
   }
   /* successful exit : intersection has been calculated */
   return 0;
@@ -544,10 +539,10 @@ double ARMSRandGen::Area (Point *q)
 {
   double a;
 
-  if(q->pl == NULL){
-    /* this is leftmost point in envelope */
-    exit(1);
-  } else if(q->pl->x == q->x){
+  /* this is leftmost point in envelope */
+  SAT_ASSERT (q->pl != NULL);
+
+  if(q->pl->x == q->x){
     /* interval is zero length */
     a = 0.;
   } else if (Math::Abs(q->y - q->pl->y) < YEPS){
