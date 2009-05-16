@@ -84,9 +84,9 @@ AC_DEFUN([AC_FLAGS_PRESET],[
 	  ARFLAGS="-rv"
 	  RANLIB="ar ts"
 	  ;;
-	*g++*|*c++*)  dnl GNU C++  http://gcc.gnu.org/
+	*g++*|*c++*)  dnl GCC C++  http://gcc.gnu.org/
 	  CC_tmp=gcc
-	  CXXVENDOR="GNU"
+	  CXXVENDOR="GCC"
 	  GCC_V=`$CXX --version`
 	  CXXVERSION_MAJOR=`expr "$GCC_V" : '.* \(@<:@0-9@:>@\)\..*'`
 	  CXXVERSION_MINOR=`expr "$GCC_V" : '.* @<:@0-9@:>@\.\(@<:@0-9@:>@\).*'`
