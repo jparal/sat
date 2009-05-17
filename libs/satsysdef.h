@@ -28,7 +28,7 @@
  * Macro that resolves to a compiler-specific variable or string that contains
  * the name of the current function.
  */
-#if defined(PLATFORM_COMPILER_GNU)
+#if defined(PLATFORM_COMPILER_GCC)
 #  define SAT_FUNCTION_NAME		__PRETTY_FUNCTION__
 #elif defined(__FUNCTION__)
 #  define SAT_FUNCTION_NAME		__FUNCTION__

@@ -25,7 +25,7 @@
 #  if defined (PLATFORM_OS_MSWINDOWS)
 #    define SAT_DEBUG_BREAK ::DebugBreak()
 #  elif defined (PLATFORM_ARCH_X86)
-#    if defined (PLATFORM_COMPILER_GNU)
+#    if defined (PLATFORM_COMPILER_GCC)
 #      define SAT_DEBUG_BREAK asm ("int $3")
 #    else
 #      define SAT_DEBUG_BREAK { static int x = 0; x /= x; }
@@ -58,10 +58,10 @@
 #  define SAT_DBG_ASSERT_MSG(exp,msg)
 #endif
 
-// #if PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
+// #if PLATFORM_COMPILER_GCC && PLATFORM_COMPILER_VERSION_GE(4,3,0)
 // Note: require -std=c++0x flag to g++
 // #  define SAT_CASSERT_MSG(expr, msg) static_assert (expr, msg)
-// #else // PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
+// #else // PLATFORM_COMPILER_GCC && PLATFORM_COMPILER_VERSION_GE(4,3,0)
 namespace SAT
 {
   namespace Debug {
@@ -71,7 +71,7 @@ namespace SAT
 }
 #define SAT_CASSERT_MSG(expr, msg)					\
   { SAT::Debug::CompileTimeError<((expr) != 0)> ERROR_##msg; (void)ERROR_##msg; }
-// #endif // PLATFORM_COMPILER_GNU && PLATFORM_COMPILER_VERSION_GE(4,3,0)
+// #endif // PLATFORM_COMPILER_GCC && PLATFORM_COMPILER_VERSION_GE(4,3,0)
 
 #define SAT_CASSERT(expr) SAT_CASSERT_MSG(expr,Unknown)
 

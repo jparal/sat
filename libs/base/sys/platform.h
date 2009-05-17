@@ -30,7 +30,7 @@
  * compiler family name. Together with specia macro for each
  * family: \b PLATFORM_COMPILER_<family> where \e family is one of: \c INTEL,
  * \c PATHSCALE, \c PGI, \c XLC, \c COMPAQ, \c SUN, \c HP, \c SGI,
- * \c CRAY, \c KAI, \c MTA, \c NECSX, \c MICROSOFT, \c TINY, \c LCC, \c GNU
+ * \c CRAY, \c KAI, \c MTA, \c NECSX, \c MICROSOFT, \c TINY, \c LCC, \c GCC
  * or \c UNKNOWN This is done for both C and C++ compilers as well
  * so \b PLATFORM_COMPILER_<family>_C and \b PLATFORM_COMPILER_<family>_CXX are
  * defined to 1
@@ -363,17 +363,17 @@
 #endif
 
 /* this stanza comes last, because many vendor compilers lie and claim
-   to be GNU C for compatibility reasons and/or because they share a frontend */
+   to be GCC C for compatibility reasons and/or because they share a frontend */
 #if defined(__GNUC__)
 #  undef PLATFORM_COMPILER_UNKNOWN
 #  ifndef PLATFORM_COMPILER_FAMILYID
-#    define PLATFORM_COMPILER_GNU  1
-#    define PLATFORM_COMPILER_FAMILYNAME GNU
+#    define PLATFORM_COMPILER_GCC  1
+#    define PLATFORM_COMPILER_FAMILYNAME GCC
 #    define PLATFORM_COMPILER_FAMILYID 1
 #    ifdef __cplusplus
-#      define PLATFORM_COMPILER_GNU_CXX  1
+#      define PLATFORM_COMPILER_GCC_CXX  1
 #    else
-#      define PLATFORM_COMPILER_GNU_C  1
+#      define PLATFORM_COMPILER_GCC_C  1
 #    endif
 #    if defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__)
 #      define PLATFORM_COMPILER_VERSION \
@@ -385,19 +385,19 @@
 #      define PLATFORM_COMPILER_VERSION \
             PLATFORM_COMPILER_VERSION_INT(__GNUC__,0,0)
 #    endif
-#    define PLATFORM_COMPILER_VERSION_STR __PLATFORM_COMPILER_GNU_VERSION_STR
+#    define PLATFORM_COMPILER_VERSION_STR __PLATFORM_COMPILER_GCC_VERSION_STR
 #  else
-#    define _PLATFORM_COMPILER_GNU_VERSION_STR __PLATFORM_COMPILER_GNU_VERSION_STR
+#    define _PLATFORM_COMPILER_GCC_VERSION_STR __PLATFORM_COMPILER_GCC_VERSION_STR
 #  endif
-  /* gather any advertised GNU version number info, even for non-gcc compilers */
+  /* gather any advertised GCC version number info, even for non-gcc compilers */
 #  if defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__)
-#    define __PLATFORM_COMPILER_GNU_VERSION_STR \
+#    define __PLATFORM_COMPILER_GCC_VERSION_STR \
       _STRINGIFY(__GNUC__)"."_STRINGIFY(__GNUC_MINOR__)"."_STRINGIFY(__GNUC_PATCHLEVEL__)
 #  elif defined(__GNUC_MINOR__)
-#    define __PLATFORM_COMPILER_GNU_VERSION_STR \
+#    define __PLATFORM_COMPILER_GCC_VERSION_STR \
       _STRINGIFY(__GNUC__)"."_STRINGIFY(__GNUC_MINOR__)".?"
 #  else
-#    define __PLATFORM_COMPILER_GNU_VERSION_STR \
+#    define __PLATFORM_COMPILER_GCC_VERSION_STR \
       _STRINGIFY(__GNUC__)".?.?"
 #  endif
 #elif defined(PLATFORM_COMPILER_UNKNOWN) /* unknown compiler */
@@ -473,17 +473,17 @@
 #    define _PLATFORM_COMPILER_MISC_VERSION_STR
 #  endif
 #endif
-#ifdef _PLATFORM_COMPILER_GNU_VERSION_STR
-#  define _PLATFORM_COMPILER_GNU_VERSION_STR_HELP "|GNU:"_PLATFORM_COMPILER_GNU_VERSION_STR
+#ifdef _PLATFORM_COMPILER_GCC_VERSION_STR
+#  define _PLATFORM_COMPILER_GCC_VERSION_STR_HELP "|GCC:"_PLATFORM_COMPILER_GCC_VERSION_STR
 #else
-#  define _PLATFORM_COMPILER_GNU_VERSION_STR_HELP
+#  define _PLATFORM_COMPILER_GCC_VERSION_STR_HELP
 #endif
 
 #define PLATFORM_COMPILER_IDSTR                                      \
         "|COMPILER_FAMILY:" _STRINGIFY(PLATFORM_COMPILER_FAMILYNAME) \
         "|COMPILER_VERSION:" PLATFORM_COMPILER_VERSION_STR           \
         "|COMPILER_FAMILYID:" _STRINGIFY(PLATFORM_COMPILER_FAMILYID) \
-         _PLATFORM_COMPILER_GNU_VERSION_STR_HELP                     \
+         _PLATFORM_COMPILER_GCC_VERSION_STR_HELP                     \
         "|STD:" _PLATFORM_COMPILER_STD_STDC                          \
                 _PLATFORM_COMPILER_STD_STDC_VERSION                  \
                 _PLATFORM_COMPILER_STD_STDC_EXT                      \

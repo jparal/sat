@@ -35,7 +35,7 @@ namespace SAT
 
     static char* Demangle (const char* symbol)
     {
-    #if defined(PLATFORM_COMPILER_GNU_CXX)
+    #if defined(PLATFORM_COMPILER_GCC_CXX)
       /* Workaround: sometimes symbols are tried to be demangled which are
        * not method or function names; occasionally, libstdc++ chokes on
        * these. So don't try to demangle these */

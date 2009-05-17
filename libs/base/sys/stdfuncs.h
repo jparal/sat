@@ -37,7 +37,7 @@
  * \param var Name of the array to be allocated.
  * \param size Number of elements to be allocated.
  */
-#if defined(PLATFORM_COMPILER_GNU) && !defined(__STRICT_ANSI__)
+#if defined(PLATFORM_COMPILER_GCC) && !defined(__STRICT_ANSI__)
 // In GCC we are able to declare stack vars of dynamic size directly
 #  define SAT_ALLOCA(type, var, size) type var [size]
 #else
