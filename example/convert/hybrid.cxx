@@ -34,6 +34,7 @@ int main (int argc, char **argv)
   DBG_INFO ("Accel [1 m/s^2]: "<<si2h.Accel (1, inv));
 
   DBG_LINE ("Examples");
-  DBG_INFO ("Speed of 1 eV Na pcle: "<<
-	    si2h.Speed (Math::Sqrt((4.*2.*1.6e-19)/(29.9*1.67e-27)))<<" [v_A]");
+  double ev = 1;
+  DBG_INFO ("Speed of "<<ev<<" eV Na pcle: "<<
+	    si2h.Speed (Math::Sqrt((ev*2.*1.6e-19)/(29.9*1.67e-27)))<<" [v_A]");
 }
