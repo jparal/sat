@@ -6,6 +6,7 @@ headers += \
 	sys/clock.h \
 	sys/extern.h \
 	sys/format.h \
+	sys/grindwrap.h \
 	sys/inline.h \
 	sys/fpe.h \
 	sys/platform.h \

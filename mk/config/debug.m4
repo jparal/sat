@@ -6,6 +6,7 @@ AC_DEFUN([AC_ENABLE_DEBUG],[
 	[build with debugging information (default yes);
 	  same as --enable-mode=debug. The LIST is an optional comma separated
 	  list, where allowed values are:
+	  'valgrind'... valgrind tool support;
 	  'reftrack'... reference tracking in smart pointers;
 	  'memtrack'... memory tracking during allocation;
 	  'memdebug'... extensive memomory debugging]),
@@ -17,6 +18,9 @@ AC_DEFUN([AC_ENABLE_DEBUG],[
 	IFS="$IFS,"
 	for item in $enableval; do
 	  case "$item" in
+	    valgrind)
+	      AC_DEFINE_UNQUOTED(SAT_DEBUG_VALGRIND,1,
+		[Whether to turn on valgrind support.]) ;;
 	    reftrack)
 	      AC_DEFINE_UNQUOTED(SAT_DEBUG_REF_TRACKER,1,
 		[Whether to turn on reference tracking in smart pointers]) ;;

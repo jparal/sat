@@ -12,6 +12,9 @@ AC_DEFUN([AC_CHECK_SAT_HEADERS],
 	  [Define to 1 if you have the <cxxabi.h> header file.])])
     AC_CHECK_HEADER([execinfo.h],[AC_DEFINE([HAVE_EXECINFO_H],[1],
 	  [Define to 1 if you have the <execinfo.h> header file.])])
+    AC_CHECK_HEADER(
+      [valgrind/callgrind.h], [AC_DEFINE([HAVE_VALGRIND_CALLGRIND_H],[1],
+	  [Define to 1 if you have the <valgrind/callgrind.h> header file.])])
 
     CPPFLASG=$save_CPPFLASG
   ])
