@@ -2,6 +2,8 @@
 *.h5
 *~
 .deps
+cachegrind.out.*
+callgrind.out.*
 !dummy.*
 .dirstamp
 /.rsync
