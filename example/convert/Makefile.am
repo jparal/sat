@@ -2,22 +2,15 @@
 ##   Copyright (C) by Jan Paral and SAT team                                  #
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
+#
+# Note that LDADD is already specified in Makefile.first as well as
+# optimization CXXFLAGS. By specifying prog_CXXFLAGS or prog_LDADD you override
+# those settings
+#
+include $(top_srcdir)/mk/amake/Makefile.sat
 
-headers += \
-	misc/convert.h \
-	misc/domain.h \
-	misc/hybridconv.h \
-	misc/loc.h \
-	misc/range.h \
-	misc/simtime.h
+# EXTRA_DIST =
 
-# preproc += 
+noinst_PROGRAMS = hybrid
 
-sources += \
-	misc/convert.cxx \
-	misc/domain.cxx \
-	misc/hybridconv.cxx \
-	misc/range.cxx \
-	misc/simtime.cxx
-
-# extrsrc += 
+hybrid_SOURCES = hybrid.cxx

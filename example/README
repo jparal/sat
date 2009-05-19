@@ -1,6 +1,9 @@
 
 Usage example codes of SAT libraries
 
+convert:
+  Units conversion example
+
 rand:
   Random number generators
 
