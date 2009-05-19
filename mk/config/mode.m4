@@ -23,18 +23,23 @@ AC_DEFUN([AC_ENABLE_MODE],[
 
     case $ac_build_mode in
       optimize)
+        AC_DEFINE_UNQUOTED([SAT_MODE_OPTIMIZE],1,[Compilation mode is optimize])
 	CXXFLAGS="$CXXFLAGS $CXXFLAGS_OPT"
 	CFLAGS="$CFLAGS $CFLAGS_OPT"
 	;;
       debug)
+        AC_DEFINE_UNQUOTED([SAT_MODE_DEBUG],1,[Compilation mode is debug])
 	CXXFLAGS="$CXXFLAGS $CXXFLAGS_DBG"
 	CFLAGS="$CFLAGS $CFLAGS_DBG"
 	;;
       profile)
+        AC_DEFINE_UNQUOTED([SAT_MODE_PROFILE],1,[Compilation mode is profile])
 	CXXFLAGS="$CXXFLAGS $CXXFLAGS_PRF"
 	CFLAGS="$CFLAGS $CFLAGS_PRF"
 	;;
     esac
+
+    AC_DEFINE_UNQUOTED([SAT_MODE], ["$ac_build_mode"],[Compilation mode])
 
     AM_CONDITIONAL([DEBUG],    [test $ac_build_mode = debug])
     AM_CONDITIONAL([PROFILE],  [test $ac_build_mode = profile])
