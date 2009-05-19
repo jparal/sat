@@ -225,8 +225,8 @@ int ARMSRandGen::Test (Point *p)
   double u,y,ysqueez,ynew,yold,znew,zold,w;
   Point *ql,*qr;
 
-  /* for rejection test */
-  u = TRandomGen::Get () * p->ey;
+  /* for rejection test (jparal: forbid 'u' to be 0 */
+  u = (1. - 0.99999 * TRandomGen::Get ()) * p->ey;
   y = LogShift (u,_env_ymax);
 
   if(!(_met_on) && (p->pl->pl != NULL) && (p->pr->pr != NULL)){
