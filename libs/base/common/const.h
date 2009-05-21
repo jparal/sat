@@ -56,6 +56,7 @@
 #define M_PHYS_MI 1.67262158e-27   ///< Mass of the proton [kg]
 #define M_PHYS_MP 1.67262158e-27   ///< Mass of the proton [kg]
 #define M_PHYS_E 1.60217646e-19    ///< Electron charge [C]
+#define M_PHYS_KB 1.3806503e-23    ///< Boltzmann constant [m^2 kg/K s^2]
 #define M_PHYS_MERCURY_GRAV 3.697  ///< Gravitation of Mercury [m/s^2]
 
 /** @} */
