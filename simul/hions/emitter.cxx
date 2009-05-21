@@ -42,7 +42,6 @@ void SphereEmitter<T>::EmitPcles (TParticleArray &ions, TParticleArray &neut)
   // specify third coordinate (always constant)
   sphl[2] = (T)1.01 * _radius;
 
-  // SAT_PRAGMA_OMP (parallel for private(sphl) schedule (static))
   for (int i=0; i<_rmsrc.GetSize (0); ++i)
     for (int j=0; j<_rmsrc.GetSize (1); ++j)
     {
@@ -81,24 +80,26 @@ void SphereEmitter<T>::EmitPcles (TParticleArray &ions, TParticleArray &neut)
 	pcle.SetWeight (1.);
 
 	if (_unirng.Get () < _ionsratio)
-	  SAT_PRAGMA_OMP (critical) ions.Push (pcle);
+	  ions.Push (pcle);
 	else
-	  SAT_PRAGMA_OMP (critical) neut.Push (pcle);
+	  neut.Push (pcle);
       }
     }
 }
 
 template<class T>
 void SphereEmitter<T>::Initialize (ConfigEntry &cfg, String tag,
+				   const SIHybridUnitsConvert<T> &si2hyb,
 				   const Vector<T,3> &pos, T radius)
 {
   _tag = tag;
   _pos = pos;
+  _si2hyb = si2hyb;
   _radius = radius;
 
   if (cfg.Exists (tag))
   {
-    DBG_INFO ("emitter ("<<tag<<"): ENABLED");
+    DBG_INFO ("emitter ("<<tag<<"): Enabled");
     Vector<int,2> npatch;
     cfg.GetValue ("npatch", npatch);
     cfg.GetValue ("npcles", _npcles);
@@ -110,7 +111,7 @@ void SphereEmitter<T>::Initialize (ConfigEntry &cfg, String tag,
     _src.Initialize (npatch);
 
     ConfigEntry &entry = cfg[tag];
-    InitializeLocal (entry, _src);
+    InitializeLocal (entry, _si2hyb, _src);
 
     // scale the map
     _src *= _npcles / _src.Sum ();
@@ -124,7 +125,7 @@ void SphereEmitter<T>::Initialize (ConfigEntry &cfg, String tag,
   }
   else
   {
-    DBG_INFO ("emitter ("<<tag<<"): DISABLED");
+    DBG_INFO ("emitter ("<<tag<<"): Disabled");
   }
 }
 

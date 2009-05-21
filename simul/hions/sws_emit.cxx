@@ -16,18 +16,23 @@
 #include "utils.h"
 
 template<class T>
-void SWSSphereEmitter<T>::InitializeLocal (ConfigEntry &cfg, Field<T,2> &src)
+void SWSSphereEmitter<T>::InitializeLocal (ConfigEntry &cfg,
+                                  const SIHybridUnitsConvert<T> &si2hyb,
+					   Field<T,2> &src)
 {
+  T mass;
+  _si2hyb = si2hyb;
   cfg.GetValue ("ebind", _ebind);
   cfg.GetValue ("etrans", _etrans);
-  cfg.GetValue ("mass", _2mass); _2mass = 2./_2mass;
+  cfg.GetValue ("mass", mass);
   cfg.GetValue ("mapfname", _mapfname);
 
   DBG_INFO ("  binding energy Eb [eV]:     "<<_ebind);
   DBG_INFO ("  transmitted energy Tm [eV]: "<<_etrans);
-  DBG_INFO ("  mass of the particle:       "<<2./_2mass);
+  DBG_INFO ("  mass of the particle:       "<<mass);
   DBG_INFO ("  input map file:             "<<_mapfname);
 
+  _conv = (2.*M_PHYS_E)/(mass*M_PHYS_MI);
   _sigdf.Initialize (_ebind, _etrans);
 
   // Since Load() function will take care of it based on the dimnesions stored

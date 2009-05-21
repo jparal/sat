@@ -4,7 +4,7 @@
  ******************************************************************************/
 /**
  * @file   hions.cxx
- * @brief  Monte-Carlo simulation of heavy ions
+ * @brief  Monte-Carlo simulation of heavy ions.
  * @author @jparal
  *
  * @revision{1.0}
@@ -17,7 +17,9 @@
 int main (int argc, char **argv)
 {
   HeavyIonsCode<float> hions;
+  SAT_CALLGRIND_STOP_INSTRUMENTATION
   hions.Initialize (&argc, &argv);
+  SAT_CALLGRIND_START_INSTRUMENTATION
   hions.Exec ();
 
   return 0;

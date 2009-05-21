@@ -41,18 +41,25 @@ public:
   /// Destructor
   virtual ~SWSSphereEmitter () {};
 
-  virtual void InitializeLocal (ConfigEntry &cfg, Field<T,2> &src);
+  virtual void InitializeLocal (ConfigEntry &cfg,
+				const SIHybridUnitsConvert<T> &si2hyb,
+				Field<T,2> &src);
 
   virtual T GenVelocity (const Vector<T,3> &sphl, T &angle)
-  { return Math::Sqrt (_2mass * (T)_sigdf.Get ()); }
+  { return _si2hyb.Speed (Math::Sqrt (_conv * _sigdf.Get())); }
 
 private:
   T _ebind;
   T _etrans;
   String _mapfname;
-
+  SIHybridUnitsConvert<T> _si2hyb;
   SigmundRandGen _sigdf;
-  T _2mass; ///< 2 / mass
+
+  /**
+   * This constant holds all constants from the expression:
+   * _conv = 2 * M_PHYS_E / mass in m_i units * M_PHYS_MI
+   */
+  T _conv;
 };
 
 /// @}

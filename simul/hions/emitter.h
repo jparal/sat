@@ -44,7 +44,9 @@ public:
   /// @brief Local initialization of the emitter called from Initialize()
   ///        function.
   /// Override this function if you need a local initialization of the emitter.
-  virtual void InitializeLocal (ConfigEntry &cfg, Field<T,2> &src) {}
+  virtual void InitializeLocal (ConfigEntry &cfg,
+				const SIHybridUnitsConvert<T> &si2hyb,
+				Field<T,2> &src) {}
 
   /// Return velocity of the newly generated particle at position @p sphl in
   /// spherical coordinates. You can but don't have to change the @p angle
@@ -52,6 +54,7 @@ public:
   virtual T GenVelocity (const Vector<T,3> &sphl, T &angle) = 0;
 
   void Initialize (ConfigEntry &cfg, String tag,
+		   const SIHybridUnitsConvert<T> &si2hyb,
 		   const Vector<T,3> &pos, T radius);
 
   bool IsEnabled () const
@@ -73,6 +76,7 @@ public:
 private:
   void EmitPcles (TParticleArray &ions, TParticleArray &neut);
 
+  SIHybridUnitsConvert<T> _si2hyb;
   Field<T,2> _src;   ///< distribution of flux on the surface of sphere
   Field<T,2> _rmsrc; ///< remaining flux (reset by Update to _src)
   String _tag;       ///< tag of the emitter

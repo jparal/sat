@@ -15,12 +15,12 @@
 #include "hions.h"
 
 template<class T>
-void HeavyIonsCode<T>::CalcForce (const TVector &pos, TVector &force) const
+void HeavyIonsCode<T>::CalcAccel (const TVector &pos, TVector &force) const
 {
   T r = pos.Distance (_plpos);
   force = _plpos - pos;
   force *= _cgrav/(r*r*r);
-  force += _swaccel;
+  force[0] += _swaccel;
 }
 
 template<class T>

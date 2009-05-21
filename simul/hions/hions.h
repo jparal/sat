@@ -23,7 +23,7 @@
 /// @{
 
 /**
- * @brief Heavy ions Monte-Carlo simulation of Mercury
+ * @brief Heavy ions Monte-Carlo simulation of Mercury.
  *
  * @revision{1.0}
  * @reventry{2009/04, @jparal}
@@ -39,6 +39,7 @@ public:
   typedef RefArray<TSpecie> TSpecieArray;
   typedef typename TSpecie::TParticleArray TParticleArray;
   typedef typename TSpecie::TParticle TParticle;
+  typedef typename TSpecie::TWeightField TWeightField;
 
   /// Constructor
   HeavyIonsCode ();
@@ -59,17 +60,17 @@ public:
   /// Single iteration (called from Code::Exec)
   virtual void Iter ();
 
-  /// Calculate SW acceleration force + gravity
-  void CalcForce (const TVector &pos, TVector &force) const;
+  /// Calculate solar wind + gravity acceleration
+  void CalcAccel (const TVector &pos, TVector &force) const;
   /// Calculate output
   void CalcOutput () const;
 
-  /// @brief Move ions by one time step (i.e. _time.Dt() )
-  void MoveIons (TSpecie &sp);
+  /// @brief Move ions by one time step @p dt
+  void MoveIons (TSpecie &sp, T dt);
   /// @brief Move neutrals by one time step (i.e. _time.Dt() )
   void MoveNeutrals (TSpecie &sp);
   /// @brief Ionize some of the particles.
-  void Ionize (TSpecie &sp);
+  void Ionize (TSpecie &sp, int &ionized);
 
   /// @brief Apply boundary conditions.
   /// @remarks parameters @p pdhit and @p plhit are not reset inside of the
@@ -78,24 +79,39 @@ public:
 
   void CheckPosition (TParticleArray &pcles);
 
+  /// @brief Clean particles which has weight less then 0.
+  void CleanPcles (TParticleArray &pcles, int &cleaned);
+
 private:
   String _stwname;
+  int _nsub; ///< ion substeps
   TField _B, _E;
   TSpecieArray _specs;
 
   SimulTime _time;        ///< simulation time
+  SIHybridUnitsConvert<T> _si2hyb; //< SI to hybrid units conversion
   SensorManager _sensmng; ///< sensor manager
   int _clean;
 
   Vector<int,3> _nx;     ///< Number of cells.
   Vector<T,3> _dx, _dxi; ///< Resolution of input (STW) data.
-  Vector<T,3> _rx;       ///< Planet relative position.
   Vector<T,3> _lx;       ///< Size of the simulation box (i.e. nx*dx)
+  Vector<T,3> _rx;       ///< Planet relative position.
   Vector<T,3> _plpos;    ///< Planet position (i.e. nx*dx*rx)
   T _scalef;             ///< Scaling factor for Lorentz force.
   T _radius;             ///< Radius of the planet in hybrid units.
-  Vector<T,3> _swaccel;  ///< Solar wind acceleration.
+  T _swaccel;            ///< Solar wind acceleration.
   T _cgrav;              ///< Gravitation constant.
+
+  /**
+   * @brief Ionization constant.
+   * Ionization constant is defined as follows:
+   * @f[ c_i = \sum_p \frac{1}{\tau_p} @f]
+   * where @p p is a ionization process and @f$ \tau @f$ is a lifetime of the
+   * process @p p.
+   */
+  T _cionize;
+  T _distau; ///< Distance from the Sun [AU]
 };
 
 /// @}

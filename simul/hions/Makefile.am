@@ -9,10 +9,11 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-headers = emitter.h hions.h pclehi.h speciehi.h sws_emit.h utils.h
+headers = emitter.h hions.h pclehi.h spec_sens.h speciehi.h sws_emit.h utils.h
 preproc = utils.cpp tmplspec.cpp
-sources = applybc.cxx calcout.cxx emitter.cxx exec.cxx hions.cxx init.cxx \
-ionize.cxx iter.cxx load.cxx misc.cxx move.cxx sws_emit.cxx
+sources = applybc.cxx calcout.cxx clean.cxx emitter.cxx exec.cxx hions.cxx \
+init.cxx ionize.cxx iter.cxx load.cxx misc.cxx move.cxx spec_sens.cxx	   \
+sws_emit.cxx
 extrsrc = hions.sin
 
 exename = hions
