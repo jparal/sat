@@ -19,9 +19,10 @@
 #define EYEPS 0.001              /* critical relative exp(y) difference */
 #define YCEIL 50.                /* maximum y avoiding overflow in exp(y) */
 
-// return at acceptance is NOT necessary here but produce a much nicer
-// distribution without repeating the same values
-#define SIGMUND_NICE 1
+// Return at acceptance is NOT necessary here but it produces a much nicer
+// distribution function without repeating the same values when value is
+// refused.
+//#define SIGMUND_NICE 1
 
 ARMSRandGen::ARMSRandGen ()
 {
@@ -48,7 +49,7 @@ double ARMSRandGen::Get ()
     /* perform rejection (and perhaps metropolis) tests */
     rv2 = Test (&pwork);
   }
-  while (!rv1 && !rv2); // while the point is accepted
+  while (rv1 && rv2); // while the point is accepted
 
   return pwork.x;
 }
