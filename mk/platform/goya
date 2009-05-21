@@ -6,10 +6,11 @@ CC=gcc-4.4
 # CXX=icpc
 # CC=icc
 
-with_cxxflags_dbg="-mtune=native -march=native"
+with_cxxflags_dbg="-funroll-loops -fno-inline"
 with_cxxflags_opt="-mtune=native -march=native"
+
 # enable_debug=yes
-# enable_debug=memory,reference
+# enable_debug=memory,reference,valgrind
 
 prefix=/home/jparal/install/sat
 
