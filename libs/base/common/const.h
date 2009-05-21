@@ -52,9 +52,11 @@
 #define M_EPSS  0.000001
 #define M_EPSSS 0.000000000001
 
-#define M_PHYS_ME 9.10938188e-31 ///< Mass of the electron
-#define M_PHYS_MI 1.67262158e-27 ///< Mass of the proton
-#define M_PHYS_E 1.60217646e-19 ///< Electron charge
+#define M_PHYS_ME 9.10938188e-31   ///< Mass of the electron [kg]
+#define M_PHYS_MI 1.67262158e-27   ///< Mass of the proton [kg]
+#define M_PHYS_MP 1.67262158e-27   ///< Mass of the proton [kg]
+#define M_PHYS_E 1.60217646e-19    ///< Electron charge [C]
+#define M_PHYS_MERCURY_GRAV 3.697  ///< Gravitation of Mercury [m/s^2]
 
 /** @} */
 
