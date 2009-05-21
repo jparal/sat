@@ -99,7 +99,7 @@ private:
   Vector<T,3> _rx;       ///< Planet relative position.
   Vector<T,3> _plpos;    ///< Planet position (i.e. nx*dx*rx)
   T _scalef;             ///< Scaling factor for Lorentz force.
-  T _radius;             ///< Radius of the planet in hybrid units.
+  T _radius, _radius2;   ///< Radius of the planet in hybrid units.
   T _swaccel;            ///< Solar wind acceleration.
   T _cgrav;              ///< Gravitation constant.
 

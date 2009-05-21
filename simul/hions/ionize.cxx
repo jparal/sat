@@ -18,7 +18,6 @@ template<class T>
 void HeavyIonsCode<T>::Ionize (TSpecie &sp, int &ionized)
 {
   T wght, wnew, dw, ionize = _time.Dt() * _cionize;
-  const T r2 = _radius * _radius;
   Vector<int,3> ip;
 
   TParticleArray &ions = sp.GetIons ();
@@ -38,7 +37,7 @@ void HeavyIonsCode<T>::Ionize (TSpecie &sp, int &ionized)
     const Vector<T,3> &xp = pcle.GetPosition ();
     const T yr = xp[1] - _plpos[1];
     const T zr = xp[2] - _plpos[2];
-    if ((_plpos[0] < xp[0]) && (yr*yr+zr*zr < r2))
+    if ((_plpos[0] < xp[0]) && (yr*yr+zr*zr < _radius2))
       continue; // Particle is hidden behind the planet
 
     wght = pcle.GetWeight();

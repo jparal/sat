@@ -57,6 +57,7 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
   cfg.GetValue ("input.distau", _distau);
   cfg.GetValue ("input.planet.rpos", _rx);
   cfg.GetValue ("input.planet.radius", _radius);
+  _radius2 = _radius*_radius;
 
   for (int i=0; i<3; ++i)
   {
@@ -68,7 +69,7 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
 
   tphoto = _si2hyb.Time(tphoto) * (_distau*_distau)/(0.386*0.386);
   _cionize = (T)1./tphoto;
-  _cgrav = _si2hyb.Accel (M_PHYS_MERCURY_GRAV) * _radius * _radius;
+  _cgrav = _si2hyb.Accel (M_PHYS_MERCURY_GRAV) * _radius2;
 
   DBG_LINE ("Heavy Ions:");
   DBG_INFO ("sub-steps for ions:     "<<_nsub);
@@ -81,7 +82,7 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
   DBG_INFO ("planet absolute pos:    "<<_plpos);
   DBG_INFO ("planet radius:          "<<_radius);
   DBG_INFO ("accel of solar wind:    "<<_swaccel);
-  DBG_INFO ("accel of gravitation:   "<<_cgrav/(_radius*_radius));
+  DBG_INFO ("accel of gravitation:   "<<_cgrav/_radius2);
   DBG_INFO ("ionization constant:    "<<_cionize*_time.Dt());
 
   DBG_LINE ("Release:");

@@ -19,7 +19,6 @@ void HeavyIonsCode<T>::ApplyBC (TParticleArray &pcles, int &bdhit, int &plhit)
 {
   int bdtmp = 0, pltmp = 0;
 
-  const T r2 = _radius * _radius;
   int npcles = (int)pcles.GetSize ();
   SAT_PRAGMA_OMP (parallel for reduction(+:bdtmp, pltmp) schedule(static))
   for (int pc=0; pc<npcles; ++pc)
@@ -44,9 +43,8 @@ void HeavyIonsCode<T>::ApplyBC (TParticleArray &pcles, int &bdhit, int &plhit)
 
     // is particle inside of the planet?
     xp -= _plpos;
-    if (xp.SquaredNorm () < r2)
+    if (xp.SquaredNorm () < _radius2)
     {
-      //      m_mercury.AddParticle (pcle);
       pcle.Weight () = -1.;
       ++pltmp;
     }
