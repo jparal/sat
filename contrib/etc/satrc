@@ -3,7 +3,7 @@
 # these lines:
 #
 # export SAT_HOME=/sat/installation/path
-# source $SAT_HOME/etc/satrc
+# source $SAT_HOME/contrib/etc/satrc
 #
 
 DIRS="bin analyse/shock tools/info tools/version"
