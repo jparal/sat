@@ -63,6 +63,8 @@ public:
   const char* GetTag () const
   { return _tag.GetData (); }
 
+  String GetTag (const String &pre, const String &post = "") const;
+
   /// return TAG# where number represent the specie
   String GetTag (int i) const;
 

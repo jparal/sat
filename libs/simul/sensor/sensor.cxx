@@ -86,3 +86,11 @@ String Sensor::GetTag (int i) const
   tag.Append (i);
   return tag;
 }
+
+String Sensor::GetTag (const String &pre, const String &post) const
+{
+  String tag (pre);
+  tag.Append (_tag.GetData ());
+  tag.Append (post);
+  return tag;
+}
