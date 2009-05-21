@@ -108,3 +108,9 @@ void SimulTime::IterStr (char *buff, int size, bool fill) const
   while (tmp>0) { tmp /= 10; ++places; }
   snprintf (buff,size,"%0*d", places, _iter);
 }
+
+void SimulTime::Print () const
+{
+  DBG_INFO ("***** iteration = "<<
+	    Iter ()<<"; time = "<<(float)Time ()<<" *****");
+}

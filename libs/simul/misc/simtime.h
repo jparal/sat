@@ -72,8 +72,7 @@ public:
   void Initialize (ConfigEntry &cfg, satversion_t ver);
   void Initialize (ConfigFile &cfg, satversion_t ver);
 
-  void Print () const
-  { DBG_INFO ("iteration = "<<Iter ()<<"; time = "<<(float)Time ()); }
+  void Print () const;
 
   /**
    * Increment iteration and update time
