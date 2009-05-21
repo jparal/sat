@@ -20,6 +20,12 @@ void HeavyIonsCode<T>::CalcAccel (const TVector &pos, TVector &force) const
   T r = pos.Distance (_plpos);
   force = _plpos - pos;
   force *= _cgrav/(r*r*r);
+
+  const T yr = pos[1] - _plpos[1];
+  const T zr = pos[2] - _plpos[2];
+  if ((_plpos[0] < pos[0]) && (yr*yr+zr*zr < _radius2))
+    return; // Particle is hidden behind the planet => no SW accel
+
   force[0] += _swaccel;
 }
 
