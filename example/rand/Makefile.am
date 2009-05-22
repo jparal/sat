@@ -11,6 +11,8 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 
 # EXTRA_DIST =
 
-noinst_PROGRAMS = sigmund
+noinst_PROGRAMS = maxw psd sigmund
 
+maxw_SOURCES = maxw.cxx
+psd_SOURCES = psd.cxx
 sigmund_SOURCES = sig.cxx

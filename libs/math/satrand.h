@@ -5,6 +5,7 @@
 #include "math/rand/arms.h"
 #include "math/rand/cos.h"
 #include "math/rand/maxwell.h"
+#include "math/rand/psd.h"
 #include "math/rand/range.h"
 #include "math/rand/rndgen.h"
 #include "math/rand/sigmund.h"

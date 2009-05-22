@@ -7,6 +7,7 @@ headers += \
 	rand/arms.h \
 	rand/cos.h \
 	rand/maxwell.h \
+	rand/psd.h \
 	rand/range.h \
 	rand/rndgen.h \
 	rand/sigmund.h \
@@ -20,6 +21,7 @@ sources += \
 	rand/arms.cxx \
 	rand/cos.cxx \
 	rand/maxwell.cxx \
+	rand/psd.cxx \
 	rand/range.cxx \
 	rand/rndgen.cxx \
 	rand/sigmund.cxx \
