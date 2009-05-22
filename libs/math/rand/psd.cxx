@@ -25,8 +25,9 @@ void PSDRandGen::Initialize (double bind, double xpar)
   _u = bind;
   _xpar = xpar;
 
-  _cnorm = 1.;
+  _cnorm = 10.*_xpar*(1+_xpar)*Math::Pow(_u,xpar);
 
+  _2pxp = 2.+_xpar;
   _initialized = true;
   TBase::Initialize (SDF_XLEFT, SDF_XRIGHT, true);
 }
@@ -35,5 +36,5 @@ double PSDRandGen::EvalDF (double x)
 {
   SAT_DBG_ASSERT (_initialized);
 
-  return _cnorm*_xpar*(1+_xpar)* Math::Pow(x*_u,x)/Math::Pow(x+_u,2.+_xpar);
+  return _cnorm * x / Math::Pow(x+_u,_2pxp);
 }

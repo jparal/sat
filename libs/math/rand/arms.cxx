@@ -21,8 +21,8 @@
 
 // Return at acceptance is NOT necessary here but it produces a much nicer
 // distribution function without repeating the same values when value is
-// refused.
-//#define SIGMUND_NICE 1
+// refused. (set to 0/1 to enable/disable this feature)
+#define SIGMUND_NICE 0
 
 ARMSRandGen::ARMSRandGen ()
 {
@@ -49,7 +49,7 @@ double ARMSRandGen::Get ()
     /* perform rejection (and perhaps metropolis) tests */
     rv2 = Test (&pwork);
   }
-  while (rv1 && rv2); // while the point is accepted
+  while (rv1 || rv2); // while the point is accepted
 
   return pwork.x;
 }
@@ -305,7 +305,7 @@ int ARMSRandGen::Test (Point *p)
     p->f = 1;
     p->pl = ql;
     p->pr = qr;
-#ifdef SIGMUND_NICE
+#if SIGMUND_NICE
     return 2;
 #endif
   } else {

@@ -59,6 +59,7 @@ public:
 private:
   double _u;  ///< Binding energy of particle
   double _xpar; ///< Transmitted energy from the collision
+  double _2pxp;
   double _cnorm; ///< Normalization constant
   bool _initialized;
 };
