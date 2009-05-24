@@ -96,8 +96,6 @@ void HIUtils::Load (Field<T,2> &fld, const char* path)
 
   gzFile file = gzopen (path,"r");
 
-  DBG_INFO ("Loading file: " <<path);
-
   if (file == NULL)
   {
     DBG_ERROR ("Loading file failed: "<<path);

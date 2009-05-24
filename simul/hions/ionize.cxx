@@ -26,8 +26,9 @@ void HeavyIonsCode<T>::Ionize (TSpecie &sp, int &ionized)
 
   int ionizedtmp = 0;
   int npcles = (int)neut.GetSize ();
+  int nchunk = Omp::ChunkSize (npcles);
   SAT_PRAGMA_OMP (parallel for reduction(+:ionizedtmp) private(wnew,wght,dw,ip)
-		  schedule(static))
+		  schedule(dynamic,nchunk))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = neut.Get (pc);

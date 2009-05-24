@@ -20,7 +20,9 @@ void HeavyIonsCode<T>::ApplyBC (TParticleArray &pcles, int &bdhit, int &plhit)
   int bdtmp = 0, pltmp = 0;
 
   int npcles = (int)pcles.GetSize ();
-  SAT_PRAGMA_OMP (parallel for reduction(+:bdtmp, pltmp) schedule(static))
+  int nchunk = Omp::ChunkSize (npcles);
+  SAT_PRAGMA_OMP (parallel for reduction(+:bdtmp, pltmp)
+		  schedule(dynamic,nchunk))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = pcles.Get (pc);
@@ -58,8 +60,9 @@ template<class T>
 void HeavyIonsCode<T>::CheckPosition (TParticleArray &pcles)
 {
   const T r2 = _radius * _radius;
-  int npcles = SAT_STATIC_CAST (int, pcles.GetSize ());
-  SAT_PRAGMA_OMP (parallel for schedule(static))
+  int npcles = (int)pcles.GetSize ();
+  int nchunk = Omp::ChunkSize (npcles);
+  SAT_PRAGMA_OMP (parallel for schedule(dynamic,nchunk))
   for (int i=0; i<npcles; ++i)
   {
     TParticle &pcle = pcles.Get (i);

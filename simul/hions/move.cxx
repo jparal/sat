@@ -24,7 +24,8 @@ void HeavyIonsCode<T>::MoveNeutrals (TSpecie &sp)
   T dt = _time.Dt ();
 
   int npcles = (int)pcles.GetSize ();
-  SAT_PRAGMA_OMP (parallel for private(ap) schedule(static))
+  int nchunk = Omp::ChunkSize (npcles);
+  SAT_PRAGMA_OMP (parallel for private(ap) schedule(dynamic,nchunk))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = pcles.Get (pc);
@@ -53,8 +54,10 @@ void HeavyIonsCode<T>::MoveIons (TSpecie &sp, T dt)
 
   TParticleArray &pcles = sp.GetIons ();
 
-  int npcles = SAT_STATIC_CAST (int, pcles.GetSize ());
-  SAT_PRAGMA_OMP (parallel for private(vh,ep,bp,xt,cache) schedule(static))
+  int npcles = (int) pcles.GetSize ();
+  int nchunk = Omp::ChunkSize (npcles);
+  SAT_PRAGMA_OMP (parallel for private(vh,ep,bp,xt,cache)
+		  schedule(dynamic,nchunk))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = pcles.Get (pc);

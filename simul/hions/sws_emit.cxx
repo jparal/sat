@@ -39,6 +39,10 @@ void SWSSphereEmitter<T>::InitializeLocal (ConfigEntry &cfg,
   // in the file
   src.Free ();
   HIUtils::Load (src, _mapfname);
+
+  // HDF5File file;
+  // file.Initialize (false, 6, true);
+  // file.Write (src, Cell, "SWS", "SWSmap");
 }
 
 template class SWSSphereEmitter<float>;

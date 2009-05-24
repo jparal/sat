@@ -14,17 +14,14 @@
 
 #include "hions.h"
 #include "sws_emit.h"
+#include "psd_emit.h"
 #include "spec_sens.h"
 
 template<class T>
-HeavyIonsCode<T>::HeavyIonsCode ()
-{
-}
+HeavyIonsCode<T>::HeavyIonsCode () {}
 
 template<class T>
-HeavyIonsCode<T>::~HeavyIonsCode ()
-{
-}
+HeavyIonsCode<T>::~HeavyIonsCode () {}
 
 template<class T>
 void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
@@ -89,19 +86,27 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
   ConfigEntry &entry = cfg.GetEntry ("release");
 
   SWSSphereEmitter<T> *swsemit = new SWSSphereEmitter<T>;
+  PSDSphereEmitter<T> *psdemit = new PSDSphereEmitter<T>;
   TSpecie *swsspec = new TSpecie;
+  TSpecie *psdspec = new TSpecie;
 
   swsemit->Initialize (entry, "sws", _si2hyb, _plpos, _radius);
+  psdemit->Initialize (entry, "psd", _si2hyb, _plpos, _radius);
   swsspec->Initialize (swsemit, _nx);
+  psdspec->Initialize (psdemit, _nx);
 
   _specs.PushNew (swsspec);
+  _specs.PushNew (psdspec);
 
   DBG_LINE ("Sensors:");
   _sensmng.Initialize (cfg);
 
-  HISpecieSensor<T> *specsens = new HISpecieSensor<T>;
-  specsens->Initialize (swsspec, _dxi, _nx, "swsspec", cfg);
-  _sensmng.AddSensor (specsens);
+  HISpecieSensor<T> *swssens = new HISpecieSensor<T>;
+  HISpecieSensor<T> *psdsens = new HISpecieSensor<T>;
+  swssens->Initialize (swsspec, _dxi, _nx, "swsspec", cfg);
+  psdsens->Initialize (psdspec, _dxi, _nx, "psdspec", cfg);
+  _sensmng.AddSensor (swssens);
+  _sensmng.AddSensor (psdsens);
 
   LoadFields ();
   ResetFields ();
