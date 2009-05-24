@@ -13,10 +13,11 @@
 
 #include "initomp.h"
 
-void Omp::Initialize (int threads)
+int Omp::s_worksplit = 1;
+
+void Omp::Initialize (int nthread, int nchunk)
 {
 #ifdef HAVE_OPENMP
-
   // It seems that by OpenMP standard omp_set_dynamic(TRUE) let the system
   // decide how many threads to allocate at the beginning of each parallel
   // section and thus the number of threads is changing.  We want to have a
@@ -24,13 +25,14 @@ void Omp::Initialize (int threads)
   // NOTE: ICC compiler has the opposite behavior.
   omp_set_dynamic (0);
 
-  if (threads < 1)
+  if (nthread < 1)
   {
-    threads = omp_get_num_procs ();
+    nthread = omp_get_num_procs ();
   }
 
-  omp_set_num_threads (threads);
+  omp_set_num_threads (nthread);
 
+  s_worksplit = nthread * nchunk;
 #endif // HAVE_OPENMP
 
   Omp::PrintInfo ();
@@ -38,23 +40,32 @@ void Omp::Initialize (int threads)
 
 void Omp::Initialize (ConfigFile& cfg)
 {
-  int threads;
+  int nthread;
 
 #ifdef HAVE_OPENMP
+  int nchunk;
 
   // See the note in Omp::Initialize()
   omp_set_dynamic (0);
 
-  cfg.GetValue ("parallel.omp.threads", threads, -1);
-  if (threads < 1)
+  cfg.GetValue ("parallel.omp.threads", nthread, -1);
+  cfg.GetValue ("parallel.omp.nchunk", nchunk, 1);
+
+  if (nthread < 1)
   {
-    threads = omp_get_num_procs ();
+    nthread = omp_get_num_procs ();
   }
-  omp_set_num_threads (threads);
+  omp_set_num_threads (nthread);
+  s_worksplit = nthread * nchunk;
 
 #endif // HAVE_OPENMP
 
   Omp::PrintInfo ();
+}
+
+int Omp::ChunkSize (int workload)
+{
+  return (int)(workload/s_worksplit);
 }
 
 void Omp::PrintInfo ()

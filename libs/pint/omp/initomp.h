@@ -28,9 +28,10 @@ struct Omp
    * If value is missing of the value is less then 1 then set up the number of
    * threads to the number of available processors.
    *
-   * @param threads Number of thereads to run with.
+   * @param nthread Number of threads to run with.
+   * @param nchunk Number of chunks per thread.
    */
-  static void Initialize (int threads);
+  static void Initialize (int nthread, int nchunk = 1);
 
   /**
    * @brief Initialize OpenMP support from ConfigFile.
@@ -41,6 +42,16 @@ struct Omp
   static void Initialize (ConfigFile& cfg);
 
   static void PrintInfo ();
+
+  /**
+   * @brief Return the size of chunk for the given workload.
+   *
+   * @param workload Workload to be computed.
+   * @return Size of the chunk.
+   */
+  static int ChunkSize (int workload);
+  /// Number of chunks.
+  static int s_worksplit;
 };
 
 /** @} */
