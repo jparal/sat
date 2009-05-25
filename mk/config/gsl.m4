@@ -2,7 +2,7 @@
 # Christopher R. Gabriel <cgabriel@linux.it>, April 2000
 
 
-AC_DEFUN([AC_PATH_GSL],
+AC_DEFUN([AC_LIB_GSL],
   [
     AC_ARG_WITH(gsl-prefix,[  --with-gsl-prefix=PFX   Prefix where GSL is installed (optional)],
       gsl_prefix="$withval", gsl_prefix="")

@@ -1,5 +1,5 @@
 
-AC_DEFUN([AC_COMPILERS_ENABLE_64BITS],[
+AC_DEFUN([AC_CMP_FLAGS_64BITS],[
     AC_REQUIRE([AC_CHECK_PLATFORM])
     ac_64bit=false
     AC_MSG_CHECKING([whether to enable C/C++ 64-bit compilation flags])

@@ -7,7 +7,7 @@
 # Conditional for Automake:   HDF5
 #
 
-AC_DEFUN([AC_PATH_HDF5],[
+AC_DEFUN([AC_LIB_HDF5],[
     AC_REQUIRE([AC_PROG_CC])
 #   AC_REQUIRE([AC_PATH_XTRA])
 #   AC_REQUIRE([DUNE_MPI])

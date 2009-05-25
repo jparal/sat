@@ -1,5 +1,5 @@
 
-AC_DEFUN([AC_CHECK_CXX_FEATURES],[
+AC_DEFUN([AC_CMP_CXX_FEATURES],[
 
 # AC_MSG_NOTICE([
 # C++ compiler ($CXX $CXXFLAGS $LDFLAGS) characteristics

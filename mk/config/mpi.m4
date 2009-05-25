@@ -1,5 +1,5 @@
 
-AC_DEFUN([AC_ENABLE_MPI],[
+AC_DEFUN([AC_LIB_MPI],[
 
     ac_mpi=no
     AC_MSG_CHECKING([whether to enable MPI])

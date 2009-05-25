@@ -1,5 +1,5 @@
 
-AC_DEFUN([AC_COMPILERS_ENABLE_OPENMP],[
+AC_DEFUN([AC_CMP_FLAGS_OPENMP],[
 
     ac_openmp=no
     AC_MSG_CHECKING([whether to enable C/C++ OpenMP compilation flags])

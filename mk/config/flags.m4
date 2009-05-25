@@ -1,6 +1,6 @@
 
 dnl Compiler flags preset
-AC_DEFUN([AC_FLAGS_PRESET],[
+AC_DEFUN([AC_CMP_FLAGS],[
     
     AC_REQUIRE([AC_CHECK_PLATFORM])
 

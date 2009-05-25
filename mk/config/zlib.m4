@@ -5,7 +5,7 @@
 # Conditional for Automake:   ZLIB
 #
 
-AC_DEFUN([AC_PATH_ZLIB],[
+AC_DEFUN([AC_LIB_ZLIB],[
 
     AC_ARG_WITH(zlib, AC_HELP_STRING([--without-zlib], [Compile without zlib support (STW output)]))
 

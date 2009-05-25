@@ -5,6 +5,8 @@ if test ! -f configure.ac ; then
   exit 1
 fi
 
+export AUTOMAKE_JOBS=4
+
 MACROFILE=acinclude.m4
 MACRODIR=mk/config
 

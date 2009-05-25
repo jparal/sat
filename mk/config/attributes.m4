@@ -142,7 +142,7 @@ AC_DEFUN([_AC_CHECK_SPECIFIC_ATTRIBUTE], [
 #
 
 
-AC_DEFUN([AC_CHECK_ATTRIBUTES], [
+AC_DEFUN([AC_CMP_ATTRIBUTES], [
     AC_MSG_CHECKING(for __attribute__)
 
     AC_CACHE_VAL(ac_cv___attribute__, [

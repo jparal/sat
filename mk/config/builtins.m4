@@ -1,5 +1,5 @@
 
-AC_DEFUN([AC_CXX_CHECK_BUILTINS],[
+AC_DEFUN([AC_CMP_BUILTINS],[
 # see if the C++ compiler supports __builtin_expect
     AC_LANG_PUSH(C++)
     AC_CACHE_CHECK([if $CXX supports __builtin_expect],
