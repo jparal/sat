@@ -1,0 +1,5 @@
+
+To install:
+
+* move 'dot.emacs' file into ~/.emacs
+* link directory 'elisp' into ~/.emacs.d/elisp

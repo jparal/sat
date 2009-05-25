@@ -1,0 +1,9 @@
+
+My changes:
+
+template.el:
+
+(defvar template-default-expansion-alist
+.....
+>> ("YEARMONTH" (template-insert-time "%Y/%m" "0000/00"))
+.....
