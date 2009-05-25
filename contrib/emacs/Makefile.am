@@ -3,7 +3,9 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-files = emacs.el sin-mode.el style.el
+SUBDIRS = elisp
+
+files = dot.emacs README
 instdir = $(prefix)/contrib/emacs
 
 dist_noinst_DATA = $(files)

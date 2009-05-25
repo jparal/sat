@@ -1,6 +1,7 @@
 
-alias ls="ls --color=auto"
-alias ll="ls --color -l"
+# colors dont work on some unixes
+#alias ls="ls --color=auto"
+alias ll="ls -l"
 alias lfind="find . -name"
 alias e="emacs -nw"
 alias enw="emacs -nw"
@@ -10,6 +11,7 @@ alias su="su -"
 alias jam="jam -j 2"
 alias make="make -j3"
 
+export INPUTRC=~/.inputrc
 export PATH="~/bin:~/install/bin:$PATH"
 export LD_LIBRARY_PATH=~/install/lib/:/usr/local/lib/
 
