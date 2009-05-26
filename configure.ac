@@ -191,6 +191,7 @@ Info:     SAT : v$SAT_VERSION
           CPU : $ac_host_cpu ($ac_bits BITS)
        Vendor : $ac_host_vendor
            OS : $ac_host_os ($ac_host_os_v)
+       PREFIX : $prefix
 
           CXX : $CXX v$CXXVERSION ($CXXVENDOR)
      CXXFLAGS : $CXXFLAGS

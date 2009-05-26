@@ -9,3 +9,4 @@ enable_openmp=yes
 enable_mpi=yes
 
 with_hdf5="$HOME/install"
+prefix="$HOME/install/sat"
