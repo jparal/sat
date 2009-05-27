@@ -23,8 +23,9 @@
 (setq matlab-shell-command "matlab")
 
 ;; Switch between windows just by Shift-arrow
-(when (fboundp 'windmove-default-keybindings)
-      (windmove-default-keybindings))
+;; (when (fboundp 'windmove-default-keybindings)
+;;       (windmove-default-keybindings))
+(windmove-default-keybindings 'meta)
 
 ;; Treat selected region as windows does. Delete it on write or by DEL.
 (delete-selection-mode 1)
@@ -49,6 +50,7 @@
 (autoload 'rebox-comment "rebox" nil t)
 (autoload 'rebox-region "rebox" nil t)
 (autoload 'align-cols "align" "Align text in the region." t)
+(column-number-mode 1)
 
 (require 'git)
 (require 'git-blame)
@@ -159,10 +161,14 @@
 (global-set-key (kbd "<f11>") 'gud-step)
 (global-set-key (kbd "<f12>") 'gud-down)
 (global-set-key (kbd "S-<f12>") 'gud-up)
-(global-set-key (kbd "M-<left>") 'tabbar-backward)
-(global-set-key (kbd "M-<right>") 'tabbar-forward)
-(global-set-key (kbd "M-<up>") 'tabbar-backward-group)
-(global-set-key (kbd "M-<down>") 'tabbar-forward-group)
+(global-set-key (kbd "S-<left>") 'tabbar-backward)
+(global-set-key (kbd "S-<right>") 'tabbar-forward)
+(global-set-key (kbd "S-<up>") 'tabbar-backward-group)
+(global-set-key (kbd "S-<down>") 'tabbar-forward-group)
+(global-set-key (kbd "A-<left>") 'windmove-left)
+(global-set-key (kbd "A-<right>") 'windmove-right)
+(global-set-key (kbd "A-<up>") 'windmove-up)
+(global-set-key (kbd "A-<down>") 'windmove-down)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; define the function to kill the characters from the cursor
