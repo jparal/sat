@@ -59,6 +59,8 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
   if (SupportPerPar ())
     ent.GetValue ("perpar", _perpar, true);
 
+  InitializeLocal (ent);
+
   DBG_INFO ("  tag    : "<<_tag);
   DBG_INFO ("  dtout  : "<<_dtout);
   if (SupportPerPar ())

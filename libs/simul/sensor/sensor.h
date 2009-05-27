@@ -46,6 +46,10 @@ public:
 
   void Initialize (const char *id, ConfigFile &cfg);
 
+  /// This function is called from Initialize() with sensor entry from
+  /// configuration file in the parameter @p cfg for extra initialization.
+  virtual void InitializeLocal (const ConfigEntry &cfg) {};
+
   bool RequireSave (const SimulTime &stime);
 
   /// Check whether we need to save and call SaveData ()
