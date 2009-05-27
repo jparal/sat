@@ -40,6 +40,7 @@ AC_DEFUN([AC_CMP_MODE],[
     esac
 
     AC_DEFINE_UNQUOTED([SAT_MODE], ["$ac_build_mode"],[Compilation mode])
+    AC_DEFINE_UNQUOTED([SAT_CXXFLAGS], ["$CXXFLAGS"],[Compilation flags (i.e. CXXFLAGS)])
 
     AM_CONDITIONAL([DEBUG],    [test $ac_build_mode = debug])
     AM_CONDITIONAL([PROFILE],  [test $ac_build_mode = profile])

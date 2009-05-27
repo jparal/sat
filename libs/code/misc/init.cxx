@@ -69,6 +69,7 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
 	    PLATFORM_OS_VERSION<< "/"PLATFORM_PROCESSOR_NAME);
   DBG_INFO ("Compiler:     "_STRINGIFY(PLATFORM_COMPILER_FAMILYNAME)" v"
 	    PLATFORM_COMPILER_VERSION_STR" ("SAT_MODE" mode)");
+  DBG_INFO ("C++ flags:    "SAT_CXXFLAGS);
   DBG_INFO ("Configured:   "CONFIGURE_DATE);
   DBG_INFO ("Report bugs:  "PACKAGE_BUGREPORT);
   DBG_LINE ("");
