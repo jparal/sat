@@ -12,7 +12,7 @@ with_cxxflags_opt="-mtune=native -march=native"
 # enable_debug=yes
 # enable_debug=memory,reference,valgrind
 
-prefix=/home/jparal/install/sat
+prefix="$HOME/install/sat"
 
 with_hdf5_libs=-lz
 

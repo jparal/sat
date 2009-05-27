@@ -5,3 +5,5 @@ enable_64bit=yes
 enable_openmp=yes
 enable_mpi=yes
 with_mpirun="poe @PROG @ARGS -msg_api MPI -procs @NP"
+
+prefix="$HOME/install/sat"

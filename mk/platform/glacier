@@ -8,3 +8,4 @@ with_mpirun="mpirun -np @NP @PROG @ARGS"
 
 with_hdf5="/global/software/HDF5/intel"
 
+prefix="$HOME/install/sat"
