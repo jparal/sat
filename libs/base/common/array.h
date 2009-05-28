@@ -138,8 +138,17 @@ public:
   static T* ResizeRegion (Allocator& alloc, T* mem, size_t relevantcount,
     size_t oldcount, size_t newcount)
   {
-    (void)relevantcount; (void)oldcount;
-    return (T*)alloc.Realloc (mem, newcount * sizeof(T));
+    (void)relevantcount;
+    T* newp = (T*)alloc.Realloc (mem, newcount * sizeof(T));
+    if (newp != 0) return newp;
+    // Realloc() failed - allocate a new block
+    newp = (T*)alloc.Alloc (newcount * sizeof(T));
+    if (newcount < oldcount)
+      memcpy (newp, mem, newcount * sizeof(T));
+    else
+      memcpy (newp, mem, oldcount * sizeof(T));
+    alloc.Free (mem);
+    return newp;
   }
 
   /// Move elements inside a region.
@@ -195,11 +204,17 @@ public:
     {
       // Realloc is safe.
       T* newmem = (T*)alloc.Realloc (mem, newcount * sizeof (T));
-      SAT_ASSERT (newmem == mem);
-      return newmem;
+      SAT_ASSERT (newmem != 0);
+      if (newmem != 0)
+      {
+	SAT_ASSERT (newmem == mem);
+	return newmem;
+      }
+      // else Realloc() failed (probably not supported) - allocate a new block
     }
 
     T* newmem = (T*)alloc.Alloc (newcount * sizeof (T));
+    SAT_ASSERT (newmem != 0);
     size_t i;
     for (i = 0 ; i < relevantcount ; i++)
     {
@@ -268,6 +283,9 @@ public:
   { (void)x; }
   /// Return the threshold.
   size_t GetThreshold() const { return N; }
+  // Work around VC7 bug apparently incorrectly copying this empty class
+  ArrayThresholdFixed& operator= (const ArrayThresholdFixed&)
+  { return *this; }
 };
 
 /**
@@ -628,6 +646,18 @@ public:
   {
     if (n >= count)
       SetSize (n+1);
+    return root.p[n];
+  }
+
+  /**
+   * Get an item from the array. If the number of elements in this array is too
+   * small the array will be automatically extended, and the newly added
+   * objects will be constructed based on the given item \a what.
+   */
+  T& GetExtend (size_t n, T const& what)
+  {
+    if (n >= count)
+      SetSize (n+1, what);
     return root.p[n];
   }
 
