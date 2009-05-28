@@ -11,6 +11,7 @@
  * @revmessg{Initial version}
  */
 
+#include "satsysdef.h"
 #include "quaternion.h"
 
 template<class T>
