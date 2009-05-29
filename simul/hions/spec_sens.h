@@ -40,9 +40,11 @@ public:
   typedef typename TSpecie::TParticle TParticle;
   typedef typename TSpecie::TParticleArray TParticleArray;
 
-  void Initialize (TSpecie *spec, const Vector<T,3> &dxi,
+  void Initialize (TSpecie *spec, const Vector<T,3> &dx,
 		   const Vector<int,3> &nc,
 		   const char *id, ConfigFile &cfg);
+
+  virtual void InitializeLocal (const ConfigEntry &cfg);
 
   virtual void SaveData (IOManager &iomng, const SimulTime &stime);
 
@@ -52,6 +54,7 @@ private:
   Field<T,3> _dn;
   TSpecie *_spec;
   Vector<T,3> _dxi;
+  Vector<T,3> _sdx; ///< sensor resolution
   Vector<int,3> _nc;
 };
 

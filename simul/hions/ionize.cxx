@@ -32,7 +32,8 @@ void HeavyIonsCode<T>::Ionize (TSpecie &sp, int &ionized)
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = neut.Get (pc);
-    if (pcle.GetWeight() < 0.)
+    wght = pcle.GetWeight ();
+    if (wght < (T)0.)
       continue;
 
     const Vector<T,3> &xp = pcle.GetPosition ();
@@ -41,7 +42,6 @@ void HeavyIonsCode<T>::Ionize (TSpecie &sp, int &ionized)
     if ((_plpos[0] < xp[0]) && (yr*yr+zr*zr < _radius2))
       continue; // Particle is hidden behind the planet
 
-    wght = pcle.GetWeight();
     dw = wght * ionize;
     wght -= dw;
 
@@ -61,11 +61,13 @@ void HeavyIonsCode<T>::Ionize (TSpecie &sp, int &ionized)
       wnew -= (T)1.;
     }
 
-    // Turn off this neutral particle (it is already tired)
+    // Turn off this neutral particle (it is already tired ;)
     if (wnew < 0.01)
       wght = -1.;
 
+    // update weight field
     weight(ip) = wnew;
+    // update weight of the particle
     pcle.Weight() = wght;
   }
 

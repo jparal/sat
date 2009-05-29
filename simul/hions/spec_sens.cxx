@@ -15,14 +15,28 @@
 #include "spec_sens.h"
 
 template<class T>
-void HISpecieSensor<T>::Initialize (TSpecie *spec, const Vector<T,3> &dxi,
+void HISpecieSensor<T>::Initialize (TSpecie *spec, const Vector<T,3> &dx,
 				    const Vector<int,3> &nc,
 				    const char *id, ConfigFile &cfg)
 {
   Sensor::Initialize (id, cfg);
-  _spec = spec;
-  _dxi = dxi;
-  _nc = nc;
+
+  if (Enabled ())
+  {
+    _spec = spec;
+    for (int i=0; i<3; ++i)
+    {
+      _nc[i] = nc[i] * dx[i] / _sdx[i];
+      _dxi[i] = (T)1. / _sdx[i];
+    }
+    DBG_INFO ("  resol  : "<<_sdx);
+  }
+}
+
+template<class T>
+void HISpecieSensor<T>::InitializeLocal (const ConfigEntry &cfg)
+{
+  cfg.GetValue ("resol", _sdx);
 }
 
 template<class T>

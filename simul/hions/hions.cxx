@@ -16,10 +16,13 @@
 
 int main (int argc, char **argv)
 {
+  SAT_CALLGRIND_STOP_INSTRUMENTATION;
+
   HeavyIonsCode<float> hions;
-  SAT_CALLGRIND_STOP_INSTRUMENTATION
   hions.Initialize (&argc, &argv);
-  SAT_CALLGRIND_START_INSTRUMENTATION
+
+  SAT_CALLGRIND_START_INSTRUMENTATION;
+
   hions.Exec ();
 
   return 0;

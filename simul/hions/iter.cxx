@@ -28,16 +28,11 @@ void HeavyIonsCode<T>::Iter ()
 
     if (_time.Iter () % _clean == 0)
     {
-      int clnion, clnneut;
-
       SAT_PRAGMA_OMP (parallel sections)
       {
-      	SAT_PRAGMA_OMP (section) CleanPcles (sp.GetIons (), clnion);
-      	SAT_PRAGMA_OMP (section) CleanPcles (sp.GetNeutrals (), clnneut);
+      	SAT_PRAGMA_OMP (section) CleanPcles (sp.GetIons (), cleaned);
+      	SAT_PRAGMA_OMP (section) CleanPcles (sp.GetNeutrals (), cleaned);
       }
-
-      cleaned += clnion;
-      cleaned += clnneut;
     }
 
     for (int j=0; j<_nsub; ++j)

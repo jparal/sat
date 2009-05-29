@@ -33,8 +33,8 @@ template<class T>
 class SphereEmitter : public RefCount
 {
 public:
-  typedef HIParticle<T> TParticle;
-  typedef Array<TParticle> TParticleArray;
+  typedef typename HIParticle<T>::TParticle TParticle;
+  typedef typename HIParticle<T>::TParticleArray TParticleArray;
 
   /// Constructor
   SphereEmitter ();
@@ -57,7 +57,7 @@ public:
 		   const SIHybridUnitsConvert<T> &si2hyb,
 		   const Vector<T,3> &pos, T radius);
 
-  bool IsEnabled () const
+  bool Enabled () const
   { return _enabled; }
 
   const String& GetTag () const

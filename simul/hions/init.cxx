@@ -101,12 +101,19 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
   DBG_LINE ("Sensors:");
   _sensmng.Initialize (cfg);
 
-  HISpecieSensor<T> *swssens = new HISpecieSensor<T>;
-  HISpecieSensor<T> *psdsens = new HISpecieSensor<T>;
-  swssens->Initialize (swsspec, _dxi, _nx, "swsspec", cfg);
-  psdsens->Initialize (psdspec, _dxi, _nx, "psdspec", cfg);
-  _sensmng.AddSensor (swssens);
-  _sensmng.AddSensor (psdsens);
+  if (swsemit->Enabled ())
+  {
+    HISpecieSensor<T> *swssens = new HISpecieSensor<T>;
+    swssens->Initialize (swsspec, _dx, _nx, "swsspec", cfg);
+    _sensmng.AddSensor (swssens);
+  }
+
+  if (psdemit->Enabled ())
+  {
+    HISpecieSensor<T> *psdsens = new HISpecieSensor<T>;
+    psdsens->Initialize (psdspec, _dx, _nx, "psdspec", cfg);
+    _sensmng.AddSensor (psdsens);
+  }
 
   LoadFields ();
   ResetFields ();

@@ -152,6 +152,5 @@ void SphereEmitter<T>::Sph2CartGlobal (const Vector<T,3> &sphl,
   cart += _pos;
 }
 
-
 template class SphereEmitter<float>;
 template class SphereEmitter<double>;

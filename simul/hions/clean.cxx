@@ -17,7 +17,7 @@
 template<class T>
 void HeavyIonsCode<T>::CleanPcles (TParticleArray &pcles, int &cleaned)
 {
-  cleaned = 0;
+  int cleanedtmp = 0;
   int npcles = (int)pcles.GetSize ();
   //SAT_PRAGMA_OMP (parallel for reduction(+:cleaned) schedule(static))
   for (int pc=0; pc<npcles; ++pc)
@@ -28,8 +28,10 @@ void HeavyIonsCode<T>::CleanPcles (TParticleArray &pcles, int &cleaned)
 
     pcles.DeleteIndexFast (pc);
     --npcles;
-    ++cleaned;
+    ++cleanedtmp;
   }
+
+  cleaned += cleanedtmp;
 }
 
 #include "tmplspec.cpp"

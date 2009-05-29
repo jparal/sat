@@ -31,6 +31,12 @@ template <class T>
 class HIParticle
 {
 public:
+  typedef HIParticle<T> TParticle;
+  typedef Array<TParticle,
+		ArrayElementHandler<TParticle>,
+		SAT::Container::ArrayAllocDefault,
+		SAT::Container::ArrayCapacityExponential<1<<30> > TParticleArray;
+
   //// Constructor
   HIParticle ()
     : _wht(0) {}

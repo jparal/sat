@@ -32,8 +32,9 @@ template <class T>
 class HISpecie : public RefCount
 {
 public:
-  typedef HIParticle<T> TParticle;
-  typedef Array<TParticle> TParticleArray;
+  typedef typename HIParticle<T>::TParticle TParticle;
+  typedef typename HIParticle<T>::TParticleArray TParticleArray;
+
   typedef SphereEmitter<T> TSphereEmitter;
   typedef Field<double,3> TWeightField;
 
