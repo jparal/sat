@@ -93,16 +93,21 @@ public:
  *   counting and cause unexpected problems. Use Put() to manipulate elements
  *   of the array.
  */
-template <class T, class Allocator = SAT::Memory::AllocatorMalloc>
-class RefArray : public Array<T*, RefArrayElementHandler<T*>, Allocator>
+template <class T,
+          class Allocator = SAT::Container::ArrayAllocDefault,
+          class CapacityHandler = SAT::Container::ArrayCapacityDefault>
+class RefArray :
+  public Array<T*, RefArrayElementHandler<T*>, Allocator, CapacityHandler>
 {
 public:
   /**
    * Initialize object to hold initially 'ilimit' elements, and increase
    * storage by 'ithreshold' each time the upper bound is exceeded.
    */
-  RefArray (int ilimit = 0, int ithreshold = 0)
-    : Array<T*, RefArrayElementHandler<T*>, Allocator> (ilimit, ithreshold)
+  RefArray (int ilimit = 0,
+    const CapacityHandler& ch = CapacityHandler())
+    : Array<T*, RefArrayElementHandler<T*>, Allocator, CapacityHandler> (
+        ilimit, ch)
   {
   }
 

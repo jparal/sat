@@ -192,79 +192,38 @@ public:
   { ptr = other.ptr; return *this; }
 };
 
-/**
- * Template that can be used as a base class for hash computers for
- * string types (must support cast to const char*).
- * Example:
- * \code
- * template<> class HashComputer<MyString> :
- *   public HashComputerString<MyString> {};
- * \endcode
- */
-template <class T>
-class HashComputerString
+template <class T, class K,
+  class ArrayMemoryAlloc, class TArrayElementHandler> class Hash;
+
+namespace SAT
 {
-public:
-  static uint ComputeHash (const T& key)
+  namespace Container
   {
-    return HashCompute ((const char*)key);
-  }
-};
+    /**
+     * An element of a hash.
+     * This class is internally used by Hash<>. However, it has to be used
+     * when a custom element handler needs to be used.
+     */
+    template <class T, class K>
+    class HashElement
+    {
+    private:
+      template <class _T, class _K, class ArrayMemoryAlloc,
+        class TArrayElementHandler> friend class Hash;
 
-/**
- * HashComputer<> specialization for strings that uses HashCompute().
- */
-template<>
-class HashComputer<const char*> : public HashComputerString<const char*> {};
+      const K key;
+      T value;
 
-/**
- * Template that can be used as a base class for hash computers for POD
- * structs.
- * Example:
- * \code
- * template<> class HashComputer<MyStruct> :
- *   public HashComputerStruct<MyStruct> {};
- * \endcode
- */
-template <class T>
-class HashComputerStruct
-{
-public:
-  static uint ComputeHash (const T& key)
-  {
-    return HashCompute ((char*)&key, sizeof (T));
-  }
-};
+      HashElement (const K& key0, const T &value0) : key (key0), value (value0) {}
+    public:
+      HashElement (const HashElement& other) : key (other.key), value (other.value) {}
 
-/**
- * This is a simple helper class to make a copy of a const char*.
- * This can be used to have a hash that makes copies of the keys.
- * \deprecated String can also be used for hash keys.
- */
-class StrKey
-{
-private:
-  char* str;
-
-public:
-  StrKey () { str = 0; }
-  StrKey (const char* s) { str = StrNew (s); }
-  StrKey (const StrKey& c) { str = StrNew (c.str); }
-  ~StrKey () { delete[] str; }
-  StrKey& operator=(const StrKey& o)
-  {
-    delete[] str; str = StrNew (o.str);
-    return *this;
-  }
-  operator const char* () const { return str; }
-  uint GetHash() const { return HashCompute (str); }
-};
-
-/**
- * Comparator<> specialization for StrKey that uses strcmp().
- */
-template<>
-class Comparator<StrKey, StrKey> : public ComparatorString<StrKey> {};
+      const K& GetKey() const { return key; }
+      const T& GetValue() const { return value; }
+      T& GetValue() { return value; }
+    };
+  } // namespace Container
+} // namespace SAT
 
 /**
  * A generic hash table class,
@@ -276,36 +235,31 @@ class Comparator<StrKey, StrKey> : public ComparatorString<StrKey> {};
  * specializations are already provided) or special hash algorithms.
  */
 template <class T, class K = unsigned int,
-  class ArrayMemoryAlloc = SAT::Memory::AllocatorMalloc>
+  class ArrayMemoryAlloc = SAT::Memory::AllocatorMalloc,
+  class TArrayElementHandler = ArrayElementHandler<
+    SAT::Container::HashElement<T, K> > >
 class Hash
 {
 public:
-  typedef Hash<T, K, ArrayMemoryAlloc> ThisType;
+  typedef Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler> ThisType;
   typedef T ValueType;
   typedef K KeyType;
   typedef ArrayMemoryAlloc AllocatorType;
 
 protected:
-  struct Element
-  {
-    const K key;
-    T value;
-
-    Element (const K& key0, const T &value0) : key (key0), value (value0) {}
-    Element (const Element &other) : key (other.key), value (other.value) {}
-  };
-  typedef Array<Element, ArrayElementHandler<Element>,
-    ArrayMemoryAlloc> ElementArray;
+  typedef SAT::Container::HashElement<T, K> Element;
+  typedef Array<Element, TArrayElementHandler,
+    ArrayMemoryAlloc, ArrayCapacityDefault> ElementArray;
   Array<ElementArray, ArrayElementHandler<ElementArray>,
     ArrayMemoryAlloc> Elements;
 
   size_t Modulo;
+  size_t Size;
 
 private:
   size_t InitModulo;
   size_t GrowRate;
   size_t MaxSize;
-  size_t Size;
 
   void Grow ()
   {
@@ -361,15 +315,16 @@ public:
    * For a bigger list go to http://www.utm.edu/research/primes/
    */
   Hash (size_t size = 23, size_t grow_rate = 5, size_t max_size = 20000)
-    : Modulo (size), InitModulo (size),
-      GrowRate (MIN (grow_rate, size)), MaxSize (max_size), Size (0)
+    : Modulo (size), Size(0), InitModulo (size),
+      GrowRate (MIN (grow_rate, size)), MaxSize (max_size)
   {
   }
 
   /// Copy constructor.
-  Hash (const Hash<T> &o) : Elements (o.Elements),
-    Modulo (o.Modulo), InitModulo (o.InitModulo),
-    GrowRate (o.GrowRate), MaxSize (o.MaxSize), Size (o.Size) {}
+  Hash (const Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler> &o) :
+    Elements (o.Elements),
+    Modulo (o.Modulo), Size(o.Size), InitModulo (o.InitModulo),
+    GrowRate (o.GrowRate), MaxSize (o.MaxSize) {}
 
   /**
    * Add an element to the hash table.
@@ -378,15 +333,37 @@ public:
    *   values for a given key, use GetAll(). If you instead want to replace an
    *   existing value for 'key', use PutUnique().
    */
-  void Put (const K& key, const T &value)
+  T& Put (const K& key, const T &value)
   {
     if (Elements.GetSize() == 0) Elements.SetSize (Modulo);
     ElementArray& values =
       Elements[HashComputer<K>::ComputeHash (key) % Modulo];
-    values.Push (Element (key, value));
+    size_t idx = values.Push (Element (key, value));
     Size++;
     if (values.GetSize () > Elements.GetSize () / GrowRate
-     && Elements.GetSize () < MaxSize) Grow ();
+     && Elements.GetSize () < MaxSize)
+    {
+      Grow ();
+      /* can't use 'values[idx]' since that is no longer the place where
+         the item is stored. */
+      return *(GetElementPointer (key));
+    }
+    return values[idx].value;
+  }
+
+  /// Get all the elements, or empty if there are none.
+  Array<T> GetAll () const
+  {
+    if (Elements.GetSize() == 0) return Array<T> ();
+
+    ConstGlobalIterator itr = GetIterator();
+    Array<T> ret;
+    while(itr.HasNext())
+    {
+      ret.Push(itr.Next());
+    }
+
+    return ret;
   }
 
   /// Get all the elements with the given key, or empty if there are none.
@@ -415,7 +392,7 @@ public:
   }
 
   /// Add an element to the hash table, overwriting if the key already exists.
-  void PutUnique (const K& key, const T &value)
+  T& PutUnique (const K& key, const T &value)
   {
     if (Elements.GetSize() == 0) Elements.SetSize (Modulo);
     ElementArray& values =
@@ -427,14 +404,21 @@ public:
       if (Comparator<K, K>::Compare (v.key, key) == 0)
       {
         v.value = value;
-        return;
+        return v.value;
       }
     }
 
-    values.Push (Element (key, value));
+    size_t idx = values.Push (Element (key, value));
     Size++;
     if (values.GetSize () > Elements.GetSize () / GrowRate
-     && Elements.GetSize () < MaxSize) Grow ();
+     && Elements.GetSize () < MaxSize)
+    {
+      Grow ();
+      /* can't use 'values[idx]' since that is no longer the place where
+         the item is stored. */
+      return *(GetElementPointer (key));
+    }
+    return values[idx].value;
   }
 
   /// Returns whether at least one element matches the given key.
@@ -499,6 +483,14 @@ public:
   }
 
   /**
+   * h["key"] shorthand notation for h.GetElementPointer ("key")
+   */
+  T* operator[] (const K& key)
+  {
+    return GetElementPointer (key);
+  }
+
+  /**
    * Get the first element matching the given key, or \p fallback if there is
    * none.
    */
@@ -519,7 +511,7 @@ public:
   }
 
   /**
-   * Get the first element matching the given key, or \p fallback if there is
+   * Get the first element matching the given key, or \a fallback if there is
    * none.
    */
   T& Get (const K& key, T& fallback)
@@ -536,6 +528,28 @@ public:
     }
 
     return fallback;
+  }
+
+  /**
+   * Get the first element matching the given key, or, if there is
+   * none, insert \a default and return a reference to the new entry.
+   */
+  T& GetOrCreate (const K& key, const T& defaultValue = T())
+  {
+    if (Elements.GetSize() != 0)
+    {
+      ElementArray& values =
+        Elements[HashComputer<K>::ComputeHash (key) % Modulo];
+      const size_t len = values.GetSize ();
+      for (size_t i = 0; i < len; ++i)
+      {
+        Element& v = values[i];
+        if (Comparator<K, K>::Compare (v.key, key) == 0)
+	  return v.value;
+      }
+    }
+
+    return Put (key, defaultValue);
   }
 
   /// Delete all the elements.
@@ -610,27 +624,28 @@ public:
   class Iterator
   {
   private:
-    Hash<T, K>* hash;
+    Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>* hash;
     const K key;
     size_t bucket, size, element;
 
     void Seek ()
     {
       while ((element < size) &&
-        (Comparator<K, K>::Compare (hash->Elements[bucket][element].key,
+        (Comparator<K, K>::Compare (hash->Elements[bucket][element].GetKey(),
 	key) != 0))
           element++;
     }
 
   protected:
-    Iterator (Hash<T, K>* hash0, const K& key0) :
+    Iterator (Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>* hash0,
+      const K& key0) :
       hash(hash0),
       key(key0),
       bucket(HashComputer<K>::ComputeHash (key) % hash->Modulo),
       size((hash->Elements.GetSize() > 0) ? hash->Elements[bucket].GetSize () : 0)
       { Reset (); }
 
-    friend class Hash<T, K>;
+    friend class Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>;
   public:
     /// Copy constructor.
     Iterator (const Iterator &o) :
@@ -660,7 +675,7 @@ public:
     /// Get the next element's value.
     T& Next ()
     {
-      T &ret = hash->Elements[bucket][element].value;
+      T &ret = hash->Elements[bucket][element].GetValue();
       element++;
       Seek ();
       return ret;
@@ -675,7 +690,7 @@ public:
   class GlobalIterator
   {
   private:
-    Hash<T, K> *hash;
+    Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler> *hash;
     size_t bucket, size, element;
 
     void Zero () { bucket = element = 0; }
@@ -702,14 +717,15 @@ public:
     }
 
   protected:
-    GlobalIterator (Hash<T, K> *hash0) : hash (hash0)
+    GlobalIterator (Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler> *hash0)
+    : hash (hash0)
     {
       Zero ();
       Init ();
       FindItem ();
     }
 
-    friend class Hash<T, K>;
+    friend class Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>;
   public:
     /// Copy constructor.
     GlobalIterator (const GlobalIterator &o) :
@@ -745,7 +761,7 @@ public:
     /// Get the next element's value, don't move the iterator.
     T& NextNoAdvance ()
     {
-      return hash->Elements[bucket][element].value;
+      return hash->Elements[bucket][element].GetValue();
     }
 
     /// Get the next element's value.
@@ -759,14 +775,14 @@ public:
     /// Get the next element's value and key, don't move the iterator.
     T& NextNoAdvance (K &key)
     {
-      key = hash->Elements[bucket][element].key;
+      key = hash->Elements[bucket][element].GetKey();
       return NextNoAdvance ();
     }
 
     /// Get the next element's value and key.
     T& Next (K &key)
     {
-      key = hash->Elements[bucket][element].key;
+      key = hash->Elements[bucket][element].GetKey();
       return Next ();
     }
 
@@ -779,27 +795,28 @@ public:
   class ConstIterator
   {
   private:
-    const Hash<T, K>* hash;
+    const Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>* hash;
     const K key;
     size_t bucket, size, element;
 
     void Seek ()
     {
       while ((element < size) &&
-        (Comparator<K, K>::Compare (hash->Elements[bucket][element].key,
+        (Comparator<K, K>::Compare (hash->Elements[bucket][element].GetKey(),
 	key) != 0))
           element++;
     }
 
   protected:
-    ConstIterator (const Hash<T, K>* hash0, const K& key0) :
+    ConstIterator (const Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>*
+	hash0, const K& key0) :
       hash(hash0),
       key(key0),
       bucket(HashComputer<K>::ComputeHash (key) % hash->Modulo),
       size((hash->Elements.GetSize() > 0) ? hash->Elements[bucket].GetSize () : 0)
       { Reset (); }
 
-    friend class Hash<T, K>;
+    friend class Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>;
   public:
     /// Copy constructor.
     ConstIterator (const ConstIterator &o) :
@@ -829,7 +846,7 @@ public:
     /// Get the next element's value.
     const T& Next ()
     {
-      const T &ret = hash->Elements[bucket][element].value;
+      const T &ret = hash->Elements[bucket][element].GetValue();
       element++;
       Seek ();
       return ret;
@@ -844,7 +861,7 @@ public:
   class ConstGlobalIterator
   {
   private:
-    const Hash<T, K> *hash;
+    const Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler> *hash;
     size_t bucket, size, element;
 
     void Zero () { bucket = element = 0; }
@@ -871,14 +888,15 @@ public:
     }
 
   protected:
-    ConstGlobalIterator (const Hash<T, K> *hash0) : hash (hash0)
+    ConstGlobalIterator (const Hash<T, K, ArrayMemoryAlloc,
+      TArrayElementHandler> *hash0) : hash (hash0)
     {
       Zero ();
       Init ();
       FindItem ();
     }
 
-    friend class Hash<T, K>;
+    friend class Hash<T, K, ArrayMemoryAlloc, TArrayElementHandler>;
   public:
     /// Copy constructor.
     ConstGlobalIterator (const ConstGlobalIterator &o) :
@@ -914,7 +932,7 @@ public:
     /// Get the next element's value, don't move the iterator.
     const T& NextNoAdvance ()
     {
-      return hash->Elements[bucket][element].value;
+      return hash->Elements[bucket][element].GetValue();
     }
 
     /// Get the next element's value.
@@ -928,14 +946,14 @@ public:
     /// Get the next element's value and key, don't move the iterator.
     const T& NextNoAdvance (K &key)
     {
-      key = hash->Elements[bucket][element].key;
+      key = hash->Elements[bucket][element].GetKey();
       return NextNoAdvance ();
     }
 
     /// Get the next element's value and key.
     const T& Next (K &key)
     {
-      key = hash->Elements[bucket][element].key;
+      key = hash->Elements[bucket][element].GetKey();
       return Next ();
     }
 

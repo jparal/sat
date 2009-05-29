@@ -32,8 +32,10 @@
 #define __SAT_ARRAY_H__
 
 #include "allocator.h"
+#include "customallocated.h"
 #include "macros.h"
 #include "comparator.h"
+#include "utils.h"
 
 #include "newdisable.h"
 
@@ -143,6 +145,7 @@ public:
     if (newp != 0) return newp;
     // Realloc() failed - allocate a new block
     newp = (T*)alloc.Alloc (newcount * sizeof(T));
+    SAT_ASSERT (newp != 0);
     if (newcount < oldcount)
       memcpy (newp, mem, newcount * sizeof(T));
     else
@@ -339,16 +342,53 @@ public:
 // Alias for ArrayCapacityLinear<ArrayThresholdVariable> to keep
 // SWIG generated Java classes (and thus filenames) short enough for Windows.
 // Note that a typedef wont work because SWIG would expand it.
-struct ArrayCapacityDefault :
+struct ArrayCapacityVariableGrow :
   public ArrayCapacityLinear<ArrayThresholdVariable>
 {
-  ArrayCapacityDefault () :
+  ArrayCapacityVariableGrow () :
     ArrayCapacityLinear<ArrayThresholdVariable> () {}
-  ArrayCapacityDefault (const ArrayThresholdVariable& threshold) :
+  ArrayCapacityVariableGrow (const ArrayThresholdVariable& threshold) :
     ArrayCapacityLinear<ArrayThresholdVariable> (threshold) {}
-  ArrayCapacityDefault (const size_t x) :
+  ArrayCapacityVariableGrow (const size_t x) :
     ArrayCapacityLinear<ArrayThresholdVariable> (x) {}
 } ;
+// @@@ Deprecate? Name is non-descriptive/misleading
+typedef ArrayCapacityVariableGrow ArrayCapacityDefault;
+
+/**
+ * Shortcut for an array capacity handler with a compile-time fixed rate of
+ * growth
+ */
+template<int N>
+struct ArrayCapacityFixedGrow :
+  public ArrayCapacityLinear<ArrayThresholdFixed<N> >
+{
+  ArrayCapacityFixedGrow () :
+    ArrayCapacityLinear<ArrayThresholdFixed<N> > () {}
+};
+
+namespace SAT
+{
+  namespace Container
+  {
+    typedef SAT::Memory::AllocatorMalloc ArrayAllocDefault;
+    typedef ArrayCapacityFixedGrow<16> ArrayCapacityDefault;
+
+    template<int MaxGrow = 1 << 20>
+    struct ArrayCapacityExponential
+    {
+      bool IsCapacityExcessive (size_t capacity, size_t count) const
+      {
+	return size_t (FindNearestPowerOf2 (count)) < (capacity/2);
+      }
+      size_t GetCapacity (size_t count) const
+      {
+        size_t newCap = FindNearestPowerOf2 (count);
+	return newCap < MaxGrow ? newCap : MaxGrow;
+      }
+    };
+  } // namespace Container
+} // namespace SAT
 
 /**
  * This value is returned whenever an array item could not be located or does
@@ -366,9 +406,9 @@ const size_t ArrayItemNotFound = (size_t)-1;
  */
 template <class T,
 	class ElementHandler = ArrayElementHandler<T>,
-        class MemoryAllocator = SAT::Memory::AllocatorMalloc,
-        class CapacityHandler = ArrayCapacityDefault>
-class Array
+        class MemoryAllocator = SAT::Container::ArrayAllocDefault,
+        class CapacityHandler = SAT::Container::ArrayCapacityDefault>
+class Array : public SAT::Memory::CustomAllocated
 {
 public:
   typedef Array<T, ElementHandler, MemoryAllocator, CapacityHandler> ThisType;
@@ -409,6 +449,11 @@ protected:
     ElementHandler::InitRegion (root.p+start, count);
   }
 
+  /**
+   * Set the internal pointer to the data.
+   * \warning This is \em obviously dangerous.
+   */
+  void SetData (T* data) { root.p = data; }
 private:
   /// Copy from one array to this one, properly constructing the copied items.
   void CopyFrom (const Array& source)
@@ -1242,21 +1287,28 @@ public:
  * safe-copy in case of reallocation of the array. Useful for weak
  * references.
  */
-template <class T>
+template <class T,
+          class Allocator = SAT::Memory::AllocatorMalloc,
+          class CapacityHandler = SAT::Container::ArrayCapacityDefault>
 class SafeCopyArray
 	: public Array<T,
-		ArraySafeCopyElementHandler<T> >
+		ArraySafeCopyElementHandler<T>,
+		Allocator, CapacityHandler>
 {
 public:
   /**
    * Initialize object to hold initially \c limit elements, and increase
    * storage by \c threshold each time the upper bound is exceeded.
    */
-  SafeCopyArray (size_t limit = 0, size_t threshold = 0)
-  	: Array<T, ArraySafeCopyElementHandler<T> > (limit, threshold)
+  SafeCopyArray (size_t limit = 0,
+		 const CapacityHandler& ch = CapacityHandler())
+    : Array<T, ArraySafeCopyElementHandler<T>, Allocator,
+	    CapacityHandler> (limit, ch)
   {
   }
 };
+
+#include "newenable.h"
 
 /** @} */
 

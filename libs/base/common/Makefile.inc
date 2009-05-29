@@ -7,6 +7,7 @@ headers += \
  	common/callstack-impl.h \
  	common/callstack.h \
  	common/csbacktrace.h \
+	common/customallocated.h \
 	common/comparator.h \
 	common/const.h \
 	common/debug.h \
@@ -29,6 +30,7 @@ headers += \
 	common/tau.h \
 	common/timer.h \
 	common/typetraits.h \
+	common/utils.h \
 	common/value.h
 
 lochdrs += \

@@ -8,9 +8,10 @@
 #include "base/common/blkallocator.h"
 #include "base/common/callstack-impl.h"
 #include "base/common/callstack.h"
-#include "base/common/csbacktrace.h"
 #include "base/common/comparator.h"
 #include "base/common/const.h"
+#include "base/common/csbacktrace.h"
+#include "base/common/customallocated.h"
 #include "base/common/debug.h"
 #include "base/common/demangle.h"
 #include "base/common/fifo.h"
@@ -31,6 +32,7 @@
 #include "base/common/tau.h"
 #include "base/common/timer.h"
 #include "base/common/typetraits.h"
+#include "base/common/utils.h"
 #include "base/common/value.h"
 
 #endif /* __sat_base_satcommon_h__ */
