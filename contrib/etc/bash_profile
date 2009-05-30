@@ -9,7 +9,7 @@ alias duh="du -hs"
 alias dfh="df -h"
 alias su="su -"
 alias jam="jam -j 2"
-alias make="make -j3"
+alias make="make -j"
 
 export INPUTRC=~/.inputrc
 export PATH="~/bin:~/install/bin:$PATH"
