@@ -41,6 +41,9 @@ struct Omp
    */
   static void Initialize (ConfigFile& cfg);
 
+  /// @brief Return current number of threads.
+  static int GetNumThreads ();
+
   static void PrintInfo ();
 
   /**

@@ -68,6 +68,18 @@ int Omp::ChunkSize (int workload)
   return (int)(workload/s_worksplit);
 }
 
+int Omp::GetNumThreads ()
+{
+#ifdef HAVE_OPENMP
+  int nthreads;
+  SAT_PRAGMA_OMP (parallel)
+    nthreads = omp_get_num_threads ();
+  return nthreads;
+#else
+  return 1;
+#endif
+}
+
 void Omp::PrintInfo ()
 {
 #ifdef HAVE_OPENMP

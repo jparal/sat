@@ -57,6 +57,11 @@
 #  define SAT_PRAGMA_OMP(p)
 #endif // HAVE_OPENMP
 
+/// pragma omp
+#define SAT_OMP(p) SAT_PRAGMA_OMP(p)
+/// pragma omp(critical)
+#define SAT_OMP_CRITICAL SAT_OMP(critical)
+
 /** @} */
 
 #endif /* __SAT_SYSDEFS_H__ */
