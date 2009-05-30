@@ -18,6 +18,7 @@ template<class T>
 void HeavyIonsCode<T>::LoadFields ()
 {
   DBG_LINE ("Load Data:");
+
   SAT_PRAGMA_OMP (parallel sections)
   {
     SAT_PRAGMA_OMP (section) HIUtils::Load (_B, 0, "Bx" + _stwname);

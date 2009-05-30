@@ -15,7 +15,8 @@
 #ifndef __SAT_PCLEHI_H__
 #define __SAT_PCLEHI_H__
 
-#include "math/algebra/vector.h"
+#include "satbase.h"
+#include "satmath.h"
 
 /// @addtogroup hions
 /// @{
@@ -32,10 +33,14 @@ class HIParticle
 {
 public:
   typedef HIParticle<T> TParticle;
+
+  // Note:
+  // 1<<19 = 524288; 1<<20 = 1048576; 1<<30 = 1073741824
+  // SAT::Container::ArrayCapacityExponential<1<<30>
   typedef Array<TParticle,
 		ArrayElementHandler<TParticle>,
 		SAT::Container::ArrayAllocDefault,
-		SAT::Container::ArrayCapacityExponential<1<<30> > TParticleArray;
+		ArrayCapacityFixedGrow<1<<19> > TParticleArray;
 
   //// Constructor
   HIParticle ()

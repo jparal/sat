@@ -27,7 +27,7 @@ input:
 release: # ========= Aphelion ============
 {
   npatch = [360, 180];  # Split the surface into patches in phi, tht direction
-  npcles = 20000.;      # number of particles per time step
+  npcles = 1000.;      # emit pcles per time step, specie, thread 
   ionsratio = 5.;       # ions/neutrals ratio [%] when released
   sws = {
     ebind = 2.;         # binding energy of Na in regolith [eV]

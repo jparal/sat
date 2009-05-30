@@ -34,6 +34,7 @@ class HISpecie : public RefCount
 public:
   typedef typename HIParticle<T>::TParticle TParticle;
   typedef typename HIParticle<T>::TParticleArray TParticleArray;
+  typedef Array<TParticleArray> TParticleArrayArray;
 
   typedef SphereEmitter<T> TSphereEmitter;
   typedef Field<double,3> TWeightField;
@@ -51,17 +52,23 @@ public:
   T GetQMS () const
   { return _qms; }
 
-  TParticleArray& GetIons ()
-  { return _ions; }
+  TParticleArray& GetIons (int i)
+  { return _ions[i]; }
 
-  TParticleArray& GetNeutrals ()
-  { return _neut; }
+  TParticleArray& GetNeutrals (int i)
+  { return _neut[i]; }
 
   TWeightField& GetWeightField ()
   { return _weight; }
 
+  int GetNumArrays ()
+  { return _numarrays; }
+
   bool Initialized () const
   { return _initialized; }
+
+  bool Enabled () const
+  { return _emit->Enabled (); }
 
   /**
    * Initialize specie.
@@ -69,23 +76,18 @@ public:
    * @param emit Sphere emitter for this specie.
    * @param nc Number of cells E and B field have.
    */
-  void Initialize (TSphereEmitter *emit, Vector<int,3> nc)
-  {
-    _initialized = true;
-    _emit.AttachNew (emit);
-    _weight.Initialize (nc);
-    _weight = (T)0.;
-    // @@@TODO
-    _mass = 29.999;
-    _qms = 1./_mass;
-  }
+  void Initialize (TSphereEmitter *emit, Vector<int,3> nc, int numarrays);
 
   void Update (T dt)
-  { _emit->Update (dt, _ions, _neut); }
+  { _emit->Update (dt); }
+
+  void EmitPcles (TParticleArray &ions, TParticleArray &neut)
+  { _emit->EmitPcles (ions, neut); }
 
 private:
-  TParticleArray _ions, _neut; ///< Neutrals and ion particles
+  TParticleArrayArray _ions, _neut; ///< Neutrals and ion particles
   TWeightField _weight;
+  int _numarrays;
   T _qms, _mass;
   bool _initialized;
   Ref<TSphereEmitter> _emit;

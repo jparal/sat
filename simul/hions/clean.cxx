@@ -17,9 +17,11 @@
 template<class T>
 void HeavyIonsCode<T>::CleanPcles (TParticleArray &pcles, int &cleaned)
 {
+  if (_time.Iter () % _clean != 0)
+    return;
+
   int cleanedtmp = 0;
   int npcles = (int)pcles.GetSize ();
-  //SAT_PRAGMA_OMP (parallel for reduction(+:cleaned) schedule(static))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = pcles.Get (pc);

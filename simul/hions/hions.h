@@ -66,11 +66,20 @@ public:
   void CalcOutput () const;
 
   /// @brief Move ions by one time step @p dt
-  void MoveIons (TSpecie &sp, T dt);
-  /// @brief Move neutrals by one time step (i.e. _time.Dt() )
-  void MoveNeutrals (TSpecie &sp);
-  /// @brief Ionize some of the particles.
-  void Ionize (TSpecie &sp, int &ionized);
+  void MoveIons (TParticleArray &pcles, T qms, T dt);
+  /// @brief Move neutrals by one time step.
+  void MoveNeutrals (TParticleArray &pcles, T dt);
+
+  /**
+   * @brief Ionize some of the particles.
+   *
+   * @param[in,out] ions Ions.
+   * @param[in,out] neut Neutrals.
+   * @param[in,out] weight Weight.
+   * @param[out] ionized Number of particles ionized.
+   */
+  void Ionize (TParticleArray &ions, TParticleArray &neut,
+	       TWeightField &weight, int &ionized);
 
   /// @brief Apply boundary conditions.
   /// @remarks parameters @p pdhit and @p plhit are not reset inside of the

@@ -49,7 +49,7 @@ public:
   virtual void SaveData (IOManager &iomng, const SimulTime &stime);
 
 private:
-  void CalcDensity (const TParticleArray &pcles, Field<T,3>& dn);
+  void AddDensity (const TParticleArray &pcles, Field<T,3> &dn);
 
   Field<T,3> _dn;
   TSpecie *_spec;

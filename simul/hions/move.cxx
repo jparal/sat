@@ -16,16 +16,11 @@
 #include "hions.h"
 
 template<class T>
-void HeavyIonsCode<T>::MoveNeutrals (TSpecie &sp)
+void HeavyIonsCode<T>::MoveNeutrals (TParticleArray &pcles, T dt)
 {
   TVector ap;
 
-  TParticleArray &pcles = sp.GetNeutrals ();
-  T dt = _time.Dt ();
-
   int npcles = (int)pcles.GetSize ();
-  int nchunk = Omp::ChunkSize (npcles);
-  SAT_PRAGMA_OMP (parallel for private(ap) schedule(dynamic,nchunk))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = pcles.Get (pc);
@@ -44,20 +39,15 @@ void HeavyIonsCode<T>::MoveNeutrals (TSpecie &sp)
 }
 
 template<class T>
-void HeavyIonsCode<T>::MoveIons (TSpecie &sp, T dt)
+void HeavyIonsCode<T>::MoveIons (TParticleArray &pcles, T qms, T dt)
 {
   TVector vh, ep, bp, xt;
   BilinearWeightCache<T,3> cache;
 
-  T dtf = _scalef * dt * sp.GetQMS ();
+  T dtf = _scalef * dt * qms;
   T dth = 0.5 * dtf;
 
-  TParticleArray &pcles = sp.GetIons ();
-
   int npcles = (int) pcles.GetSize ();
-  int nchunk = Omp::ChunkSize (npcles);
-  SAT_PRAGMA_OMP (parallel for private(vh,ep,bp,xt,cache)
-		  schedule(dynamic,nchunk))
   for (int pc=0; pc<npcles; ++pc)
   {
     TParticle &pcle = pcles.Get (pc);

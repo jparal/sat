@@ -44,23 +44,26 @@ void HISpecieSensor<T>::SaveData (IOManager &iomng, const SimulTime &stime)
 {
   _dn.Initialize (_nc);
 
-  CalcDensity (_spec->GetIons (), _dn);
+  _dn = (T)0.;
+  for (int i=0; i<_spec->GetNumArrays(); ++i)
+    AddDensity (_spec->GetIons (i), _dn);
   iomng.Write (_dn, stime, GetTag ("Dni"));
-  CalcDensity (_spec->GetNeutrals (), _dn);
+
+  _dn = (T)0.;
+  for (int i=0; i<_spec->GetNumArrays(); ++i)
+    AddDensity (_spec->GetNeutrals (i), _dn);
   iomng.Write (_dn, stime, GetTag ("Dnn"));
 
   _dn.Free ();
 }
 
 template<class T>
-void HISpecieSensor<T>::CalcDensity (const TParticleArray &pcles,
-				     Field<T,3>& dn)
+void HISpecieSensor<T>::AddDensity (const TParticleArray &pcles,
+				    Field<T,3> &dn)
 {
-  dn = (T)0.;
   Vector<T,3> xt;
 
   int npcles = (int)pcles.GetSize ();
-  //  SAT_PRAGMA_OMP (parallel for private(xt) schedule(static))
   for (int pc=0; pc<npcles; ++pc)
   {
     const TParticle &pcle = pcles.Get (pc);

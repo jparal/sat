@@ -85,6 +85,7 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
   DBG_LINE ("Release:");
   ConfigEntry &entry = cfg.GetEntry ("release");
 
+  int nthread = Omp::GetNumThreads ();
   SWSSphereEmitter<T> *swsemit = new SWSSphereEmitter<T>;
   PSDSphereEmitter<T> *psdemit = new PSDSphereEmitter<T>;
   TSpecie *swsspec = new TSpecie;
@@ -92,8 +93,8 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
 
   swsemit->Initialize (entry, "sws", _si2hyb, _plpos, _radius);
   psdemit->Initialize (entry, "psd", _si2hyb, _plpos, _radius);
-  swsspec->Initialize (swsemit, _nx);
-  psdspec->Initialize (psdemit, _nx);
+  swsspec->Initialize (swsemit, _nx, nthread);
+  psdspec->Initialize (psdemit, _nx, nthread);
 
   _specs.PushNew (swsspec);
   _specs.PushNew (psdspec);

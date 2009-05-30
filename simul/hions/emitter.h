@@ -63,7 +63,8 @@ public:
   const String& GetTag () const
   { return _tag; }
 
-  void Update (T dt, TParticleArray &ions, TParticleArray &neut);
+  void Update (T dt);
+  void EmitPcles (TParticleArray &ions, TParticleArray &neut);
 
   /// @brief Convert spherical coordinates into global Cartesian.
   /// Parameter @p sph has three components (phi,tht,radius)
@@ -74,8 +75,6 @@ public:
   void Sph2CartLocal (const Vector<T,3> &sphl, Vector<T,3> &cart) const;
 
 private:
-  void EmitPcles (TParticleArray &ions, TParticleArray &neut);
-
   SIHybridUnitsConvert<T> _si2hyb;
   Field<T,2> _src;   ///< distribution of flux on the surface of sphere
   Field<T,2> _rmsrc; ///< remaining flux (reset by Update to _src)

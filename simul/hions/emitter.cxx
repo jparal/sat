@@ -25,11 +25,13 @@ SphereEmitter<T>::~SphereEmitter ()
 {}
 
 template<class T>
-void SphereEmitter<T>::Update (T dt, TParticleArray &ions,
-			       TParticleArray &neut)
+void SphereEmitter<T>::Update (T dt)
 {
+  for (int i=0; i<_rmsrc.GetSize (0); ++i)
+    for (int j=0; j<_rmsrc.GetSize (1); ++j)
+      _rmsrc(i,j) -= Math::Floor (_rmsrc(i,j));
+
   _rmsrc += _src;
-  EmitPcles (ions, neut);
 }
 
 template<class T>
@@ -49,11 +51,9 @@ void SphereEmitter<T>::EmitPcles (TParticleArray &ions, TParticleArray &neut)
       HIParticle<T> pcle;
       T vphi, vtht, vabs;
 
-      while (_rmsrc(i,j) > 1.)
+      // update flux the generated position
+      for (int isrc=0; isrc<(int)Math::Floor (_rmsrc(i,j)); ++isrc)
       {
-	// update flux the generated position
-	_rmsrc(i,j) -= 1.;
-
 	sphl[0] = ((T)i + _unirng.Get ()) * conphi;
 	sphl[1] = ((T)j + _unirng.Get ()) * contht;
 

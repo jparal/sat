@@ -19,31 +19,46 @@ void HeavyIonsCode<T>::Iter ()
 {
   static int plions = 0, bdions = 0, plneut = 0, bdneut = 0, cleaned = 0;
   static int ionized = 0;
-  T subdt = _time.Dt() / _nsub;
+  T dt = _time.Dt ();
+  T subdt = dt / _nsub;
 
   for (int i=0; i<_specs.GetSize(); ++i)
   {
+    int plionstmp=0, bdionstmp=0, plneuttmp=0, bdneuttmp = 0, cleanedtmp=0, ionizedtmp = 0;
     TSpecie &sp = *_specs.Get (i);
-    sp.Update (_time.Dt ());
+    if (!sp.Enabled ())
+      continue;
 
-    if (_time.Iter () % _clean == 0)
+    int na = sp.GetNumArrays ();
+    SAT_PRAGMA_OMP (parallel for
+		    reduction(+:plionstmp,bdionstmp,plneuttmp,bdneuttmp,cleanedtmp,ionizedtmp))
+    for (int ia=0; ia<na; ++ia)
     {
-      SAT_PRAGMA_OMP (parallel sections)
+      TParticleArray &ions = sp.GetIons (ia);
+      TParticleArray &neut = sp.GetNeutrals (ia);
+      TWeightField &weight = sp.GetWeightField ();
+
+      SAT_OMP_CRITICAL
+	sp.EmitPcles (ions, neut);
+
+      CleanPcles (ions, cleanedtmp);
+      CleanPcles (neut, cleanedtmp);
+
+      for (int j=0; j<_nsub; ++j)
       {
-      	SAT_PRAGMA_OMP (section) CleanPcles (sp.GetIons (), cleaned);
-      	SAT_PRAGMA_OMP (section) CleanPcles (sp.GetNeutrals (), cleaned);
+	MoveIons (ions, sp.GetQMS(), subdt);
+	ApplyBC (ions, bdionstmp, plionstmp);
       }
+
+      Ionize (ions, neut, weight, ionizedtmp);
+      MoveNeutrals (neut, dt);
+      ApplyBC (neut, bdneuttmp, plneuttmp);
     }
 
-    for (int j=0; j<_nsub; ++j)
-    {
-      MoveIons (sp, subdt);
-      ApplyBC (sp.GetIons (), bdions, plions);
-    }
+    plions += plionstmp; bdions += bdionstmp; ionized += ionizedtmp;
+    plneut += plneuttmp; bdneut += bdneuttmp; cleaned += cleanedtmp;
 
-    Ionize (sp, ionized);
-    MoveNeutrals (sp);
-    ApplyBC (sp.GetNeutrals (), bdneut, plneut);
+    sp.Update (_time.Dt ());
   }
 
   if (_time.Iter () % 50 == 0)
@@ -62,8 +77,11 @@ void HeavyIonsCode<T>::Iter ()
     for (int i=0; i<_specs.GetSize(); ++i)
     {
       TSpecie &sp = *_specs.Get (i);
-      nions += sp.GetIons ().GetSize ();
-      nneut += sp.GetNeutrals ().GetSize ();
+      for (int j=0; j<sp.GetNumArrays(); ++j)
+      {
+	nions += sp.GetIons (j).GetSize ();
+	nneut += sp.GetNeutrals (j).GetSize ();
+      }
     }
     DBG_INFO ("ions + neut particles: "<<nions<<" + "<<nneut<<
 	      " = "<<nions+nneut);
