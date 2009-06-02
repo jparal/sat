@@ -24,14 +24,16 @@ void HeavyIonsCode<T>::Iter ()
 
   for (int i=0; i<_specs.GetSize(); ++i)
   {
-    int plionstmp=0, bdionstmp=0, plneuttmp=0, bdneuttmp = 0, cleanedtmp=0, ionizedtmp = 0;
+    int plionstmp=0, bdionstmp=0, plneuttmp=0;
+    int bdneuttmp = 0, cleanedtmp=0, ionizedtmp = 0;
     TSpecie &sp = *_specs.Get (i);
     if (!sp.Enabled ())
       continue;
 
     int na = sp.GetNumArrays ();
     SAT_PRAGMA_OMP (parallel for
-		    reduction(+:plionstmp,bdionstmp,plneuttmp,bdneuttmp,cleanedtmp,ionizedtmp))
+		    reduction(+:plionstmp,bdionstmp,plneuttmp,
+			      bdneuttmp,cleanedtmp,ionizedtmp))
     for (int ia=0; ia<na; ++ia)
     {
       TParticleArray &ions = sp.GetIons (ia);
