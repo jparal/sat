@@ -66,6 +66,9 @@ public:
   void Update (T dt);
   void EmitPcles (TParticleArray &ions, TParticleArray &neut);
 
+  /// Return conversion coefficient for hybrid to density in [cm^-3]
+  T GetDnHyb2SI (T dt, const Vector<T,3> &dx) const;
+
   /// @brief Convert spherical coordinates into global Cartesian.
   /// Parameter @p sph has three components (phi,tht,radius)
   void Sph2CartGlobal (const Vector<T,3> &sphl, Vector<T,3> &cart) const;
@@ -83,7 +86,7 @@ private:
   T _npcles;
   Vector<T,3> _pos;  ///< Position of the sphere in the space.
   T _radius;
-
+  T _totflx;
   T _ionsratio;
   RandomGen<T> _unirng;     ///< uniform random generator [0,1] for ions/neut ratio
   CosRandGen<T> _vthtrng;   ///< Angle tht of initial velocity [cos(tht) distribution]

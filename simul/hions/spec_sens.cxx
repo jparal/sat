@@ -47,11 +47,15 @@ void HISpecieSensor<T>::SaveData (IOManager &iomng, const SimulTime &stime)
   _dn = (T)0.;
   for (int i=0; i<_spec->GetNumArrays(); ++i)
     AddDensity (_spec->GetIons (i), _dn);
+
+  _dn *= _spec->GetEmitter().GetDnHyb2SI (stime.Dt (), _sdx);
   iomng.Write (_dn, stime, GetTag ("Dni"));
 
   _dn = (T)0.;
   for (int i=0; i<_spec->GetNumArrays(); ++i)
     AddDensity (_spec->GetNeutrals (i), _dn);
+
+  _dn *= _spec->GetEmitter().GetDnHyb2SI (stime.Dt (), _sdx);
   iomng.Write (_dn, stime, GetTag ("Dnn"));
 
   _dn.Free ();

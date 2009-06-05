@@ -22,7 +22,7 @@ UnitsConvert<T>::UnitsConvert ()
 }
 
 template <class T>
-T UnitsConvert<T>::Length (T length, bool inv)
+T UnitsConvert<T>::Length (T length, bool inv) const
 {
   SAT_DBG_ASSERT (_blength);
 
@@ -33,7 +33,7 @@ T UnitsConvert<T>::Length (T length, bool inv)
 }
 
 template <class T>
-T UnitsConvert<T>::Time (T time, bool inv)
+T UnitsConvert<T>::Time (T time, bool inv) const
 {
   SAT_DBG_ASSERT (_btime);
 
@@ -44,7 +44,7 @@ T UnitsConvert<T>::Time (T time, bool inv)
 }
 
 template <class T>
-T UnitsConvert<T>::Speed (T speed, bool inv)
+T UnitsConvert<T>::Speed (T speed, bool inv) const
 {
   SAT_DBG_ASSERT (_blength);
   SAT_DBG_ASSERT (_btime);
@@ -56,7 +56,7 @@ T UnitsConvert<T>::Speed (T speed, bool inv)
 }
 
 template <class T>
-T UnitsConvert<T>::Accel (T accel, bool inv)
+T UnitsConvert<T>::Accel (T accel, bool inv) const
 {
   SAT_DBG_ASSERT (_blength);
   SAT_DBG_ASSERT (_btime);

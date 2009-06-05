@@ -32,10 +32,10 @@ public:
   /// Constructor
   UnitsConvert ();
 
-  T Length (T length, bool inv = false);
-  T Time (T time, bool inv = false);
-  T Speed (T speed, bool inv = false);
-  T Accel (T accel, bool inv = false);
+  T Length (T length, bool inv = false) const;
+  T Time (T time, bool inv = false) const;
+  T Speed (T speed, bool inv = false) const;
+  T Accel (T accel, bool inv = false) const;
 
   /// @name Set conversion constant.
   /// Set the conversion constant for the given unit so the conversion is done

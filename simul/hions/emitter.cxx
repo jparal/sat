@@ -111,6 +111,7 @@ void SphereEmitter<T>::Initialize (ConfigEntry &cfg, String tag,
     _src.Initialize (npatch);
 
     ConfigEntry &entry = cfg[tag];
+    entry.GetValue ("totflx",_totflx);
     InitializeLocal (entry, _si2hyb, _src);
 
     // scale the map
@@ -121,12 +122,20 @@ void SphereEmitter<T>::Initialize (ConfigEntry &cfg, String tag,
     DBG_INFO ("  maximal value of map:       "<<_src.Max ());
     DBG_INFO ("  particles per time step:    "<<_src.Sum ());
     DBG_INFO ("  ions/neutral ratio [%]:     "<<_ionsratio);
+    DBG_INFO ("  total flux of pcles [s^-1]: "<<_totflx);
     _ionsratio /= (T)100.;
   }
   else
   {
     DBG_INFO ("emitter ("<<tag<<"): Disabled");
   }
+}
+
+template<class T>
+T SphereEmitter<T>::GetDnHyb2SI (T dt, const Vector<T,3> &dx) const
+{
+  return (_totflx*_si2hyb.Time(dt,true)/_npcles)/
+    (dx.Mult()*Math::Pow (_si2hyb.Length (1,true)*100.,3.));
 }
 
 template<class T>

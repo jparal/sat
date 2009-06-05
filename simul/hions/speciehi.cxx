@@ -22,7 +22,7 @@ void HISpecie<T>::Initialize (TSphereEmitter *emit, Vector<int,3> nc,
   _numarrays = numarrays;
   _emit.AttachNew (emit);
   // @@@TODO
-  _mass = 29.999;
+  _mass = 22.98976928;
   _qms = 1./_mass;
 
   _ions.SetSize (_numarrays);

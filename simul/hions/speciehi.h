@@ -70,6 +70,9 @@ public:
   bool Enabled () const
   { return _emit->Enabled (); }
 
+  const TSphereEmitter& GetEmitter () const
+  { return *_emit; }
+
   /**
    * Initialize specie.
    *
