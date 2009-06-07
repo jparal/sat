@@ -67,7 +67,7 @@ AC_DEFUN([AC_CHECK_PLATFORM],
 
     case "$host" in
       x86_64-*)  ac_host_cpu="x86_64";;
-      i?86-*)    ac_host_cpu="x86";;
+      i?86-*)    ac_host_cpu="x86_32";;
       sparc-*)   ac_host_cpu="sparc";;
       alpha*)    ac_host_cpu="alpha";;
       m68k-*)    ac_host_cpu="m68k";;
