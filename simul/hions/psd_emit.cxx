@@ -29,6 +29,7 @@ void PSDSphereEmitter<T>::InitializeLocal (ConfigEntry &cfg,
   DBG_INFO ("  binding energy U [eV]:      "<<_ubind);
   DBG_INFO ("  parameter x of DF:          "<<_xpar);
   DBG_INFO ("  mass of the particle:       "<< mass);
+  SetMass (mass);
 
   _conv = (2.*M_PHYS_E)/(mass*M_PHYS_MI);
   _psddf.Initialize (_ubind, _xpar);

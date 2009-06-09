@@ -50,8 +50,8 @@ public:
 
 private:
   void AddDensity (const TParticleArray &pcles, Field<T,3> &dn);
+  void AddEnergy (const TParticleArray &pcles, Field<T,3> &en);
 
-  Field<T,3> _dn;
   TSpecie *_spec;
   Vector<T,3> _dxi;
   Vector<T,3> _sdx; ///< sensor resolution

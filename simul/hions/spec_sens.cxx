@@ -42,23 +42,68 @@ void HISpecieSensor<T>::InitializeLocal (const ConfigEntry &cfg)
 template<class T>
 void HISpecieSensor<T>::SaveData (IOManager &iomng, const SimulTime &stime)
 {
+  Field<T,3> _dn, _en;
   _dn.Initialize (_nc);
+  _en.Initialize (_nc);
 
+  // IONS DENSITY
   _dn = (T)0.;
   for (int i=0; i<_spec->GetNumArrays(); ++i)
     AddDensity (_spec->GetIons (i), _dn);
 
-  _dn *= _spec->GetEmitter().GetDnHyb2SI (stime.Dt (), _sdx);
-  iomng.Write (_dn, stime, GetTag ("Dni"));
+  // IONS ENERGY
+  _en = (T)0.;
+  for (int i=0; i<_spec->GetNumArrays(); ++i)
+    AddEnergy (_spec->GetIons (i), _en);
 
+  _en /= _dn;
+  _dn *= _spec->GetEmitter().GetDnHyb2SI (stime.Dt (), _sdx);
+  _en *= _spec->GetEmitter().GetEnHyb2SI (stime.Dt (), _sdx);
+
+  iomng.Write (_dn, stime, GetTag ("Dni"));
+  iomng.Write (_en, stime, GetTag ("Eni"));
+
+  // NEUTRALS DENSITY
   _dn = (T)0.;
   for (int i=0; i<_spec->GetNumArrays(); ++i)
     AddDensity (_spec->GetNeutrals (i), _dn);
 
+  // NEUTRALS ENERGY
+  _en = (T)0.;
+  for (int i=0; i<_spec->GetNumArrays(); ++i)
+    AddEnergy (_spec->GetNeutrals (i), _en);
+
+  _en /= _dn;
   _dn *= _spec->GetEmitter().GetDnHyb2SI (stime.Dt (), _sdx);
+  _en *= _spec->GetEmitter().GetEnHyb2SI (stime.Dt (), _sdx);
+
   iomng.Write (_dn, stime, GetTag ("Dnn"));
+  iomng.Write (_en, stime, GetTag ("Enn"));
 
   _dn.Free ();
+  _en.Free ();
+}
+
+template<class T>
+void HISpecieSensor<T>::AddEnergy (const TParticleArray &pcles,
+				   Field<T,3> &en)
+{
+  Vector<T,3> xt;
+  T val;
+
+  int npcles = (int)pcles.GetSize ();
+  for (int pc=0; pc<npcles; ++pc)
+  {
+    const TParticle &pcle = pcles.Get (pc);
+    if (pcle.GetWeight () < 0.)
+      continue;
+
+    const Vector<T,3> &xp = pcle.GetPosition ();
+    for (int i=0; i<3; ++i) xt[i] = xp[i] * _dxi[i];
+
+    val = pcle.GetWeight() * pcle.GetVelocity().Norm2 ();
+    CartStencil::BilinearWeightAdd (en, xt, val);
+  }
 }
 
 template<class T>
