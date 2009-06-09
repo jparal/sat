@@ -66,8 +66,20 @@ public:
   void Update (T dt);
   void EmitPcles (TParticleArray &ions, TParticleArray &neut);
 
-  /// Return conversion coefficient for hybrid to density in [cm^-3]
+  /// Set mass in units of m_p which is needed for energy conversion
+  void SetMass (T mass)
+  { _bmass = true; _mass = mass; }
+
+  T GetMass () const
+  { SAT_ASSERT(_bmass); return _mass; }
+
+  /// Return conversion coefficient for density conversion from hybrid units to
+  /// SI units in [cm^-3]
   T GetDnHyb2SI (T dt, const Vector<T,3> &dx) const;
+
+  /// Return conversion coefficient for energy from velocity square in hybrid
+  /// units into SI units in [eV]
+  T GetEnHyb2SI (T dt, const Vector<T,3> &dx) const;
 
   /// @brief Convert spherical coordinates into global Cartesian.
   /// Parameter @p sph has three components (phi,tht,radius)
@@ -90,6 +102,9 @@ private:
   T _ionsratio;
   RandomGen<T> _unirng;     ///< uniform random generator [0,1] for ions/neut ratio
   CosRandGen<T> _vthtrng;   ///< Angle tht of initial velocity [cos(tht) distribution]
+
+  bool _bmass;
+  T _mass;
 };
 
 /// @}

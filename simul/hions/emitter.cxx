@@ -17,7 +17,7 @@
 
 template<class T>
 SphereEmitter<T>::SphereEmitter ()
-  : _enabled(false)
+  : _enabled(false), _bmass(false)
 {}
 
 template<class T>
@@ -136,6 +136,13 @@ T SphereEmitter<T>::GetDnHyb2SI (T dt, const Vector<T,3> &dx) const
 {
   return (_totflx*_si2hyb.Time(dt,true)/_npcles)/
     (dx.Mult()*Math::Pow (_si2hyb.Length (1,true)*100.,3.));
+}
+
+template<class T>
+T SphereEmitter<T>::GetEnHyb2SI (T dt, const Vector<T,3> &dx) const
+{
+  return (0.5*_si2hyb.Speed(1,true)*_si2hyb.Speed(1,true)*
+	  GetMass() * 1.0408e-8);
 }
 
 template<class T>
