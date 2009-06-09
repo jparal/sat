@@ -5,7 +5,7 @@
 
 SUBDIRS = todo
 
-files = README
+files = README *.m
 instdir = $(prefix)/matlab
 
 dist_noinst_DATA = $(files)
