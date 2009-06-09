@@ -182,6 +182,9 @@ public:
   void operator/= (const T2& val);
 
   template<class T2>
+  void operator/= (const Field<T2,D>& val);
+
+  template<class T2>
   void operator= (const Field<T2,D>& val);
 
   void operator= (const Field<T,D>& val);
