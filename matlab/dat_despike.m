@@ -1,4 +1,7 @@
 function [dout] = dat_despike(din,limit,range)
+%  dat_despike  despike input data
+%
+%  SAT v1.1.1, 2009/06 Initial version
 
 if nargin < 3
   range = 10;

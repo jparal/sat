@@ -16,6 +16,8 @@ function [dout] = dat_filter(din,flo,fhi,dt)
 % d = psd_filter(data, 1e-3, 0, 60);
 % Low pass filter:
 % d = psd_filter(data, 0, 1e-3, 60);
+%
+%  SAT v1.1.1, 2009/06 Initial version
 
 gibbs=76.8345;
 fnyquist=1./(2*dt);
