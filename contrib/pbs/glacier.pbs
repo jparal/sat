@@ -9,6 +9,15 @@
 export MP_PROCS=2
 ##PBS -q normal
 
+if [ -f ~/.bash_profile ]; then
+    echo "Reading .bash_profile file"
+    . ~/.bash_profile
+fi
+if [ -f ~/.profile ]; then
+    echo "Reading .profile file"
+    . ~/.profile
+fi
+
 cd $PBS_O_WORKDIR
 echo "Current working directory is `pwd`"
 export OMP_NUM_THREADS=$MP_PROCS

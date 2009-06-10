@@ -11,6 +11,7 @@
 (eval-after-load "sh-script" '(require 'sh-autoconf))
 (add-to-list 'auto-mode-alist '("/configure\\.\\(ac\\|in\\)\\'" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.m4$" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.pbs$" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.tex$" . latex-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
 

@@ -8,6 +8,15 @@
 
 cd $PBS_O_WORKDIR
 
+if [ -f ~/.bash_profile ]; then
+    echo "Reading .bash_profile file"
+    . ~/.bash_profile
+fi
+if [ -f ~/.profile ]; then
+    echo "Reading .profile file"
+    . ~/.profile
+fi
+
 echo "Current working directory is `pwd`"
 
 # Note: MP_PROCS should be set to the number of processors required.
