@@ -1,23 +1,23 @@
 function [dout] = dat_filter(din,flo,fhi,dt)
 %
-% function [dout] = psd_filter(din,flo,fhi,dt)
+%  function [dout] = DAT_FILTER (din,flo,fhi,dt)
+%  filter out frequencies between flo and fhi using Keiser filter
+%  (i.e. using Bessel functions
 %
-% filter out frequencies between flo and fhi using Keiser filter
+%  dout .. output data [1D array]
+%  din ... data input [1D array]
+%  flo ... lower frequency [Hz]
+%  fhi ... higher frequency [Hz]
+%  dt .... data resolution [seconds]
 %
-% dout .. output data [1D array]
-% din ... data input [1D array]
-% flo ... lower frequency [Hz]
-% fhi ... higher frequency [Hz]
-% dt .... data resolution [seconds]
+%  EXAMPLES:
+%  High pass filter:      d = psd_filter(data, 1, 0, 60);
+%  Low pass filter:       d = psd_filter(data, 0, 1, 60);
+%  Band filter (1-2 Hz):  d = psd_filter(data, 1, 2, 60);
 %
-% Examples:
-% =========
-% High pass filter:
-% d = psd_filter(data, 1e-3, 0, 60);
-% Low pass filter:
-% d = psd_filter(data, 0, 1e-3, 60);
-%
-%  SAT v1.1.1, 2009/06 Initial version
+%  HISTORY:
+%  SAT v1.1.1, 2009/06 (Jan Paral: jparal@gmail.com)
+%    Initial version
 
 gibbs=76.8345;
 fnyquist=1./(2*dt);
@@ -61,9 +61,9 @@ else
     alpha = 0.5842*(gibbs-21)^0.4 + 0.07886*(gibbs-21);
 end
 
-arg = (1:nterms)/nterms; %(FINDGEN(nterms)+1.)/nterms;
+arg = (1:nterms)/nterms;
 coef = besseli(0,alpha*sqrt(1-arg.^2))/besseli(0,alpha);
-T = (1:nterms)*pi; %(FINDGEN(NTERMS)+1)*pi;
+T = (1:nterms)*pi;
 coef = coef .* (sin(T*fhi)-sin(T*flo))./T;
 coef = [coef(end:-1:1), fhi - flo + fstop, coef];
 
