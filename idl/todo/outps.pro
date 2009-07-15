@@ -6,7 +6,7 @@ pro outps,FILE=file,CLOSE=close,_EXTRA=extra
 ;
 ; SYNTAX:
 ;
-;  ANIME [,FILE=value] [,_EXTRA=value] [,/END]
+;  OUTPS [,FILE=value] [,/CLOSE] [,_EXTRA=value]
 ;
 ; GRAPHICS KEYWORDS:
 ;
@@ -22,7 +22,7 @@ pro outps,FILE=file,CLOSE=close,_EXTRA=extra
 ; END: Specifies end of the output. (i.e. close device and set output to x)
 ;
 ; AUTHORS:
-;  Jan Paral <jparal@seznam.cz>
+;  Jan Paral <jparal@gmail.com>
 ;
 ; HISTORY:
 ;  12 Sept 2005 - Created

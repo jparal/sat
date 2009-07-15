@@ -1,4 +1,4 @@
-pro rd1,file,a,err=err,complex=complex,double=double ,compress=compress,dim=dim
+pro rd,file,a,err=err,complex=complex,double=double ,compress=compress,dim=dim
 iunit=9
 if(not(keyword_set(complex))) then complex=0
 if(not(keyword_set(double))) then double=0
@@ -14,19 +14,19 @@ endif
 if(fexist(filename,first=first,/now))then begin
   openr,iunit,first ,compress=compress 
   if (n_elements(dim) le 0) then begin
-  readf,iunit,n
-  endif else begin
-   n = dim
-  endelse
+    dimstr='                                                               '
+    readf,iunit,dimstr
+    dim = long(strsplit(dimstr,/ext))
+  endif 
 endif else begin
   filename=strcompress(file+'.gz',/rem)
   if(fexist(filename,first=first,/now))then begin
     openr,iunit,first ,compress=1
     if (n_elements(dim) le 0) then begin
-      readf,iunit,n
-    endif else begin
-      n = dim
-    endelse
+      dimstr='                                                             '
+      readf,iunit,dimstr
+      dim = long(strsplit(dimstr,/ext))
+    endif 
   endif else begin
     print,'Error, not found ', file, ' or ', filename
     err=1
@@ -35,15 +35,15 @@ endif else begin
 endelse
 if (complex eq 0) then begin
   if(double eq 0) then begin
-   a=fltarr(n)
+   a=fltarr(dim)
   endif else begin
-   a=dblarr(n)
+   a=dblarr(dim)
   endelse
 endif else begin
   if(double eq 0) then begin
-    a=complexarr(n)
+    a=complexarr(dim)
   endif else begin
-    a=dcomplexarr(n)
+    a=dcomplexarr(dim)
   endelse
 endelse
 readf,iunit,a

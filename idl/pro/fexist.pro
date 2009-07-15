@@ -1,4 +1,5 @@
-function fexist,fnaux,first=first
+function fexist,fnaux,first=first,nowarn=nowarn
+if(not(keyword_set(nowarn)))then nowarn=0
 gau=findfile(fnaux)
 saux=size(gau)
 if(saux(0) gt 0)then begin
@@ -6,7 +7,7 @@ if(saux(0) gt 0)then begin
    first=gau(0)
    return, 1
 endif else begin
-   print, 'Error: File '+fnaux+' does not exist'
+   if(nowarn eq 0)then print, 'Warning: File '+fnaux+' does not exist'
    return, 0
 endelse
 end

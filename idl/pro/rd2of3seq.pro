@@ -25,7 +25,7 @@ ss=size(au1)
 num=(t-t0)/step
 auf=fltarr(ss(1),ss(2),num+1)
 auf(*,*,0)=au1
-for i=1, num do begin
+for i=1l, num do begin
 filename=strcompress(fil+String(t0+i*step)+suffix,/remove_all)
   if(fexist(filename,first=first))then begin
      if(verbose eq  1) then print,first

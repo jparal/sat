@@ -6,7 +6,7 @@ if keyword_set(transpose) then a=transpose(a)
      k= size(a)
  if (k(0) eq 3)then begin
      ni=1./(k(2)*k(3))
-     b=fltarr(k(1),/nozero)
+     b=replicate(a(0,0,0),k(1))
      for i=0, k(1)-1 do begin
       b(i)=0
       for j=0,k(2)-1 do begin
@@ -19,7 +19,7 @@ if keyword_set(transpose) then a=transpose(a)
 endif
  if (k(0) eq 2)then begin
      ni=1./(k(2))
-     b=fltarr(k(1),/nozero)
+     b=replicate(a(0,0),k(1))
      for i=0, k(1)-1 do begin
       b(i)=0
       for j=0,k(2)-1 do begin

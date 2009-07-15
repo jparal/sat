@@ -5,9 +5,14 @@
 ;     Adopted from STW
 ;--------------------------------------------------------------------;
 FUNCTION DAT_FLYBY, data, traj, INTERP=interp, $
-  POSX=posx, POSY=posy, POSZ=posz, $
-  DX=dx, DY=dy, DZ=dz, $
-  RX=rx, RY=ry, RZ=rz
+  POSX=posx, POSY=posy, POSZ=posz, SCALE=scale, $
+  DX=dx, DY=dy, DZ=dz, RX=rx, RY=ry, RZ=rz
+
+; INPUT:
+; data are 2D or 3D data
+; SCALE scale the axis (i.e. planet radius)
+; Provide traj as [2|3,*] array or separate pos[x|y|z]
+; 
 
 ;--------------------------------------------------------------------;
 ; CHECK INPUT PARAMETERS                                             ;
@@ -21,7 +26,11 @@ IF N_PARAMS() EQ 2 THEN BEGIN
    posx = reform(traj(0,*))
    posy = reform(traj(1,*))
    IF ss(0) EQ 3 THEN posz = reform(traj(2,*))
-ENDIF
+ENDIF ELSE BEGIN
+   posx = reform(posx)
+   posy = reform(posy)
+   posz = reform(posz)
+ENDELSE
 
 sx=size(posx,/type)
 sy=size(posy,/type)
@@ -51,6 +60,8 @@ IF N_ELEMENTS(interp) NE 0 THEN BEGIN
    ENDIF
 ENDIF
 
+IF NOT(KEYWORD_SET(scale)) THEN scale=1.0
+
 IF NOT(KEYWORD_SET(dx)) THEN dx=1.0
 IF NOT(KEYWORD_SET(dy)) THEN dy=1.0
 IF NOT(KEYWORD_SET(dz)) THEN dz=1.0
@@ -62,6 +73,10 @@ IF (dz LE 0.0) THEN MESSAGE,'Wrong input data size'
 IF NOT(KEYWORD_SET(rx)) THEN rx=0.5
 IF NOT(KEYWORD_SET(ry)) THEN ry=0.5
 IF NOT(KEYWORD_SET(rz)) THEN rz=0.5
+
+posx = posx*scale
+posy = posy*scale
+IF (ss(0) EQ 3) THEN posz = posz*scale
 
 ;--------------------------------------------------------------------;
 ; OK INPUT LOOKS GOOD                                                ;
@@ -83,14 +98,14 @@ ymin = -ry*ly
 ymax = ly-ymin
 
 IF (ss(0) EQ 3) THEN BEGIN
-   nz = ss(3)   
+   nz = ss(3)
    ncz=nz-1
    lz = float(ncz)*dz
    zmin = -rz*lz
    zmax = lz-zmin
 ENDIF
 
-flyby = fltarr(sx(1))
+fbdata = fltarr(sx(1))
 np = sx(1)-1
 
 IF (ss(0) EQ 2) THEN BEGIN
@@ -116,13 +131,13 @@ IF (ss(0) EQ 2) THEN BEGIN
     xa = 1. - xf
     yf = y - float(iy)*dy
     ya = 1. - yf
-    
+
     w1 = xa*ya
     w2 = xf*ya
     w3 = xf*yf
     w4 = xa*yf
 
-    flyby(ip) = w1*data(ix,iy)+w2*data(ixp,iy)+w3*data(ixp,iyp)+w4*data(ix,iyp)
+    fbdata(ip) = w1*data(ix,iy)+w2*data(ixp,iy)+w3*data(ixp,iyp)+w4*data(ix,iyp)
 
   ENDFOR
 
@@ -170,14 +185,14 @@ ENDIF ELSE BEGIN
     w7 = xf * yf * zf
     w8 = xa * yf * zf
 
-    flyby(ip) = w1 * data(ix ,iy ,iz ) + w2 * data(ixp,iy ,iz ) + $
-                w3 * data(ixp,iyp,iz ) + w4 * data(ix ,iyp,iz ) + $
-                w5 * data(ix ,iy ,izp) + w6 * data(ixp,iy ,izp) + $
-                w7 * data(ixp,iyp,izp) + w8 * data(ix ,iyp,izp)
+    fbdata(ip) = w1 * data(ix ,iy ,iz ) + w2 * data(ixp,iy ,iz ) + $
+                 w3 * data(ixp,iyp,iz ) + w4 * data(ix ,iyp,iz ) + $
+                 w5 * data(ix ,iy ,izp) + w6 * data(ixp,iy ,izp) + $
+                 w7 * data(ixp,iyp,izp) + w8 * data(ix ,iyp,izp)
 
   ENDFOR
 
 ENDELSE
 
-RETURN, flyby
+RETURN, fbdata
 END

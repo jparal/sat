@@ -13,6 +13,7 @@ PRO PLT_IMG1, data, $
               XMAX=xmax,     YMAX=ymax,     ZMAX=zmax, $
 ;; COLORTABLE
               CTABLE=ctable, CTLOW=ctlow, CTHIGH=cthigh, CTGAMMA=ctgamma, $
+              CBARMARGIN=cbarmargin, $
 ;; PLANET:
               PLANET=planet, PLCOLOR=plcolor, $
 ;; TRAJECTORY:
@@ -23,6 +24,8 @@ PRO PLT_IMG1, data, $
               XVEC=xvec, YVEC=yvec, AVEC=avec, VECCOLOR=veccolor, $
               DVEC=dvec, MAXLENVEC=maxlenvec, LENVEC=lenvec
 
+; - v1.1.1 2009/07 Jan Paral
+;     Added CBARMARGIN (default is in SAT_IDLRC function (i.e. 0.12)
 ; - v0.3.0 2007-08-06 Jan Paral
 ;    Added DESC, DSCCOLOR and DSCCHARSIZE keywords for plotting descriptions
 ; - v0.3.0 2007-06-06 Jan Paral
@@ -40,7 +43,8 @@ PRO PLT_IMG1, data, $
      noerase = 1
   ENDELSE
 
-  cbarmargin = SAT_IDLRC(/CBARMARGIN, /PUBENV)
+  IF NOT(KEYWORD_SET(cbarmargin)) THEN $
+     cbarmargin=SAT_IDLRC(/CBARMARGIN, /PUBENV)
   ss = size(data)
   
   IF N_ELEMENTS(dx) EQ 0 THEN dx=1.

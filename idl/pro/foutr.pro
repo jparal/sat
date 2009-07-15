@@ -1,13 +1,23 @@
 ; fourier transformation of 2d array a as abs(fft a)
 ; with X =xmax and Y=ymax, output fta coordinates ix,iy 
-pro foutr,an,x,y,fta,ix,iy,upper=upper,full=full
+pro foutr,an,x,y,fta,ix,iy,upper=upper,full=full,cutoff=cutoff,time=time
 if not(keyword_set(upper)) then upper=0
 if not(keyword_set(full)) then full=0
+if not(keyword_set(time)) then time=0
+if not(keyword_set(cutoff)) then cutoff=0
+
+if(n_params(0) le 1)then begin
+ print,'Error - at least 2 parameters needed'
+ return
+endif
+
 if(n_params(0) eq 2)then begin
  x=2*!pi
  y=2*!pi
 endif
-a=an-mean(an)
+a=an
+if(cutoff eq 1)then cutoff,a,time=time
+a=a-mean(a)
 s=size(a)
 if(s(0) eq 2) then begin
   s1=s(1)
@@ -30,6 +40,7 @@ if(s(0) eq 2) then begin
     ix=(findgen(s1)-s1h)*2*!pi/x  
     iy=(findgen(s2)-s2h)*2*!pi/y
   endelse
+	if(time eq 1)then iy=-iy
 endif
 if(s(0) eq 1) then begin
 s1=s(1)

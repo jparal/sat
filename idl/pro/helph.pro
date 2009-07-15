@@ -4,7 +4,7 @@ pro helph
 b='                                      '
 a=' '
 read,' routine ',a
-a= '/home/usr/helinger/pro/'+a+'.pro'
+a= '/home/helinger/pro/'+a+'.pro'
 iunit=9
 openr,iunit, a
 readf,iunit, b
