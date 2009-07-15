@@ -1,0 +1,5 @@
+
+* spline particle weighting
+   It would be worth to try to weight particle using splite function rather
+   then linear weighting. It would probably cost the same amount of time since
+   memory fetching is already a bottle neck of the simulation.
