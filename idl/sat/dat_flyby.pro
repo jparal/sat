@@ -23,43 +23,44 @@ ss=size(data)
 IF ((ss(0) NE 2) AND (ss(0) NE 3)) THEN MESSAGE,'Wrong input data type'
 
 IF N_PARAMS() EQ 2 THEN BEGIN
-   posx = reform(traj(0,*))
-   posy = reform(traj(1,*))
-   IF ss(0) EQ 3 THEN posz = reform(traj(2,*))
+   poslx = reform(traj(0,*))
+   posly = reform(traj(1,*))
+   IF ss(0) EQ 3 THEN poslz = reform(traj(2,*))
 ENDIF ELSE BEGIN
-   posx = reform(posx)
-   posy = reform(posy)
-   posz = reform(posz)
+   poslx = reform(posx)
+   posly = reform(posy)
+   poslz = reform(posz)
 ENDELSE
 
-sx=size(posx,/type)
-sy=size(posy,/type)
+sx=size(poslx,/type)
+sy=size(posly,/type)
 IF ((sx EQ 0) OR (sy EQ 0)) THEN MESSAGE,'Wrong input data type'
-sx=size(posx)
-sy=size(posy)
+sx=size(poslx)
+sy=size(posly)
 IF ((sx(0) NE 1) OR (sy(0) NE 1)) THEN MESSAGE,'Wrong input data size'
 IF (sx(1) NE sy(1)) THEN MESSAGE,'Wrong input data size'
 
 IF (ss(0) EQ 3) THEN BEGIN
-  sz=size(posz,/TYPE)
+  sz=size(poslz,/TYPE)
   IF (sz EQ 0) THEN MESSAGE,'Wrong input data type'
-  sz=size(posz)
+  sz=size(poslz)
   IF (sz(0) NE 1) THEN MESSAGE,'Wrong input data size'
   IF (sx(1) NE sz(1)) THEN MESSAGE,'Wrong input data size'
 ENDIF
 
 IF N_ELEMENTS(interp) NE 0 THEN BEGIN
    np = sx(1) * interp
-   posx = INTERPOL(posx,np)
-   sx=size(posx)
-   posy = INTERPOL(posy,np)
-   sy=size(posy)
+   poslx = INTERPOL(poslx,np)
+   sx=size(poslx)
+   posly = INTERPOL(posly,np)
+   sy=size(posly)
    IF ss(0) EQ 3 THEN BEGIN
-      posz = INTERPOL(posz,np)
-      sz=size(posz)
+      poslz = INTERPOL(poslz,np)
+      sz=size(poslz)
    ENDIF
 ENDIF
 
+IF NOT(KEYWORD_SET(debug)) THEN debug=0
 IF NOT(KEYWORD_SET(scale)) THEN scale=1.0
 
 IF NOT(KEYWORD_SET(dx)) THEN dx=1.0
@@ -74,14 +75,14 @@ IF NOT(KEYWORD_SET(rx)) THEN rx=0.5
 IF NOT(KEYWORD_SET(ry)) THEN ry=0.5
 IF NOT(KEYWORD_SET(rz)) THEN rz=0.5
 
-posx = posx*scale
-posy = posy*scale
-IF (ss(0) EQ 3) THEN posz = posz*scale
+poslx = poslx*scale
+posly = posly*scale
+IF (ss(0) EQ 3) THEN poslz = poslz*scale
 
 ;--------------------------------------------------------------------;
 ; OK INPUT LOOKS GOOD                                                ;
 ;                                                                    ;
-; We have all "pos?" arrays, they have the same dimension.           ;
+; We have all "posl?" arrays, they have the same dimension.           ;
 ;--------------------------------------------------------------------;
 nx = ss(1)
 ny = ss(2)
@@ -112,8 +113,8 @@ IF (ss(0) EQ 2) THEN BEGIN
 
   FOR ip=0,np DO BEGIN
 
-    x=posx(ip)
-    y=posy(ip)
+    x=poslx(ip)
+    y=posly(ip)
     IF (x LE xmin OR x GE xmax) THEN CONTINUE
     IF (y LE ymin OR y GE ymax) THEN CONTINUE
 
@@ -127,9 +128,9 @@ IF (ss(0) EQ 2) THEN BEGIN
     iyp=iy+1
     IF (iyp GT ncy) THEN CONTINUE
 
-    xf = x - float(ix)*dx
+    xf = (x/dx) - float(ix)
     xa = 1. - xf
-    yf = y - float(iy)*dy
+    yf = (y/dy) - float(iy)
     ya = 1. - yf
 
     w1 = xa*ya
@@ -145,9 +146,9 @@ ENDIF ELSE BEGIN
 
   FOR ip=0,np DO BEGIN
 
-    x=posx(ip)
-    y=posy(ip)
-    z=posz(ip)
+    x=poslx(ip)
+    y=posly(ip)
+    z=poslz(ip)
 
     IF (x LE xmin OR x GE xmax) THEN CONTINUE
     IF (y LE ymin OR y GE ymax) THEN CONTINUE
@@ -169,11 +170,11 @@ ENDIF ELSE BEGIN
     izp=iz+1
     IF (izp GT ncz) THEN CONTINUE
 
-    xf = x - float(ix)*dx
+    xf = (x/dx) - float(ix)
     xa = 1. - xf
-    yf = y - float(iy)*dy
+    yf = (y/dy) - float(iy)
     ya = 1. - yf
-    zf = z - float(iz)*dz
+    zf = (z/dz) - float(iz)
     za = 1. - zf
 
     w1 = xa * ya * za
