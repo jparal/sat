@@ -55,7 +55,7 @@ m4_define([AC_GET_VERSION],[
 #             $2_VERSION="$$2_VERSION_MAJOR.$$2_VERSION_MINOR"
 #         fi
       if test "$$2_VERSION_GREEK" != "" ; then
-        $2_VERSION="${$2_VERSION}~${$2_VERSION_GREEK}"
+        $2_VERSION="${$2_VERSION}-${$2_VERSION_GREEK}"
       fi
       $2_VERSION_BASE=$$2_VERSION
 
