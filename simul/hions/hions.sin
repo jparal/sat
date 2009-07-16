@@ -54,11 +54,11 @@ output:
     dir = "out"; runname  = "test";
     compress = { gz = 6; shuffle = true; };   # output compression
   };
-  dtout = 250;
+  dtout = 100;
   sensors:
   {
-    swsspec  = { tag = "SWS"; resol = [1,1,1]; };
-    psdspec  = { tag = "PSD"; resol = [1,1,1]; };
+    swsspec  = { tag = "SWS"; resol = [2,2,2]; };
+    psdspec  = { tag = "PSD"; resol = [2,2,2]; };
   };
 };
 
