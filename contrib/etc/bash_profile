@@ -11,9 +11,9 @@ alias su="su -"
 alias jam="jam -j 2"
 alias make="make -j"
 
-export INPUTRC=~/.inputrc
-export PATH="~/bin:~/install/bin:$PATH"
-export LD_LIBRARY_PATH=~/install/lib/:/usr/local/lib/
+export INPUTRC="$HOME/.inputrc"
+export PATH="$HOME/bin:$HOME/install/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/install/lib/:/usr/local/lib/"
 
 # RED machine BLUE work_dir $ BLACK
 PS1='\[\033[01;31m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '
