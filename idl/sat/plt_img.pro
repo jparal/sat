@@ -12,6 +12,7 @@ PRO PLT_IMG, data, $
              XRANGE=xrange, YRANGE=yrange, ZRANGE=zrange,$
              XMIN=xmin,     YMIN=ymin,     ZMIN=zmin, $
              XMAX=xmax,     YMAX=ymax,     ZMAX=zmax, $
+             ZLOG=zlog, $
 ;; PLANET:
              PLANET=planet, PLCOLOR=plcolor, $
 ;; TRAJECTORY:
@@ -143,19 +144,26 @@ IF KEYWORD_SET(zrange) THEN BEGIN
    zmax = zrange(1)
 ENDIF
 
-
 dataloc=data
 
 ndx=WHERE(data GT zmax, cnt)
 sn=size(ndx)
-IF (sn(0) NE 0) THEN BEGIN
-  dataloc(ndx)=zmax
-ENDIF
+;; IF (sn(0) NE 0) THEN BEGIN
+;;   dataloc(ndx)=zmax
+;; ENDIF
 ndx=WHERE(data LT zmin, cnt)
 sn=SIZE(ndx)
 IF (sn(0) NE 0) THEN BEGIN
   dataloc(ndx)=zmin
 ENDIF
+
+IF NOT(KEYWORD_SET(zlog)) THEN BEGIN
+   zlog=0
+END ELSE BEGIN
+   zlog=1
+   dataloc=DAT_SCALEVEC(dataloc,1.,2500.)
+   dataloc=BytScl(ALog10(dataloc), Top=253)
+ENDELSE
 
 IF NOT(KEYWORD_SET(plcolor)) THEN plcolor='Black'
 IF NOT(KEYWORD_SET(color))   THEN color='Black'

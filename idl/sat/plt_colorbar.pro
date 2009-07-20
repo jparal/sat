@@ -266,7 +266,7 @@ IF N_ELEMENTS(ncolors) EQ 0 THEN BEGIN
 ENDIF
 IF N_ELEMENTS(bottom) EQ 0 THEN bottom = 0B
 ;; IF N_ELEMENTS(charsize) EQ 0 THEN charsize = 1.0
-IF N_ELEMENTS(format) EQ 0 THEN format = '(F5.1)'
+;IF N_ELEMENTS(format) EQ 0 THEN format = '(F5.1)'
 IF N_ELEMENTS(color) EQ 0 THEN color = !P.Color
 IF N_ELEMENTS(minrange) EQ 0 THEN minrange = 0
 IF N_ELEMENTS(maxrange) EQ 0 THEN maxrange = ncolors
@@ -387,9 +387,10 @@ IF KEYWORD_SET(vertical) THEN BEGIN
          YTICKFORMAT='(A1)', XTICKFORMAT='(A1)', YTICKLEN=ticklen , $
          YRANGE=[minrange, maxrange], FONT=font, _EXTRA=extra, YMINOR=minor
 
-      AXIS, YAXIS=1, YRANGE=[minrange, maxrange], YTICKFORMAT=format, YTICKS=divisions, $
-         YTICKLEN=ticklen, YSTYLE=1, COLOR=color, CHARSIZE=charsize, $
-         FONT=font, YTITLE=title, _EXTRA=extra, YMINOR=minor, YTICKNAME=ticknames
+      AXIS, YAXIS=1, YRANGE=[minrange, maxrange], YTICKFORMAT=format, $
+            YTICKS=divisions, YTICKLEN=ticklen, YSTYLE=1, COLOR=color, $
+            CHARSIZE=charsize, FONT=font, YTITLE=title, _EXTRA=extra, $
+            YMINOR=minor, YTICKNAME=ticknames
 
    ENDIF ELSE BEGIN
 
@@ -400,9 +401,9 @@ IF KEYWORD_SET(vertical) THEN BEGIN
          YRANGE=[minrange, maxrange], FONT=font, YTITLE=title, _EXTRA=extra, $
          YTICKNAME=ticknames
 
-      AXIS, YAXIS=1, YRANGE=[minrange, maxrange], YTICKFORMAT='(A1)', YTICKS=divisions, $
-         YTICKLEN=ticklen, YSTYLE=1, COLOR=color, CHARSIZE=charsize, $
-         FONT=font, _EXTRA=extra, YMINOR=minor
+      AXIS, YAXIS=1, YRANGE=[minrange, maxrange], YTICKFORMAT='(A1)', $
+            YTICKS=divisions, YTICKLEN=ticklen, YSTYLE=1, COLOR=color, $
+            CHARSIZE=charsize, FONT=font, YMINOR=minor, _EXTRA=extra
 
    ENDELSE
 

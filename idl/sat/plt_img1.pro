@@ -11,6 +11,7 @@ PRO PLT_IMG1, data, $
               XRANGE=xrange, YRANGE=yrange, ZRANGE=zrange,$
               XMIN=xmin,     YMIN=ymin,     ZMIN=zmin, $
               XMAX=xmax,     YMAX=ymax,     ZMAX=zmax, $
+              ZLOG=zlog, $
 ;; COLORTABLE
               CTABLE=ctable, CTLOW=ctlow, CTHIGH=cthigh, CTGAMMA=ctgamma, $
               CBARMARGIN=cbarmargin, $
@@ -22,7 +23,8 @@ PRO PLT_IMG1, data, $
               TRAJSTYLE = trajstyle, $
 ;; VECTORS:
               XVEC=xvec, YVEC=yvec, AVEC=avec, VECCOLOR=veccolor, $
-              DVEC=dvec, MAXLENVEC=maxlenvec, LENVEC=lenvec
+              DVEC=dvec, MAXLENVEC=maxlenvec, LENVEC=lenvec, $
+              _EXTRA=_extra
 
 ; - v1.1.1 2009/07 Jan Paral
 ;     Added CBARMARGIN (default is in SAT_IDLRC function (i.e. 0.12)
@@ -116,7 +118,7 @@ PRO PLT_IMG1, data, $
            XREVERSE = xreverse, YREVERSE = yreverse,$
            XMIN=xmin, XMAX=xmax, XRANGE=xrange, XTITLE=xtitle, XTICKS=xticks, $
            YMIN=ymin, YMAX=ymax, YRANGE=yrange, YTITLE=ytitle, YTICKS=yticks, $
-           ZMIN=zmin, ZMAX=zmax, ZRANGE=zrange, $
+           ZMIN=zmin, ZMAX=zmax, ZRANGE=zrange, ZLOG=zlog, $
            TRAJVERT  = trajvert,  TRAJPOINTS = trajpoints, $
            TRAJCOLOR = trajcolor, TRAJTHICK  = trajthick, $
            TRAJSTYLE = trajstyle, $
@@ -128,7 +130,8 @@ PRO PLT_IMG1, data, $
   position = [xhi + .08, ylo, xhi + .12, yhi]
 
   PLT_COLORBAR, /VERTICAL, TITLE=ztitle, RANGE=[zmin, zmax], $
-                ANNOTATECOLOR=color, POSITION=position
+                ANNOTATECOLOR=color, POSITION=position, YLOG=zlog, $
+                _EXTRA=_extra
 
   IF KEYWORD_SET(ps) THEN BEGIN
      DEVICE,/CLOSE
