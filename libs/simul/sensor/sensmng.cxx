@@ -80,6 +80,7 @@ void SensorManager::SaveAll (const SimulTime &stime)
     Sensor *sensor = _sensors.Get (i);
     sensor->Save (_iomng, stime);
   }
+  DBG_INFO ("saving sensor: DONE!");
 }
 
 void SensorManager::AddSensor (Sensor *sens)
