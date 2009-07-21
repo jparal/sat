@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DIR=H5Part
+
+tar xzfv $DIR-1.4.2.tar.gz
+cd $DIR
+CC=gcc CXX=g++ ./configure --prefix=$HOME/install --enable-tools
+make -j
+make install
+cd ..
+echo
+echo " Press ENTER to delete build directory:"
+read enter
+rm -rf $DIR

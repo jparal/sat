@@ -52,6 +52,7 @@ AC_LIB_MPI
 AC_LIB_ZLIB
 AC_LIB_GSL
 AC_LIB_HDF5
+AC_LIB_H5PART
 
 AC_CHECK_SAT_HEADERS
 AC_CHECK_SIZESOF
@@ -212,6 +213,7 @@ External libraies:
 ==================================================================
 	 ZLIB : $with_zlib
          HDF5 : $with_hdf5 (parallel: $with_hdf5_parallel)
+       H5PART : $with_h5part
 	  GSL : $with_gsl
 
 ])
