@@ -69,6 +69,7 @@ void SensorManager::Save (const char *id, const SimulTime &stime)
     if (!strcmp (sensor->GetID (), id))
       sensor->Save (_iomng, stime);
   }
+  DBG_INFO ("saving sensor: DONE!");
 }
 
 void SensorManager::SaveAll (const SimulTime &stime)
