@@ -21,7 +21,8 @@ function print_help()
     echo
     echo "options:"
     echo "  -h | --help     this help page"
-    echo "  -height <num>   set height in [cm] (default 10)"
+    echo "  -height <num>   set height in [cm] (default none)"
+    echo "  -width <num>    set height in [cm] (default none)"
     echo "  -angle <num>    set angle in [deg] (default 90)"
     echo "  -font <num>     set the font size from 1 to 10 (default 5)"
     echo "  -v              verbose: show output from latex calling"
@@ -106,15 +107,18 @@ function generate_tex_file()
 #       Finish file
 ###############################################
     echo "\begin{figure}[!]"             >> $TEXFILE
-    echo -n "\includegraphics[angle="    >> $TEXFILE
-    echo -n "$ANGLE]{"                   >> $TEXFILE
+    echo -n "\includegraphics["          >> $TEXFILE
+    if [ -n "$HEIGHT_OPT" ]; then
+        echo -n "height=$HEIGHT_OPT cm,"     >> $TEXFILE
+    fi
+    if [ -n "$WIDTH_OPT" ]; then
+        echo -n "width=$WIDTH_OPT cm,"     >> $TEXFILE
+    fi
+    echo -n "angle=$ANGLE]{"             >> $TEXFILE
     echo -n "$INFILE_EPSI"               >> $TEXFILE
     echo    "}"                          >> $TEXFILE
     echo "\end{figure}"                  >> $TEXFILE
     echo "\end{document}"                >> $TEXFILE
-#     echo -n "\includegraphics[height="    >> $TEXFILE
-#     echo -n "$HEIGHT"                     >> $TEXFILE
-#     echo -n "cm,angle="                  >> $TEXFILE
 }
 
 
@@ -156,6 +160,7 @@ echo -n "Parsing params ... "
 
 #Set variables to standart values
 HEIGHT=18
+WIDTH=18
 ANGLE=90
 FONTSIZE=5
 OUTPUT=">/dev/null 2>&1"
@@ -168,6 +173,10 @@ do
 	    shift
 	    HEIGHT_OPT=$1
 	    ;;
+	"-width")
+	    shift
+	    WIDTH_OPT=$1
+	    ;;
 	"-angle")
 	    shift
 	    ANGLE_OPT=$1
@@ -178,7 +187,6 @@ do
 	    ;;
 	"-v")
 	    OUTPUT=""
-	    HEIGHT=$1
 	    ;;
 	"-tmp")
 	    RMTMP=0
@@ -217,6 +225,7 @@ CFGFILE="$INFILE_PATH/$INFILE_CORE.pssubst"
 [ -f "$CFGFILE" ] && . "$CFGFILE"
 
 [ -n "$HEIGHT_OPT" ]   && HEIGHT="$HEIGHT_OPT"
+[ -n "$WIDTH_OPT" ]    && WIDTH="$WIDTH_OPT"
 [ -n "$ANGLE_OPT" ]    && ANGLE="$ANGLE_OPT"
 [ -n "$FONTSIZE_OPT" ] && FONTSIZE="$FONTSIZE_OPT"
 
