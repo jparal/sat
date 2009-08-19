@@ -1,0 +1,37 @@
+ Intialization file for dispers
+   Name of the project                                           
+pc
+   Units 0 - v_a and om_cp, 1 - r_ge and om_ce                   
+ 0
+   Ratio of electron plasma frequency to electon cyclotron freque
+  100.
+   Ratio of me/mp (if 0 then the real ratio is used)             
+  0.
+   Number of species                                             
+ 2
+   Number of terms in the sum: (-n,n)                            
+ 0 0 0
+   Masses (unit=proton mass); 0.-elect. resp proton mass (depends
+  0.  1.  
+   Charges of spec.(in units of proton charge e) - integers!     
+ -1 1 
+   Relative densities (plasma should be neutral)                 
+  1.  1.
+   Beta parallel of spec                                         
+  .1  2
+   Temperature anisotropy: Tper/Tpar                             
+  1.  2. 
+   Parallel velocities (electrons are forced to be in the rest)  
+  0.  0.
+   Perpendicular velocities (only non-magnetized approx.)        
+  0.  0.
+   k vectors: k min, k max, and number of samples                
+  0.0500000007  1. 1001
+   theta=angle(k,b0): theta min, theta max, and number of samples
+  9.99999975E-06  30. 1
+   domain of interest - omega_min, omega_max                     
+  0.00100000005  0.200000003
+   domain of interest - gamma_min, gamma_max                     
+ -0.100000001  0.200000003
+   Permissible qrror (difference between polarisations of 2 sucs 
+  30.
