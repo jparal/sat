@@ -162,6 +162,7 @@ AC_CONFIG_FILES([
     simul/Makefile
     simul/alfven/Makefile
     simul/hions/Makefile
+    simul/ioncyclo/Makefile
     simul/tmpl/Makefile
     simul/tmpl/TEMPLATE.cxx.tpl
     test/Makefile

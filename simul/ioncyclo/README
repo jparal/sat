@@ -1,0 +1,13 @@
+
+Ion Cyclotron instability:
+==========================
+
+For parameters:
+
+* A = v_perp / v_parallel = 2
+* Beta_parallel = 2
+
+=> gamma = 7.61e-2 Omega_i
+=> k = 0.4 omega_pi/c ... L = 15.7 (fastest growing mode)
+
+See plotgrowth.m matlab script for analysis

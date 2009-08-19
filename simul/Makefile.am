@@ -3,6 +3,6 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = alfven hions tmpl
+SUBDIRS = alfven hions ioncyclo tmpl
 
 dist_noinst_DATA = README
