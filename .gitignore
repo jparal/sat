@@ -15,6 +15,9 @@ callgrind.out.*
 /config.log
 /config.status
 /configure
+/conftest*
+/*.lineno
+/confdefs.h
 Makefile
 Makefile.in
 TEMPLATE.c.tpl
