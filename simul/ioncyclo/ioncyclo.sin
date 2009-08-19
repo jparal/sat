@@ -29,7 +29,7 @@ field:
 
 plasma:
 {
-  betae = 0.5;
+  betae = 0.1;
   specie:
   {
     proton = { pcles = 1000.; beta = 2.; rvth = 2.; rmds = 1.; qms = 1.;
