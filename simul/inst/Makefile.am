@@ -9,11 +9,11 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-exename = ioncyclo
-srcfile = ioncyclo.cxx ioncyclo.h ioncyclo.sin
-instdir = $(prefix)/simul/ioncyclo
+exename = inst
+srcfile = inst.cxx inst.h *.sin
+instdir = $(prefix)/simul/inst
 
 noinst_PROGRAMS = $(exename)
-ioncyclo_SOURCES = $(srcfile)
+inst_SOURCES = $(srcfile)
 dist_noinst_DATA = $(srcfile)
 # nobase_inst_DATA = $(srcfile)
