@@ -29,10 +29,19 @@ void CamSpecie<T,D>::Initialize (const ConfigEntry &cfg,
   {
     cfg.GetValue ("pcles", _ng);
     cfg.GetValue ("beta", _beta);
-    cfg.GetValue ("rvth", _rvth);
     cfg.GetValue ("rmds", _rmds);
     cfg.GetValue ("qms", _qms);
     cfg.GetValue ("v0", _vs);
+    if (cfg.Exists ("ani"))
+    {
+      T ani;
+      cfg.GetValue ("ani", ani);
+      _rvth = Math::Sqrt (ani);
+    }
+    else
+    {
+      cfg.GetValue ("rvth", _rvth);
+    }
   }
   catch (ConfigFileException &exc)
   {
@@ -40,23 +49,22 @@ void CamSpecie<T,D>::Initialize (const ConfigEntry &cfg,
 	       cfg.GetPath ());
   }
 
-  // T rvth2 = _rvth*_rvth;
-  // _vthpa = Math::Sqrt (_beta / (_rmds * (1 + rvth2)));
-  // _vthpe = Math::Sqrt ((rvth2 * _beta) / (2. * _rmds * (1 + rvth2)));
-
-  _vthpa = Math::Sqrt (_beta / _rmds);
+  /// Number 2 in denominator is there when v_th doesn't include factor 2 in
+  /// definition of Maxwell distribution
+  _vthpa = Math::Sqrt (_beta / (2.*_rmds));
   _vthpe = _rvth * _vthpa;
 
   _sm = _rmds / _ng;
   _sq = _qms * _sm;
 
-  DBG_INFO1 ("  charge per particle (sq) : "<< ChargePerPcle ());
-  DBG_INFO1 ("  mass per particle (sm)   : "<< MassPerPcle ());
-  DBG_INFO1 ("  specie beta (beta)       : "<< Beta ());
-  DBG_INFO1 ("  rel. mass dens. (rmsd)   : "<< RelMassDens ());
-  DBG_INFO1 ("  vth_per/vth_par = rvth   : "
-	     << Vthper () << "/"<< Vthpar () << " = " << RatioVth ());
-  DBG_INFO1 ("  initial velocity (v0)    : "<< InitalVel ());
+  DBG_INFO1 ("  charge per particle (sq)    : "<< ChargePerPcle ());
+  DBG_INFO1 ("  mass per particle (sm)      : "<< MassPerPcle ());
+  DBG_INFO1 ("  specie beta (beta)          : "<< Beta ());
+  DBG_INFO1 ("  rel. mass dens. (rmsd)      : "<< RelMassDens ());
+  DBG_INFO1 ("  vth_per/vth_par = rvth (A)  : "
+	     << Vthper () << "/"<< Vthpar () << " = " << RatioVth ()
+	     << " (A = " << _rvth*_rvth << ")");
+  DBG_INFO1 ("  initial velocity (v0)       : "<< InitalVel ());
 }
 
 template<class T, int D>
