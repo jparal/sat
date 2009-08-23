@@ -26,8 +26,8 @@ void
 IOFile::Initialize ()
 {
   _parallel = false;
-  _shuffle = false;
-  _gz = 0;
+  _shuffle = true;
+  _gz = 6;
 }
 
 void

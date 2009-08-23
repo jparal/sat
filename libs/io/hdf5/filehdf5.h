@@ -46,6 +46,9 @@ public:
   void Write (const Field<Vector<T,R>,D> &fld, Centring center,
 	      const char *tag, const char *fname);
 
+  template<class T>
+  void Write (const Array<T> &arr, const char *tag, const char *fname);
+
   template<class T, int D>
   void Read (Field<T,D> &fld, Centring center,
 	     const char *tag, const char *fname);

@@ -37,6 +37,10 @@
   void HDF5File::Read<> (Field<type,dim>&,				\
 			 Centring, const char*, const char*);
 
+#define SPECIALIZE_HDF5FILE_ARR(type)					\
+  template /*<class type>*/						\
+  void HDF5File::Write<> (const Array<type>&, const char*, const char*);
+
 #define SPECIALIZE_HDF5FILE_VREAD(type,dim,vdim)			\
   template /*<class type, int vdim, int dim>*/				\
   void HDF5File::Read<> (Field<Vector<type,vdim>,dim>&,			\
@@ -53,6 +57,7 @@
   SPECIALIZE_HDF5FILE_VREAD(type,dim,3)
 
 #define SPECIALIZE_HDF5FILE(type)				\
+  SPECIALIZE_HDF5FILE_ARR(type)					\
   SPECIALIZE_HDF5FILE_ALL(type,1)				\
   SPECIALIZE_HDF5FILE_ALL(type,2)				\
   SPECIALIZE_HDF5FILE_ALL(type,3)				\

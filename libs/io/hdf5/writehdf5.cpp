@@ -351,3 +351,69 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
     }
   }
 }
+
+template<class T>
+void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname)
+{
+  hid_t file, fspace, fdataset, mspace, plist, type;
+  hsize_t start[1], stride[1], count[1], block[1];
+  type = HDF5TypeTraits<T>::GetID ();
+  hsize_t domlen = arr.GetSize ();
+
+  char fnamebuff[64];
+  snprintf (fnamebuff, 64, "%s.h5", fname);
+
+  file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+
+  // Select memory dataspace (common for all processors)
+  mspace = H5Screate_simple(1, &domlen, NULL);
+  start[0]  = 0;
+  stride[0] = 1;
+  count[0]  = arr.GetSize ();
+  block[0]  = 1;
+  H5Sselect_hyperslab(mspace, H5S_SELECT_SET, start, stride, count, block);
+
+  // Create file dataset
+  hsize_t fdims[1], cdims[1];
+  fdims[0] = arr.GetSize ();
+  cdims[0] = arr.GetSize ();
+
+  fspace = H5Screate_simple (1, fdims, NULL);
+
+  if (_gz || _shuffle)
+  {
+    plist = H5Pcreate (H5P_DATASET_CREATE);
+    H5Pset_chunk (plist, 1, cdims);
+    if (_shuffle) H5Pset_shuffle (plist);
+    if (_gz) H5Pset_deflate (plist, _gz);
+  }
+  else
+  {
+    plist = H5P_DEFAULT;
+  }
+
+  fdataset = H5Dcreate (file, tag, type, fspace, plist);
+  // H5P_DEFAULT, /**< Link creation property list */
+  // plist, /**< Dataset creation property list */
+  // H5P_DEFAULT); /**< Dataset access property list */
+
+  /*************************************/
+  /*************************************/
+  start[0] = 0;
+  stride[0] = 1;
+  count[0] = arr.GetSize ();
+  block[0] = 1;
+
+  H5Sselect_hyperslab(fspace, H5S_SELECT_SET, start, stride, count, block);
+
+  /****************************************/
+  /****************************************/
+  H5Dwrite (fdataset, type, mspace, fspace, H5P_DEFAULT, arr.GetData ());
+
+  // Close the hdf5 handlers
+  H5Sclose (fspace);
+  H5Sclose (mspace);
+  H5Dclose (fdataset);
+  H5Pclose(plist);
+  H5Fclose(file);
+}

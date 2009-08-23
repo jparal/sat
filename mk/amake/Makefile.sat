@@ -9,6 +9,7 @@ include $(top_srcdir)/mk/amake/Makefile.io
 
 # Circular dependency!!
 include $(top_srcdir)/mk/amake/Makefile.simul
+include $(top_srcdir)/mk/amake/Makefile.pint
 
 all-local:
 	@for i in $(EXTRA_DIST); do \

@@ -682,6 +682,10 @@ public:
     return root.p[n];
   }
 
+  /// Get all data (const).
+  T const* GetData () const
+  { return root.p; }
+
   /**
    * Get an item from the array. If the number of elements in this array is too
    * small the array will be automatically extended, and the newly added
