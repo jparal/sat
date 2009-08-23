@@ -1,5 +1,8 @@
 
 Application for data analysation
 
+disp
+    Dispersion relation solver
+
 shock
   Analyse 1D/2D shock waves from STW data
