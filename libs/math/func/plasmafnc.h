@@ -25,14 +25,16 @@ namespace Math
   /**
    * Plasma dispersion function.
    * @f[
-   * Z(\zeta) = \imath \sqrt{\pi} \exp^{-\zeta^2}
+   * Z(\zeta) = \imath \sqrt{\pi} w(\zeta)
    * @f]
+   * where @f$ w(\zeta) @f$ is a Faddeeva function implemented in
+   * Math::Faddeeva.
    */
   std::complex<double> FncZ (const std::complex<double>& z);
   /**
    * Derivation of plasma dispersion function.
    * @f[
-   * Z^\prime(\zeta) = -2 (1+\zeta Z(\zeta))
+   * Z^\prime(\zeta) = -2 [1+\zeta Z(\zeta)]
    * @f]
    */
   std::complex<double> FncDZ (const std::complex<double>& z);

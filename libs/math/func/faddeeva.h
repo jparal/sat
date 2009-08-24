@@ -22,7 +22,12 @@
 
 namespace Math
 {
-  /// Faddeeva function.
+  /**
+   * Faddeeva function.
+   * @f[
+   * w(\zeta) = e^{-\zeta^2} [1+ erf(\imath \zeta)]
+   * @f]
+   */
   std::complex<double> Faddeeva (const std::complex<double>& z);
 };
 
