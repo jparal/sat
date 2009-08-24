@@ -15,6 +15,7 @@
 #include "hions.h"
 #include "sws_emit.h"
 #include "psd_emit.h"
+#include "pcle_sens.h"
 #include "spec_sens.h"
 
 template<class T>
@@ -112,6 +113,10 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
     HISpecieSensor<T> *swssens = new HISpecieSensor<T>;
     swssens->Initialize (swsspec, _dx, _nx, "swsspec", cfg);
     _sensmng.AddSensor (swssens);
+
+    HIParticleSensor<T> *swspcle = new HIParticleSensor<T>;
+    swspcle->Initialize (swsspec, "swspcle", cfg);
+    _sensmng.AddSensor (swspcle);
   }
 
   if (psdemit->Enabled ())

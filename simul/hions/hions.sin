@@ -1,7 +1,7 @@
 simul:
 {
   step = 0.5;     # time step for pcles [1/Omega_pi]
-  tmax = 5000;    # Max time to run to [1/Omega_pi]
+  tmax = 50;    # Max time to run to [1/Omega_pi]
   nsub = 10;      # substeps for moving ions
   clean = 200;    # Clean unused pcles [steps]
   restart = false; start = 0.; # not in use but it has to be here
@@ -19,7 +19,6 @@ input:
   planet:
   { rpos = [ 0.35, 0.5, 0.5 ]; radius = 12.48; };
   swaccel = 1.0;   # [m/s^2] (min/max: 0.2/2 [m/s^2])
-  scalef = 1.;   # Alphelium .. 4.81; Perihelium .. 5.56
   tphoto = 1e4;    # time of photoionization [s] (scales with distance) (10^5)
   distau = 0.307;  # distance from Sun [AU] (min/mean/max: 0.307 0.387 0.467)
 };
@@ -27,8 +26,7 @@ input:
 release: # ========= Aphelion ============
 {
   npatch = [360, 180];  # Split the surface into patches in phi, tht direction
-  # npcles = 4000 works for single release mechanism on dipolar8
-  npcles = 4000.;      # emit pcles per time step, specie, thread
+  npcles = 400.;      # emit pcles per time step, specie, thread
   ionsratio = 5.;       # ions/neutrals ratio [%] when released
   sws = {
     ebind = 2.;         # binding energy of Na in regolith [eV]
@@ -59,6 +57,7 @@ output:
   {
     swsspec  = { tag = "SWS"; resol = [2,2,2]; };
     psdspec  = { tag = "PSD"; resol = [2,2,2]; };
+    swspcle  = { tag = "SWS"; npcle = 10; dtout = 5; };
   };
 };
 
