@@ -3,8 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   faddeeva.h
- * @brief  Faddeeva error function
+ * @file   plasmafnc.h
+ * @brief  Plazma dispersion function.
  * @author @jparal
  *
  * @revision{1.1}
@@ -12,8 +12,8 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_FADDEEVA_H__
-#define __SAT_FADDEEVA_H__
+#ifndef __SAT_PLASMAFNC_H__
+#define __SAT_PLASMAFNC_H__
 
 #include <complex>
 
@@ -22,10 +22,22 @@
 
 namespace Math
 {
-  /// Faddeeva function.
-  std::complex<double> Faddeeva (const std::complex<double>& z);
+  /**
+   * Plasma dispersion function.
+   * @f[
+   * Z(\zeta) = \imath \sqrt{\pi} \exp^{-\zeta^2}
+   * @f]
+   */
+  std::complex<double> FncZ (const std::complex<double>& z);
+  /**
+   * Derivation of plasma dispersion function.
+   * @f[
+   * Z^\prime(\zeta) = -2 (1+\zeta Z(\zeta))
+   * @f]
+   */
+  std::complex<double> FncDZ (const std::complex<double>& z);
 };
 
 /// @}
 
-#endif /* __SAT_FADDEEVA_H__ */
+#endif /* __SAT_PLASMAFNC_H__ */

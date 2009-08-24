@@ -130,6 +130,11 @@
    */
 
   /**
+   * \defgroup math_func Special functions
+   * Special functions.
+   */
+
+  /**
    * \defgroup math_rand Random
    * Random number generators
    */

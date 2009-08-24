@@ -10,8 +10,9 @@ include $(top_srcdir)/mk/amake/Makefile.pint
 
 # EXTRA_DIST = 
 
-check_PROGRAMS = test-vector
+check_PROGRAMS = test-vector test-func
 
 test_vector_SOURCES = vector.cxx
+test_func_SOURCES = func.cxx
 
 TESTS = $(check_PROGRAMS)

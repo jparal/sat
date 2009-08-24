@@ -5,12 +5,14 @@
 
 headers += \
 	func/faddeeva.h \
+	func/plasmafnc.h \
  	func/stdmath.h
 
 preproc += \
 	func/stdmath.cpp
 
 sources += \
-	func/faddeeva.cxx
+	func/faddeeva.cxx \
+	func/plasmafnc.cxx
 
 # extrsrc += 

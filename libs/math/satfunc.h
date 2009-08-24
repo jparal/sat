@@ -3,6 +3,7 @@
 
 #include "satsysdef.h"
 #include "math/func/faddeeva.h"
+#include "math/func/plasmafnc.h"
 #include "math/func/stdmath.h"
 
 #endif /* __sat_math_satfunc_h__ */

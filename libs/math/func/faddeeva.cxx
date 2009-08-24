@@ -96,10 +96,8 @@ complex<double> Faddeeva (const complex<double>& z)
 
     // the following statement protects qrho = (x^2 + y^2) against overflow
     if ((xabs > rmaxreal) || (yabs > rmaxreal)) {
-      DBG_ERROR ("Overflow");
-        // Matpack.Error(Mat::Overflow, "%s: %s", "Faddeeva",
-        //               "absolute value of argument so large w(z) overflows");
-        return NAN;
+      printf ("Faddeeva: absolute value of argument so large w(z) overflows");
+      return NAN;
     }
 
     qrho = x * x + y * y;
@@ -206,10 +204,8 @@ complex<double> Faddeeva (const complex<double>& z)
 
             // the following statement protects 2*exp(-z**2) against overflow
             if ((yquad > rmaxgoni) || (xquad > rmaxexp)) {
-	      DBG_ERROR ("Overflow");
-                // Matpack.Error(Mat::Overflow, "%s: %s", "Faddeeva",
-                //               "absolute value of argument so large w(z) overflow s");
-                return NAN;
+              printf ("Faddeeva: absolute value of argument so large w(z) overflow s");
+	      return NAN;
             }
 
             w1 = Math::Exp(xquad) * 2;

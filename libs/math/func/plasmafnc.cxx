@@ -3,8 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   faddeeva.h
- * @brief  Faddeeva error function
+ * @file   plasmafnc.cxx
  * @author @jparal
  *
  * @revision{1.1}
@@ -12,20 +11,21 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_FADDEEVA_H__
-#define __SAT_FADDEEVA_H__
-
-#include <complex>
-
-/// @addtogroup math_func
-/// @{
+#include "plasmafnc.h"
+#include "faddeeva.h"
+#include "math/satmisc.h"
 
 namespace Math
 {
-  /// Faddeeva function.
-  std::complex<double> Faddeeva (const std::complex<double>& z);
-};
 
-/// @}
+std::complex<double> FncZ (const std::complex<double>& z)
+{
+  return std::complex<double>(0,1) * M_SQRTPI * Math::Faddeeva (z);
+}
 
-#endif /* __SAT_FADDEEVA_H__ */
+std::complex<double> FncDZ (const std::complex<double>& z)
+{
+  return -2. * (1. + z * Math::FncZ (z));
+}
+
+}; /* namespace Math */
