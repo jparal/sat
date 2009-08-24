@@ -3,10 +3,10 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS =
+include $(top_srcdir)/mk/amake/Makefile.sat
+CFLAGS += $(GSL_CFLAGS)
+LDADD += $(GSL_LIBS)
 
-if HAVE_GSL
-SUBDIRS += disp shock
-endif
+bin_PROGRAMS = sat-disp
 
-dist_noinst_DATA = README
+sat_disp_SOURCES = cfgdisp.h cfgdisp.cxx main.cxx *.sin
