@@ -41,24 +41,30 @@
 #define M_1_PI          0.31830988618379067154	/**< 1/pi       */
 #undef  M_2_PI
 #define M_2_PI          0.63661977236758134308	/**< 2/pi       */
+#undef  M_SQRTPI
+#define M_SQRTPI        1.77245385              /**< 2/sqrt(pi) */
 #undef  M_2_SQRTPI
-#define M_2_SQRTPI      1.12837916709551257390	/**< 2/sqrt(pi) */
+#define M_2_SQRTPI      1.12837916709551257390  /**< 2/sqrt(pi) */
 #undef  M_SQRT2
-#define M_SQRT2         1.41421356237309504880	/**< sqrt(2)    */
+#define M_SQRT2         1.41421356237309504880  /**< sqrt(2)    */
 #undef  M_1_SQRT2
-#define M_1_SQRT2       0.70710678118654752440	/**< 1/sqrt(2)  */
+#define M_1_SQRT2       0.70710678118654752440  /**< 1/sqrt(2)  */
 
 #define M_EPS   0.001
 #define M_EPSS  0.000001
 #define M_EPSSS 0.000000000001
 
-#define M_PHYS_ME 9.10938188e-31   ///< Mass of the electron [kg]
-#define M_PHYS_MI 1.67262158e-27   ///< Mass of the proton [kg]
-#define M_PHYS_MP 1.67262158e-27   ///< Mass of the proton [kg]
-#define M_PHYS_E 1.60217646e-19    ///< Electron charge [C]
-#define M_PHYS_KB 1.3806503e-23    ///< Boltzmann constant [m^2 kg/K s^2]
-#define M_PHYS_MERCURY_GRAV 3.697  ///< Gravitation of Mercury [m/s^2]
+#define M_PHYS_ME 9.10938188e-31    ///< Mass of the electron [kg]
+#define M_PHYS_MI 1.67262158e-27    ///< Mass of the proton [kg]
+#define M_PHYS_MP 1.67262158e-27    ///< Mass of the proton [kg]
+#define M_PHYS_E 1.60217646e-19     ///< Electron charge [C]
+#define M_PHYS_KB 1.3806503e-23     ///< Boltzmann constant [m^2 kg/K s^2]
+#define M_PHYS_MERCURY_GRAV 3.697   ///< Gravitation of Mercury [m/s^2]
 #define M_PHYS_MERCURY_RADIUS 2440  ///< Radius of Mercury [km]
+
+#define SAT_DBL_EPSILON        2.2204460492503131e-16
+#define SAT_DBL_MIN        2.2250738585072014e-308
+#define SAT_DBL_MAX        1.7976931348623157e+308
 
 /** @} */
 

@@ -24,7 +24,7 @@
  */
 
 /// Standard mathematical functions
-struct Math
+namespace Math
 {
   /// Absolute value
   template <class T> static T Abs (T v);

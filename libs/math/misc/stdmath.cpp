@@ -12,32 +12,33 @@
  * @revmessg{Initial version}
  */
 
-#define DEFINE_STDMATH_FNC1(name,fn_double,fn_float,fn_ldouble)  \
+#define DEFINE_STDMATH_FNC1(name,fn_double,fn_float,fn_ldouble) \
   template <class T> inline                                     \
-  T Math::name (T v)						\
+  T name (T v)                                                  \
   { return (T)fn_double ((double)v); }                          \
                                                                 \
   template <> inline                                            \
-  float Math::name (float v)					\
+  float name (float v)                                          \
   { return fn_float (v); }                                      \
-								\
+                                                                \
   template <> inline                                            \
-  double Math::name (double v)					\
+  double name (double v)                                        \
   { return fn_double (v); }
 
 #define DEFINE_STDMATH_FNC2(name,fn_double,fn_float,fn_ldouble) \
   template <class T> inline                                     \
-  T Math::name (T v1, T v2)					\
+  T name (T v1, T v2)                                           \
   { return (T)fn_double ((double)v1, (double)v2); }             \
                                                                 \
   template <> inline                                            \
-  float Math::name (float v1, float v2)				\
+  float name (float v1, float v2)                               \
   { return fn_float (v1, v2); }                                 \
                                                                 \
   template <> inline                                            \
-  double Math::name (double v1, double v2)			\
+  double name (double v1, double v2)				\
   { return fn_double (v1, v2); }
 
+namespace Math {
 DEFINE_STDMATH_FNC1(Abs,   fabs,   fabsf,  fabsl)
 DEFINE_STDMATH_FNC1(Ceil,  ceil,   ceilf,  ceill)
 DEFINE_STDMATH_FNC1(Floor, floor,  floorf, floorl)
@@ -57,3 +58,4 @@ DEFINE_STDMATH_FNC1(ASin,  asin,  asinf,  asinl)
 DEFINE_STDMATH_FNC1(ACos,  acos,  acosf,  acosl)
 DEFINE_STDMATH_FNC1(ATan,  atan,  atanf,  atanl)
 DEFINE_STDMATH_FNC2(ATan2, atan2, atan2f, atan2l)
+};

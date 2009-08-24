@@ -3,6 +3,7 @@
 
 #include "satsysdef.h"
 #include "math/satalgebra.h"
+#include "math/satfunc.h"
 #include "math/satmisc.h"
 #include "math/satrand.h"
 
