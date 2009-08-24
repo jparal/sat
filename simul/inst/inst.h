@@ -38,9 +38,6 @@ public:
   typedef Particle<T,D> TParticle;
   typedef typename TBase::ScaField ScaField;
   typedef typename TBase::VecField VecField;
-
-
-private:
 };
 
 #endif /* __SAT_IONCYCLO_CAM_H__ */

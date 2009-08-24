@@ -12,7 +12,7 @@
  * @revmessg{Initial version}
  */
 
-#include "ioncyclo.h"
+#include "inst.h"
 
 int main (int argc, char **argv)
 {
