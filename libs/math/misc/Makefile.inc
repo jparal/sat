@@ -4,12 +4,10 @@
 ###############################################################################
 
 headers += \
-	misc/stdmath.h
+	misc/const.h
 
-preproc += \
-	misc/stdmath.cpp
+# preproc +=
 
-# sources += \
-# 	misc/stdmath.cxx
+# sources +=
 
 # extrsrc += 

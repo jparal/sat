@@ -16,7 +16,7 @@
 #define __SAT_QUATERNION_H__
 
 #include "vector.h"
-#include "math/misc/stdmath.h"
+#include "math/func/stdmath.h"
 
 /// @addtogroup math_alg
 /// @{

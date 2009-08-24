@@ -18,7 +18,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "rndgen.h"
-#include "math/misc/stdmath.h"
+#include "math/func/stdmath.h"
 
 /// @addtogroup math_rand
 /// @{

@@ -13,6 +13,7 @@
 
 #include "thompson.h"
 #include "math/satmisc.h"
+#include "math/satfunc.h"
 
 template<class T>
 ThompsonRandGen<T>::ThompsonRandGen ()

@@ -4,10 +4,11 @@
 ###############################################################################
 
 headers += \
-	func/faddeeva.h
+	func/faddeeva.h \
+ 	func/stdmath.h
 
-# preproc += \
-# 	
+preproc += \
+	func/stdmath.cpp
 
 sources += \
 	func/faddeeva.cxx

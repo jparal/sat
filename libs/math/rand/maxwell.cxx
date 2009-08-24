@@ -12,8 +12,8 @@
  */
 
 #include "maxwell.h"
-#include "math/misc/stdmath.h"
-#include "base/common/const.h"
+#include "math/satmisc.h"
+#include "math/satfunc.h"
 
 template<class T>
 void MaxwellRandGen<T>::Initialize (T vth)

@@ -12,7 +12,7 @@
  * @revmessg{Initial version}
  */
 
-#include "math/misc/stdmath.h"
+#include "math/func/stdmath.h"
 
 template <class T, int D> inline
 Vector<T,D>::Vector (T v)

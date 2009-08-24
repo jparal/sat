@@ -12,7 +12,7 @@
  */
 
 #include "cos.h"
-#include "math/misc/stdmath.h"
+#include "math/func/stdmath.h"
 
 template<class T>
 void CosRandGen<T>::Initialize ()

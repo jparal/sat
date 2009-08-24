@@ -12,8 +12,8 @@
  */
 
 #include "sphere.h"
-#include "base/common/const.h"
 #include "math/satmisc.h"
+#include "math/satfunc.h"
 
 template<class T>
 T SphericalRandGen<T>::GetPhi ()

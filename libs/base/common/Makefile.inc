@@ -9,7 +9,6 @@ headers += \
  	common/csbacktrace.h \
 	common/customallocated.h \
 	common/comparator.h \
-	common/const.h \
 	common/debug.h \
  	common/demangle.h \
 	common/fifo.h \
