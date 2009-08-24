@@ -39,7 +39,8 @@
 
 #define SPECIALIZE_HDF5FILE_ARR(type)					\
   template /*<class type>*/						\
-  void HDF5File::Write<> (const Array<type>&, const char*, const char*);
+  void HDF5File::Write<> (const Array<type>&, const char*,		\
+			  const char*, bool);
 
 #define SPECIALIZE_HDF5FILE_VREAD(type,dim,vdim)			\
   template /*<class type, int vdim, int dim>*/				\

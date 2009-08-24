@@ -353,7 +353,8 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
 }
 
 template<class T>
-void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname)
+void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname,
+		      bool append)
 {
   hid_t file, fspace, fdataset, mspace, plist, type;
   hsize_t start[1], stride[1], count[1], block[1];
@@ -363,7 +364,10 @@ void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname)
   char fnamebuff[64];
   snprintf (fnamebuff, 64, "%s.h5", fname);
 
-  file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+  if (append)
+    file = H5Fopen (fnamebuff, H5F_ACC_RDWR, H5P_DEFAULT);
+  else
+    file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
   // Select memory dataspace (common for all processors)
   mspace = H5Screate_simple(1, &domlen, NULL);
