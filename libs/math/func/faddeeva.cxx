@@ -96,7 +96,7 @@ complex<double> Faddeeva (const complex<double>& z)
 
     // the following statement protects qrho = (x^2 + y^2) against overflow
     if ((xabs > rmaxreal) || (yabs > rmaxreal)) {
-      printf ("Faddeeva: absolute value of argument so large w(z) overflows");
+      printf ("Faddeeva: absolute value of argument so large w(z) overflows\n");
       return NAN;
     }
 
@@ -204,7 +204,7 @@ complex<double> Faddeeva (const complex<double>& z)
 
             // the following statement protects 2*exp(-z**2) against overflow
             if ((yquad > rmaxgoni) || (xquad > rmaxexp)) {
-              printf ("Faddeeva: absolute value of argument so large w(z) overflow s");
+              printf ("Faddeeva: absolute value of argument so large w(z) overflows\n");
 	      return NAN;
             }
 
