@@ -9,4 +9,4 @@ LDADD += $(GSL_LIBS)
 
 bin_PROGRAMS = sat-disp
 
-sat_disp_SOURCES = cfgdisp.h cfgdisp.cxx main.cxx *.sin
+sat_disp_SOURCES = cfgdisp.h cfgdisp.cxx main.cxx solver.h solver.cxx *.sin

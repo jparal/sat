@@ -13,16 +13,21 @@
 
 #include "cfgdisp.h"
 
+double ConfigDisp::GetKSample (int i) const
+{
+  SAT_ASSERT (0 <= i && i <= KSamp ());
+  double ds = (KMax() - KMin()) / double(KSamp());
+  return ds * double(i) + KMin ();
+}
+
 void ConfigDisp::Initialize (int argc, char **argv)
 {
   _cfgname = argv[0];
   _cfgname.ReplaceAll ("sat-", "");
   _cfgname += ".sin";
 
-  if (argc > 1)
-    _cfgname = argv[1];
+  if (argc > 1) _cfgname = argv[1];
 
-  DBG_INFO ("configuration file: " << _cfgname);
   ConfigFile cfgfile;
   try
   {
@@ -45,7 +50,7 @@ void ConfigDisp::Initialize (int argc, char **argv)
   cfg.GetValue ("units", _units);
   cfg.GetValue ("rwpewce", _rwpewce);
   cfg.GetValue ("rmemp", _rmemp, M_PHYS_ME/M_PHYS_MP);
-  cfg.GetValue ("nterms", _nterms, IVector3(0));
+  // cfg.GetValue ("nterms", _nterms, IVector3(0));
   cfg.GetValue ("kvec", _kvec);
   cfg.GetValue ("ksamp", _ksamp);
   cfg.GetValue ("theta", _theta);
@@ -62,9 +67,37 @@ void ConfigDisp::Initialize (int argc, char **argv)
     _rdn.Push (cfgfile.GetEntry ("disp.rdn")[sp]);
     _beta.Push (cfgfile.GetEntry ("disp.beta")[sp]);
     _ani.Push (cfgfile.GetEntry ("disp.ani")[sp]);
-    _vpar.Push (cfgfile.GetEntry ("disp.vpar")[sp]);
-    _vper.Push (cfgfile.GetEntry ("disp.vper")[sp]);
+    _vpar.Push (cfgfile.GetEntry ("disp.v0par")[sp]);
+    _vper.Push (cfgfile.GetEntry ("disp.v0per")[sp]);
   }
+}
 
-  _outname = _prjname + ".h5";
+double ConfigDisp::VthPar (int sp) const
+{
+  if (sp == 0)
+    return Math::Sqrt (Beta(sp) / (2.));
+  else
+    return Math::Sqrt (Beta(sp) / (2.* RelDn(sp) * Mass(sp)));
+}
+
+double ConfigDisp::VthPer (int sp) const
+{
+  double rvth = Math::Sqrt (Ani (sp));
+  return rvth * VthPar (sp);
+}
+
+double ConfigDisp::PlasmaFreq (int sp) const
+{
+  if (sp == 0)
+    return Rwpewce() /_rmemp;
+  else
+    return 1.;
+}
+
+double ConfigDisp::CycloFreq (int sp) const
+{
+  if (sp == 0)
+    return 1./_rmemp;
+  else
+    return double(Charge(sp)) / double(Mass(sp));
 }

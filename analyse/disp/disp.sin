@@ -2,9 +2,9 @@
 disp:
 {
   prjname = "firehose"; # Name of the project
-  units = 0;            # Units 0: v_A, w_cp; 1: r_ge and w_ce
+  units = 0;            # Units 0: v_A, W_cp; 1: r_ge and W_ce
   rwpewce = 100;        # Ratio of el. plasma freq. to el. cyclotron freq.
-#  rmemp = 0;            # Ratio of me/mp (comment for real value)
+  rmemp = 0.000544617;  # Ratio of me/mp (comment for real value)
 #  nterms = [0, 0, 0];   # Number of terms in the sum (comment for -inf,inf)
   kvec = [0.05, 1.];    # k vectors: k min, k max
   ksamp = 1000;         # number of samples of k vector
@@ -20,6 +20,6 @@ disp:
   rdn = [1., 1.];       # Relative densities (plasma should be neutral)
   beta = [0.1, 2.];     # Beta parallel of spec
   ani = [1, 2];         # Temperature anisotropy: Tper/Tpar
-  vpar = [0, 0];        # Parallel vel. (electrons are forced in rest)
-  vper = [0, 0];        # Perpendicular vel. (only non-magnetized approx.)
+  v0par = [0, 0];       # Parallel vel. (electrons are forced in rest)
+  v0per = [0, 0];       # Perpendicular vel. (only non-magnetized approx.)
 };
