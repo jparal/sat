@@ -50,45 +50,45 @@ public:
 
   void Initialize ();
 
-  void Initialize (const Vector<int,D>& dim,
-		   const Vector<double,D>& spacing,
+  void Initialize (const Vector<int,D>& ncell,
+		   const Vector<double,D>& resol,
 		   const Vector<double,D>& origin,
 		   Centring center);
 
   void Initialize (const ConfigEntry &cfg);
 
-  int GetDim (int i) const
-  { return _dim[i]; }
+  int GetCells (int i) const
+  { return _ncell[i]; }
 
-  double GetSpacing (int i) const
-  { return _spacing[i]; }
+  double GetResol (int i) const
+  { return _resol[i]; }
 
-  double GetSpacingInv (int i) const
-  { return _finvspacing[i]; }
+  double GetResolInv (int i) const
+  { return _finvresol[i]; }
 
-  double GetSpacingInvQ (int i) const
-  { return _qinvspacing[i]; }
+  double GetResolInvQ (int i) const
+  { return _qinvresol[i]; }
 
-  double GetSpacingInvH (int i) const
-  { return _hinvspacing[i]; }
+  double GetResolInvH (int i) const
+  { return _hinvresol[i]; }
 
-  Vector<int,D> GetSpacingInv () const
-  { return _finvspacing; }
+  Vector<int,D> GetResolInv () const
+  { return _finvresol; }
 
-  Vector<int,D> GetSpacingInvQ () const
-  { return _qinvspacing; }
+  Vector<int,D> GetResolInvQ () const
+  { return _qinvresol; }
 
-  Vector<int,D> GetSpacingInvH () const
-  { return _hinvspacing; }
+  Vector<int,D> GetResolInvH () const
+  { return _hinvresol; }
 
   double GetOrigin (int i) const
   { return _origin[i]; }
 
-  const Vector<int,D>& Dim () const
-  { return _dim; }
+  const Vector<int,D>& Cells () const
+  { return _ncell; }
 
-  const Vector<double,D>& Spacing () const
-  { return _spacing; }
+  const Vector<double,D>& Resol () const
+  { return _resol; }
 
   const Vector<double,D>& Origin () const
   { return _origin; }
@@ -96,28 +96,35 @@ public:
   Centring Center () const
   { return _center; }
 
-  Vector<int,D>& Dim ()
-  { return _dim; }
+  Vector<int,D>& Cells ()
+  { return _ncell; }
 
-  Vector<double,D>& Spacing ()
-  { return _spacing; }
+  Vector<double,D>& Resol ()
+  { return _resol; }
 
   Vector<double,D>& Origin ()
   { return _origin; }
+
+  Vector<double,D> Size ()
+  {
+    Vector<double,D> size;
+    for (int i=0;i<D;++i) size[i] = _resol[i]*_ncell[i];
+    return size;
+  }
 
   Centring& Center ()
   { return _center; }
 
 private:
-  void UpdateSpacing ();
+  void UpdateResol ();
 
   /// Dimensions of the data
-  Vector<int,D> _dim;
-  /// Spacing between the grid points.
-  Vector<double,D> _spacing;
-  Vector<double,D> _finvspacing;
-  Vector<double,D> _qinvspacing;
-  Vector<double,D> _hinvspacing;
+  Vector<int,D> _ncell;
+  /// Resolution between the grid points.
+  Vector<double,D> _resol;
+  Vector<double,D> _finvresol;
+  Vector<double,D> _qinvresol;
+  Vector<double,D> _hinvresol;
   /// Local origin (can change when Distribution class is provided)
   Vector<double,D> _origin;
   /// Placement of the values

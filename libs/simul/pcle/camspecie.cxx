@@ -103,7 +103,7 @@ void CamSpecie<T,D>::LoadPcles (const Field<T,D> &dn,
   Domain<D> dom;
   for (int i=0; i<D; ++i)
     // Go from 0 .. number of vertexes - 2
-    dom[i] = Range (0, _mesh.GetDim (i)-2);
+    dom[i] = Range (0, _mesh.GetCells (i)-2);
 
   DomainIterator<D> it (dom);
   while (it.HasNext ())

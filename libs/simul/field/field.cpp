@@ -149,7 +149,7 @@ Field<T,D>::Field (const Mesh<D> &mesh, const Layout<D> &layout)
 template<class T, int D> inline
 void Field<T,D>::Initialize (const Mesh<D> &mesh, const Layout<D> &layout)
 {
-  Initialize (mesh.Dim ());
+  Initialize (mesh.Cells ());
   _mesh = mesh;
   _layout = layout;
   _havegrid = true;

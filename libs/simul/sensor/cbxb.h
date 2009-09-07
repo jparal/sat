@@ -48,7 +48,7 @@ public:
   {
     Mesh<D> mesh = _B->GetMesh ();
     mesh.Center () = Cell;
-    mesh.Dim () -= 1;
+    mesh.Cells () -= 1;
     Layout<D> layout = _B->GetLayout ();
 
     _cbxb.Initialize (mesh, layout);

@@ -56,7 +56,7 @@ public:
       int nc = U.Size (i)-1;
       int gh = U.GetLayout ().GetGhost (i);
       int np = U.GetLayout ().GetDecomp ().GetSize (i);
-      T dx = U.GetMesh ().GetSpacing (i);
+      T dx = U.GetMesh ().GetResol (i);
       _k[i] = (M_2PI * (T)_npex[i]) / ((T)((nc - 2*gh) * np));
 
       k[i] = _k[i] / dx;

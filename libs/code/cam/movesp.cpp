@@ -23,7 +23,7 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
   T dth = 0.5 * dta;
 
   const PosVector p05 (0.5);
-  const PosVector dxi = _meshp.GetSpacingInv ();
+  const PosVector dxi = _meshp.GetResolInv ();
   PosVector p; // Particle position
   VelVector v, vh; // Particle velocity and half step velocity
   FldVector ep, bp; // E and B fields at particle position

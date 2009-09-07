@@ -17,23 +17,23 @@
 template<int D>
 void Mesh<D>::Initialize ()
 {
-  _dim = 0;
-  _spacing = 1.;
+  _ncell = 0;
+  _resol = 1.;
   _origin = 0.;
-  UpdateSpacing ();
+  UpdateResol ();
 }
 
 template<int D>
-void Mesh<D>::Initialize (const Vector<int,D>& dim,
-			  const Vector<double,D>& spacing,
+void Mesh<D>::Initialize (const Vector<int,D>& ncell,
+			  const Vector<double,D>& resol,
 			  const Vector<double,D>& origin,
 			  Centring center)
 {
-  _dim = dim;
-  _spacing = spacing;
+  _ncell = ncell;
+  _resol = resol;
   _center = center;
   _origin = origin;
-  UpdateSpacing ();
+  UpdateResol ();
 }
 
 template<int D>
@@ -44,22 +44,22 @@ void Mesh<D>::Initialize (const ConfigEntry &cfg)
 
   for (int i=0; i<D; ++i)
   {
-    _dim[i] = cells[i];
-    _spacing[i] = resol[i];
+    _ncell[i] = cells[i];
+    _resol[i] = resol[i];
     _origin[i] = 0.;
   }
   _center = Node;
-  UpdateSpacing ();
+  UpdateResol ();
 }
 
 template<int D>
-void Mesh<D>::UpdateSpacing ()
+void Mesh<D>::UpdateResol ()
 {
   for (int i=0; i<D; i++)
   {
-    _finvspacing[i] = 1.00 / _spacing[i];
-    _hinvspacing[i] = 0.50 / _spacing[i];
-    _qinvspacing[i] = 0.25 / _spacing[i];
+    _finvresol[i] = 1.00 / _resol[i];
+    _hinvresol[i] = 0.50 / _resol[i];
+    _qinvresol[i] = 0.25 / _resol[i];
   }
 }
 

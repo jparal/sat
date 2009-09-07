@@ -49,7 +49,7 @@ void DistFncSensor<T,D>::SaveData (IOManager &iomng, const SimulTime &stime)
   for (int i=0; i<D+3; ++i)
   {
     if (i<D)
-      dims[i] = mesh.GetDim (i)-1;
+      dims[i] = mesh.GetCells (i)-1;
     else
       dims[i] = _bins[i-D];
   }

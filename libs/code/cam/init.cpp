@@ -55,14 +55,17 @@ void CAMCode<B,T,D>::Initialize ()
 
   mesh.Initialize (cfg.GetEntry ("grid"));
   _decomp.Initialize (ratio, Mpi::COMM_WORLD);
-  DBG_INFO1 ("decomposing mesh (cells) : "<<mesh.Dim ());
-  _decomp.Decompose (mesh.Dim ());
-  DBG_INFO1 ("mesh decomposed (cells)  : "<<mesh.Dim ());
+  DBG_INFO1 ("total number of cells    : "<<mesh.Cells ());
+  DBG_INFO1 ("spatial resolution       : "<<mesh.Resol ());
+  DBG_INFO1 ("spatial size             : "<<mesh.Size ());
+  _decomp.Decompose (mesh.Cells ());
+  DBG_INFO1 ("number of cells per CPU  : "<<mesh.Cells ());
+  DBG_INFO1 ("spatial size per CPU     : "<<mesh.Size ());
 
   // Minimal/Maximal position of the particle:
   _pmin = PosVector ((T)0.0);
-  _pmax = mesh.Dim ();
-  DBG_INFO1 ("pmin; pmax               : " << _pmin<< "; "<<_pmax);
+  _pmax = mesh.Cells ();
+  DBG_INFO2 ("pmin; pmax               : " << _pmin<< "; "<<_pmax);
 
   // Variable:  # grid points  # ghosts  # share   # total    Centring
   // =================================================================
@@ -80,10 +83,10 @@ void CAMCode<B,T,D>::Initialize ()
 
   _meshe = mesh; _meshb = mesh; _meshu = mesh; _meshp = mesh;
 
-  _meshe.Dim () += 2; _meshe.Center () = Cell;
-  _meshb.Dim () += 1; _meshb.Center () = Node;
-  _meshu.Dim () += 3; _meshu.Center () = Node;
-  _meshp.Dim () += 1; _meshp.Center () = Node;
+  _meshe.Cells () += 2; _meshe.Center () = Cell;
+  _meshb.Cells () += 1; _meshb.Center () = Node;
+  _meshu.Cells () += 3; _meshu.Center () = Node;
+  _meshp.Cells () += 1; _meshp.Center () = Node;
 
   //                  GHOSTS:     SHARE:       BC: DECOMPOSITION:
   _layoe.Initialize (Loc<D> (1), Loc<D> (0), openbc, _decomp);

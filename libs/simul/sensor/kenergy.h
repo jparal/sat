@@ -65,7 +65,7 @@ public:
   {
     Mesh<D> bmesh = _B->GetMesh();
     Mesh<D> mesh (bmesh);
-    mesh.Dim () += 2;
+    mesh.Cells () += 2;
     Layout<D> blayout = _B->GetLayout();
     Layout<D> layout;
     //                  GHOSTS:     SHARE:       BC: DECOMPOSITION:

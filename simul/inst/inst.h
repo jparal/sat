@@ -18,7 +18,7 @@
 #include "sat.h"
 
 /**
- * @brief Ioncyclo wave CAM simulation class
+ * @brief Instability CAM simulation class
  *
  * Initialization is now dimension independent
  *
@@ -30,10 +30,10 @@
  * @revmessg{print configuration of wave setup}
  */
 template<class T, int D>
-class IoncycloCAMCode : public CAMCode<IoncycloCAMCode<T,D>,T,D>
+class InstabilityCAMCode : public CAMCode<InstabilityCAMCode<T,D>,T,D>
 {
 public:
-  typedef CAMCode<IoncycloCAMCode<T,D>,T,D> TBase;
+  typedef CAMCode<InstabilityCAMCode<T,D>,T,D> TBase;
   typedef typename TBase::TSpecie TSpecie;
   typedef Particle<T,D> TParticle;
   typedef typename TBase::ScaField ScaField;

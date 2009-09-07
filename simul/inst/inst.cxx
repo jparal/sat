@@ -16,9 +16,9 @@
 
 int main (int argc, char **argv)
 {
-  IoncycloCAMCode<float,1> ioncyclo;
-  ioncyclo.Initialize (&argc, &argv);
-  ioncyclo.Exec ();
+  InstabilityCAMCode<float,1> inst;
+  inst.Initialize (&argc, &argv);
+  inst.Exec ();
 
   return 0;
 }
