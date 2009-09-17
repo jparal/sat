@@ -13,10 +13,12 @@
 
 #include "cfgdisp.h"
 
+#define SAT_ASSERT_UNITS if (_units != 0) SAT_ASSERT_MSG(false, "Wrong units");
+
 double ConfigDisp::GetKSample (int i) const
 {
-  SAT_ASSERT (0 <= i && i <= KSamp ());
-  double ds = (KMax() - KMin()) / double(KSamp());
+  SAT_ASSERT (0 <= i && i < KSamp ());
+  double ds = (KMax() - KMin()) / double(KSamp()-1);
   return ds * double(i) + KMin ();
 }
 
@@ -49,7 +51,7 @@ void ConfigDisp::Initialize (int argc, char **argv)
   cfg.GetValue ("prjname", _prjname);
   cfg.GetValue ("units", _units);
   cfg.GetValue ("rwpewce", _rwpewce);
-  cfg.GetValue ("rmemp", _rmemp, M_PHYS_ME/M_PHYS_MP);
+  cfg.GetValue ("rmpme", _rmpme, M_PHYS_MP/M_PHYS_ME);
   // cfg.GetValue ("nterms", _nterms, IVector3(0));
   cfg.GetValue ("kvec", _kvec);
   cfg.GetValue ("ksamp", _ksamp);
@@ -74,10 +76,12 @@ void ConfigDisp::Initialize (int argc, char **argv)
 
 double ConfigDisp::VthPar (int sp) const
 {
+  SAT_ASSERT_UNITS;
+
   if (sp == 0)
-    return Math::Sqrt (Beta(sp) / (2.));
+    return Math::Sqrt (Beta(sp) * _rmpme / 2.);
   else
-    return Math::Sqrt (Beta(sp) / (2.* RelDn(sp) * Mass(sp)));
+    return Math::Sqrt (Beta(sp) / (2.* Density(sp) * Mass(sp)));
 }
 
 double ConfigDisp::VthPer (int sp) const
@@ -88,16 +92,20 @@ double ConfigDisp::VthPer (int sp) const
 
 double ConfigDisp::PlasmaFreq (int sp) const
 {
+  SAT_ASSERT_UNITS;
+
   if (sp == 0)
-    return Rwpewce() /_rmemp;
+    return Rwpewce() * _rmpme;
   else
-    return 1.;
+    return Rwpewce() * Charge(sp) * Math::Sqrt (Density(sp)*_rmpme/Mass(sp));
 }
 
 double ConfigDisp::CycloFreq (int sp) const
 {
+  SAT_ASSERT_UNITS;
+
   if (sp == 0)
-    return 1./_rmemp;
+    return _rmpme;
   else
     return double(Charge(sp)) / double(Mass(sp));
 }

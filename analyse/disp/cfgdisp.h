@@ -63,7 +63,7 @@ public:
   int Nspecie ()         const { return _nsp; }
   int Mass (int sp)      const { return _mass[sp]; }
   int Charge (int sp)    const { return _charge[sp]; }
-  double RelDn (int sp)  const { return _rdn[sp]; }
+  double Density (int sp) const { return _rdn[sp]; }
   double Beta (int sp)   const { return _beta[sp]; }
   double Ani (int sp)    const { return _ani[sp]; }
   double V0Par (int sp)  const { return _vpar[sp]; }
@@ -72,13 +72,21 @@ public:
   double VthPer (int sp) const;
   double PlasmaFreq (int sp) const; ///< Plasma frequency
   double CycloFreq (int sp)  const; ///< Cyclotron frequency
+  double Rmpme () const { return _rmpme; }
+
+  complex<double> Zeta (int sp, int n, double k, complex<double> w) const
+  {
+    complex<double> nom = w + double(n) * PlasmaFreq(sp);
+    complex<double> den = M_SQRT2 * k * VthPar(sp);
+    return nom/den;
+  }
 
 private:
   String _cfgname;       ///< Input file name
   String _prjname;       ///< Name of the project
   int _units;            ///< Units 0: v_A, w_cp; 1: r_ge and w_ce
   double _rwpewce;       ///< Ratio of el. plasma freq. to el. cyclotron freq.
-  double _rmemp;         ///< Ratio of me/mp (comment for real value)
+  double _rmpme;         ///< Ratio of mp/me (comment for real value)
   //IVector3 _nterms;      ///< Number of terms in the sum (comment for -inf,inf)
 
   DVector2 _kvec;        ///< k vectors: k min, k max

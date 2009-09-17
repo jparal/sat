@@ -19,14 +19,8 @@ int main (int argc, char **argv)
 {
   Solver sol;
   sol.Initialize (argc, argv);
-  sol.Solve ();
-
-  // Array<double> arr;
-  // for (int i=0; i<10; ++i)
-  //   arr.Push ((double)i+0.5);
-  // HDF5File file;
-  // file.Write (arr, "Test0", cfg.OutName ());
-  // file.Write (arr, "Test1", cfg.OutName (), true);
+  sol.Print ();
+  sol.SolveAll ();
 
   return 0;
 }

@@ -4,22 +4,22 @@ disp:
   prjname = "firehose"; # Name of the project
   units = 0;            # Units 0: v_A, W_cp; 1: r_ge and W_ce
   rwpewce = 100;        # Ratio of el. plasma freq. to el. cyclotron freq.
-  rmemp = 0.000544617;  # Ratio of me/mp (comment for real value)
+  rmpme = 1836.15;      # Ratio of me/mp (comment for real value)
 #  nterms = [0, 0, 0];   # Number of terms in the sum (comment for -inf,inf)
   kvec = [0.05, 1.];    # k vectors: k min, k max
   ksamp = 1000;         # number of samples of k vector
   theta = [1e-7, 30.];  # theta=angle(k,b0): min, max
   tsamp = 1;            # number of samples of thera angle
-  omega = [0.001, 0.2]; # domain of interest - omega_min, omega_max
-  gamma = [-0.1, 0.2];  # domain of interest - gamma_min, gamma_max
+  omega = [-0.1, 200.]; # domain of interest - omega_min, omega_max
+  gamma = [-0.1, 2.];  # domain of interest - gamma_min, gamma_max
   error = 30.;          # Permissible error (diff. between polarisa. of 2 sucs)
 
   nsp = 2;              # Number of species
-  mass = [0, 1];        # Masses (unit=proton mass); 0.-elect.
+  mass =   [0, 1];      # Masses (unit=proton mass); 0.-elect.
   charge = [-1, 1];     # Charges of spec.(in units of proton charge e)
-  rdn = [1., 1.];       # Relative densities (plasma should be neutral)
-  beta = [0.1, 2.];     # Beta parallel of spec
-  ani = [1, 2];         # Temperature anisotropy: Tper/Tpar
-  v0par = [0, 0];       # Parallel vel. (electrons are forced in rest)
-  v0per = [0, 0];       # Perpendicular vel. (only non-magnetized approx.)
+  rdn =    [1., 1.];    # Relative densities (plasma should be neutral)
+  beta =   [0.1, 2.];   # Beta parallel of a specie
+  ani =    [1., 2.];    # Temperature anisotropy: Tper/Tpar
+  v0par =  [0, 0];      # Parallel vel. (electrons are forced in rest)
+  v0per =  [0, 0];      # Perpendicular vel. (only non-magnetized approx.)
 };

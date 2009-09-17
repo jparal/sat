@@ -35,28 +35,18 @@ public:
   {
     ConfigDisp *cfg;
     bool real; ///< Are we solving for a real part?
+    bool lpol; ///< Polarization.
     int ksamp; ///< Sample of k we are computing.
   };
 
   static double DispRelation (double x, void *params);
-  int Solve ();
+  int Solve (SolverParams *params, double &root);
+  void SolveAll ();
+
+  void Print ();
 
   void Initialize (int argc, char **argv)
   { cfg.Initialize (argc, argv); }
-
-/**
- *
- *
- * @param cfg Configuration of dispersion solver.
- * @param sp Specie index.
- * @param n Order of zeta parameter of Z function.
- * @param is Sample (i.e. sample of k vector)
- * @param w Complex omega
- *
- * @return Z function
- */
-  static complex<double> CompZ (const ConfigDisp& cfg, int sp, int n,
-				int sample, complex<double> w);
 
   /// Constructor
   Solver () {};
