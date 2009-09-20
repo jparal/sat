@@ -2,7 +2,7 @@
 #
 # set following variables:    ZLIB_LIBS, with_zlib
 # generate config file value: HAVE_ZLIB
-# Conditional for Automake:   ZLIB
+# Conditional for Automake:   HAVE_ZLIB
 #
 
 AC_DEFUN([AC_LIB_ZLIB],[
@@ -20,5 +20,5 @@ AC_DEFUN([AC_LIB_ZLIB],[
         ])
     fi
 
-    AM_CONDITIONAL(ZLIB, test x$with_zlib = xyes)
+    AM_CONDITIONAL(HAVE_ZLIB, test x$with_zlib = xyes)
 ])

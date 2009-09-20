@@ -4,13 +4,11 @@
 #
 # set following variables:    HDF5_CPPFLAGS, HDF5_LDFLAGS, HDF5_LIBS, with_hdf5
 # generate config file value: HAVE_HDF5
-# Conditional for Automake:   HDF5
+# Conditional for Automake:   HAVE_HDF5
 #
 
 AC_DEFUN([AC_LIB_HDF5],[
     AC_REQUIRE([AC_PROG_CC])
-#   AC_REQUIRE([AC_PATH_XTRA])
-#   AC_REQUIRE([DUNE_MPI])
 
     AC_ARG_WITH(hdf5,
       AC_HELP_STRING([--with-hdf5=PATH],[directory with HDF5 inside]),
@@ -80,7 +78,7 @@ AC_DEFUN([AC_LIB_HDF5],[
     fi
 
  # also tell automake
-    AM_CONDITIONAL(HDF5, test x$HAVE_HDF5 = x1)
+    AM_CONDITIONAL(HAVE_HDF5, test x$HAVE_HDF5 = x1)
 
  # reset values					    
     CFLAGS="$ac_save_CFLAGS"

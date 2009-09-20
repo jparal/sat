@@ -9,4 +9,8 @@ if HAVE_GSL
 SUBDIRS += disp shock
 endif
 
+if HAVE_NOVA
+SUBDIRS += mercury
+endif
+
 dist_noinst_DATA = README

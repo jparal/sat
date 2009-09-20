@@ -4,7 +4,7 @@
 # set following variables:    H5PART_CPPFLAGS, H5PART_LDFLAGS, H5PART_LIBS,
 #                             with_h5part
 # generate config file value: HAVE_H5PART
-# Conditional for Automake:   H5PART
+# Conditional for Automake:   HAVE_H5PART
 #
 
 AC_DEFUN([AC_LIB_H5PART],[
@@ -80,7 +80,7 @@ AC_DEFUN([AC_LIB_H5PART],[
     fi
 
  # also tell automake
-    AM_CONDITIONAL(H5PART, test x$HAVE_H5PART = x1)
+    AM_CONDITIONAL(HAVE_H5PART, test x$HAVE_H5PART = x1)
 
  # reset values					    
     CFLAGS="$ac_save_CFLAGS"
