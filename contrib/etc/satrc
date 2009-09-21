@@ -6,7 +6,7 @@
 # source $SAT_HOME/contrib/etc/satrc
 #
 
-DIRS="bin analyse/shock tools/info tools/version"
+DIRS="bin analyse/disp analyse/mercury analyse/shock tools/info tools/version"
 
 if [ -f $SAT_HOME/configure.ac ]; then
     for i in $DIRS;

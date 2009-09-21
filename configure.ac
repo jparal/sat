@@ -54,6 +54,7 @@ AC_LIB_ZLIB
 AC_LIB_GSL
 AC_LIB_HDF5
 AC_LIB_H5PART
+AC_LIB_NOVA
 
 AC_CHECK_SAT_HEADERS
 AC_CHECK_SIZESOF
@@ -74,6 +75,7 @@ AC_CONFIG_FILES([
     Makefile
     analyse/Makefile
     analyse/disp/Makefile
+    analyse/mercury/Makefile
     analyse/shock/Makefile
     bench/Makefile
     bench/base/Makefile
@@ -219,5 +221,6 @@ External libraies:
          HDF5 : $with_hdf5 (parallel: $with_hdf5_parallel)
        H5PART : $with_h5part
 	  GSL : $with_gsl
+      LIBNOVA : $with_nova
 
 ])
