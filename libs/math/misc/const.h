@@ -60,9 +60,10 @@
 #define M_PHYS_E 1.60217646e-19     ///< Electron charge [C]
 #define M_PHYS_KB 1.3806503e-23     ///< Boltzmann constant [m^2 kg/K s^2]
 #define M_PHYS_MERCURY_GRAV 3.697   ///< Gravitation of Mercury [m/s^2]
-#define M_PHYS_MERCURY_RADIUS 2440  ///< Radius of Mercury [km]
+#define M_PHYS_MERCURY_RADIUS 2440. ///< Radius of Mercury [km]
+#define M_PHYS_AU 149.60e6          ///< Astronomical unit [km]
 
-#define SAT_DBL_EPSILON        2.2204460492503131e-16
+#define SAT_DBL_EPSILON    2.2204460492503131e-16
 #define SAT_DBL_MIN        2.2250738585072014e-308
 #define SAT_DBL_MAX        1.7976931348623157e+308
 
