@@ -8,7 +8,7 @@
 ;   source $SAT_HOME/etc/satrc                                                ;
 ;-----------------------------------------------------------------------------;
 
-PRINT, '                You are using SAT v@SAT_VERSION@ IDL library'
+PRINT, '                You are using v@SAT_VERSION@ of SAT IDL library'
 PRINT, ''
 
 sat_idl=getenv("SAT_HOME")+'/idl'
