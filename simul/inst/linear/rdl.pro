@@ -7,6 +7,6 @@ rd,'firehose.gamma',fy
 rd,'firehose.kvect',fk
 rd,'firehose.omega',fw
 
-print, 'Variables: gamma: [c|f]y, kvector: [c|f]k, omeag: [c|f]w'
+print, 'Variables: kvector: [c|f]k, omega: [c|f]w, gamma: [c|f]y'
 
 END
