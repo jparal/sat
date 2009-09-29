@@ -26,7 +26,7 @@ double Solver::DispRelation (double x, void *params)
   const ConfigDisp &cfg = *(p->cfg);
   double wpewce = cfg.Rwpewce ();
   double k = cfg.GetKSample (p->ksamp);
-  double kwc = k * wpewce * Math::Sqrt(cfg.Rmpme ());
+  double kwc = k / (wpewce * Math::Sqrt(cfg.Rmpme ()));
   kwc = k;
   bool lpol = p->lpol;
 
@@ -42,16 +42,14 @@ double Solver::DispRelation (double x, void *params)
     double wp = cfg.PlasmaFreq (sp);
     double vth = cfg.VthPar (sp);
     double ani = (1. - cfg.Ani (sp))/2.;
-    complex<double> zeta0 = cfg.Zeta (sp, 0, k, w);
+    complex<double> zeta1, zeta0 = cfg.Zeta (sp, 0, k, w);
 
-    complex<double> zeta;
     if (lpol)
-      zeta = cfg.Zeta (sp, -1, k, w);
+      zeta1 = cfg.Zeta (sp, -1, k, w);
     else
-      zeta = cfg.Zeta (sp, +1, k, w);
+      zeta1 = cfg.Zeta (sp, +1, k, w);
 
-    wp = wp*wp;
-    retval += wp * (zeta0 * Math::FncZ(zeta) + ani * Math::FncDZ (zeta));
+    retval += wp*wp * (zeta0 * Math::FncZ(zeta1) + ani * Math::FncDZ (zeta1));
   }
 
   if (p->real)
@@ -75,9 +73,9 @@ void Solver::SolveAll ()
     params.ksamp = ik;
 
     params.real = true; params.lpol = true;   Solve (&params, wp);
-    // params.real = true; params.lpol = false;  Solve (&params, wm);
-    // params.real = false; params.lpol = true;  Solve (&params, yp);
-    // params.real = false; params.lpol = false; Solve (&params, ym);
+    params.real = true; params.lpol = false;  Solve (&params, wm);
+    params.real = false; params.lpol = true;  Solve (&params, yp);
+    params.real = false; params.lpol = false; Solve (&params, ym);
 
     ak.Push (cfg.GetKSample (ik));
     awp.Push (wp);
