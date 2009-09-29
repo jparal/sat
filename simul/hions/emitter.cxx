@@ -102,7 +102,16 @@ void SphereEmitter<T>::Initialize (ConfigEntry &cfg, String tag,
     DBG_INFO ("emitter ("<<tag<<"): Enabled");
     Vector<int,2> npatch;
     cfg.GetValue ("npatch", npatch);
-    cfg.GetValue ("npcles", _npcles);
+
+    // Get number of particles per time step per CPU (_npcles)
+    if (cfg.Exists ("npcles"))
+      cfg.GetValue ("npcles", _npcles);
+    else
+    {
+      cfg.GetValue ("totpcles", _npcles); // across all CPUs
+      _npcles = _npcles / Omp::GetNumThreads ();
+    }
+
     cfg.GetValue ("ionsratio", _ionsratio);
 
     SAT_ASSERT (0. < _ionsratio && _ionsratio < 100.);
