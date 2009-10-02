@@ -1,3 +1,5 @@
+% Read data from HDF5 file
+%   data = sh5_read(sensor,basename,tag,iter)
 
 function data = sh5_read(sensor,basename,tag,iter)
 

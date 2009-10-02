@@ -1,6 +1,10 @@
-
-% d1[,d2,d3] .. data(time,space)
+% Plot FFT of up to three data
+%   [k,w,dat] = img_fftsq(dx,dtout,d1,d2,d3)
 %
+%   dx .......... spatial resolution in X
+%   dtout ....... temporal resolution of data
+%   d1[,d2,d3] .. data(time,space)
+
 function [k,w,dat] = img_fftsq(dx,dtout,d1,d2,d3)
 
 dt= dtout;

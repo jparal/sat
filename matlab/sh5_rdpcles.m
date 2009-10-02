@@ -1,3 +1,5 @@
+% Read particles from HDF5 file stored using H5Part library
+%   [data] = sh5_rdpcles(fname,tag,itbeg,itstep,itend)
 
 function [data] = sh5_rdpcles(fname,tag,itbeg,itstep,itend)
 

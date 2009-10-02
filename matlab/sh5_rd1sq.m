@@ -1,3 +1,6 @@
+% Read 1D data from a sequence of files
+%   dat = sh5_rd1sq(sensor,basename,tag,start,step,stop)
+
 function dat = sh5_rd1sq(sensor,basename,tag,start,step,stop)
 
 dat = sh5_read(sensor,basename,tag,start);
