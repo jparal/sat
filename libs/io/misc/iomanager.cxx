@@ -61,3 +61,35 @@ void IOManager::Initialize (const ConfigFile &cfg)
   ConfigEntry &entry = cfg.GetEntry ("output.format");
   Initialize (entry);
 }
+
+String IOManager::GetFileName (const char *tag, const SimulTime &stime)
+{
+  String name;
+
+  name = GetFileName (tag);
+  name += "i";
+  name += stime.Iter ();
+
+  return name;
+}
+
+String IOManager::GetFileName (const char *tag)
+{
+  String name;
+
+  if (_dir.IsEmpty ())
+  {
+    name = tag;
+    name += _runname.GetData ();
+  }
+  else
+  {
+    IO::Mkdir (_dir);
+    name = _dir.GetData ();
+    name += "/";
+    name += tag;
+    name += _runname.GetData ();
+  }
+
+  return name;
+}

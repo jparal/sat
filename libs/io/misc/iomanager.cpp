@@ -16,21 +16,7 @@
 template<class T, int D>
 void IOManager::Write (Field<T,D> &fld, const SimulTime &stime, const char *tag)
 {
-  char buff[24];
-  char fname[64];
-
-  stime.IterStr (buff, 24, false);
-
-  if (_dir.IsEmpty ())
-  {
-    snprintf (fname, 64, "%s%si%s", tag, _runname.GetData (), buff);
-  }
-  else
-  {
-    IO::Mkdir (_dir);
-    snprintf (fname, 64, "%s/%s%si%s", _dir.GetData (), tag,
-	      _runname.GetData (), buff);
-  }
+  String fname = GetFileName (tag, stime);
 
   switch (_format)
   {

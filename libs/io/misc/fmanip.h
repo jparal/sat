@@ -44,6 +44,9 @@ public:
   /// Rename a file from old file name to new file name.
   static void Rename (const String &oldname,
 		      const String &newname);
+
+  /// Remove/unlink the file
+  static void Remove (const String &name);
 };
 
 /** @} */

@@ -104,6 +104,14 @@ void IO::Rename (const String &oldname, const String &newname)
 {
   SAT_ASSERT (!oldname.IsEmpty ());
   SAT_ASSERT (!newname.IsEmpty ());
+
   rename (oldname.GetData (), newname.GetData ());
+}
+
+void IO::Remove (const String &name)
+{
+  SAT_ASSERT (!name.IsEmpty ());
+
+  unlink (name.GetData ());
 }
 
