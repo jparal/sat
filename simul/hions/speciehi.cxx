@@ -21,7 +21,8 @@ void HISpecie<T>::Initialize (TSphereEmitter *emit, Vector<int,3> nc,
   _initialized = true;
   _numarrays = numarrays;
   _emit.AttachNew (emit);
-  // @@@TODO
+
+  // @TODO
   _mass = 22.98976928;
   _qms = 1./_mass;
 

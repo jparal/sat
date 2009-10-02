@@ -46,7 +46,7 @@ public:
   typedef typename TSpecie::TParticle TParticle;
   typedef typename TSpecie::TParticleArray TParticleArray;
 
-  ~HIParticleSensor ();
+  HIParticleSensor ();
 
   void Initialize (TSpecie *spec, const char *id, ConfigFile &cfg);
 
@@ -61,6 +61,8 @@ private:
 
   TSpecie *_spec;
   int _npcle;
+  float _wmin;
+  bool _firstwr;
 };
 
 /** @} */

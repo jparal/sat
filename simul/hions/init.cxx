@@ -124,10 +124,16 @@ void HeavyIonsCode<T>::Initialize (int *pargc, char ***pargv)
     HISpecieSensor<T> *psdsens = new HISpecieSensor<T>;
     psdsens->Initialize (psdspec, _dx, _nx, "psdspec", cfg);
     _sensmng.AddSensor (psdsens);
+
+    HIParticleSensor<T> *psdpcle = new HIParticleSensor<T>;
+    psdpcle->Initialize (psdspec, "psdpcle", cfg);
+    _sensmng.AddSensor (psdpcle);
   }
 
   LoadFields ();
-  ResetFields ();
+
+  // Resets fields inside of the planet to be zero
+  //  ResetFields ();
 }
 
 #include "tmplspec.cpp"

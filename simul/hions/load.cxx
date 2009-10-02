@@ -29,14 +29,6 @@ void HeavyIonsCode<T>::LoadFields ()
     SAT_PRAGMA_OMP (section) HIUtils::Load (_E, 1, "Ey" + _stwname);
     SAT_PRAGMA_OMP (section) HIUtils::Load (_E, 2, "Ez" + _stwname);
   }
-
-  // HDF5File file;
-  // file.Initialize (cfg);
-  // SAT_PRAGMA_OMP (parallel sections)
-  // {
-  //   SAT_PRAGMA_OMP (section) file.Write (_B, Cell, "B", "Bpokus");
-  //   SAT_PRAGMA_OMP (section) file.Write (_E, Cell, "E", "Epokus");
-  // }
 }
 
 #include "tmplspec.cpp"

@@ -1,7 +1,7 @@
 simul:
 {
   step = 0.5;     # time step for pcles [1/Omega_pi]
-  tmax = 50;    # Max time to run to [1/Omega_pi]
+  tmax = 5000;    # Max time to run to [1/Omega_pi]
   nsub = 10;      # substeps for moving ions
   clean = 200;    # Clean unused pcles [steps]
   restart = false; start = 0.; # not in use but it has to be here
@@ -26,7 +26,7 @@ input:
 release: # ========= Aphelion ============
 {
   npatch = [360, 180];  # Split the surface into patches in phi, tht direction
-  npcles = 400.;      # emit pcles per time step, specie, thread
+  npcles = 100.;      # emit pcles per time step, specie, thread
   ionsratio = 5.;       # ions/neutrals ratio [%] when released
   sws = {
     ebind = 2.;         # binding energy of Na in regolith [eV]
@@ -55,9 +55,10 @@ output:
   dtout = 100;
   sensors:
   {
-    swsspec  = { tag = "SWS"; resol = [2,2,2]; };
-    psdspec  = { tag = "PSD"; resol = [2,2,2]; };
-    swspcle  = { tag = "SWS"; npcle = 10; dtout = 5; };
+    swsspec = { tag = "SWS"; resol = [2,2,2]; };
+    psdspec = { tag = "PSD"; resol = [2,2,2]; };
+    swspcle = { tag = "SWS"; npcle = 1000; wmin = 0.1; dtout = 2.5; };
+    psdpcle = { tag = "PSD"; npcle = 1000; wmin = 0.1; dtout = 2.5; };
   };
 };
 

@@ -15,7 +15,7 @@ preproc = utils.cpp tmplspec.cpp
 sources = applybc.cxx calcout.cxx clean.cxx emitter.cxx exec.cxx hions.cxx \
 init.cxx ionize.cxx iter.cxx load.cxx misc.cxx move.cxx pcle_sens.cxx	   \
 psd_emit.cxx spec_sens.cxx speciehi.cxx sws_emit.cxx
-extrsrc = *.sin
+extrsrc = hions.sin
 
 exename = hions
 instdir = $(prefix)/simul/hions

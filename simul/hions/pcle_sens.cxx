@@ -15,12 +15,8 @@
 #include "pcle_sens.h"
 
 template<class T>
-HIParticleSensor<T>::~HIParticleSensor ()
-{
-#ifdef HAVE_H5PART
-  H5PartCloseFile(_file);
-#endif
-}
+HIParticleSensor<T>::HIParticleSensor ()
+  : _firstwr(true) {}
 
 template<class T>
 void HIParticleSensor<T>::Initialize (TSpecie *spec, const char *id,
@@ -32,12 +28,8 @@ void HIParticleSensor<T>::Initialize (TSpecie *spec, const char *id,
   if (Enabled ())
   {
     _spec = spec;
-    DBG_INFO ("  npcles : "<<_npcle);
-
-    _file= H5PartOpenFile ("pokus.h5part", H5PART_WRITE);
-    // sets number of particles in simulation we want to write
-    H5PartSetNumParticles (_file, _npcle);
-    //H5PartCloseFile(_file);
+    DBG_INFO ("  npcles : " << _npcle);
+    DBG_INFO ("  wmin   : " << _wmin);
   }
 #endif // HAVE_H5PART
 }
@@ -46,6 +38,7 @@ template<class T>
 void HIParticleSensor<T>::InitializeLocal (const ConfigEntry &cfg)
 {
   cfg.GetValue ("npcle", _npcle);
+  cfg.GetValue ("wmin", _wmin);
 }
 
 template<class T>
@@ -53,46 +46,57 @@ void HIParticleSensor<T>::SaveData (IOManager &iomng, const SimulTime &stime)
 {
 #ifdef HAVE_H5PART
   const TParticleArray &pcles = _spec->GetIons (0);
-  if (_npcle > pcles.GetSize ()) return;
 
-  // _file= H5PartOpenFile("pokus.h5part",H5PART_APPEND);
-  //  H5PartSetNumParticles(_file,_npcle);
-  H5PartSetStep(_file,stime.Iter ());
+  float x[_npcle];
+  float y[_npcle];
+  float z[_npcle];
+  float v[_npcle];
 
-  double *x = new double[_npcle];
-  double *y = new double[_npcle];
-  double *z = new double[_npcle];
-  double *v = new double[_npcle];
-  double *w = new double[_npcle];
-  h5part_int64_t *id = new h5part_int64_t[_npcle];
-
-  for (int i=0; i<_npcle; ++i)
+  int pid = 0, npcle = 0;
+  while (npcle < _npcle && pid < pcles.GetSize ())
   {
-    const TParticle &pcle = pcles.Get (i);
+    const TParticle &pcle = pcles.Get (pid++);
     const Vector<T,3> &xp = pcle.GetPosition ();
-    x[i] = xp[0];
-    y[i] = xp[1];
-    z[i] = xp[2];
-    w[i] = pcle.GetWeight ();
-    v[i] = pcle.GetVelocity().Norm ();
-    id[i] = i;
+
+    if (pcle.GetWeight () < 0)
+      continue;
+
+    x[npcle] = xp[0];
+    y[npcle] = xp[1];
+    z[npcle] = xp[2];
+    v[npcle] = pcle.GetVelocity().Norm ();
+    ++npcle;
   }
 
-  H5PartWriteDataFloat64 (_file,"x",x);
-  H5PartWriteDataFloat64 (_file,"y",y);
-  H5PartWriteDataFloat64 (_file,"z",z);
-  H5PartWriteDataFloat64 (_file,"w",w);
-  H5PartWriteDataFloat64 (_file,"v",v);
-  H5PartWriteDataInt64 (_file,"id",id);
+  // reset the values, which we didn't use, to zero
+  if (npcle < _npcle)
+  {
+    memset (&x[npcle], 0, sizeof(float)*(_npcle-npcle));
+    memset (&y[npcle], 0, sizeof(float)*(_npcle-npcle));
+    memset (&z[npcle], 0, sizeof(float)*(_npcle-npcle));
+    memset (&v[npcle], 0, sizeof(float)*(_npcle-npcle));
+  }
 
-  if (x) free (x);
-  if (y) free (y);
-  if (z) free (z);
-  if (v) free (v);
-  if (w) free (w);
-  if (id) free (id);
+  String fname = iomng.GetFileName (GetTag ("Pci"));
+  fname += ".h5";
 
-  //  H5PartCloseFile(_file);
+  if (_firstwr)
+  {
+    _file= H5PartOpenFile (fname, H5PART_WRITE);
+    _firstwr = false;
+  }
+  else
+    _file= H5PartOpenFile (fname, H5PART_APPEND);
+
+  H5PartSetNumParticles (_file, _npcle);
+  H5PartSetStep (_file, stime.Iter ());
+
+  H5PartWriteDataFloat32 (_file, "x", x);
+  H5PartWriteDataFloat32 (_file, "y", y);
+  H5PartWriteDataFloat32 (_file, "z", z);
+  H5PartWriteDataFloat32 (_file, "v", v);
+
+  H5PartCloseFile (_file);
 #endif // HAVE_H5PART
 }
 
