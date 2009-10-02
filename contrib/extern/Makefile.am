@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-files = build_* *.tar.gz
+files = build_h5part build_hdf5 build_zlib H5Part-1.4.2.tar.gz hdf5-1.6.7.tar.gz zlib-1.2.3.tar.gz
 instdir = $(prefix)/contrib/extern
 
 dist_noinst_DATA = $(files)
