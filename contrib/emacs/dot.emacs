@@ -34,6 +34,12 @@
 ;; No splash screen
 (setq inhibit-startup-message t)
 
+;; Indent entire buffer (binded to <f2>)
+(defun indent-buffer ()
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max) nil)))
+
 ;; Doxymacs stuff
 (defun my-doxymacs-font-lock-hook ()
  (if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
@@ -147,6 +153,7 @@
 (global-set-key (kbd "C-c q") 'filladapt-mode) ;; Enable fill-mode
 (global-set-key (kbd "C-c a") 'align-cols) ;; Align columns
 (global-set-key (kbd "<f1>") 'git-status)
+(global-set-key (kbd "<f2>") 'indent-buffer)
 (global-set-key (kbd "S-<f1>") 'svn-status)
 (global-set-key (kbd "S-<f5>") 'gud-until)
 (global-set-key (kbd "<f5>") 'gud-cont)
