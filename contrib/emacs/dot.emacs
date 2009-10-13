@@ -37,6 +37,7 @@
 ;; Indent entire buffer (binded to <f2>)
 (defun indent-buffer ()
   (interactive)
+  (nuke-trailing-whitespace)
   (save-excursion
     (indent-region (point-min) (point-max) nil)))
 
