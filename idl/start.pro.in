@@ -11,27 +11,8 @@
 PRINT, '                You are using v@SAT_VERSION@ of SAT IDL library'
 PRINT, ''
 
-sat_idl=getenv("SAT_HOME")+'/idl'
-
-mypath=                       $
-sat_idl+'/mpfit:'            +$
-sat_idl+'/pro:'              +$
-sat_idl+'/sat:'              +$
-sat_idl+'/stw:'              +$
-sat_idl+'/text2idl:'         +$
-sat_idl+'/todo:'             +$
-sat_idl+'/zamb:'             +$
-sat_idl+'/zamb/analysis:'    +$
-sat_idl+'/zamb/misc:'        +$
-sat_idl+'/zamb/menus:'       +$
-sat_idl+'/zamb/plot1d:'      +$
-sat_idl+'/zamb/plot2d:'      +$
-sat_idl+'/zamb/plot3d:'      +$
-sat_idl+'/zamb/InputValues:'
-
-;-------------------------------------------------------;
-
-!PATH=mypath+!PATH
+;; Expand path recursive ('+' at the begining)
+!PATH=EXPAND_PATH('+' + GETENV("SAT_HOME") + '/idl:')+!PATH
 
 ; lib_path=sat_idl+'/lib/'+STRLOWCASE(strcompress(!VERSION.OS+'_'+!VERSION.ARCH+'_'+string(!VERSION.MEMORY_BITS),/REMOVE_ALL))
 
