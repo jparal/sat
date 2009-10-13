@@ -17,7 +17,7 @@
 template<class T>
 void HeavyIonsCode<T>::CleanPcles (TParticleArray &pcles, int &cleaned)
 {
-  if (_time.Iter () % _clean != 0)
+  if (_clean < 1 || _time.Iter () % _clean != 0)
     return;
 
   int cleanedtmp = 0;
