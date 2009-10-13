@@ -1,4 +1,10 @@
 
+* particle trajectory sensor
+   There is a problem when we clean old particles the sensor pickup the fresh
+   particles and result animation looks like it started from the begining. The
+   workaround is to disable cleaning particles. But in future we should
+   remember ids and deal with the problem differently.
+
 * spline particle weighting
    It would be worth to try to weight particle using splite function rather
    then linear weighting. It would probably cost the same amount of time since
