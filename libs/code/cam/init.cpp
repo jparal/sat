@@ -115,10 +115,10 @@ void CAMCode<B,T,D>::Initialize ()
   cfg.GetValue ("field.imf.psi", _psi, 0.);
   cfg.GetValue ("field.dnmin", _dnmin, 0.05);
   cfg.GetValue ("field.resist", _resist, 0.001);
-  DBG_INFO1 ("B field sub-steps : "<<_nsub);
-  DBG_INFO1 ("IMF phi; psi      : "<<_phi<<"; "<<_psi);
-  DBG_INFO1 ("minimal density   : "<<_dnmin);
-  DBG_INFO1 ("resistivity       : "<<_resist);
+  DBG_INFO1 ("B field sub-steps          : "<<_nsub);
+  DBG_INFO1 ("IMF phi(x,y); psi(x,z)     : "<<_phi<<"; "<<_psi);
+  DBG_INFO1 ("minimal density            : "<<_dnmin);
+  DBG_INFO1 ("resistivity                : "<<_resist);
 
   /************************************/
   /* Setup initial magnetic field _B0 */
