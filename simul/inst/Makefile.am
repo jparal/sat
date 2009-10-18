@@ -17,3 +17,5 @@ noinst_PROGRAMS = $(exename)
 inst_SOURCES = $(srcfile)
 dist_noinst_DATA = $(srcfile)
 # nobase_inst_DATA = $(srcfile)
+
+SUBDIRS = linear

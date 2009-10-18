@@ -168,6 +168,7 @@ AC_CONFIG_FILES([
     simul/alfven/Makefile
     simul/hions/Makefile
     simul/inst/Makefile
+    simul/inst/linear/Makefile
     simul/tmpl/Makefile
     simul/tmpl/TEMPLATE.cxx.tpl
     test/Makefile
