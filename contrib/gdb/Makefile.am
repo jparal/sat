@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-files = README gdbinit sat.py
+files = README gdbinit qt4.py sat.py
 instdir = $(prefix)/contrib/gdb
 
 dist_noinst_DATA = $(files)
