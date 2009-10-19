@@ -1,0 +1,5 @@
+
+!! Dont forget to set up SAT_HOME shell variable. !!
+
+To enable pretty printing, make a symbolic link of gdbinit to the file in your
+home direcoty called .gitinit (i.e. call "ln -s /path/to/gdbinit .gitinit")

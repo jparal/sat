@@ -3,4 +3,10 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = emacs etc extern gdb logo pbs
+files = README gdbinit sat.py
+instdir = $(prefix)/contrib/gdb
+
+dist_noinst_DATA = $(files)
+nobase_inst_DATA = $(files)
+
+CLEANFILES = *.pyc

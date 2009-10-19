@@ -87,6 +87,7 @@ AC_CONFIG_FILES([
     contrib/emacs/elisp/Makefile
     contrib/etc/Makefile
     contrib/extern/Makefile
+    contrib/gdb/Makefile
     contrib/logo/Makefile
     contrib/pbs/Makefile
     docs/Makefile
