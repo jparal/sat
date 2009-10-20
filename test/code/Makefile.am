@@ -18,7 +18,7 @@ include $(top_srcdir)/mk/amake/Makefile.math
 include $(top_srcdir)/mk/amake/Makefile.pint
 include $(top_srcdir)/mk/amake/Makefile.simul
 
-EXTRA_DIST = test-cam.sin
+EXTRA_DIST = cam.sin
 
 check_PROGRAMS = test-cam
 
