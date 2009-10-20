@@ -57,3 +57,9 @@ end
 define plot1d_opt
   plot1d_opt_range $arg0 $arg1 "[*:*]"
 end
+
+# EMACS
+# Local variables:
+# mode: python
+# indent-tabs-mode: nil
+# End:

@@ -5,6 +5,9 @@ import gdb
 import itertools
 import re
 
+############################################################################
+##  String:
+############################################################################
 class String:
     "Pretty Printer for String"
 
@@ -13,14 +16,17 @@ class String:
 
     def to_string(self):
 
-        data = self.val['Data']
-        mini = self.val['minibuff']
-
-        if data != 0:
-            return "%s" % (data)
+        if self.val['Data'] != 0:
+            return self.val['Data']
         else:
-            return "%s" % (mini)
+            return self.val['minibuff']
 
+    def display_hint (self):
+        return 'string'
+
+############################################################################
+##  Registration:
+############################################################################
 def register_sat_printers (obj):
     if obj == None:
         obj = gdb
