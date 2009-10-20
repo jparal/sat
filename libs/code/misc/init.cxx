@@ -36,6 +36,8 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
   _logname += ".log";
   _cfgname = _exename;
   _cfgname += ".sin";
+  _cfgname.ReplaceAll ("test-", "");
+  _cfgname.ReplaceAll ("sat-", "");
 
   // Handle all parameters
   for (int i=1; i<_argc; ++i)
