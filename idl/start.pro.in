@@ -14,15 +14,7 @@ PRINT, ''
 ;; Expand path recursive ('+' at the begining)
 !PATH=EXPAND_PATH('+' + GETENV("SAT_HOME") + '/idl:')+!PATH
 
-; lib_path=sat_idl+'/lib/'+STRLOWCASE(strcompress(!VERSION.OS+'_'+!VERSION.ARCH+'_'+string(!VERSION.MEMORY_BITS),/REMOVE_ALL))
-
-; Setup !DLM_PATH forfuture
-; PREF_SET, 'IDL_DLM_PATH', lib_path, /COMMIT
-; PRINT, "Lib path: ", !DLM_PATH
-
 LOADCT, 13
-;WINDOW, /PIXMAP & WDELETE
-;DEVICE, BYPASS_TRANSLATION=0
-DEVICE,DECOMPOSED = 0,RETAIN=2,TRUE_COLOR=24
+DEVICE, DECOMPOSED=0, RETAIN=2, TRUE_COLOR=24
 
 ;-------------------------------------------------------;
