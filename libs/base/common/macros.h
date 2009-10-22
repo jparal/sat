@@ -15,9 +15,8 @@
 #ifndef __SAT_BASE_COMMON_MACROS_H__
 #define __SAT_BASE_COMMON_MACROS_H__
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 #ifndef MIN
 #  define MIN(a,b) ((a)<(b)?(a):(b))
@@ -42,6 +41,6 @@
  * @def SIGN Gives 1 for positive value or 0 for negative one
  */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_BASE_COMMON_MACROS_H__ */

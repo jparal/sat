@@ -15,9 +15,8 @@
 #ifndef __SAT_META_H__
 #define __SAT_META_H__
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 /// Meta loops utils
 template <int N>
@@ -71,6 +70,6 @@ struct MetaInv
   static const double Is;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_META_H__ */

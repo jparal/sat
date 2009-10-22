@@ -20,15 +20,14 @@
 #include "reporter.h"
 #include "repdeferred.h"
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
 
 /**
- * \brief This class translate results into XML data format
+ * @brief This class translate results into XML data format
  */
 class XmlTestReporter : public DeferredTestReporter
 {
@@ -62,6 +61,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_REPXML_H__ */

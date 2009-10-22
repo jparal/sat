@@ -21,14 +21,13 @@
 #ifndef __SAT_UTIL_CALLSTACK_H__
 #define __SAT_UTIL_CALLSTACK_H__
 
-/**\file
- * Call stack creation helper
- */
+/// @file
+/// Call stack creation helper
 
 #include "base/common/string.h"
 
-// Avoid using RefCount, which uses the ref tracker, which in turn uses
-// CallStack Call stack.
+/// Avoid using RefCount, which uses the ref tracker, which in turn uses
+/// CallStack Call stack.
 class CallStack
 {
 protected:
@@ -113,8 +112,8 @@ public:
   //@}
   /**
    * Print the complete stack.
-   * \param f File handle to print to.
-   * \param brief Brief output - line number and parameters are omitted.
+   * @param f File handle to print to.
+   * @param brief Brief output - line number and parameters are omitted.
    */
   void Print (FILE* f = stdout, bool brief = false)
   {
@@ -140,8 +139,8 @@ public:
   }
   /**
    * Obtain complete text for an entry.
-   * \param i Index of the entry.
-   * \param brief Brief - line number and parameters are omitted.
+   * @param i Index of the entry.
+   * @param brief Brief - line number and parameters are omitted.
    */
   String GetEntryAll (size_t i, bool brief = false)
   {
@@ -170,14 +169,14 @@ class CallStackHelper
 public:
   /**
    * Create a call stack.
-   * \param skip The number of calls on the top of the stack to remove from
+   * @param skip The number of calls on the top of the stack to remove from
    *  the returned call stack. This can be used if e.g. the call stack is
    *  created from some helper function and the helper function itself should
    *  not appear in the stack.
-   * \param fast Flag whether a fast call stack creation should be preferred
+   * @param fast Flag whether a fast call stack creation should be preferred
    *  (usually at the expense of retrieved information).
-   * \return A call stack object.
-   * \remarks Free the returned object with its Free() method.
+   * @return A call stack object.
+   * @remarks Free the returned object with its Free() method.
    */
   static CallStack* CreateCallStack (int skip = 0, bool fast = false);
 };

@@ -15,9 +15,8 @@
 #ifndef __SAT_MACROS_H__
 #define __SAT_MACROS_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 #include "checks.h"
 #include "exception.h"
@@ -221,6 +220,6 @@
 #define CHECK_ASSERT(expression)                        \
   CHECK_THROW(expression, SAT::Test::AssertException);
 
-/** @} */
+/// @}
 
 #endif /* __SAT_MACROS_H__ */

@@ -19,9 +19,8 @@
 #include "satmath.h"
 #include "wrap.h"
 
-/** @addtogroup pint_mpi
- *  @{
- */
+/// @addtogroup pint_mpi
+/// @{
 
 /**
  * @brief Cartesian domain decomposition splitting routine
@@ -107,6 +106,6 @@ private:
   LocArray _rpe; ///< Index of domain on the right
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CARTDEC_H__ */

@@ -15,9 +15,8 @@
 #ifndef __SAT_CONST_H__
 #define __SAT_CONST_H__
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 #undef  M_E
 #define M_E             2.7182818284590452354	/**< e          */
@@ -67,6 +66,6 @@
 #define SAT_DBL_MIN        2.2250738585072014e-308
 #define SAT_DBL_MAX        1.7976931348623157e+308
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CONST_H__ */

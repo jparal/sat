@@ -18,13 +18,12 @@
 #include "typetraits.h"
 #include "string.h"
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 /**
  * Container class for basic types with smart casting into the different types.
- * \warning This class isn't optimized for speed due to the casting.
+ * @warning This class isn't optimized for speed due to the casting.
  */
 class Value
 {
@@ -54,6 +53,6 @@ private:
   Variable m_var;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_VALUE_H__ */

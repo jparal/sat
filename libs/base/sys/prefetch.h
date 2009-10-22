@@ -17,9 +17,8 @@
 
 #include "platform.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 // Standart __GNU__ builtin fnc
 #if HAVE_BUILTIN_PREFETCH
@@ -43,12 +42,12 @@
 
 /**
  * \def SAT_PREFETCH_RO(P)
- * Make prefetch from memory into cache. Parameter \e P is a valid pointer. We
+ * Make prefetch from memory into cache. Parameter @e P is a valid pointer. We
  * expect that data will be only read only (this is just helper for processor
  * and compiler) \sa \ref Prefetch \sa \ref BranchPrediction
  *
  * \def SAT_PREFETCH_RW(P)
- * Make prefetch from memory into cache. Parameter \e P is a valid pointer. We
+ * Make prefetch from memory into cache. Parameter @e P is a valid pointer. We
  * expect that data will be only read write (this is just helper for processor
  * and compiler) \sa \ref Prefetch \sa \ref BranchPrediction
  */
@@ -63,7 +62,7 @@
  * to nothing, so the argument must not have side effects.
  *
  * for MpisPro >= 7.0:
- * \code
+ * @code
  * pragma prefetch_ref = ref [, stride = num1 [, num2]] 
  *                           [, level = [lev1][, lev2]] 
  *                           [, kind = {rd|wr}] 
@@ -73,14 +72,14 @@
  * level  ..  1: prefetch from L2 to L1 cache; 2: prefetch from memory to L1
  *            cache (default 2)
  * kind   ..  Specifies read or write. (default write)
- \endcode
+ @endcode
 
  * for GNU compilers:
- * \code
+ * @code
  * void __builtin_prefetch (const void *addr [,0|1] [,0|1]);
- * \endcode
+ * @endcode
  */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_PREFETCH_H__ */

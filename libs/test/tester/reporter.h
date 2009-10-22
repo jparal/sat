@@ -15,9 +15,8 @@
 #ifndef __SAT_REPORTER_H__
 #define __SAT_REPORTER_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -25,7 +24,7 @@ namespace Test {
 class TestDetails;
 
 /**
- * \brief Base class for formating output.
+ * @brief Base class for formating output.
  */
 class TestReporter
 {
@@ -49,7 +48,6 @@ public:
 } /* namespace Test */
 } /* namespace SAT */
 
-
-/** @} */
+/// @}
 
 #endif /* __SAT_REPORTER_H__ */

@@ -34,8 +34,8 @@
 #include "base/common/fixallocator.h"
 #include "newdisable.h"
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 /**
  * Block allocator disposal mixin that just destructs an instance.
@@ -135,9 +135,9 @@ struct BlockAllocatorSizeObjectAlign
  * extremely fast, both for Alloc() and Free(). The only restriction is that
  * any specific allocator can be used for just one type of object (the type for
  * which the template is instantiated).
- * \remarks The objects are properly constructed and destructed.
+ * @remarks The objects are properly constructed and destructed.
  *
- * \remarks Assumes that the class \c T with which the template is instantiated
+ * @remarks Assumes that the class @c T with which the template is instantiated
  *   has a default (zero-argument) constructor. Alloc() uses this constructor
  *   to initialize each vended object.
  *
@@ -165,20 +165,20 @@ private:
 public:
   /**
    * Construct a new block allocator.
-   * \param nelem Number of elements to store in each allocation unit.
-   * \remarks Bigger values for \c nelem will improve allocation performance,
+   * @param nelem Number of elements to store in each allocation unit.
+   * @remarks Bigger values for @c nelem will improve allocation performance,
    *   but at the cost of having some potential waste if you do not add
-   *   \c nelem elements to each pool.  For instance, if \c nelem is 50 but you
+   *   @c nelem elements to each pool.  For instance, if @c nelem is 50 but you
    *   only add 3 elements to the pool, then the space for the remaining 47
    *   elements, though allocated, will remain unused (until you add more
    *   elements).
    *
-   * \remarks If use use BlockAllocator as a convenient and lightweight
+   * @remarks If use use BlockAllocator as a convenient and lightweight
    *   garbage collection facility (for which it is well-suited), and expect it
    *   to dispose of allocated objects when the pool itself is destroyed, then
-   *   set \c warn_unfreed to false. On the other hand, if you use
+   *   set @c warn_unfreed to false. On the other hand, if you use
    *   BlockAllocator only as a fast allocator but intend to manage each
-   *   object's life time manually, then you may want to set \c warn_unfreed to
+   *   object's life time manually, then you may want to set @c warn_unfreed to
    *   true in order to receive diagnostics about objects which you have
    *   forgotten to release explicitly via manual invocation of Free().
    */
@@ -200,7 +200,7 @@ public:
 
   /**
    * Destroy all objects allocated by the pool without releasing the memory.
-   * \remarks All pointers returned by Alloc() are invalidated. It is safe to
+   * @remarks All pointers returned by Alloc() are invalidated. It is safe to
    *   perform new allocations from the pool after invoking Empty().
    */
   void Empty ()
@@ -211,7 +211,7 @@ public:
 
   /**
    * Destroy all objects allocated by the pool and release the memory.
-   * \remarks All pointers returned by Alloc() are invalidated. It is safe to
+   * @remarks All pointers returned by Alloc() are invalidated. It is safe to
    *   perform new allocations from the pool after invoking DeleteAll().
    */
   void DeleteAll ()
@@ -261,7 +261,7 @@ public:
 
   /**
    * Deallocate an object. It is safe to provide a null pointer.
-   * \param p Pointer to deallocate.
+   * @param p Pointer to deallocate.
    */
   void Free (T* p)
   {
@@ -270,7 +270,7 @@ public:
   }
   /**
    * Try to delete an object. Usage is the same as Free(), the difference
-   * being that \c false is returned if the deallocation failed (the reason
+   * being that @c false is returned if the deallocation failed (the reason
    * is most likely that the memory was not allocated by the allocator).
    */
   bool TryFree (T* p)
@@ -280,7 +280,7 @@ public:
   }
 };
 
-/** @} */
+/// @}
 
 #include "newenable.h"
 #endif // __SATUTIL_BLOCKALLOCATOR_H__

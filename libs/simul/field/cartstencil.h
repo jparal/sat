@@ -18,9 +18,8 @@
 #include "bwcache.h"
 #include "simul/field/field.h"
 
-/** @addtogroup simul_field
- *  @{
- */
+/// @addtogroup simul_field
+/// @{
 
 /**
  * @brief Cartesian Stencil
@@ -111,6 +110,6 @@ public:
 
 #include "cartstencil.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CARTSTENCIL_H__ */

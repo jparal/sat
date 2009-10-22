@@ -19,9 +19,8 @@
 
 #include <math.h>
 
-/** @addtogroup math_misc
- *  @{
- */
+/// @addtogroup math_misc
+/// @{
 
 /// Standard mathematical functions
 namespace Math
@@ -60,7 +59,7 @@ namespace Math
   template <class T> static T ATan2 (T v1, T v2);
 };
 
-/** @} */
+/// @}
 
 #include "stdmath.cpp"
 

@@ -15,9 +15,8 @@
 #ifndef __SAT_RESULTS_H__
 #define __SAT_RESULTS_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -26,7 +25,7 @@ class TestReporter;
 class TestDetails;
 
 /**
- * \brief Class representing results of the tests
+ * @brief Class representing results of the tests
  */
 class TestResults
 {
@@ -56,6 +55,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_RESULTS_H__ */

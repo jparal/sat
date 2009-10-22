@@ -18,9 +18,8 @@
 #include "sensor.h"
 #include "satio.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Compute @f$ \nabla \times (\mathbf{J} \times \mathbf{B})/\rho_c @f$
@@ -94,7 +93,6 @@ private:
   Field<T,D> *_rhoc;
 };
 
-
-/** @} */
+/// @}
 
 #endif /* __SAT_JXB_H__ */

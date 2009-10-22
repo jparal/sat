@@ -17,9 +17,8 @@
 
 // #include "flditer.h"
 
-/** @addtogroup simul_field
- *  @{
- */
+/// @addtogroup simul_field
+/// @{
 
 /**
  * @brief Uniform Cartesian grid.
@@ -80,6 +79,6 @@
 //   }
 // };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CARTGRID_H__ */

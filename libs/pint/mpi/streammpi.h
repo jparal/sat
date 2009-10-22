@@ -17,9 +17,8 @@
 
 #include "wrap.h"
 
-/** @addtogroup pint_mpi
- *  @{
- */
+/// @addtogroup pint_mpi
+/// @{
 
 /**
  * Define size of the buffers allocated in IOStream class
@@ -131,6 +130,6 @@ private:
 
 #include "streammpi.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_STREAMMPI_H__ */

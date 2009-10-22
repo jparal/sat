@@ -15,21 +15,17 @@
 #ifndef __SAT_PLOG_H__
 #define __SAT_PLOG_H__
 
-
-/** @addtogroup base_common
- *  @{
- */
-
 #include "newdisable.h"
 #include <iostream>
 #include "newenable.h"
 using namespace std;
 
-/**
- * Main logging facility.
- */
+/// @addtogroup base_common
+/// @{
+
+/// Main logging facility.
 extern ostream plog;
 
-/** @} */
+/// @} */
 
 #endif /* __SAT_PLOG_H__ */

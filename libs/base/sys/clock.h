@@ -4,7 +4,7 @@
  ******************************************************************************/
 /**
  * @file   clock.h
- * @brief  System wrapper around processor clocks (i.e. function \c times )
+ * @brief  System wrapper around processor clocks (i.e. function @c times )
  * @author @jparal
  *
  * @revision{1.0}
@@ -15,10 +15,8 @@
 #ifndef __SAT_CLOCK_H__
 #define __SAT_CLOCK_H__
 
-
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 #include "satconfig.h"
 #include "stdhdrs.h"
@@ -92,6 +90,6 @@ private:
 
 #include "clock.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CLOCK_H__ */

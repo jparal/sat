@@ -40,8 +40,8 @@
 #include <typeinfo>
 #endif
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 /**
  * This class implements a memory allocator which can efficiently allocate
@@ -51,7 +51,7 @@
  * any specific allocator can be used for just one type of object (the type for
  * which the template is instantiated).
  *
- * \remarks Defining the macro SAT_FIXEDSIZEALLOC_DEBUG will cause freed
+ * @remarks Defining the macro SAT_FIXEDSIZEALLOC_DEBUG will cause freed
  *   objects to be overwritten with '0xfb' bytes. This can be useful to track
  *   use of already freed objects, as they can be more easily recognized
  *   (as some members will be likely bogus.)
@@ -121,7 +121,7 @@ protected: // 'protected' allows access by test-suite.
 
   /**
    * Allocate a block and initialize its free-node chain.
-   * \return The returned address is both the reference to the overall block,
+   * @return The returned address is both the reference to the overall block,
    *   and the address of the first free node in the chain.
    */
   uint8_t* AllocBlock()
@@ -220,7 +220,7 @@ protected: // 'protected' allows access by test-suite.
   };
   /**
    * Destroys all living objects and releases all memory allocated by the pool.
-   * \param disposer Object with a Dispose(void* p) method which is called prior
+   * @param disposer Object with a Dispose(void* p) method which is called prior
    *  to freeing the actual memory.
    */
   template<typename Disposer>
@@ -243,8 +243,8 @@ protected: // 'protected' allows access by test-suite.
 
   /**
    * Deallocate a chunk of memory. It is safe to provide a null pointer.
-   * \param disposer Disposer object that is passed to DestroyObject().
-   * \param p Pointer to deallocate.
+   * @param disposer Disposer object that is passed to DestroyObject().
+   * @param p Pointer to deallocate.
    */
   template<typename Disposer>
   void Free (Disposer& disposer, void* p)
@@ -260,7 +260,7 @@ protected: // 'protected' allows access by test-suite.
   }
   /**
    * Try to delete a chunk of memory. Usage is the same as Free(), the
-   * difference being that \c false is returned if the deallocation failed
+   * difference being that @c false is returned if the deallocation failed
    * (the reason is most likely that the memory was not allocated by the
    * allocator).
    */
@@ -304,10 +304,10 @@ private:
 public:
   /**
    * Construct a new fixed size allocator.
-   * \param nelem Number of elements to store in each allocation unit.
-   * \remarks Bigger values for \c nelem will improve allocation performance,
+   * @param nelem Number of elements to store in each allocation unit.
+   * @remarks Bigger values for @c nelem will improve allocation performance,
    *   but at the cost of having some potential waste if you do not add
-   *   \c nelem elements to each pool.  For instance, if \c nelem is 50 but you
+   *   @c nelem elements to each pool.  For instance, if @c nelem is 50 but you
    *   only add 3 elements to the pool, then the space for the remaining 47
    *   elements, though allocated, will remain unused (until you add more
    *   elements).
@@ -334,7 +334,7 @@ public:
 
   /**
    * Destroy all chunks allocated.
-   * \remarks All pointers returned by Alloc() are invalidated. It is safe to
+   * @remarks All pointers returned by Alloc() are invalidated. It is safe to
    *   perform new allocations from the pool after invoking Empty().
    */
   void Empty()
@@ -398,7 +398,7 @@ public:
 
   /**
    * Deallocate a chunk of memory. It is safe to provide a null pointer.
-   * \param p Pointer to deallocate.
+   * @param p Pointer to deallocate.
    */
   void Free (void* p)
   {
@@ -407,7 +407,7 @@ public:
   }
   /**
    * Try to delete a chunk of memory. Usage is the same as Free(), the
-   * difference being that \c false is returned if the deallocation failed
+   * difference being that @c false is returned if the deallocation failed
    * (the reason is most likely that the memory was not allocated by the
    * allocator).
    */
@@ -435,6 +435,6 @@ public:
   /** @} */
 };
 
-/** @} */
+/// @}
 
 #endif // __SATUTIL_FIXEDSIZEALLOCATOR_H__

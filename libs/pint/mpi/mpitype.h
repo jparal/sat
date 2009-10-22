@@ -20,9 +20,8 @@
 
 template<class T, int D> class Vector;
 
-/** @addtogroup pint_mpi
- *  @{
- */
+/// @addtogroup pint_mpi
+/// @{
 
 template<class T>
 struct MpiType
@@ -92,6 +91,6 @@ MPITYPE_SPECIALIZE (MpiType<long double>::MpiTypeInt, MPI_LONG_DOUBLE_INT)
 // MPITYPE_SPECIALIZE (Vector<float,3>,  MPI_FLOAT)
 // MPITYPE_SPECIALIZE (Vector<double,3>, MPI_DOUBLE)
 
-/** @} */
+/// @}
 
 #endif /* __SAT_MPITYPE_H__ */

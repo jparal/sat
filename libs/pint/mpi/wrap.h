@@ -19,9 +19,8 @@
 #include "mpihdr.h"
 #include "base/sys/stdhdrs.h"
 
-/** @addtogroup pint_mpi
- *  @{
- */
+/// @addtogroup pint_mpi
+/// @{
 
 /**
  * Class MPI groups common MPI routines into one globally-accessible location.
@@ -120,7 +119,7 @@ struct Mpi
   static void Bcast (T *data, int ndata, int root);
 
   /**
-   * @brief This function sends an MPI message with an type \e T array to
+   * @brief This function sends an MPI message with an type @e T array to
    * another processor.
    *
    * If the receiving processor knows in advance the length of the array, use
@@ -141,7 +140,7 @@ struct Mpi
 		    int tag = -1, bool unknownlen = false);
 
   /**
-   * @brief This function receives an MPI message with an type \e T array from
+   * @brief This function receives an MPI message with an type @e T array from
    * another processor.
    *
    * If this processor knows in advance the length of the array, use
@@ -153,11 +152,11 @@ struct Mpi
    * integers.
    * @param ndata Maximum number of integers that can be stored in buf (not
    * number of bytes !!).
-   * @param from Processor number of sender. If \e from is less then 0
-   * then \e MPI_ANY_SOURCE and \e MPI_ANY_TAG will be used.
+   * @param from Processor number of sender. If @e from is less then 0
+   * then @e MPI_ANY_SOURCE and @e MPI_ANY_TAG will be used.
    * @param unknownlen Optional boolean argument specifiying if we first need
    * to send a message to determine the array size. Default value is true. Then
-   * recieved number will be in \e ndata.
+   * recieved number will be in @e ndata.
    * @param tag Optional integer argument specifying a tag which must be
    * matched by the tag of the incoming message. Default tag is 0.
    */
@@ -183,8 +182,8 @@ struct Mpi
   static void Gather (T in, T *out);
 
   /**
-   * Each processor sends an array of type \e T to all other processors; each
-   * processor's array may differ in length.  The \e out array must be
+   * Each processor sends an array of type @e T to all other processors; each
+   * processor's array may differ in length.  The @e out array must be
    * pre-allocated to the correct length (this is a bit cumbersome, but is
    * necessary to avoid the Gather function from allocating memory that is
    * freed elsewhere).  To properly preallocate memory, before calling this
@@ -197,13 +196,13 @@ struct Mpi
    *   Mpi::Gather (&ndata, 1, neach, total);
    * @endcode
    *
-   * and then you should have \e neach[iproc] number of elements with total
-   * in \e total
+   * and then you should have @e neach[iproc] number of elements with total
+   * in @e total
    *
    * @param data Array of data to
-   * @param ndata Number of alements in \e data (not number of bytes !!)
+   * @param ndata Number of alements in @e data (not number of bytes !!)
    * @param out output array
-   * @param nout number of elements in \e out (not number of bytes !!)
+   * @param nout number of elements in @e out (not number of bytes !!)
    */
   template <class T>
   static void Gather (const T *data, int ndata, T *out, int nout);
@@ -340,6 +339,6 @@ private:
 
 #include "wrap.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_WRAP_H__ */

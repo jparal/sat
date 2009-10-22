@@ -191,9 +191,9 @@ public:
 
   /**
    * Set a quaternion using axis-angle representation
-   * \param axis
+   * @param axis
    * Rotation axis. Should be normalized before calling this function.
-   * \param angle
+   * @param angle
    * Angle to rotate about axis (in radians)
    */
   inline void SetAxisAngle (const TVector& axis, T angle)
@@ -204,9 +204,9 @@ public:
 
   /**
    * Get a quaternion as axis-angle representation
-   * \param axis
+   * @param axis
    * Rotation axis.
-   * \param angle
+   * @param angle
    * Angle to rotate about axis (in radians)
    */
   inline void GetAxisAngle (TVector& axis, T& angle) const

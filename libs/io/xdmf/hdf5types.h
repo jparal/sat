@@ -21,9 +21,8 @@
 #include <hdf5.h>
 #endif
 
-/** @addtogroup io_xdmf
- *  @{
- */
+/// @addtogroup io_xdmf
+/// @{
 
 #ifdef HAVE_HDF5
 
@@ -56,6 +55,6 @@ HDF5TYPETRAITS_SPECIALIZE (double,         H5T_NATIVE_DOUBLE)
 
 #endif /* HAVE_HDF5 */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_HDF5TYPES_H__ */

@@ -18,9 +18,8 @@
 #include "string.h"
 #include "tau.h"
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 /**
  * Class Timer holds the exclusive and total start, stop, and elapsed time for
@@ -218,6 +217,6 @@ private:
 
 #include "timer.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_TIMER_H__ */

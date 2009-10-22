@@ -20,9 +20,8 @@
 #include "mesh.h"
 #include "layout.h"
 
-/** @addtogroup simul_field
- *  @{
- */
+/// @addtogroup simul_field
+/// @{
 
 /**
  * @brief Field storage class
@@ -281,6 +280,6 @@ private:
 #include "updateshare.cpp"
 #include "cartgrid.h"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_FIELD_H__ */

@@ -20,14 +20,13 @@
 #ifndef __CS_CSUTIL_ALIGNEDALLOC_H__
 #define __CS_CSUTIL_ALIGNEDALLOC_H__
 
-/**\file
- * Aligned memory allocations.
- */
+/// @file
+/// Aligned memory allocations.
 
 #include "satconfig.h"
 
-/**\addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 namespace SAT
 {
@@ -36,7 +35,7 @@ namespace SAT
     /**
      * Allocate a block of memory, with the start address being aligned
      * to a multiple of \p align bytes.
-     * \remarks The returned block of memory must be freed with AlignedFree.
+     * @remarks The returned block of memory must be freed with AlignedFree.
      */
     SAT_ATTR_MALLOC void* AlignedMalloc (
       size_t size, size_t align);
@@ -45,8 +44,8 @@ namespace SAT
     /**
      * Reallocate a block of memory with a new size, with the start address
      * being aligned to a multiple of \p align bytes.
-     * \remarks The returned block of memory must be freed with AlignedFree.
-     * \warning The alignment must be the same as initially passed to
+     * @remarks The returned block of memory must be freed with AlignedFree.
+     * @warning The alignment must be the same as initially passed to
      *   AlignedMalloc.
      */
     void* AlignedRealloc (void* ptr, size_t size,
@@ -54,6 +53,6 @@ namespace SAT
   } // namespace Memory
 } // namespace SAT
 
-/** @} */
+/// @}
 
 #endif // __CS_CSUTIL_ALIGNEDALLOC_H__

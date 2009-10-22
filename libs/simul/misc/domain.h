@@ -19,9 +19,8 @@
 #include "range.h"
 #include "loc.h"
 
-/** @addtogroup simul_misc
- *  @{
- */
+/// @addtogroup simul_misc
+/// @{
 
 template<int D>
 class Domain
@@ -119,6 +118,6 @@ private:
   Range _range[D];
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_DOMAIN_H__ */

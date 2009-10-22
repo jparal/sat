@@ -15,15 +15,14 @@
 #ifndef __SAT_INFO_H__
 #define __SAT_INFO_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
 
 /**
- * \brief Structure holding results for each individual test
+ * @brief Structure holding results for each individual test
  */
 struct DeferredTestResult
 {
@@ -42,6 +41,6 @@ struct DeferredTestResult
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_INFO_H__ */

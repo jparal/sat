@@ -15,9 +15,8 @@
 #ifndef __SAT_SUITE_H__
 #define __SAT_SUITE_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -33,6 +32,6 @@ inline char const* GetSuiteName ()
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SUITE_H__ */

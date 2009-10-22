@@ -18,9 +18,8 @@
 #include "sensor.h"
 #include "satio.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Vector Field sensor
@@ -82,6 +81,6 @@ private:
   Field<T,D> *_fld;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_FLDSENS_H__ */

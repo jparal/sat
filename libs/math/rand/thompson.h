@@ -25,7 +25,7 @@
  * Thompson-Sigmund distribution is usually used to describe distribution of
  * energy of particles released from surface material/planet after collision
  * with energetic particle. Such particle has usually energy distribution
- * described as: \f[ f(E) = 2 E U / (E+U)^3 \f] where \e U is an binding
+ * described as: \f[ f(E) = 2 E U / (E+U)^3 \f] where @e U is an binding
  * energy. We can generate such distribution by generating function:
  *
  * \f[ E = U \frac{- \xi - \sqrt{\xi}}{\xi - 1} \f]

@@ -23,9 +23,8 @@ extern ParallelBuffer plog_buff;
 
 #define DEFAULT_BUFFER_SIZE (128)
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 /**
  * @brief Parallel buffer
@@ -132,6 +131,6 @@ private:
   int _bptr;       //< number of charcters in the output buffer
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_PBUFF_H__ */

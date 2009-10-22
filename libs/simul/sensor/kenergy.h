@@ -19,9 +19,8 @@
 #include "simul/pcle/camspecie.h"
 #include "satio.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Kinetic energy of particles.
@@ -130,6 +129,6 @@ private:
   RefArray<TSpecie> *_specie;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_KENERGY_H__ */

@@ -20,9 +20,8 @@
 #include "base/common/refcount.h"
 #include "base/satcfgfile.h"
 
-/** @addtogroup simul_misc
- *  @{
- */
+/// @addtogroup simul_misc
+/// @{
 
 typedef uint32_t iter_t;
 
@@ -122,6 +121,6 @@ private:
   iter_t _maxiter;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SIMTIME_H__ */

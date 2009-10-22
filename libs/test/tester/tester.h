@@ -15,9 +15,8 @@
 #ifndef __SAT_TESTER_H__
 #define __SAT_TESTER_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 #include "testbase.h"
 #include "testlist.h"
@@ -43,6 +42,6 @@ int main(int argc, char **argv)
 
 #endif /* TESTER_NOMAIN */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_TESTER_H__ */

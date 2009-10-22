@@ -17,9 +17,8 @@
 
 #include <exception>
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -47,6 +46,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_EXCEPTION_H__ */

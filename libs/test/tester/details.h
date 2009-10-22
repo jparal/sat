@@ -15,9 +15,8 @@
 #ifndef __SAT_DETAILS_H__
 #define __SAT_DETAILS_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -38,7 +37,7 @@ public:
   int const lineNumber;
 
   // Why is it public? --> http://gcc.gnu.org/bugs.html#cxx_rvalbind
-  TestDetails (TestDetails const&); 
+  TestDetails (TestDetails const&);
 
 private:
   TestDetails& operator=(TestDetails const&);
@@ -47,6 +46,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_DETAILS_H__ */

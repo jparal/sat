@@ -20,9 +20,8 @@
 #include "porttypes.h"
 #include "stdhdrs.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 /// splitting and reassembling 64-bit quantities
 #define SAT_MAKEWORD(hi,lo)					\
@@ -62,6 +61,6 @@
 /// pragma omp(critical)
 #define SAT_OMP_CRITICAL SAT_OMP(critical)
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SYSDEFS_H__ */

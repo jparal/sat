@@ -21,9 +21,8 @@
 
 #include "platform.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 /* special GCC features */
 #if defined(PLATFORM_COMPILER_PGI) && defined(__attribute__)
@@ -89,27 +88,27 @@
  * \def SAT_ATTR_NORETURN The noreturn keyword tells the compiler to assume
  * that function cannot return
  *
- * \def SAT_ATTR_NORETURN The \c warn_unused_result attribute causes a warning
+ * \def SAT_ATTR_NORETURN The @c warn_unused_result attribute causes a warning
  * to be emitted if a caller of the function with this attribute does not use
  * its return value. This is useful for functions where not checking the result
- * is either a security problem or always a bug, such as \c realloc.
+ * is either a security problem or always a bug, such as @c realloc.
  *
- * \def SAT_ATTR_MALLOC The \c malloc attribute is used to tell the compiler
- * that a function may be treated as if any non-\c NULL pointer it returns
+ * \def SAT_ATTR_MALLOC The @c malloc attribute is used to tell the compiler
+ * that a function may be treated as if any non-@c NULL pointer it returns
  * cannot alias any other pointer valid when the function returns. This will
  * often improve optimization. Standard functions with this property
- * include \c malloc and \c calloc. \c realloc -like functions have this
+ * include @c malloc and @c calloc. @c realloc -like functions have this
  * property as long as the old pointer is never referred to (including
- * comparing it to the new pointer) after the function returns a non-\c NULL
+ * comparing it to the new pointer) after the function returns a non-@c NULL
  * value.
  *
  * \def SAT_ATTR_PURE Many functions have no effects except the return value
  * and their return value depends only on the parameters and/or global
  * variables. Such a function can be subject to common subexpression
  * elimination and loop optimization just as an arithmetic operator would
- * be. These functions should be declared with the attribute \c pure.
+ * be. These functions should be declared with the attribute @c pure.
  */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_ATTRIBUTES_H__ */

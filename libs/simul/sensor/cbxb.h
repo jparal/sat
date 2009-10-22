@@ -19,9 +19,8 @@
 #include "sensor.h"
 #include "satio.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Compute @f$ (\nabla \times \mathbf{B} \times \mathbf{B})/\rho_c @f$
@@ -97,6 +96,6 @@ private:
   Field<Vector<T,R>,D> *_B;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CBXB_H__ */

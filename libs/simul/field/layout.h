@@ -17,9 +17,8 @@
 
 #include "pint/mpi/cartdec.h"
 
-/** @addtogroup simul_field
- *  @{
- */
+/// @addtogroup simul_field
+/// @{
 
 /**
  * @brief Spatial distribution of Field over several processors.
@@ -113,6 +112,6 @@ private:
   CartDomDecomp<D> _decomp;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_LAYOUT_H__ */

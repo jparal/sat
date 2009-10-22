@@ -19,9 +19,8 @@
 #include "pcle.h"
 #include "cmdpcle.h"
 
-/** @addtogroup simul_pcle
- *  @{
- */
+/// @addtogroup simul_pcle
+/// @{
 
 /**
  * Specie description and manipulation.
@@ -216,6 +215,6 @@ private:
   int Recv (int dim, bool left);
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SPECIE_H__ */

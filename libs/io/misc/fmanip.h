@@ -19,9 +19,8 @@
 #include <sys/stat.h>
 #include "base/common/string.h"
 
-/** @addtogroup io_misc
- *  @{
- */
+/// @addtogroup io_misc
+/// @{
 
 /**
  * @brief File/directory manipulation
@@ -49,6 +48,6 @@ public:
   static void Remove (const String &name);
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_FMANIP_H__ */

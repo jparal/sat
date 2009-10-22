@@ -17,9 +17,8 @@
 
 #include "satbase.h"
 
-/** @addtogroup code_misc
- *  @{
- */
+/// @addtogroup code_misc
+/// @{
 
 /**
  * @brief Base class of codes.
@@ -85,6 +84,6 @@ private:
   String _cfgname; ///< name of configuration file
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CODE_H__ */

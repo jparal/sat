@@ -19,9 +19,8 @@
 #include "pint/satmpi.h"
 #include "satmath.h"
 
-/** @addtogroup simul_pcle
- *  @{
- */
+/// @addtogroup simul_pcle
+/// @{
 
 /**
  * @brief Particle class
@@ -49,6 +48,6 @@ struct Particle
 // MpiIStream<T>& operator>> (MpiOStream<T> &is, const Particle<T,D> &pcle)
 // { is >> pcle.pos >> pcle.vel; return is; }
 
-/** @} */
+/// @}
 
 #endif /* __SAT_PCLE_H__ */

@@ -86,14 +86,14 @@ public:
 
   /**
    * Set description for an object.
-   * \remarks Currently the provided description pointer is
+   * @remarks Currently the provided description pointer is
    *  <b>stored as-is</b>. That means the string must be constant!
    */
   static void SetDescription (void*, const char*) {}
   /**
    * Set description for an object, but only if no description has been set
    * yet.
-   * \remarks Currently the provided description pointer is
+   * @remarks Currently the provided description pointer is
    *  <b>stored as-is</b>. That means the string must be constant!
    */
   static void SetDescriptionWeak (void* obj, const char* description) {}

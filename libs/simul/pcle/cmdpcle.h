@@ -18,9 +18,8 @@
 #include "base/sys/porttypes.h"
 #include "base/common/comparator.h"
 
-/** @addtogroup simul_pcle
- *  @{
- */
+/// @addtogroup simul_pcle
+/// @{
 
 /// particle command type
 typedef uint32_t pclecmd_t;
@@ -100,6 +99,6 @@ public:
   }
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CMDPCLE_H__ */

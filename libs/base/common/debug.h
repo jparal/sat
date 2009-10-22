@@ -19,9 +19,8 @@
 #include "plog.h"
 #include "base/sys/sysdefs.h"
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 namespace Debug {
 
@@ -105,9 +104,9 @@ struct Function
  * @def DBG_TUNE
  * Add manipulators into the stream. Except of all manipulators supported by
  * std library we add following:
- * - \b all Print all processes
- * - \b master Only first process will print
- * - \b mine Only this process will print
+ * - @b all Print all processes
+ * - @b master Only first process will print
+ * - @b mine Only this process will print
  * @def DBG_ENTER
  * Use this macro when entering some function. Using this macro is not
  * mandatory and you are leaving the function on the end of program block.
@@ -142,6 +141,6 @@ struct Function
  * process.
  */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_DEBUG_H__ */

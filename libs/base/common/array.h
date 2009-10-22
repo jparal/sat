@@ -44,8 +44,8 @@
 #  include <typeinfo>
 #endif
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 /**
  * A functor template which encapsulates a key and a comparison function for
@@ -75,9 +75,9 @@ public:
     { key = o.key; cmp = o.cmp; return *this; }
   /**
    * Invoke the functor.
-   * \param r Reference to the element to which the stored key should be
+   * @param r Reference to the element to which the stored key should be
    *   compared.
-   * \return Zero if the key matches the element; less-than-zero if the element
+   * @return Zero if the key matches the element; less-than-zero if the element
    *   is less than the key; greater-than-zero if the element is greater than
    *   the key.
    */
@@ -88,12 +88,12 @@ public:
   operator K const&() const { return key; }
   /**
    * Compare two objects of the same type or different types (T and K).
-   * \param r Reference to the element to which the key should be compared.
-   * \param k Reference to the key to which the element should be compared.
-   * \return Zero if the key matches the element; less-than-zero if the element
+   * @param r Reference to the element to which the key should be compared.
+   * @param k Reference to the key to which the element should be compared.
+   * @return Zero if the key matches the element; less-than-zero if the element
    *   is less than the key; greater-than-zero if the element is greater than
    *   the key.
-   * \remarks Assumes the presence of T::operator<(K) and K::operator<(T).
+   * @remarks Assumes the presence of T::operator<(K) and K::operator<(T).
    *   Default comparison function if client does not supply one.
    */
   static int DefaultCompare(T const& r, K const& k)
@@ -312,7 +312,7 @@ public:
    * Construct capacity handler with a given size_t parameter for the
    * \a Threshold object. The exact meaning of \a x depends on the \a Threshold
    * implementation.
-   * \remarks Mostly for compatibility with existing code.
+   * @remarks Mostly for compatibility with existing code.
    */
   ArrayCapacityLinear (const size_t x) : Threshold (x)
   {}
@@ -400,7 +400,7 @@ const size_t ArrayItemNotFound = (size_t)-1;
  * A templated array class.  The objects in this class are constructed via
  * copy-constructor and are destroyed when they are removed from the array or
  * the array is destroyed.
- * \note If you want to store reference-counted object pointers, such as iFoo*,
+ * @note If you want to store reference-counted object pointers, such as iFoo*,
  * then you should consider RefArray<>, which is more idiomatic than
  * Array<Ref<iFoo> >.
  */
@@ -451,7 +451,7 @@ protected:
 
   /**
    * Set the internal pointer to the data.
-   * \warning This is \em obviously dangerous.
+   * @warning This is @em obviously dangerous.
    */
   void SetData (T* data) { root.p = data; }
 private:
@@ -464,7 +464,7 @@ private:
       ElementHandler::Construct (root.p + i, source[i]);
   }
 
-  /// Set the capacity of the array precisely to \c n elements.
+  /// Set the capacity of the array precisely to @c n elements.
   void InternalSetCapacity (size_t n)
   {
     if (root.p == 0)
@@ -479,8 +479,8 @@ private:
   }
 
   /**
-   * Adjust capacity of this array to \c n elements rounded up to a multiple of
-   * \c threshold.
+   * Adjust capacity of this array to @c n elements rounded up to a multiple of
+   * @c threshold.
    */
   void AdjustCapacity (size_t n)
   {
@@ -492,7 +492,7 @@ private:
 
   /**
    * Set array length.
-   * \warning Do not make this public since it does not properly
+   * @warning Do not make this public since it does not properly
    *   construct/destroy elements.  To safely truncate the array, use
    *   Truncate().  To safely set the capacity, use SetCapacity().
    */
@@ -506,12 +506,12 @@ private:
 public:
   /**
    * Compare two objects of the same type.
-   * \param r1 Reference to first object.
-   * \param r2 Reference to second object.
-   * \return Zero if the objects are equal; less-than-zero if the first object
+   * @param r1 Reference to first object.
+   * @param r2 Reference to second object.
+   * @return Zero if the objects are equal; less-than-zero if the first object
    *   is less than the second; or greater-than-zero if the first object is
    *   greater than the second.
-   * \remarks Assumes the existence of T::operator<(T).  This is the default
+   * @remarks Assumes the existence of T::operator<(T).  This is the default
    *   comparison function used by Array for sorting if the client does not
    *   provide a custom function.
    */
@@ -521,7 +521,7 @@ public:
   }
 
   /**
-   * Initialize object to have initial capacity of \c in_capacity elements.
+   * Initialize object to have initial capacity of @c in_capacity elements.
    * The storage increase depends on the specified capacity handler. The
    * default capacity handler accepts a threshold parameter by which the
    * storage is increased each time the upper bound is exceeded.
@@ -543,7 +543,7 @@ public:
     }
   }
   /**
-   * Initialize object to have initial capacity of \c in_capacity elements
+   * Initialize object to have initial capacity of @c in_capacity elements
    * and with specific memory allocator and capacity handler initializations.
    */
   Array (size_t in_capacity,
@@ -627,8 +627,8 @@ public:
    * Set the actual number of items in this array. This can be used to shrink
    * an array (like Truncate()) or to enlarge an array, in which case it will
    * properly construct all new items based on the given item.
-   * \param n New array length.
-   * \param what Object used as template to construct each newly added object
+   * @param n New array length.
+   * @param what Object used as template to construct each newly added object
    *   using the object's copy constructor when the array size is increased by
    *   this method.
    */
@@ -652,7 +652,7 @@ public:
    * an array (like Truncate()) or to enlarge an array, in which case it will
    * properly construct all new items using their default (zero-argument)
    * constructor.
-   * \param n New array length.
+   * @param n New array length.
    */
   void SetSize (size_t n)
   {
@@ -736,7 +736,7 @@ public:
    * within an element, or otherwise derived from it. The incoming key \e
    * functor defines the relationship between the key and the array's element
    * type.
-   * \return ArrayItemNotFound if not found, else item index.
+   * @return ArrayItemNotFound if not found, else item index.
    */
   template <class K>
   size_t FindKey (ArrayCmp<T,K> comparekey) const
@@ -749,7 +749,7 @@ public:
 
   /**
    * Push a copy of an element onto the tail end of the array.
-   * \return Index of newly added element.
+   * @return Index of newly added element.
    */
   size_t Push (T const& what)
   {
@@ -776,7 +776,7 @@ public:
 
   /**
    * Push a element onto the tail end of the array if not already present.
-   * \return Index of newly pushed element or index of already present element.
+   * @return Index of newly pushed element or index of already present element.
    */
   size_t PushSmart (T const& what)
   {
@@ -808,7 +808,7 @@ public:
     return root.p [count - 1];
   }
 
-  /// Insert element \c item before element \c n.
+  /// Insert element @c item before element @c n.
   bool Insert (size_t n, T const& item)
   {
     if (n <= count)
@@ -825,7 +825,7 @@ public:
   }
 
   /**
-   * Get the portion of the array between \c low and \c high inclusive.
+   * Get the portion of the array between @c low and @c high inclusive.
    */
   Array<T> Section (size_t low, size_t high) const
   {
@@ -837,8 +837,8 @@ public:
 
   /**
    * Find an element based on some key, using a comparison function.
-   * \return ArrayItemNotFound if not found, else the item index.
-   * \remarks The array must be sorted.
+   * @return ArrayItemNotFound if not found, else the item index.
+   * @remarks The array must be sorted.
    */
   template <class K>
   size_t FindSortedKey (ArrayCmp<T,K> comparekey,
@@ -868,12 +868,12 @@ public:
   /**
    * Insert an element at a sorted position, using an element comparison
    * function.
-   * \param item The item to insert.
-   * \param compare [optional] Pointer to a function to compare two elements.
-   * \param equal_index [optional] Returns the index of an element equal to
+   * @param item The item to insert.
+   * @param compare [optional] Pointer to a function to compare two elements.
+   * @param equal_index [optional] Returns the index of an element equal to
    *   the one to be inserted, if one is found. ArrayItemNotFound otherwise.
-   * \return The index of the inserted item.
-   * \remarks The array must be sorted.
+   * @return The index of the inserted item.
+   * @remarks The array must be sorted.
    */
   size_t InsertSorted (const T& item,
     int (*compare)(T const&, T const&) = DefaultCompare,
@@ -906,12 +906,12 @@ public:
   /**
    * Insert an element at a sorted position, using an element comparison
    * function only when not present yet.
-   * \param item The item to insert.
-   * \param compare [optional] Pointer to a function to compare two elements.
-   * \param equal_index [optional] Returns the index of an element equal to
+   * @param item The item to insert.
+   * @param compare [optional] Pointer to a function to compare two elements.
+   * @param equal_index [optional] Returns the index of an element equal to
    *   the one to be inserted, if one is found. ArrayItemNotFound otherwise.
-   * \return The index of the inserted item.
-   * \remarks The array must be sorted.
+   * @return The index of the inserted item.
+   * @remarks The array must be sorted.
    */
   size_t InsertSortedUnique (const T& item,
     int (*compare)(T const&, T const&) = DefaultCompare,
@@ -942,8 +942,8 @@ public:
 
   /**
    * Find an element in array.
-   * \return ArrayItemNotFound if not found, else the item index.
-   * \warning Performs a slow linear search. For faster searching, sort the
+   * @return ArrayItemNotFound if not found, else the item index.
+   * @warning Performs a slow linear search. For faster searching, sort the
    *   array and then use FindSortedKey().
    */
   size_t Find (T const& which) const
@@ -999,12 +999,12 @@ public:
   /**
    * Truncate array to specified number of elements. The new number of
    * elements cannot exceed the current number of elements.
-   * \remarks Does not reclaim memory used by the array itself, though the
+   * @remarks Does not reclaim memory used by the array itself, though the
    *   removed objects are destroyed. To reclaim the array's memory invoke
    *   ShrinkBestFit(), or DeleteAll() if you want to release all allocated
    *   resources.
    * <p>
-   * \remarks The more general-purpose SetSize() method can also enlarge the
+   * @remarks The more general-purpose SetSize() method can also enlarge the
    *   array.
    */
   void Truncate (size_t n)
@@ -1030,7 +1030,7 @@ public:
 
   /**
    * Return true if the array is empty.
-   * \remarks Rigidly equivalent to <tt>return GetSize() == 0</tt>, but more
+   * @remarks Rigidly equivalent to <tt>return GetSize() == 0</tt>, but more
    *   idiomatic.
    */
   bool IsEmpty() const
@@ -1039,8 +1039,8 @@ public:
   }
 
   /**
-   * Set vector capacity to approximately \c n elements.
-   * \remarks Never sets the capacity to fewer than the current number of
+   * Set vector capacity to approximately @c n elements.
+   * @remarks Never sets the capacity to fewer than the current number of
    *   elements in the array.  See Truncate() or SetSize() if you need to
    *   adjust the number of actual array elements.
    */
@@ -1051,8 +1051,8 @@ public:
   }
 
   /**
-   * Set vector capacity to at least \c n elements.
-   * \remarks Never sets the capacity to fewer than the current number of
+   * Set vector capacity to at least @c n elements.
+   * @remarks Never sets the capacity to fewer than the current number of
    *   elements in the array.  See Truncate() or SetSize() if you need to
    *   adjust the number of actual array elements. This function will also
    *   never shrink the current capacity.
@@ -1085,7 +1085,7 @@ public:
   /**
    * Delete an element from the array.
    * return True if the indicated item index was valid, else false.
-   * \remarks Deletion speed is proportional to the size of the array and the
+   * @remarks Deletion speed is proportional to the size of the array and the
    *   location of the element being deleted. If the order of the elements in
    *   the array is not important, then you can instead use DeleteIndexFast()
    *   for constant-time deletion.
@@ -1109,8 +1109,8 @@ public:
   /**
    * Delete an element from the array in constant-time, regardless of the
    * array's size.
-   * \return index of remove item or ArrayItemNotFound otherwise
-   * \remarks This is a special version of DeleteIndex() which does not
+   * @return index of remove item or ArrayItemNotFound otherwise
+   * @remarks This is a special version of DeleteIndex() which does not
    *   preserve the order of the remaining elements. This characteristic allows
    *   deletions to be performed in constant-time, regardless of the size of
    *   the array.
@@ -1133,8 +1133,8 @@ public:
 
   /**
    * Delete a given range (inclusive).
-   * \remarks Will clamp \c start and \c end to the array limits.
-   * \return false in case the inputs were invalid (ArrayItemNotFound)
+   * @remarks Will clamp @c start and @c end to the array limits.
+   * @return false in case the inputs were invalid (ArrayItemNotFound)
    * or if the start is greater then the number of items in the array.
    */
   bool DeleteRange (size_t start, size_t end)
@@ -1159,7 +1159,7 @@ public:
 
   /**
    * Delete the given element from the array.
-   * \remarks Performs a linear search of the array to locate \c item, thus it
+   * @remarks Performs a linear search of the array to locate @c item, thus it
    *   may be slow for large arrays.
    */
   bool Delete (T const& item)
@@ -1172,15 +1172,15 @@ public:
 
   /**
    * Delete the given element from the array.
-   * \remarks This is a special version of Delete() which does not
+   * @remarks This is a special version of Delete() which does not
    *   preserve the order of the remaining elements. This characteristic allows
    *   deletions to be performed somewhat more quickly than by Delete(),
    *   however the speed gain is largely mitigated by the fact that a linear
-   *   search is performed in order to locate \c item, thus this optimization
+   *   search is performed in order to locate @c item, thus this optimization
    *   is mostly illusory.
    * \deprecated The speed gain promised by this method is mostly illusory on
    *   account of the linear search for the item. In many cases, it will be
-   *   faster to keep the array sorted, search for \c item using
+   *   faster to keep the array sorted, search for @c item using
    *   FindSortedKey(), and then remove it using the plain DeleteIndex().
    */
   //  SAT_DEPRECATED_METHOD_MSG("'Fast' is illusory. See documentation")
@@ -1301,8 +1301,8 @@ class SafeCopyArray
 {
 public:
   /**
-   * Initialize object to hold initially \c limit elements, and increase
-   * storage by \c threshold each time the upper bound is exceeded.
+   * Initialize object to hold initially @c limit elements, and increase
+   * storage by @c threshold each time the upper bound is exceeded.
    */
   SafeCopyArray (size_t limit = 0,
 		 const CapacityHandler& ch = CapacityHandler())
@@ -1314,6 +1314,6 @@ public:
 
 #include "newenable.h"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_ARRAY_H__ */

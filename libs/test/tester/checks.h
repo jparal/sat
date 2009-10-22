@@ -18,9 +18,8 @@
 #include "base/common/string.h"
 #include "results.h"
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -161,6 +160,6 @@ void CheckArray2DClose(TestResults& results, Expected const expected, Actual con
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CHECKS_H__ */

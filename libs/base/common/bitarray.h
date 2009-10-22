@@ -235,7 +235,7 @@ public:
 
     /**
      * Flip state of this bit.
-     * \return New state of bit.
+     * @return New state of bit.
      */
     bool Flip()
     {
@@ -304,7 +304,7 @@ public:
 
   /**
    * Set the number of stored bits.
-   * \remarks If the new size is larger than the old size, the newly added
+   * @remarks If the new size is larger than the old size, the newly added
    *    bits are cleared.
    */
   void SetSize (size_t newSize)
@@ -621,6 +621,5 @@ class Comparator<BitArray, BitArray> :
 template<>
 class HashComputer<BitArray> :
   public HashComputerBitArray<BitArray> { };
-
 
 #endif // __SAT_BITARRAY_H__

@@ -35,8 +35,8 @@
 #include "comparator.h"
 #include "strutil.h"
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 /**
  * Compute a hash key for a null-terminated string.
@@ -328,7 +328,7 @@ public:
 
   /**
    * Add an element to the hash table.
-   * \remarks If `key' is already present, does NOT replace the existing value,
+   * @remarks If `key' is already present, does NOT replace the existing value,
    *   but merely adds `value' as an additional value of `key'. To retrieve all
    *   values for a given key, use GetAll(). If you instead want to replace an
    *   existing value for 'key', use PutUnique().
@@ -436,7 +436,7 @@ public:
 
   /**
    * Returns whether at least one element matches the given key.
-   * \remarks This is rigidly equivalent to Contains(key), but may be
+   * @remarks This is rigidly equivalent to Contains(key), but may be
    *   considered more idiomatic by some.
    */
   bool In (const K& key) const
@@ -612,7 +612,7 @@ public:
 
   /**
    * Return true if the hash is empty.
-   * \remarks Rigidly equivalent to <tt>return GetSize() == 0</tt>, but more
+   * @remarks Rigidly equivalent to <tt>return GetSize() == 0</tt>, but more
    *   idiomatic.
    */
   bool IsEmpty() const
@@ -985,7 +985,7 @@ public:
   /**
    * Return an iterator for the hash, to iterate only over the elements
    * with the given key.
-   * \warning Modifying the hash (except with DeleteElement()) while you have
+   * @warning Modifying the hash (except with DeleteElement()) while you have
    *   open iterators will result in undefined behaviour.
    */
   Iterator GetIterator (const K& key)
@@ -995,7 +995,7 @@ public:
 
   /**
    * Return an iterator for the hash, to iterate over all elements.
-   * \warning Modifying the hash (except with DeleteElement()) while you have
+   * @warning Modifying the hash (except with DeleteElement()) while you have
    *   open iterators will result in undefined behaviour.
    */
   GlobalIterator GetIterator ()
@@ -1006,7 +1006,7 @@ public:
   /**
    * Return a const iterator for the hash, to iterate only over the elements
    * with the given key.
-   * \warning Modifying the hash (except with DeleteElement()) while you have
+   * @warning Modifying the hash (except with DeleteElement()) while you have
    *   open iterators will result in undefined behaviour.
    */
   ConstIterator GetIterator (const K& key) const
@@ -1016,7 +1016,7 @@ public:
 
   /**
    * Return a const iterator for the hash, to iterate over all elements.
-   * \warning Modifying the hash (except with DeleteElement()) while you have
+   * @warning Modifying the hash (except with DeleteElement()) while you have
    *   open iterators will result in undefined behaviour.
    */
   ConstGlobalIterator GetIterator () const
@@ -1025,6 +1025,6 @@ public:
   }
 };
 
-/** @} */
+/// @}
 
 #endif

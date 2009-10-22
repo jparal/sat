@@ -18,9 +18,8 @@
 #include "base/sys/inline.h"
 #include "satmath.h"
 
-/** @addtogroup simul_field
- *  @{
- */
+/// @addtogroup simul_field
+/// @{
 
 template<class T, int D>
 struct BilinearWeightCache
@@ -41,6 +40,6 @@ static void FillCache (const Vector<T,D> &pos, BilinearWeightCache<T,D> &cache);
 
 #include "bwcache.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_BWCACHE_H__ */

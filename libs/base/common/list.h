@@ -30,9 +30,8 @@
 
 #include "base/sys/assert.h"
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 /**
  * A lightweight double-linked list template.  Copies the elements into the
@@ -274,6 +273,6 @@ private:
 
 #include "list.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_LIST_H__ */

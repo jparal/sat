@@ -18,9 +18,8 @@
 #include <signal.h>
 #include <fpu_control.h>
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 namespace SAT
 {
@@ -28,6 +27,6 @@ namespace SAT
   void EnableFPException ();
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_ONSIGNAL_H__ */

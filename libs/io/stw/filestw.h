@@ -22,9 +22,8 @@
 
 #define STWFILE_VALUES_PER_LINE 5
 
-/** @addtogroup io_stw
- *  @{
- */
+/// @addtogroup io_stw
+/// @{
 
 struct File
 {
@@ -98,7 +97,7 @@ private:
   std::istream *_ifs[D];
 };
 
-/** @} */
+/// @}
 
 #include "filestw.cpp"
 

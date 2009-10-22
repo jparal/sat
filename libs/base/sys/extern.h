@@ -15,10 +15,8 @@
 #ifndef __SAT_EXTERN_H__
 #define __SAT_EXTERN_H__
 
-
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 /**
  * BEG_C_DECLS should be used at the beginning of your declarations, so that
@@ -37,7 +35,6 @@
 #  define END_C_DECLS /* empty */
 #endif
 
-
-/** @} */
+/// @}
 
 #endif /* __SAT_EXTERN_H__ */

@@ -30,8 +30,8 @@
 
 #include "base/sys/stdhdrs.h"
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 /**
  * Allocate a new char [] and copy the string into the newly allocated
@@ -67,11 +67,11 @@ void SplitPath (const char *iPathName, char *oPath,
   size_t iPathSize, char *oName, size_t iNameSize);
 
 /**
- * Perform shell-like filename \e globbing (pattern matching).
+ * Perform shell-like filename @e globbing (pattern matching).
  * The special token \p * matches zero or more characters, and the token \p ?
  * matches exactly one character. Examples: "*a*.txt", "*a?b*", "*"
  * Character-classes \p [a-z] are not understood by this function.
- * \remark If you want case-insensitive comparison, convert \p fName and
+ * @remark If you want case-insensitive comparison, convert \p fName and
  *   \p fMask to upper- or lower-case first.
  */
 bool GlobMatches (const char *fName,
@@ -85,6 +85,6 @@ bool GlobMatches (const char *fName,
 void ReplaceAll (char *dest, const char *src,
   const char *search, const char *replace, int max);
 
-/** @} */
+/// @}
 
 #endif /* __SAT_STRUTIL_H__ */

@@ -19,36 +19,33 @@
 #ifndef SAT_COMPARATOR_H
 #define SAT_COMPARATOR_H
 
-/**\file
- * Template providing various comparison and ordering functions.
- */
+/// @file
+/// Template providing various comparison and ordering functions.
 
 //#include "string.h"
 class String;
 class StringBase;
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
-/**
- * A template providing various comparison and ordering functions.
- */
+/// A template providing various comparison and ordering functions.
 template <class T1, class T2>
 class Comparator
 {
 public:
   /**
    * Compare two objects of the same type or different types (T1 and T2).
-   * \param r1 Reference to first object.
-   * \param r2 Reference to second object.
-   * \return Zero if the objects are equal; less-than-zero if the first object
+   * @param r1 Reference to first object.
+   * @param r2 Reference to second object.
+   * @return Zero if the objects are equal; less-than-zero if the first object
    *   is less than the second; or greater-than-zero if the first object is
    *   greater than the second.
-   * \remarks Assumes the existence of T1::operator<(T2) and T2::operator<(T1).
+   * @remarks Assumes the existence of T1::operator<(T2) and T2::operator<(T1).
    *   If T1 and T2 are the same type T, then only T::operator<(T) is assumed
    *   (naturally).
    * <p>
-   * \remarks This is the default comparison function used by csArray<> for
+   * @remarks This is the default comparison function used by csArray<> for
    *   searching and sorting if the client does not provide a custom
    *   function. It is also used by csSet<> when checking for object
    *   containment.
@@ -65,10 +62,10 @@ public:
  * Template that can be used as a base class for comparators for string
  * types. Assumes presence of `operator char const*()' (the cast operator).
  * Also works for normal C-strings.  Example:
- * \code
+ * @code
  * SAT_SPECIALIZE_TEMPLATE Comparator<MyString> :
  *   public ComparatorString<MyString> {};
- * \endcode
+ * @endcode
  */
 template <class T>
 class ComparatorString
@@ -111,10 +108,10 @@ class Comparator<StringBase, StringBase> :
  * Template that can be used as a base class for comparators for POD (plain old
  * data) types. It uses memcmp() to compare the raw memory representing the two
  * items.  Example:
- * \code
+ * @code
  * SAT_SPECIALIZE_TEMPLATE Comparator<MyStruct> :
  *   public ComparatorStruct<MyStruct> {};
- * \endcode
+ * @endcode
  */
 template<class T>
 class ComparatorStruct
@@ -126,6 +123,6 @@ public:
   }
 };
 
-/** @} */
+/// @}
 
 #endif //SAT_COMPARATOR_H

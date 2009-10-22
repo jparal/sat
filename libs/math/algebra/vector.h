@@ -28,9 +28,8 @@ template<class T> class MpiIStream;
 /// Small value to compare Vector to be zero.
 #define SMALL_EPS 0.0001
 
-/** @addtogroup math_alg
- *  @{
- */
+/// @addtogroup math_alg
+/// @{
 
 /**
  * Tiny Vector implementation.
@@ -58,7 +57,7 @@ public:
   /// @name Constructors
   /// @{
 
-  /// Create an \b uninitialized vector.
+  /// Create an @b uninitialized vector.
   Vector () {}
 
   /// Create Vector where all components are initialized to one number.
@@ -309,11 +308,11 @@ public:
   { for (int i=0; i<D; ++i) is >> v._d[i]; return is; }
 
 public:
-  ///Vector components
+  /// Vector components
   T _d[D];
 };
 
-/** @} */
+/// @}
 
 #include "vector.cpp"
 

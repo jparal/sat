@@ -15,9 +15,8 @@
 #ifndef __SAT_RUNNER_H__
 #define __SAT_RUNNER_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
@@ -35,6 +34,6 @@ int RunAllTests (TestReporter   &reporter,
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_RUNNER_H__ */

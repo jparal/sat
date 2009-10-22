@@ -15,10 +15,8 @@
 #ifndef __SAT_REPSTDOUT_H__
 #define __SAT_REPSTDOUT_H__
 
-
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 #include "reporter.h"
 
@@ -26,7 +24,7 @@ namespace SAT {
 namespace Test {
 
 /**
- * \brief Reporter of the test results into standart output
+ * @brief Reporter of the test results into standart output
  */
 class TestReporterStdout : public TestReporter
 {
@@ -44,6 +42,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_REPSTDOUT_H__ */

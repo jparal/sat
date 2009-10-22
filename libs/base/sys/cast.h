@@ -17,9 +17,8 @@
 
 #include "satconfig.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 #if !defined(HAVE_STATIC_CAST)			\
  || !defined(HAVE_DYNAMIC_CAST) 		\
@@ -50,6 +49,6 @@
  * @def SAT_CONST_CAST constant cast
  */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CAST_H__ */

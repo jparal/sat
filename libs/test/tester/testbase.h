@@ -15,9 +15,8 @@
 #ifndef __SAT_TESTBASE_H__
 #define __SAT_TESTBASE_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 #include "details.h"
 #include "results.h"
@@ -29,7 +28,7 @@ class TestResults;
 class TestList;
 
 /**
- * \brief Main class implementing Test itself
+ * @brief Main class implementing Test itself
  */
 class Test
 {
@@ -57,6 +56,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_TESTBASE_H__ */

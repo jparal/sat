@@ -18,9 +18,8 @@
 #include "sensor.h"
 #include "simul/pcle/camspecie.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Particle distribution function sensor.
@@ -51,6 +50,6 @@ private:
   TVecField *_bfld;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_DISTFNC_H__ */

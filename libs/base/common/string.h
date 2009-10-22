@@ -43,9 +43,8 @@
 #include <iostream>
 #include "newenable.h"
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 /**
  * This is a string class with a range of useful operators and type-safe
@@ -107,11 +106,11 @@ protected:
 
   /**
    * Get a pointer to the null-terminated character array.
-   * \return A C-string pointer to the null-terminated character array; or zero
+   * @return A C-string pointer to the null-terminated character array; or zero
    *   if the string represents a null-pointer.
-   * \remarks See the class description for a discussion about how and when the
+   * @remarks See the class description for a discussion about how and when the
    *   string will represent a null-pointer.
-   * \warning This returns a non-const pointer, so use this function with care.
+   * @warning This returns a non-const pointer, so use this function with care.
    *   Call this only when you need to modify the string content. External
    *   clients are never allowed to directly modify the internal string buffer,
    *   which is why this function is not public.
@@ -122,7 +121,7 @@ protected:
 public:
   /**
    * Ask the string to allocate enough space to hold \p NewSize characters.
-   * \remarks After calling this method, the string's internal capacity will be
+   * @remarks After calling this method, the string's internal capacity will be
    *   at least \p NewSize + 1 (one for the implicit null terminator).  Never
    *   shrinks capacity.  If you need to actually reclaim memory, then use
    *   Free() or ShrinkBestFit().
@@ -138,41 +137,41 @@ public:
 
   /**
    * Append a null-terminated C-string to this one.
-   * \param Str String which will be appended.
-   * \param Count Number of characters from Str to append; if -1 (the default),
+   * @param Str String which will be appended.
+   * @param Count Number of characters from Str to append; if -1 (the default),
    *   then all characters from Str will be appended.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   StringBase& Append (const char* Str, size_t Count = (size_t)-1);
 
   /**
    * Append a null-terminated wide string to this one.
-   * \param Str String which will be appended.
-   * \param Count Number of characters from Str to append; if -1 (the default),
+   * @param Str String which will be appended.
+   * @param Count Number of characters from Str to append; if -1 (the default),
    *   then all characters from Str will be appended.
-   * \return Reference to itself.
-   * \remarks The string will be appended as UTF-8.
+   * @return Reference to itself.
+   * @remarks The string will be appended as UTF-8.
    */
   //  StringBase& Append (const wchar_t* Str, size_t Count = (size_t)-1);
 
   /**
    * Append a string to this one.
-   * \param Str String which will be appended.
-   * \param Count Number of characters from Str to append; if -1 (the default),
+   * @param Str String which will be appended.
+   * @param Count Number of characters from Str to append; if -1 (the default),
    *   then all characters from Str will be appended.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   StringBase& Append (const StringBase& Str, size_t Count = (size_t)-1);
 
   /**
    * Append a signed character to this string.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   StringBase& Append (char c);
 
   /**
    * Append an unsigned character to this string.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   /*StringBase& Append (unsigned char c)
   { return Append(char(c)); }*/
@@ -202,7 +201,7 @@ public:
 
   /**
    * Create an empty StringBase object.
-   * \remarks The newly constructed string represents a null-pointer.
+   * @remarks The newly constructed string represents a null-pointer.
    */
   StringBase () : Data (0), Size (0), MaxSize (0), GrowBy (DEFAULT_GROW_BY)
   {}
@@ -210,7 +209,7 @@ public:
   /**
    * Create a StringBase object and reserve space for at least \p Length
    * characters.
-   * \remarks The newly constructed string represents a non-null zero-length
+   * @remarks The newly constructed string represents a non-null zero-length
    *   string.
    */
   StringBase (size_t Length) : Data (0), Size (0), MaxSize (0),
@@ -219,7 +218,7 @@ public:
 
   /**
    * Copy constructor.
-   * \remarks The newly constructed string will represent a null-pointer if and
+   * @remarks The newly constructed string will represent a null-pointer if and
    *   only if the template string represented a null-pointer.
    */
   StringBase (const StringBase& copy) : Data (0), Size (0), MaxSize (0),
@@ -228,7 +227,7 @@ public:
 
   /**
    * Create a StringBase object from a null-terminated C string.
-   * \remarks The newly constructed string will represent a null-pointer if and
+   * @remarks The newly constructed string will represent a null-pointer if and
    *   only if the input argument is a null-pointer.
    */
   StringBase (const char* src) : Data (0), Size (0), MaxSize (0),
@@ -237,9 +236,9 @@ public:
 
   /**
    * Create a StringBase object from a null-terminated wide string.
-   * \remarks The newly constructed string will represent a null-pointer if and
+   * @remarks The newly constructed string will represent a null-pointer if and
    *   only if the input argument is a null-pointer.
-   * \remarks The string will be stored as UTF-8.
+   * @remarks The string will be stored as UTF-8.
    */
 //   StringBase (const wchar_t* src) : Data (0), Size (0), MaxSize (0),
 //     GrowBy (DEFAULT_GROW_BY)
@@ -247,7 +246,7 @@ public:
 
   /**
    * Create a StringBase object from a C string, given the length.
-   * \remarks The newly constructed string will represent a null-pointer if and
+   * @remarks The newly constructed string will represent a null-pointer if and
    *   only if the input argument is a null-pointer.
    */
   StringBase (const char* src, size_t _length) : Data (0), Size (0),
@@ -256,9 +255,9 @@ public:
 
   /**
    * Create a StringBase object from a wide string, given the length.
-   * \remarks The newly constructed string will represent a null-pointer if and
+   * @remarks The newly constructed string will represent a null-pointer if and
    *   only if the input argument is a null-pointer.
-   * \remarks The string will be stored as UTF-8.
+   * @remarks The string will be stored as UTF-8.
    */
 //   StringBase (const wchar_t* src, size_t _length) : Data (0), Size (0),
 //         MaxSize (0), GrowBy (DEFAULT_GROW_BY)
@@ -282,18 +281,18 @@ public:
    * approximately this many bytes when more space is required. This is an
    * optimization to avoid excessive memory reallocation and heap management,
    * which can be quite slow.
-   * \remarks This value is only a suggestion.  The actual value by which it
+   * @remarks This value is only a suggestion.  The actual value by which it
    *   grows may be rounded up or down to an implementation-dependent
    *   allocation multiple.
    * <p>
-   * \remarks If the value is zero, then the internal buffer grows
+   * @remarks If the value is zero, then the internal buffer grows
    *   exponentially by doubling its size, rather than by fixed increments.
    */
   void SetGrowsBy(size_t);
 
   /**
    * Return the number of bytes by which the string grows.
-   * \remarks If the return value is zero, then the internal buffer grows
+   * @remarks If the return value is zero, then the internal buffer grows
    *   exponentially by doubling its size, rather than by fixed increments.
    */
   size_t GetGrowsBy() const
@@ -301,7 +300,7 @@ public:
 
   /**
    * Free the memory allocated for the string.
-   * \remarks Following a call to this method, invocations of GetData() and
+   * @remarks Following a call to this method, invocations of GetData() and
    *   'operator char const*' will return a null pointer (until some new
    *   content is added to the string).
    */
@@ -309,10 +308,10 @@ public:
 
   /**
    * Truncate the string.
-   * \param Len The number of characters to which the string should be
+   * @param Len The number of characters to which the string should be
    *   truncated (possibly 0).
-   * \return Reference to itself.
-   * \remarks Will only make a string shorter; will never extend it.
+   * @return Reference to itself.
+   * @remarks Will only make a string shorter; will never extend it.
    *   This method does not reclaim memory; it merely shortens the string,
    *   which means that Truncate(0) is a handy method of clearing the string,
    *   without the overhead of slow heap management.  This may be important if
@@ -327,15 +326,15 @@ public:
 
   /**
    * Clear the string (so that it contains only a null terminator).
-   * \return Reference to itself.
-   * \remarks This is rigidly equivalent to Truncate(0).
+   * @return Reference to itself.
+   * @remarks This is rigidly equivalent to Truncate(0).
    */
   StringBase& Empty() { return Truncate (0); }
 
   /**
    * Set string buffer capacity to hold exactly the current content.
-   * \return Reference to itself.
-   * \remarks If the string length is greater than zero, then the buffer's
+   * @return Reference to itself.
+   * @remarks If the string length is greater than zero, then the buffer's
    *   capacity will be adjusted to exactly that size.  If the string length is
    *   zero, then this is equivalent to an invocation of Free(), which means
    *   that GetData() and 'operator char const*' will return a null pointer
@@ -345,8 +344,8 @@ public:
 
   /**
    * Set string buffer capacity to hold exactly the current content.
-   * \return Reference to itself.
-   * \remarks If the string length is greater than zero, then the buffer's
+   * @return Reference to itself.
+   * @remarks If the string length is greater than zero, then the buffer's
    *   capacity will be adjusted to exactly that size.  If the string length is
    *   zero, then this is equivalent to an invocation of Free(), which means
    *   that GetData() and 'operator char const*' will return a null pointer
@@ -356,17 +355,17 @@ public:
 
   /**
    * Clear the string (so that it contains only a null terminator).
-   * \return Reference to itself.
-   * \remarks This is rigidly equivalent to Empty(), but more idiomatic in
+   * @return Reference to itself.
+   * @remarks This is rigidly equivalent to Empty(), but more idiomatic in
    *   terms of human language.
    */
   StringBase& Clear () { return Empty(); }
 
   /**
    * Get a pointer to the null-terminated character array.
-   * \return A C-string pointer to the null-terminated character array; or zero
+   * @return A C-string pointer to the null-terminated character array; or zero
    *   if the string represents a null-pointer.
-   * \remarks See the class description for a discussion about how and when the
+   * @remarks See the class description for a discussion about how and when the
    *   string will represent a null-pointer.
    */
   virtual char const* GetData () const
@@ -374,8 +373,8 @@ public:
 
   /**
    * Get a pointer to the null-terminated character array.
-   * \return A C-string pointer to the null-terminated character array.
-   * \remarks Unlike GetData(), this will always return a valid, non-null
+   * @return A C-string pointer to the null-terminated character array.
+   * @remarks Unlike GetData(), this will always return a valid, non-null
    *   C-string, even if the underlying representation is that of a
    *   null-pointer (in which case, it will return a zero-length C-string.
    *   This is a handy convenience which makes it possible to use the result
@@ -386,16 +385,16 @@ public:
 
   /**
    * Query string length.
-   * \return The string length.
-   * \remarks The returned length does not count the implicit null terminator.
+   * @return The string length.
+   * @remarks The returned length does not count the implicit null terminator.
    */
   size_t Length () const
   { return Size; }
 
   /**
    * Check if string is empty.
-   * \return True if the string is empty; false if it is not.
-   * \remarks This is rigidly equivalent to the expression 'Length() == 0'.
+   * @return True if the string is empty; false if it is not.
+   * @remarks This is rigidly equivalent to the expression 'Length() == 0'.
    */
   bool IsEmpty () const
   { return (Size == 0); }
@@ -416,7 +415,7 @@ public:
 
   /**
    * Set the n'th character.
-   * \remarks The n'th character position must be a valid position in the
+   * @remarks The n'th character position must be a valid position in the
    *   string.  You can not expand the string by setting a character beyond the
    *   end of string.
    */
@@ -435,51 +434,51 @@ public:
 
   /**
    * Delete a range of characters from the string.
-   * \param Pos Beginning of range to be deleted (zero-based).
-   * \param Count Number of characters to delete.
-   * \return Reference to itself.
+   * @param Pos Beginning of range to be deleted (zero-based).
+   * @param Count Number of characters to delete.
+   * @return Reference to itself.
    */
   StringBase& DeleteAt (size_t Pos, size_t Count = 1);
 
   /**
    * Insert another string into this one.
-   * \param Pos Position at which to insert the other string (zero-based).
-   * \param Str String to insert.
-   * \return Reference to itself.
+   * @param Pos Position at which to insert the other string (zero-based).
+   * @param Str String to insert.
+   * @return Reference to itself.
    */
   StringBase& Insert (size_t Pos, const StringBase& Str);
 
   /**
    * Insert another string into this one.
-   * \param Pos Position at which to insert the other string (zero-based).
-   * \param Str String to insert.
-   * \return Reference to itself.
+   * @param Pos Position at which to insert the other string (zero-based).
+   * @param Str String to insert.
+   * @return Reference to itself.
    */
   StringBase& Insert (size_t Pos, const char* Str);
 
   /**
    * Insert another string into this one.
-   * \param Pos Position at which to insert the other string (zero-based).
-   * \param C Character to insert.
-   * \return Reference to itself.
+   * @param Pos Position at which to insert the other string (zero-based).
+   * @param C Character to insert.
+   * @return Reference to itself.
    */
   StringBase& Insert (size_t Pos, char C);
 
   /**
    * Overlay another string onto a part of this string.
-   * \param Pos Position at which to insert the other string (zero-based).
-   * \param Str String which will be overlayed atop this string.
-   * \return Reference to itself.
-   * \remarks The target string will grow as necessary to accept the new
+   * @param Pos Position at which to insert the other string (zero-based).
+   * @param Str String which will be overlayed atop this string.
+   * @return Reference to itself.
+   * @remarks The target string will grow as necessary to accept the new
    *   string.
    */
   StringBase& Overwrite (size_t Pos, const StringBase& Str);
 
   /**
    * Copy and return a portion of this string.
-   * \param start Start position of slice (zero-based).
-   * \param len Number of characters in slice.
-   * \return The indicated string slice.
+   * @param start Start position of slice (zero-based).
+   * @param len Number of characters in slice.
+   * @return The indicated string slice.
    */
   StringBase Slice (size_t start, size_t len = (size_t)-1) const;
 
@@ -487,18 +486,18 @@ public:
    * Add new lines at every maxChars and indent from left.
    * This function consider already inserted new lines and in this case start
    * indenting from the begining.
-   * \param maxChars Number of chars on line
-   * \param indent Number of characters to indent from left.
+   * @param maxChars Number of chars on line
+   * @param indent Number of characters to indent from left.
    * \todo Consider words in formating as well.
    */
   void Format (size_t maxChars, size_t indent = 0);
 
   /**
    * Copy a portion of this string.
-   * \param sub Strign which will receive the indicated substring copy.
-   * \param start Start position of slice (zero-based).
-   * \param len Number of characters in slice.
-   * \remarks Use this method instead of Slice() for cases where you expect to
+   * @param sub Strign which will receive the indicated substring copy.
+   * @param start Start position of slice (zero-based).
+   * @param len Number of characters in slice.
+   * @remarks Use this method instead of Slice() for cases where you expect to
    *   extract many substrings in a tight loop, and want to avoid the overhead
    *   of allocation of a new string object for each operation.  Simply re-use
    *   'sub' for each operation.
@@ -508,42 +507,42 @@ public:
 
   /**
    * Find the first occurrence of a character in the string.
-   * \param c Character to locate.
-   * \param pos Start position of search (default 0).
-   * \return First position of character, or (size_t)-1 if not found.
+   * @param c Character to locate.
+   * @param pos Start position of search (default 0).
+   * @return First position of character, or (size_t)-1 if not found.
    */
   size_t FindFirst (char c, size_t pos = 0) const;
 
   /**
    * Find the first occurrence of any of a set of characters in the string.
-   * \param c Characters to locate.
-   * \param pos Start position of search (default 0).
-   * \return First position of character, or (size_t)-1 if not found.
+   * @param c Characters to locate.
+   * @param pos Start position of search (default 0).
+   * @return First position of character, or (size_t)-1 if not found.
    */
   size_t FindFirst (const char *c, size_t pos = 0) const;
 
   /**
    * Find the last occurrence of a character in the string.
-   * \param c Character to locate.
-   * \param pos Start position of reverse search.  Specify (size_t)-1 if you
+   * @param c Character to locate.
+   * @param pos Start position of reverse search.  Specify (size_t)-1 if you
    *   want the search to begin at the very end of string.
-   * \return Last position of character, or (size_t)-1 if not found.
+   * @return Last position of character, or (size_t)-1 if not found.
    */
   size_t FindLast (char c, size_t pos = (size_t)-1) const;
 
   /**
    * Find the first occurrence of \p search in this string starting at \p pos.
-   * \param search String to locate.
-   * \param pos Start position of search (default 0).
-   * \return First position of \p search, or (size_t)-1 if not found.
+   * @param search String to locate.
+   * @param pos Start position of search (default 0).
+   * @return First position of \p search, or (size_t)-1 if not found.
    */
   size_t Find (const char* search, size_t pos = 0) const;
 
   /**
    * Find the first occurrence of \p search in this string starting at \p pos.
-   * \param search String to locate.
-   * \param pos Start position of search (default 0).
-   * \return First position of \p search, or (size_t)-1 if not found.
+   * @param search String to locate.
+   * @param pos Start position of search (default 0).
+   * @return First position of \p search, or (size_t)-1 if not found.
    * \deprecated Use Find() instead.
    */
   /* CS_DEPRECATED_METHOD */
@@ -567,54 +566,54 @@ public:
 
   /**
    * Format this string using cs_snprintf()-style formatting directives.
-   * \return Reference to itself.
-   * \remarks Automatically allocates sufficient memory to hold result.  Newly
+   * @return Reference to itself.
+   * @remarks Automatically allocates sufficient memory to hold result.  Newly
    *   formatted string replaces previous string value.
    */
   StringBase& Format (const char* format, ...) SAT_FORMAT_PRINTF (2, 3);
 
   /**
    * Format this string using cs_snprintf() formatting directives in a va_list.
-   * \return Reference to itself.
-   * \remarks Automatically allocates sufficient memory to hold result.  Newly
+   * @return Reference to itself.
+   * @remarks Automatically allocates sufficient memory to hold result.  Newly
    *   formatted string replaces previous string value.
    */
   StringBase& FormatV (const char* format, va_list args);
 
   /**
    * Replace contents of this string with the contents of another.
-   * \param Str String from which new content of this string will be copied.
-   * \param Count Number of characters to copy.  If (size_t)-1 is specified,
+   * @param Str String from which new content of this string will be copied.
+   * @param Count Number of characters to copy.  If (size_t)-1 is specified,
    *   then all characters will be copied.
-   * \return Reference to itself.
-   * \remarks This string will represent a null-pointer after replacement if
+   * @return Reference to itself.
+   * @remarks This string will represent a null-pointer after replacement if
    *   and only if Str represents a null-pointer.
    */
   StringBase& Replace (const StringBase& Str, size_t Count = (size_t)-1);
 
   /**
    * Replace contents of this string with the contents of another.
-   * \param Str String from which new content of this string will be copied.
-   * \param Count Number of characters to copy.  If (size_t)-1 is specified,
+   * @param Str String from which new content of this string will be copied.
+   * @param Count Number of characters to copy.  If (size_t)-1 is specified,
    *   then all characters will be copied.
-   * \return Reference to itself.
-   * \remarks This string will represent a null-pointer after replacement if
+   * @return Reference to itself.
+   * @remarks This string will represent a null-pointer after replacement if
    *   and only if Str is a null pointer.
    */
   StringBase& Replace (const char* Str, size_t Count = (size_t)-1);
 
   /**
    * Replace contents of this string with the value in formatted form.
-   * \remarks Internally uses the various flavours of Append().
+   * @remarks Internally uses the various flavours of Append().
    */
   template<typename T>
   StringBase& Replace (T const& val) { Truncate (0); return Append (val); }
 
   /**
    * Check if another string is equal to this one.
-   * \param iStr Other string.
-   * \return True if they are equal; false if not.
-   * \remarks The comparison is case-sensitive.
+   * @param iStr Other string.
+   * @return True if they are equal; false if not.
+   * @remarks The comparison is case-sensitive.
    */
   bool Compare (const StringBase& iStr) const
   {
@@ -630,18 +629,18 @@ public:
 
   /**
    * Check if a null-terminated C- string is equal to this string.
-   * \param iStr Other string.
-   * \return True if they are equal; false if not.
-   * \remarks The comparison is case-sensitive.
+   * @param iStr Other string.
+   * @return True if they are equal; false if not.
+   * @remarks The comparison is case-sensitive.
    */
   bool Compare (const char* iStr) const
   { return (strcmp (GetDataSafe(), iStr) == 0); }
 
   /**
    * Check if another string is equal to this one.
-   * \param iStr Other string.
-   * \return True if they are equal; false if not.
-   * \remarks The comparison is case-insensitive.
+   * @param iStr Other string.
+   * @return True if they are equal; false if not.
+   * @remarks The comparison is case-insensitive.
    */
   bool CompareNoCase (const StringBase& iStr) const
   {
@@ -657,18 +656,18 @@ public:
 
   /**
    * Check if a null-terminated C- string is equal to this string.
-   * \param iStr Other string.
-   * \return True if they are equal; false if not.
-   * \remarks The comparison is case-insensitive.
+   * @param iStr Other string.
+   * @return True if they are equal; false if not.
+   * @remarks The comparison is case-insensitive.
    */
   bool CompareNoCase (const char* iStr) const
   { return (StrCaseCmp (GetDataSafe(), iStr) == 0); }
 
   /**
    * Check if this string starts with another one.
-   * \param iStr Other string.
-   * \param ignore_case Causes the comparison to be case insensitive if true.
-   * \return True if they are equal up to the length of iStr; false if not.
+   * @param iStr Other string.
+   * @param ignore_case Causes the comparison to be case insensitive if true.
+   * @return True if they are equal up to the length of iStr; false if not.
    */
   bool StartsWith (const StringBase& iStr, bool ignore_case = false) const
   {
@@ -689,9 +688,9 @@ public:
 
   /**
    * Check if this string starts with a null-terminated C- string.
-   * \param iStr Other string.
-   * \param ignore_case Causes the comparison to be case insensitive if true.
-   * \return True if they are equal up to the length of iStr; false if not.
+   * @param iStr Other string.
+   * @param ignore_case Causes the comparison to be case insensitive if true.
+   * @return True if they are equal up to the length of iStr; false if not.
    */
   bool StartsWith (const char* iStr, bool ignore_case = false) const
   {
@@ -712,7 +711,7 @@ public:
 
   /**
    * Get a copy of this string.
-   * \remarks The newly constructed string will represent a null-pointer if and
+   * @remarks The newly constructed string will represent a null-pointer if and
    *   only if this string represents a null-pointer.
    */
   StringBase Clone () const
@@ -720,8 +719,8 @@ public:
 
   /**
    * Trim leading whitespace.
-   * \return Reference to itself.
-   * \remarks This is equivalent to Truncate(n) where 'n' is the last
+   * @return Reference to itself.
+   * @remarks This is equivalent to Truncate(n) where 'n' is the last
    *   non-whitespace character, or zero if the string is composed entirely of
    *   whitespace.
    */
@@ -729,8 +728,8 @@ public:
 
   /**
    * Trim trailing whitespace.
-   * \return Reference to itself.
-   * \remarks This is equivalent to DeleteAt(0,n) where 'n' is the first
+   * @return Reference to itself.
+   * @remarks This is equivalent to DeleteAt(0,n) where 'n' is the first
    *   non-whitespace character, or Lenght() if the string is composed entirely
    *   of whitespace.
    */
@@ -738,34 +737,34 @@ public:
 
   /**
    * Trim leading and trailing whitespace.
-   * \return Reference to itself.
-   * \remarks This is equivalent to LTrim() followed by RTrim().
+   * @return Reference to itself.
+   * @remarks This is equivalent to LTrim() followed by RTrim().
    */
   StringBase& Trim();
 
   /**
    * Trim leading and trailing whitespace, and collapse all internal
    * whitespace to a single space.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   StringBase& Collapse();
 
   /**
    * Pad to a specified size with leading characters.
-   * \param NewSize Size to which the string should grow.
-   * \param PadChar Character with which to pad the string (default is space).
-   * \return Reference to itself.
-   * \remarks Never shortens the string.  If NewSize is less than or equal to
+   * @param NewSize Size to which the string should grow.
+   * @param PadChar Character with which to pad the string (default is space).
+   * @return Reference to itself.
+   * @remarks Never shortens the string.  If NewSize is less than or equal to
    *   Length(), nothing happens.
    */
   StringBase& PadLeft (size_t NewSize, char PadChar = ' ');
 
   /**
    * Pad to a specified size with trailing characters.
-   * \param NewSize Size to which the string should grow.
-   * \param PadChar Character with which to pad the string (default is space).
-   * \return Reference to itself.
-   * \remarks Never shortens the string.  If NewSize is less than or equal to
+   * @param NewSize Size to which the string should grow.
+   * @param PadChar Character with which to pad the string (default is space).
+   * @return Reference to itself.
+   * @remarks Never shortens the string.  If NewSize is less than or equal to
    *   Length(), nothing happens.
    */
   StringBase& PadRight (size_t NewSize, char PadChar = ' ');
@@ -773,10 +772,10 @@ public:
   /**
    * Pad to a specified size with leading and trailing characters so as to
    * center the string.
-   * \param NewSize Size to which the string should grow.
-   * \param PadChar Character with which to pad the string (default is space).
-   * \return Reference to itself.
-   * \remarks Never shortens the string.  If NewSize is less than or equal to
+   * @param NewSize Size to which the string should grow.
+   * @param PadChar Character with which to pad the string (default is space).
+   * @return Reference to itself.
+   * @remarks Never shortens the string.  If NewSize is less than or equal to
    *   Length(), nothing happens.  If the left and right sides can not be
    *   padded equally, then the right side will gain the extra one-character
    *   padding.
@@ -810,9 +809,9 @@ public:
 
   /**
    * Get a pointer to the null-terminated character array.
-   * \return A C-string pointer to the null-terminated character array; or zero
+   * @return A C-string pointer to the null-terminated character array; or zero
    *   if the string represents a null-pointer.
-   * \remarks See the class description for a discussion about how and when the
+   * @remarks See the class description for a discussion about how and when the
    *   string will represent a null-pointer.
    */
   operator const char* () const
@@ -827,24 +826,24 @@ public:
 
   /**
    * Check if another string is equal to this one.
-   * \param Str Other string.
-   * \return True if they are equal; false if not.
-   * \remarks The comparison is case-sensitive.
+   * @param Str Other string.
+   * @return True if they are equal; false if not.
+   * @remarks The comparison is case-sensitive.
    */
   bool operator == (const StringBase& Str) const
   { return Compare (Str); }
   /**
    * Check if another string is equal to this one.
-   * \param Str Other string.
-   * \return True if they are equal; false if not.
-   * \remarks The comparison is case-sensitive.
+   * @param Str Other string.
+   * @return True if they are equal; false if not.
+   * @remarks The comparison is case-sensitive.
    */
   bool operator == (const char* Str) const
   { return Compare (Str); }
   /**
    * Check if another string is less than this one.
-   * \param Str Other string.
-   * \return True if the string is 'lesser' than \a Str, false
+   * @param Str Other string.
+   * @return True if the string is 'lesser' than \a Str, false
    *   otherwise.
    */
   bool operator < (const StringBase& Str) const
@@ -853,8 +852,8 @@ public:
   }
   /**
    * Check if another string is less than this one.
-   * \param Str Other string.
-   * \return True if the string is 'lesser' than \a Str, false
+   * @param Str Other string.
+   * @return True if the string is 'lesser' than \a Str, false
    *   otherwise.
    */
   bool operator < (const char* Str) const
@@ -863,8 +862,8 @@ public:
   }
   /**
    * Check to see if a string is greater than this one.
-   * \param Str Other string.
-   * \return True if the string is 'greater' than \a Str, false
+   * @param Str Other string.
+   * @return True if the string is 'greater' than \a Str, false
    *   otherwise.
    */
   bool operator > (const StringBase& Str) const
@@ -873,8 +872,8 @@ public:
   }
   /**
    * Check to see if a string is greater than this one.
-   * \param Str Other string.
-   * \return True if the string is 'greater' than \a Str, false
+   * @param Str Other string.
+   * @return True if the string is 'greater' than \a Str, false
    *   otherwise.
    */
   bool operator > (const char* Str) const
@@ -883,17 +882,17 @@ public:
   }
   /**
    * Check if another string is not equal to this one.
-   * \param Str Other string.
-   * \return False if they are equal; true if not.
-   * \remarks The comparison is case-sensitive.
+   * @param Str Other string.
+   * @return False if they are equal; true if not.
+   * @remarks The comparison is case-sensitive.
    */
   bool operator != (const StringBase& Str) const
   { return !Compare (Str); }
   /**
    * Check if another string is not equal to this one.
-   * \param Str Other string.
-   * \return False if they are equal; true if not.
-   * \remarks The comparison is case-sensitive.
+   * @param Str Other string.
+   * @return False if they are equal; true if not.
+   * @remarks The comparison is case-sensitive.
    */
   bool operator != (const char* Str) const
   { return !Compare (Str); }
@@ -901,9 +900,9 @@ public:
   /**
    * Shift operator.
    * For example:
-   * \code
+   * @code
    * s << "Hi " << name << ", see " << foo;
-   * \endcode
+   * @endcode
    */
   template <typename T>
   StringBase &operator << (T const& v)
@@ -916,22 +915,22 @@ public:
 
   /**
    * Convert this string to lower-case.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   StringBase& Downcase();
   /**
    * Convert this string to upper-case.
-   * \return Reference to itself.
+   * @return Reference to itself.
    */
   StringBase& Upcase();
 
   /**
    * Detach the low-level null-terminated C-string buffer from the String
    * object.
-   * \return The low-level null-terminated C-string buffer, or zero if this
+   * @return The low-level null-terminated C-string buffer, or zero if this
    *   string represents a null-pointer.  See the class description for a
    *   discussion about how and when the string will represent a null-pointer.
-   * \remarks The caller of this function becomes the owner of the returned
+   * @remarks The caller of this function becomes the owner of the returned
    *   string buffer and is responsible for destroying it via `delete[]' when
    *   no longer needed.
    */
@@ -1220,6 +1219,6 @@ public:
   /** @} */
 };
 
-/** @} */
+/// @}
 
 #endif //SAT_STRING_H

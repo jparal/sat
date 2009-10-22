@@ -19,9 +19,8 @@
 #include "io/misc/iomanager.h"
 #include "simul/misc/simtime.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Base class of all sensors
@@ -97,6 +96,6 @@ private:
   bool _perpar;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SENSOR_H__ */

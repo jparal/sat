@@ -17,9 +17,8 @@
 
 #include "rndgen.h"
 
-/** @addtogroup math_rand
- *  @{
- */
+/// @addtogroup math_rand
+/// @{
 
 /**
  * @brief Maxwell random number generator.
@@ -89,6 +88,6 @@ private:
   int _stat;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_RAND_MAXWELL_H__ */

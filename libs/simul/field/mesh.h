@@ -18,9 +18,8 @@
 #include "satmath.h"
 #include "base/cfgfile/cfgfile.h"
 
-/** @addtogroup simul_field
- *  @{
- */
+/// @addtogroup simul_field
+/// @{
 
 /// Centring of the variables on the mesh
 enum Centring
@@ -131,6 +130,6 @@ private:
   Centring _center;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_MESH_H__ */

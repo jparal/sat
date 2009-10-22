@@ -20,9 +20,8 @@
 #include "simul/satfield.h"
 #include "io/sathdf5.h"
 
-/** @addtogroup io_misc
- *  @{
- */
+/// @addtogroup io_misc
+/// @{
 
 enum IOFormat
 {
@@ -81,6 +80,6 @@ private:
 
 #include "iomanager.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_IOMANAGER_H__ */

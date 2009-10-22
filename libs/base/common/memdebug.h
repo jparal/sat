@@ -22,9 +22,8 @@
 // #include "satconfig.h"
 // #include "base/sys/stdhdrs.h"
 
-/**\file
- * Memory debugging support
- */
+/// @file
+/// Memory debugging support
 
 void NewMemTrackerModule ();
 void FreeMemTrackerModule ();

@@ -18,9 +18,8 @@
 #include "satconfig.h"    // Flatten
 #include "attributes.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 /// Standard inline
 #define SAT_INLINE inline
@@ -48,6 +47,6 @@
  * the function even if no optimization level was specified.
  */
 
-/** @} */
+/// @}
 
 #endif // __SAT_INLINE_H__

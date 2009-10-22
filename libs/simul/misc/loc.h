@@ -17,9 +17,8 @@
 
 #include "satmath.h"
 
-/** @addtogroup simul_misc
- *  @{
- */
+/// @addtogroup simul_misc
+/// @{
 
 /**
  * @brief Index/Location fo Field representation
@@ -38,6 +37,6 @@ public:
   Loc (int i0, int i1, int i2) : Vector<int,D>::Vector (i0, i1, i2) {};
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_LOC_H__ */

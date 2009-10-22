@@ -17,9 +17,8 @@
 
 #include "platform.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 #if !defined (SAT_DEBUG_BREAK)
 #  if defined (PLATFORM_OS_MSWINDOWS)
@@ -93,12 +92,12 @@ namespace SAT
  * Assertion. If \a expr is false, a message containing the failing expression
  * as well as a call stack is printed to <tt>stderr</tt> and a debug break is
  * performed
- * \remarks Breaking execution can be avoided at runtime by setting the
+ * @remarks Breaking execution can be avoided at runtime by setting the
  *   environment variable <tt>"SAT_ASSERT_IGNORE"</tt> to a value other than 0.
  * \def SAT_ASSERT_MSG(msg, expr)
  * Same as #SAT_ASSERT(expr), but additionally prints \a msg to <tt>stderr</tt>.
  */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_ASSERT_H__ */

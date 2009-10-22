@@ -18,9 +18,8 @@
 #include "string.h"
 #include "array.h"
 
-/** @addtogroup base_common
- *  @{
- */
+/// @addtogroup base_common
+/// @{
 
 class ConfigEntry;
 
@@ -91,6 +90,6 @@ TYPETRAITS_SPECIALIZE (Array<String>,   array_string_id)
 TYPETRAITS_SPECIALIZE (String,          string_id)
 TYPETRAITS_SPECIALIZE (ConfigEntry,     config_entry_id)
 
-/** @} */
+/// @}
 
 #endif /* __SAT_TYPETRAITS_H__ */

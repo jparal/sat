@@ -17,9 +17,8 @@
 
 #include "base/sys/porttypes.h"
 
-/** @addtogroup math_rand
- *  @{
- */
+/// @addtogroup math_rand
+/// @{
 
 /**
  * @brief Random number generator.
@@ -90,6 +89,6 @@ private:
   T RANMAR ();
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_RAND_RNDGEN_H__ */

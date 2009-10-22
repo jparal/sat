@@ -21,9 +21,8 @@
 
 #include "newdisable.h"
 
-/**\file
- * Base class to allocate subclasses with malloc().
- */
+/// @file
+/// Base class to allocate subclasses with malloc().
 
 namespace SAT
 {
@@ -32,7 +31,7 @@ namespace SAT
     /**
      * Class that overrides operator new/operator delete/etc.
      * with implementations using malloc()/free().
-     * \remarks To outfit a class that also derives from another class with
+     * @remarks To outfit a class that also derives from another class with
      *   custom allocation don't use multiple inheritance, use
      *   CustomAllocatedDerived<> instead.
      *
@@ -104,7 +103,7 @@ namespace SAT
     /**
      * Class that overrides operator new/operator delete/etc.
      * with implementations using malloc()/free().
-     * \remarks Use this class when you want to add custom allocation to a
+     * @remarks Use this class when you want to add custom allocation to a
      *   a class that derives from some other class(es). See the
      *   CustomAllocator remarks section for the explanation.
      */

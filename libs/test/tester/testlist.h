@@ -15,9 +15,8 @@
 #ifndef __SAT_TESTLIST_H__
 #define __SAT_TESTLIST_H__
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 #include "testbase.h"
 
@@ -27,7 +26,7 @@ namespace Test {
 class Test;
 
 /**
- * \brief Very simple linked list of tests
+ * @brief Very simple linked list of tests
  * We dont't need any extra fancy things.
  */
 class TestList
@@ -56,6 +55,6 @@ public:
 } /* namespace Test */
 } /* namespace SAT */
 
-/** @} */
+/// @}
 
 #endif /* __SAT_TESTLIST_H__ */

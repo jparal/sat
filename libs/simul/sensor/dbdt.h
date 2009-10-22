@@ -18,9 +18,8 @@
 #include "sensor.h"
 #include "satio.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief dB/dt = - curl E sensor
@@ -76,6 +75,6 @@ private:
   Field<Vector<T,R>,D> *_B;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_DBDT_H__ */

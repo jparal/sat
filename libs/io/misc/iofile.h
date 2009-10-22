@@ -20,9 +20,8 @@
 #include "base/cfgfile/cfgfile.h"
 #include "simul/field/field.h"
 
-/** @addtogroup io_misc
- *  @{
- */
+/// @addtogroup io_misc
+/// @{
 
 /**
  * @brief Base class for all file formats
@@ -47,6 +46,6 @@ protected:
   //  int _version;                     /**< File format version */
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_IOFILE_H__ */

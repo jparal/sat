@@ -15,9 +15,8 @@
 #ifndef __SAT_STDHDRS_H__
 #define __SAT_STDHDRS_H__
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 #include <ctype.h>
 #include <stdarg.h>
@@ -30,6 +29,6 @@
 #include <unistd.h>
 #include <alloca.h>
 
-/** @} */
+/// @}
 
 #endif // __SAT_STDHDRS_H__

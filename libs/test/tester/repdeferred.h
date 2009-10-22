@@ -22,15 +22,14 @@
 #include <vector>
 #include "newenable.h"
 
-/** @addtogroup test_tester
- *  @{
- */
+/// @addtogroup test_tester
+/// @{
 
 namespace SAT {
 namespace Test {
 
 /**
- * \brief Individual reporter for each test
+ * @brief Individual reporter for each test
  */
 class DeferredTestReporter : public TestReporter
 {
@@ -53,7 +52,6 @@ private:
 } /* namespace Test */
 } /* namespace SAT */
 
-
-/** @} */
+/// @}
 
 #endif /* __SAT_REPDEFERRED_H__ */

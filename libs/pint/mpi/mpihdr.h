@@ -17,9 +17,8 @@
 
 #include "satconfig.h"
 
-/** @addtogroup pint_mpi
- *  @{
- */
+/// @addtogroup pint_mpi
+/// @{
 
 #ifdef HAVE_MPI
 #  define _MPICC_H          // HPMPI
@@ -39,6 +38,6 @@
 #  include <mpi.h>
 #endif
 
-/** @} */
+/// @}
 
 #endif /* __SAT_MPIHDR_H__ */

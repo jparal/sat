@@ -38,8 +38,8 @@
 
 #define SAT_NO_PTMALLOC
 
-/**@addtogroup base_sys
- * @{ */
+/// @addtogroup base_sys
+/// @{
 
 namespace SAT
 {
@@ -140,19 +140,19 @@ namespace SAT
     /**
      * An allocator with a small local buffer.
      * If the data fits into the local buffer (which is set up to holds
-     * \c N elements of type \c T), a memory allocation from the heap is saved.
+     * @c N elements of type @c T), a memory allocation from the heap is saved.
      * Thus, if you have lots of arrays with a relatively small, well known size
      * you can gain some performance by using this allocator.
-     * \c SingleAllocation specifies whether no more than a single block is
+     * @c SingleAllocation specifies whether no more than a single block is
      * allocated from the allocator at any time. Using that option saves
      * (albeit a miniscule amount of) memory, but obviously is only safe when
      * it's know that the single allocation constraint is satisfied (such as
      * allocators for csArray<>s).
      *
-     * \warning The pointer returned may point into the instance data; be
+     * @warning The pointer returned may point into the instance data; be
      *  careful when moving that around - an earlier allocated pointer may
      *  suddenly become invalid!
-     * \remark This means that if you use this allocator with an array, and you
+     * @remark This means that if you use this allocator with an array, and you
      *  nest that into another array, you MUST use
      *  csSafeCopyArrayElementHandler for  the nesting array!
      */
@@ -345,7 +345,7 @@ namespace SAT
 
       /**
        * Free a block.
-       * \remarks Does not check that the block pointer is valid.
+       * @remarks Does not check that the block pointer is valid.
        */
       static inline void Free (void* p)
       {
@@ -365,7 +365,7 @@ namespace SAT
 
     /**
      * A default memory allocator that allocates using new char[].
-     * \c Reallocatable specifies whether Realloc() should be supported.
+     * @c Reallocatable specifies whether Realloc() should be supported.
      * (This support incurs an overhead as the allocated size has to be stored.)
      */
     template<bool Reallocatable = true>
@@ -447,13 +447,13 @@ namespace SAT
 
     /**
      * A default memory allocator that allocates using new T[].
-     * \warning Using this allocator is somewhat dangerous, as an array
+     * @warning Using this allocator is somewhat dangerous, as an array
      *   of Ts to fit the requested size is allocated, and the array is
      *   casted to a void*. Using anything but POD types is irresponsible.
-     *   Don't use this allocator unless you really, \em really have to - for
+     *   Don't use this allocator unless you really, @em really have to - for
      *   example, when memory is passed from/to code which uses
      *   new[]/delete[] of T for allocation/deallocation.
-     * \remarks Reallocatability is inherently unsupported.
+     * @remarks Reallocatability is inherently unsupported.
      */
     template<typename T>
     class AllocatorNew
@@ -532,6 +532,6 @@ namespace SAT
   } // namespace Memory
 } // namespace SAT
 
-/** @} */
+/// @}
 
 #endif // __SAT_SATUTIL_ALLOCATOR_H__

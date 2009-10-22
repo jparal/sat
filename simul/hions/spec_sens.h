@@ -20,9 +20,8 @@
 
 #include "speciehi.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Heavy ions specie sensor.
@@ -58,6 +57,6 @@ private:
   Vector<int,3> _nc;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SPEC_SENS_H__ */

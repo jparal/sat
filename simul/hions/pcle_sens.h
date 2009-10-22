@@ -26,9 +26,8 @@
 #undef PARALLEL_IO
 #endif
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Heavy ions particle trajectory sensor.
@@ -65,6 +64,6 @@ private:
   bool _firstwr;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_PCLE_SENS_H__ */

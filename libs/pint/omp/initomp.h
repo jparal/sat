@@ -17,9 +17,8 @@
 
 #include "satbase.h"
 
-/** @addtogroup pint_omp
- *  @{
- */
+/// @addtogroup pint_omp
+/// @{
 
 struct Omp
 {
@@ -57,6 +56,6 @@ struct Omp
   static int s_worksplit;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_INITOMP_H__ */

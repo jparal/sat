@@ -15,9 +15,8 @@
 #ifndef __SAT_RANGE_H__
 #define __SAT_RANGE_H__
 
-/** @addtogroup simul_misc
- *  @{
- */
+/// @addtogroup simul_misc
+/// @{
 
 /**
  * @brief Range of two indicies
@@ -77,6 +76,6 @@ private:
   //  bool _dirty;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_RANGE_H__ */

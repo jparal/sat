@@ -20,9 +20,8 @@
 #include "specie.h"
 #include "simul/satfield.h"
 
-/** @addtogroup simul_pcle
- *  @{
- */
+/// @addtogroup simul_pcle
+/// @{
 
 /**
  * @brief CAM-CL Specie.
@@ -159,6 +158,6 @@ private:
   RandomGen<T> _rnd;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_CAMSPECIE_H__ */

@@ -84,12 +84,12 @@ template <class T> class Ref;
  * It is very specialized, and exists solely as a mechanism for transferring
  * an existing reference into a Ref<>.
  *
- * \b Important: There is only one valid way to use the result of a function
+ * @b Important: There is only one valid way to use the result of a function
  * which returns a Ptr<>: assign it to a Ref<>.
  *
- * \remarks An extended explanation on smart pointers - how they work and what
- *   type to use in what scenario - is contained in the User's manual,
- *   section "Correctly Using Smart Pointers".
+ * @remarks An extended explanation on smart pointers - how they work and what
+ *   type to use in what scenario - is contained in the User's manual, section
+ *   "Correctly Using Smart Pointers".
  */
 template <class T>
 class  Ptr
@@ -110,11 +110,10 @@ public:
 #ifdef SAT_TEST_VOIDPTRUSAGE
   ~Ptr ()
   {
-    // If not assigned to a Ref we have a problem (leak).
-    // So if this assert fires for you, then you are calling
-    // a function that returns a Ptr and not using the result
-    // (or at least not assigning it to a Ref). This is a memory
-    // leak and you should fix that.
+    // If not assigned to a Ref we have a problem (leak).  So if this assert
+    // fires for you, then you are calling a function that returns a Ptr and
+    // not using the result (or at least not assigning it to a Ref). This is a
+    // memory leak and you should fix that.
     SAT_ASSERT_MSG (obj == (T*)SAT_VOIDED_PTR,
 		    "Ptr<> was not assigned to a Ref<> prior destruction");
   }
@@ -135,9 +134,9 @@ public:
  * T implement the methods IncRef() and DecRef().  No other requirements are
  * placed upon T.
  *
- * \remarks An extended explanation on smart pointers - how they work and what
- *   type to use in what scenario - is contained in the User's manual,
- *   section "Correctly Using Smart Pointers".
+ * @remarks An extended explanation on smart pointers - how they work and what
+ *   type to use in what scenario - is contained in the User's manual, section
+ *   "Correctly Using Smart Pointers".
  */
 template <class T>
 class Ref
@@ -154,9 +153,8 @@ public:
   Ref () : obj (0) {}
 
   /**
-   * Construct a smart pointer from a Ptr. Doesn't call IncRef() on
-   * the object since it is assumed that the object in Ptr is already
-   * IncRef()'ed.
+   * Construct a smart pointer from a Ptr. Doesn't call IncRef() on the object
+   * since it is assumed that the object in Ptr is already IncRef()'ed.
    */
   Ref (const Ptr<T>& newobj)
   {
@@ -217,22 +215,21 @@ public:
   /**
    * Create new object by calling operator new. Proper usage should look like
    * this:
-   * \code
+   * @code
    * Ref<SimulTime> st = Ref<SimulTime>::New ();
-   * \endcode
+   * @endcode
    * @return new object
    */
   static Ptr<T> New ()
   { return Ptr<T> (new T); };
 
   /**
-   * Assign a Ptr to a smart pointer. Doesn't call IncRef() on
-   * the object since it is assumed that the object in Ptr is already
-   * IncRef()'ed.
-   * \remarks
-   * After this assignment, the Ptr<T> object is invalidated and cannot
-   * be used. You should not (and in fact cannot) decref the Ptr<T> after
-   * this assignment has been made.
+   * Assign a Ptr to a smart pointer. Doesn't call IncRef() on the object since
+   * it is assumed that the object in Ptr is already IncRef()'ed.
+   * @remarks
+   * After this assignment, the Ptr<T> object is invalidated and cannot be
+   * used. You should not (and in fact cannot) decref the Ptr<T> after this
+   * assignment has been made.
    */
   Ref& operator = (const Ptr<T>& newobj)
   {
@@ -252,13 +249,13 @@ public:
 
   /**
    * Assign a raw object reference to this smart pointer.
-   * \remarks
+   * @remarks
    * This function calls the object's IncRef() method. Because of this you
    * should not assign a reference created with the new operator to a Ref
    * object driectly. The following code will produce a memory leak:
-   * \code
+   * @code
    * Ref<iEvent> event = new Event;
-   * \endcode
+   * @endcode
    * If you are assigning a new object to a Ref, use AttachNew(T* newObj)
    * instead.
    */
@@ -267,10 +264,10 @@ public:
     if (obj != newobj)
     {
       T* oldobj = obj;
-      // It is very important to first assign the new value to
-      // 'obj' BEFORE calling DecRef() on the old object. Otherwise
-      // it is easy to get in infinite loops with objects being
-      // destructed forever (when ref=0 is used for example).
+      // It is very important to first assign the new value to 'obj' BEFORE
+      // calling DecRef() on the old object. Otherwise it is easy to get in
+      // infinite loops with objects being destructed forever (when ref=0 is
+      // used for example).
       obj = newobj;
       SATREF_TRACK_INCREF (newobj, this);
       SATREF_TRACK_DECREF (oldobj, this);
@@ -281,29 +278,29 @@ public:
   /**
    * Assign an object reference created with the new operator to this smart
    * pointer.
-   * \remarks
+   * @remarks
    * This function allows you to assign an object pointer created with the
-   * \c new operator to the Ref object. Proper usage would be:
-   * \code
+   * @c new operator to the Ref object. Proper usage would be:
+   * @code
    * Ref<iEvent> event;
    * event.AttachNew (new Event);
-   * \endcode
+   * @endcode
    * While not recommended, you can also use this function to assign a Ptr
-   * object or Ref object to the Ref. In both of these cases, using
-   * AttachNew is equivalent to performing a simple assignment using the
-   * \c = operator.
-   * \note
-   * Calling this function is equivalent to casting an object to a Ptr<T>
-   * and then assigning the Ptr<T> to the Ref, as follows:
-   * \code
+   * object or Ref object to the Ref. In both of these cases, using AttachNew
+   * is equivalent to performing a simple assignment using the
+   * @c = operator.
+   * @note
+   * Calling this function is equivalent to casting an object to a Ptr<T> and
+   * then assigning the Ptr<T> to the Ref, as follows:
+   * @code
    * // Same effect as above code.
    * Ref<iEvent> event = Ptr<iEvent> (new Event);
-   * \endcode
+   * @endcode
    */
   void AttachNew (Ptr<T> newObj)
   {
-    // Note: The parameter usage of Ptr<T> instead of Ptr<T>& is
-    // deliberate and not to be considered a bug.
+    // Note: The parameter usage of Ptr<T> instead of Ptr<T>& is deliberate and
+    // not to be considered a bug.
 
     // Just Re-use Ptr assignment logic
     *this = newObj;
@@ -357,7 +354,7 @@ public:
   }
   /**
    * Test the relationship of the addresses of two objects.
-   * \remarks Mainly useful when Ref<> is used as the subject of
+   * @remarks Mainly useful when Ref<> is used as the subject of
    *   Comparator<>, which employs operator< for comparisons.
    */
   inline friend bool operator < (const Ref& r1, const Ref& r2)

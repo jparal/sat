@@ -20,9 +20,8 @@
 #include "simul/misc/simtime.h"
 #include "sensor.h"
 
-/** @addtogroup simul_sensor
- *  @{
- */
+/// @addtogroup simul_sensor
+/// @{
 
 /**
  * @brief Sensor manager
@@ -76,6 +75,6 @@ private:
   int _version;
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SENSMNG_H__ */

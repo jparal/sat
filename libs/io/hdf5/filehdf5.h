@@ -19,9 +19,8 @@
 #include "simul/field/field.h"
 #include "simul/field/mesh.h"
 
-/** @addtogroup io_hdf5
- *  @{
- */
+/// @addtogroup io_hdf5
+/// @{
 
 /**
  * @brief HDF5 file writer
@@ -59,6 +58,6 @@ public:
 	     const char *tag, const char *fname);
 };
 
-/** @} */
+/// @}
 
 #endif /* __SAT_FILEXDFM_H__ */

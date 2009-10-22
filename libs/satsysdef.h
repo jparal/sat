@@ -20,11 +20,11 @@
 #include <stddef.h>
 #include <new>
 
-/** @addtogroup base
- *  @{
- */
+/// @addtogroup base
+/// @{
 
-/**@def SAT_FUNCTION_NAME
+/**
+ * @def SAT_FUNCTION_NAME
  * Macro that resolves to a compiler-specific variable or string that contains
  * the name of the current function.
  */
@@ -75,6 +75,6 @@ inline void* operator new[] (size_t s) { return operator new (s, (void*)__FILE__
 #  define new SAT_EXTENSIVE_MEMDEBUG_NEW
 #endif
 
-/** @} */
+/// @}
 
 #endif /* __SAT_SATSYSDEF_H__ */

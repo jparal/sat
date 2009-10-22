@@ -20,19 +20,18 @@
 
 #include "satconfig.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 /**
  * \def PLATFORM_COMPILER_FAMILYNAME
- * Or \b PLATFORM_COMPILER_<family> . Unquoted token which provides the
+ * Or @b PLATFORM_COMPILER_<family> . Unquoted token which provides the
  * compiler family name. Together with specia macro for each
- * family: \b PLATFORM_COMPILER_<family> where \e family is one of: \c INTEL,
- * \c PATHSCALE, \c PGI, \c XLC, \c COMPAQ, \c SUN, \c HP, \c SGI,
- * \c CRAY, \c KAI, \c MTA, \c NECSX, \c MICROSOFT, \c TINY, \c LCC, \c GCC
- * or \c UNKNOWN This is done for both C and C++ compilers as well
- * so \b PLATFORM_COMPILER_<family>_C and \b PLATFORM_COMPILER_<family>_CXX are
+ * family: @b PLATFORM_COMPILER_<family> where @e family is one of: @c INTEL,
+ * @c PATHSCALE, @c PGI, @c XLC, @c COMPAQ, @c SUN, @c HP, @c SGI,
+ * @c CRAY, @c KAI, @c MTA, @c NECSX, @c MICROSOFT, @c TINY, @c LCC, @c GCC
+ * or @c UNKNOWN This is done for both C and C++ compilers as well
+ * so @b PLATFORM_COMPILER_<family>_C and @b PLATFORM_COMPILER_<family>_CXX are
  * defined to 1
  *
  * \def PLATFORM_COMPILER_FAMILYID
@@ -43,7 +42,7 @@
  * a string which uniquely identifies recognized compilers .
  *
  * \def PLATFORM_COMPILER_ID
- * same as \b PLATFORM_COMPILER_FAMILYID, except C and C++ compilers are
+ * same as @b PLATFORM_COMPILER_FAMILYID, except C and C++ compilers are
  * differentiated
  *
  * \def PLATFORM_COMPILER_VERSION
@@ -78,12 +77,12 @@
  * the indicated property, undef otherwise
  *
  * \def PLATFORM_ARCH_FAMILYNAME
- * Or \b PLATFORM_ARCH_<family> . Unquoted token which provides the CPU family
- * name. For each plaform \b PLATFORM_ARCH_<family> defines to positive value
+ * Or @b PLATFORM_ARCH_<family> . Unquoted token which provides the CPU family
+ * name. For each plaform @b PLATFORM_ARCH_<family> defines to positive value
  * if CPU belongs to a given family, undef otherwise. Available family are:
- * \c POWERPC, \c X86_64, \c IA64, \c X86, \c ALPHA, \c MIPS, \c SPARC,
- * \c PARISC, \c CRAYX1, \c CRAYT3E, \c MTA, \c NECSX, \c MICROBLAZE or
- * \c UNKNOWN
+ * @c POWERPC, @c X86_64, @c IA64, @c X86, @c ALPHA, @c MIPS, @c SPARC,
+ * @c PARISC, @c CRAYX1, @c CRAYT3E, @c MTA, @c NECSX, @c MICROBLAZE or
+ * @c UNKNOWN
  *
  * \def PLATFORM_ARCH_BIG_ENDIAN
  * defined to positive value if CPU is known to be BIG ENDIAN undef otherwise
@@ -91,12 +90,12 @@
  * defined to positive value if CPU is known to be LITTLE ENDIAN undef otherwise
  *
  * \def PLATFORM_OS_FAMILYNAME
- * Or \b PLATFORM_OS_<family> . Unquoted token which provides the compiler
- * family name. For each os \b PLATFORM_OS_<family> defines to a positive value
+ * Or @b PLATFORM_OS_<family> . Unquoted token which provides the compiler
+ * family name. For each os @b PLATFORM_OS_<family> defines to a positive value
  * if OS belongs to a given family, undef otherwise. Available family are:
- * \c CATAMOUNT, \c BLRTS, \c UCLINUX, \c LINUX, \c CYGWIN, \c MSWINDOWS,
- * \c AIX, \c TRU64, \c FREEBSD, \c NETBSD, \c SOLARIS, \c DARWIN, \c IRIX,
- * \c HPUX, \c UNICOS, \c MTA, \c SUPERUX or \c UNKNOWN
+ * @c CATAMOUNT, @c BLRTS, @c UCLINUX, @c LINUX, @c CYGWIN, @c MSWINDOWS,
+ * @c AIX, @c TRU64, @c FREEBSD, @c NETBSD, @c SOLARIS, @c DARWIN, @c IRIX,
+ * @c HPUX, @c UNICOS, @c MTA, @c SUPERUX or @c UNKNOWN
  */
 
 
@@ -780,6 +779,6 @@ int main() {
 }
 #endif
 
-/** @} */
+/// @}
 
 #endif /* __SAT_PLATFORM_H__ */

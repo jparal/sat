@@ -31,8 +31,8 @@
 
 #include "base/common/array.h"
 
-/**@addtogroup base_common
- * @{ */
+/// @addtogroup base_common
+/// @{
 
 /**
  * A FIFO implemented on top of Array<>, but faster than using just
@@ -92,7 +92,7 @@ public:
 
   /**
    * Linearly search for an item and delete it.
-   * \returns Whether the item was found and subsequently deleled.
+   * @returns Whether the item was found and subsequently deleled.
    */
   bool Delete (T const& what)
   {
@@ -107,6 +107,6 @@ public:
   }
 };
 
-/** @} */
+/// @}
 
 #endif // __SAT_SATUTIL_FIFO_H__

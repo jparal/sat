@@ -17,9 +17,8 @@
 
 #include "satconfig.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 // gcc can perform usefull checking for printf/scanf format strings, just add
 // this define at the end of the function declaration
@@ -41,7 +40,6 @@
 #  define SAT_FORMAT_WSCANF(format_idx, arg_idx)
 #endif
 
-
-/** @} */
+/// @}
 
 #endif // __SAT_FORMAT_H__

@@ -21,9 +21,8 @@
 #include "simul/field/field.h"
 #include "simul/field/mesh.h"
 
-/** @addtogroup io_xdmf
- *  @{
- */
+/// @addtogroup io_xdmf
+/// @{
 
 /**
  * @brief Base class for all file formats
@@ -98,6 +97,6 @@ public:
 
 #include "filexdmf.cpp"
 
-/** @} */
+/// @}
 
 #endif /* __SAT_FILEXDFM_H__ */

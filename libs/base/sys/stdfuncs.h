@@ -18,9 +18,8 @@
 #include "platform.h"
 #include "stdhdrs.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 /**
  * A null use of a variable, use to avoid GNU compiler
@@ -33,9 +32,9 @@
 
 /**\def SAT_ALLOCA(type, var, size)
  * Dynamic stack memory allocation.
- * \param type Type of the array elements.
- * \param var Name of the array to be allocated.
- * \param size Number of elements to be allocated.
+ * @param type Type of the array elements.
+ * @param var Name of the array to be allocated.
+ * @param size Number of elements to be allocated.
  */
 #if defined(PLATFORM_COMPILER_GCC) && !defined(__STRICT_ANSI__)
 // In GCC we are able to declare stack vars of dynamic size directly
@@ -45,6 +44,6 @@
      type *var = (type *)alloca ((size) * sizeof (type))
 #endif
 
-/** @} */
+/// @}
 
 #endif /* __SAT_STDFUNCS_H__ */

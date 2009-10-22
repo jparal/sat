@@ -18,9 +18,8 @@
 #include "satconfig.h"
 #include "platform.h"
 
-/** @addtogroup base_sys
- *  @{
- */
+/// @addtogroup base_sys
+/// @{
 
 #ifdef PREDICT_TRUE
 #  undef PREDICT_TRUE
@@ -95,6 +94,7 @@ static __inline sat_xlc_pragma_dummy() {}
  * believe the branch will frequently go in one direction and the branch is a
  * bottleneck
  */
-/** @} */
+
+/// @}
 
 #endif /* __SAT_PREDICT_H__ */
