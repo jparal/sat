@@ -16,9 +16,7 @@
 #include "satbase.h"
 
 SimulTime::SimulTime ()
-{
-  _itout = 0;
-}
+  : _itout(0), _lastPrint(0) {}
 
 void SimulTime::Initialize (double dt, double tmax, bool restart, double tbeg)
 {
@@ -109,8 +107,16 @@ void SimulTime::IterStr (char *buff, int size, bool fill) const
   snprintf (buff,size,"%0*d", places, _iter);
 }
 
-void SimulTime::Print () const
+void SimulTime::Print ()
 {
-  DBG_INFO ("***** iteration = "<<
-	    Iter ()<<"; time = "<<(float)Time ()<<" *****");
+  if (Iter() == _lastPrint && Iter() != 0)
+  {
+    return;
+  }
+  else
+  {
+    DBG_INFO ("***** iteration = "<<
+	      Iter ()<<"; time = "<<(float)Time ()<<" *****");
+    _lastPrint = Iter();
+  }
 }

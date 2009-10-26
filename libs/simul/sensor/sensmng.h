@@ -67,7 +67,7 @@ public:
    */
   void Save (const char* id, const SimulTime &stime);
 
-  void SaveAll (const SimulTime &stime);
+  void SaveAll (SimulTime &stime);
 
 private:
   RefArray<Sensor> _sensors;

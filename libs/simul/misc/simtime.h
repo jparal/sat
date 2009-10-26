@@ -71,7 +71,7 @@ public:
   void Initialize (ConfigEntry &cfg, satversion_t ver);
   void Initialize (ConfigFile &cfg, satversion_t ver);
 
-  void Print () const;
+  void Print ();
 
   /**
    * Increment iteration and update time
@@ -119,6 +119,7 @@ private:
   iter_t _iter;
   iter_t _itout;
   iter_t _maxiter;
+  iter_t _lastPrint;
 };
 
 /// @}

@@ -72,7 +72,7 @@ void SensorManager::Save (const char *id, const SimulTime &stime)
   DBG_INFO ("saving sensor: done ...");
 }
 
-void SensorManager::SaveAll (const SimulTime &stime)
+void SensorManager::SaveAll (SimulTime &stime)
 {
   stime.Print ();
 
