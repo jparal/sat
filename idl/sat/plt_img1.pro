@@ -127,7 +127,7 @@ PRO PLT_IMG1, data, $
            DESC=desc, DSCCOLOR=dsccolor, DSCCHARSIZE=dsccharsize, $
            POSITION=position, OPLOT=noerase
 
-  position = [xhi + .08, ylo, xhi + .12, yhi]
+  position = [xhi + .10, ylo, xhi + .12, yhi]
 
   PLT_COLORBAR, /VERTICAL, TITLE=ztitle, RANGE=[zmin, zmax], $
                 ANNOTATECOLOR=color, POSITION=position, YLOG=zlog, $
