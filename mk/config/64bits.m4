@@ -27,7 +27,7 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 	      ARFLAGS64="-q64"
 	      LDFLAGS64="-b64"
 	      ;;
-	    *g++)
+	    *g++*)
 	      CXXFLAGS64="-maix64"
 	      ARFLAGS64="-cruX64"
 	      LDFLAGS64="-Wl,-b64"
@@ -59,7 +59,7 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 	      LDFLAGS64="-64"
 	      ARFLAGS64="-64"
 	      ;;
-	    *g++)
+	    *g++*)
 	      CXXFLAGS64="-m64"
 #			LDFLAGS64="-Wl,-64"
 	      ;;
@@ -89,7 +89,7 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 	      LDFLAGS64="-64"
 	      ARFLAGS64="-64"
 	      ;;
-	    *g++)
+	    *g++*)
 	      CXXFLAGS64="-m64"
 #			LDFLAGS64="-Wl,-m64"
 	      ;;

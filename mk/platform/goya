@@ -17,7 +17,7 @@ prefix="$HOME/install/sat"
 with_hdf5_libs=-lz
 
 enable_openmp=yes
-
+enable_64bit=yes
 enable_mpi=yes
 with_mpicc=mpicc
 with_mpirun="mpirun -np @NP @PROG @ARGS"
