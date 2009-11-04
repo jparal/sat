@@ -6,6 +6,10 @@ AC_DEFUN([AC_CHECK_SAT_HEADERS],
     save_CPPFLAGS=$CPPFLAGS
     CPPFLAGS="$CPPFLAGS $CFLAGS_MPI"
 
+    AC_CHECK_HEADER([signal.h],[AC_DEFINE([HAVE_SIGNAL_H],[1],
+	  [Define to 1 if you have the <signal.h> header file.])])
+    AC_CHECK_HEADER([fpu_control.h],[AC_DEFINE([HAVE_FPU_CONTROL_H],[1],
+	  [Define to 1 if you have the <fpu_control.h> header file.])])
     AC_CHECK_HEADER([lam_config.h],[AC_DEFINE([HAVE_LAM_CONFIG_H],[1],
 	  [Define to 1 if you have the <lam_config.h> header file.])])
     AC_CHECK_HEADER([cxxabi.h],[AC_DEFINE([HAVE_ABI_CXA_DEMANGLE_H],[1],

@@ -24,6 +24,8 @@ static void error_action(int error)
 
 void SAT::EnableFPException ()
 {
+#if defined(SAT_ENABLE_FPEXCEPTION)
+
   unsigned short flags = _FPU_DEFAULT;
   flags &= ~_FPU_MASK_IM;  /* Exception on Invalid operation */
   flags &= ~_FPU_MASK_ZM;  /* Exception on Division by zero  */
@@ -31,4 +33,6 @@ void SAT::EnableFPException ()
 
   _FPU_SETCW (flags);
   signal(SIGFPE, error_action);
+
+#endif
 }

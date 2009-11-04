@@ -15,8 +15,13 @@
 #ifndef __SAT_ONSIGNAL_H__
 #define __SAT_ONSIGNAL_H__
 
-#include <signal.h>
-#include <fpu_control.h>
+#include "satconfig.h"
+
+#if defined(HAVE_SIGNAL_H) && defined(HAVE_FPU_CONTROL_H)
+#  define SAT_ENABLE_FPEXCEPTION 1
+#  include <signal.h>
+#  include <fpu_control.h>
+#endif
 
 /// @addtogroup base_sys
 /// @{
