@@ -1,8 +1,6 @@
+# enable_64bit=yes
 
 with_cxxflags="-L$HOME/install/lib -I$HOME/install/include"
-
-# enable_optimize=yes
-# enable_64bit=yes
 with_cxxflags_opt="-mtune=native -march=native"
 
 enable_openmp=yes

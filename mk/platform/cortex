@@ -1,9 +1,14 @@
 CXX=xlC_r
 CC=xlc_r
+
 enable_64bit=yes
+with_cxxflags="-L/usr/lib" # Needed for HDF5 libz
 
 enable_openmp=yes
 enable_mpi=yes
 with_mpirun="poe @PROG @ARGS -msg_api MPI -procs @NP"
+
+with_hdf5="$HOME/install"
+with_hdf5_libs=-lz
 
 prefix="$HOME/install/sat"
