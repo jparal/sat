@@ -54,6 +54,14 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
   cfg.GetValue ("output.dtout", _dtout, 1.0);
   if (ent.Exists ("dtout"))
     ent.GetValue ("dtout", _dtout, _dtout);
+
+  // Read global value of skip0 first
+  _skip0 = false;
+  if (cfg.Exists ("output.skip0"))
+    cfg.GetValue ("output.skip0", _skip0, _skip0);
+  if (ent.Exists ("skip0"))
+    ent.GetValue ("skip0", _skip0, _skip0);
+
   ent.GetValue ("tag", _tag, id);
 
   if (SupportPerPar ())
@@ -69,6 +77,9 @@ Sensor::Initialize (const char *id, ConfigFile &cfg)
 
 bool Sensor::RequireSave (const SimulTime &stime)
 {
+  if (stime.Iter () == 0 && _skip0)
+    return false;
+
   int niter = (int)(0.5 + GetDtOut () / stime.Dt ());
   return (stime.Iter () % niter == 0);
 }

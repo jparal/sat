@@ -94,6 +94,7 @@ private:
   double _dtout;
   bool _enabled;
   bool _perpar;
+  bool _skip0; ///< Skip zero iteration output.
 };
 
 /// @}
