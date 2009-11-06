@@ -10,6 +10,8 @@ alias dfh="df -h"
 alias su="su -"
 alias jam="jam -j 2"
 alias make="make -j"
+alias ushowq="showq -u `whoami`"
+alias uqstat="qstat -u `whoami`"
 
 export INPUTRC="$HOME/.inputrc"
 export PATH="$HOME/bin:$HOME/install/bin:$PATH"
