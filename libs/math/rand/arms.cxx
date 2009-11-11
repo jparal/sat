@@ -593,7 +593,7 @@ void ARMSRandGen::DbgPrintEnvelope ()
   printf ("points in use = %d, points available = %d\n",
 	  _env_cpoint,_env_npoint);
   printf ("function evaluations = %d\n",_env_neval);
-  printf ("ymax = %f, p = %x\n",_env_ymax,_env_p);
+  printf ("ymax = %f, p = %p\n", _env_ymax, (void*)_env_p);
   printf ("convexity adjustment = %f\n",_env_convex);
   printf ("--------------------------------------------------------\n");
 

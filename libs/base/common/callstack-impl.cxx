@@ -176,7 +176,7 @@ bool CallStackImpl::GetParameters (size_t num, char*& str)
       tmp.append (parm);
       tmp.append (" = ");
       snprintf (buf, sizeof (buf), "%p",
-		(uintptr_t)params[entries[num].paramOffs + i]);
+		(void*)params[entries[num].paramOffs + i]);
       tmp.append (buf);
       free (parm);
     }

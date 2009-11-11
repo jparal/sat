@@ -14,7 +14,7 @@ shock_export_Npfx( shock_arg_param *p )
   matrix *m = p->Dn1;
   int y = p->profile;
 
-  printf( "%d\n", m->x );
+  printf( "%u\n", (unsigned int)m->x );
 
   for ( i=0; i<m->x; i++ ) {
     xtmp = m->data_x[i]; //(double)(i) * g_dx;

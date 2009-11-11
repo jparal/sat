@@ -18,7 +18,7 @@ shock_export_tanh( shock_arg_param *p )
   int y = p->profile;
 
   if( p->layoutType == eLAYOUT_IDL )
-    printf( "%d\n", m->x );
+    printf( "%u\n", (unsigned int)m->x );
 
   shock_fit_curve( m->data_x, m->data[y-1], m->x, p->x01, &param );
 
