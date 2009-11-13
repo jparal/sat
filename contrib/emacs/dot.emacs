@@ -38,6 +38,7 @@
 (defun indent-buffer ()
   (interactive)
   (nuke-trailing-whitespace)
+  (untabify (point-min) (point-max))
   (save-excursion
     (indent-region (point-min) (point-max) nil)))
 
