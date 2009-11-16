@@ -102,6 +102,7 @@ AC_CONFIG_FILES([
     example/convert/Makefile
     example/rand/Makefile
     example/ref/Makefile
+    example/zfnc/Makefile
     example/tmpl/Makefile
     example/tmpl/TEMPLATE.cxx.tpl
     idl/Makefile

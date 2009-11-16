@@ -2,7 +2,15 @@
 ##   Copyright (C) by Jan Paral and SAT team                                  #
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
+#
+# Note that LDADD is already specified in Makefile.first as well as
+# optimization CXXFLAGS. By specifying prog_CXXFLAGS or prog_LDADD you override
+# those settings
+#
+include $(top_srcdir)/mk/amake/Makefile.sat
 
-SUBDIRS = convert rand ref zfnc tmpl
+EXTRA_DIST = analyseme.m
 
-dist_noinst_DATA = README
+noinst_PROGRAMS = zfnc
+
+zfnc_SOURCES = zfnc.cxx
