@@ -14,158 +14,159 @@
 #include "solver.h"
 #include "satmath.h"
 #include "satio.h"
-
+#include <iomanip>
 #include <stdio.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_math.h>
-#include <gsl/gsl_roots.h>
+#include <gsl/gsl_multiroots.h>
 
-double Solver::DispRelation (double x, void *params)
+int Solver::DispRelation (const gsl_vector *x, void *params, gsl_vector *f)
 {
   struct SolverParams *p = (struct SolverParams *) params;
   const ConfigDisp &cfg = *(p->cfg);
-  double wpewce = cfg.Rwpewce ();
-  double k = cfg.GetKSample (p->ksamp);
-  double kwc = k / (wpewce * Math::Sqrt(cfg.Rmpme ()));
-  kwc = k;
-  bool lpol = p->lpol;
+  complex<double> wpewce = cfg.Rwpewce ();
+  complex<double> kvec (p->kvec, 0.);
+  complex<double> kwp;
 
-  complex<double> w;
-  if (p->real)
-    real(w) = x;
+  // do we have v_A / c = W_p / w_p
+  if (cfg.HaveVac ())
+    kwp = kvec / cfg.Vac ();
   else
-    imag(w) = x;
+    kwp = kvec * wpewce * Math::Sqrt (cfg.Rmpme());
 
-  complex<double> retval = w*w - kwc*kwc;
+  complex<double> w (gsl_vector_get(x, 0), gsl_vector_get(x, 1));
+
+  complex<double> retval = w*w - kwp*kwp;
   for (int sp=0; sp<cfg.Nspecie(); ++sp)
   {
-    double wp = cfg.PlasmaFreq (sp);
-    double vth = cfg.VthPar (sp);
-    double ani = (1. - cfg.Ani (sp))/2.;
-    complex<double> zeta1, zeta0 = cfg.Zeta (sp, 0, k, w);
+    complex<double> wp = cfg.PlasmaFreq (sp);
+    complex<double> vth = cfg.VthPar (sp);
+    complex<double> ani = 0.5 * (1. - cfg.Ani (sp));
+    complex<double> zeta1, zeta0 = cfg.Zeta (sp, 0, real(kvec), w);
 
-    if (lpol)
-      zeta1 = cfg.Zeta (sp, -1, k, w);
+    if (p->lpol)
+      zeta1 = cfg.Zeta (sp, -1, real(kvec), w);
     else
-      zeta1 = cfg.Zeta (sp, +1, k, w);
+      zeta1 = cfg.Zeta (sp, +1, real(kvec), w);
 
     retval += wp*wp * (zeta0 * Math::FncZ(zeta1) + ani * Math::FncDZ (zeta1));
   }
 
-  if (p->real)
-    return real(retval);
-  else
-    return imag(retval);
+  gsl_vector_set (f, 0, real(retval));
+  gsl_vector_set (f, 1, imag(retval));
+
+  return GSL_SUCCESS;
+}
+
+int Solver::Solve (SolverParams *params, complex<double> &root)
+{
+  const gsl_multiroot_fsolver_type *T;
+  gsl_multiroot_fsolver *s;
+
+  const size_t n = 2;
+  gsl_multiroot_function f = {&DispRelation, n, params};
+
+  gsl_vector *x = gsl_vector_alloc (n);
+  gsl_vector_set (x, 0, params->rew);
+  gsl_vector_set (x, 1, params->imw);
+
+  T = gsl_multiroot_fsolver_hybrids;
+  //T = gsl_multiroot_fsolver_hybrid;
+  //T = gsl_multiroot_fsolver_dnewton;
+  //T = gsl_multiroot_fsolver_broyden;
+  s = gsl_multiroot_fsolver_alloc (T, 2);
+  gsl_multiroot_fsolver_set (s, &f, x);
+
+  int status, iter = 0, max_iter = 1000;
+  do
+  {
+    iter++;
+    status = gsl_multiroot_fsolver_iterate (s);
+
+    if (status)   /* check if solver is stuck */
+      break;
+
+    status = gsl_multiroot_test_residual (s->f, 1e-7);
+  }
+  while (status == GSL_CONTINUE && iter < max_iter);
+
+  if (status != GSL_SUCCESS)
+    printf ("status = %s\n", gsl_strerror (status));
+
+  real(root) = gsl_vector_get (s->x, 0);
+  imag(root) = gsl_vector_get (s->x, 1);
+  params->rew = real(root);
+  params->imw = imag(root);
+
+  gsl_multiroot_fsolver_free (s);
+  gsl_vector_free (x);
+
+  return 0;
 }
 
 void Solver::SolveAll ()
 {
   struct SolverParams params;
-  params.cfg = &(cfg);
+  params.cfg = &(_cfg);
 
-  printf ("%5s %9s, %9s %9s\n", "iter", "k", "omega", "gamma");
-
-  double wp, wm, yp, ym;
+  int nk = _cfg.KSamp ();
+  complex<double> wp, wm;
   Array<double> awp, awm, ayp, aym, ak;
 
-  for (int ik=0; ik<cfg.KSamp (); ++ik)
+  params.rew = 0.5 * (_cfg.OmegaMin() + _cfg.OmegaMax());
+  params.imw = 0.5 * (_cfg.GammaMin() + _cfg.GammaMax());
+  params.lpol = true;
+  for (int ik=0; ik<nk; ++ik)
   {
-    params.ksamp = ik;
+    params.kvec = _cfg.GetKSample (ik);
+    Solve (&params, wm);
+    ak.Push (params.kvec);
+    awm.Push (real(wm));
+    aym.Push (imag(wm));
+  }
 
-    params.real = true; params.lpol = true;   Solve (&params, wp);
-    params.real = true; params.lpol = false;  Solve (&params, wm);
-    params.real = false; params.lpol = true;  Solve (&params, yp);
-    params.real = false; params.lpol = false; Solve (&params, ym);
-
-    ak.Push (cfg.GetKSample (ik));
-    awp.Push (wp);
-    awm.Push (wm);
-    ayp.Push (yp);
-    aym.Push (ym);
-
-    printf ("%5d %.9f, %.9f %.9f\n", ik, cfg.GetKSample(ik), wp, yp);
+  params.rew = 0.5 * (_cfg.OmegaMin() + _cfg.OmegaMax());
+  params.imw = 0.5 * (_cfg.GammaMin() + _cfg.GammaMax());
+  params.lpol = false;
+  for (int ik=0; ik<nk; ++ik)
+  {
+    params.kvec = _cfg.GetKSample (ik);
+    Solve (&params, wp);
+    awp.Push (real(wp));
+    ayp.Push (imag(wp));
   }
 
   HDF5File file;
-  file.Write (ak, "k", cfg.OutName ());
-  file.Write (awp, "wp", cfg.OutName (), true);
-  file.Write (awm, "wm", cfg.OutName (), true);
-  file.Write (ayp, "yp", cfg.OutName (), true);
-  file.Write (aym, "ym", cfg.OutName (), true);
-}
-
-int Solver::Solve (SolverParams *params, double &root)
-{
-  int status;
-  int iter = 0, max_iter = 100;
-  const gsl_root_fsolver_type *T;
-  gsl_root_fsolver *s;
-  double x_lo, x_hi;
-  double r = 0, r_expected;
-  gsl_function F;
-
-  if (params->real)
-  {
-    x_lo = cfg.OmegaMin ();
-    x_hi = cfg.OmegaMax ();
-  }
-  else
-  {
-    x_lo = cfg.GammaMin ();
-    x_hi = cfg.GammaMax ();
-  }
-
-  // DBG_INFO ("Min/Max: "<< x_lo << "/" <<x_hi);
-
-  r_expected = (x_hi + x_lo)/2.;
-  F.function = &DispRelation;
-  F.params = params;
-
-  T = gsl_root_fsolver_brent;
-  s = gsl_root_fsolver_alloc (T);
-  gsl_root_fsolver_set (s, &F, x_lo, x_hi);
-
-  // printf ("%5s [%9s, %9s] %9s %10s %9s\n", "iter", "lower", "upper", "root",
-  // 	  "err", "err(est)");
-
-  do
-  {
-    iter++;
-    status = gsl_root_fsolver_iterate (s);
-    r = gsl_root_fsolver_root (s);
-    x_lo = gsl_root_fsolver_x_lower (s);
-    x_hi = gsl_root_fsolver_x_upper (s);
-    status = gsl_root_test_interval (x_lo, x_hi, 0, 0.001);
-
-    //    if (status == GSL_SUCCESS) printf ("Converged:\n");
-
-    // printf ("%5d [%.7f, %.7f] %.7f %+.7f %.7f\n", iter, x_lo, x_hi,
-    // 	    r, r - r_expected, x_hi - x_lo);
-  }
-  while (status == GSL_CONTINUE && iter < max_iter);
-
-  gsl_root_fsolver_free (s);
-
-  root = r;
-  return status;
+  file.Write (ak, "k", _cfg.OutName ());
+  file.Write (awp, "wp", _cfg.OutName (), true);
+  file.Write (ayp, "yp", _cfg.OutName (), true);
+  file.Write (awm, "wm", _cfg.OutName (), true);
+  file.Write (aym, "ym", _cfg.OutName (), true);
 }
 
 void Solver::Print ()
 {
-  for (int sp=0; sp<cfg.Nspecie(); ++sp)
+  double vac;
+  if (_cfg.HaveVac())
+    vac = _cfg.Vac();
+  else
+    vac = 1./(_cfg.Rwpewce () * Math::Sqrt (_cfg.Rmpme()));
+
+  DBG_INFO ("v_A/c = W_p/w_p = " <<  vac);
+
+  for (int sp=0; sp<_cfg.Nspecie(); ++sp)
   {
-    complex<double> zeta0 = cfg.Zeta (sp, 0, cfg.KSamp()/2, .1);
-    complex<double> zeta1 = cfg.Zeta (sp,+1, cfg.KSamp()/2, .1);
-    DBG_INFO ("===== Specie: "<< sp <<" =======");
-    DBG_INFO ("Plasma Frequency:    " << cfg.PlasmaFreq (sp));
-    DBG_INFO ("Cyclotron Frequency: " << cfg.CycloFreq (sp));
-    DBG_INFO ("vth parallel:        " << cfg.VthPar (sp));
-    DBG_INFO ("vth perpendicular:   " << cfg.VthPer (sp));
-    DBG_INFO ("Zeta(0,w=.1):        " << zeta0);
-    DBG_INFO ("Zeta(1,w=.1):        " << zeta1);
-    DBG_INFO ("Z (Zeta(0,w=.1)):    " << Math::FncZ (zeta0));
-    DBG_INFO ("Z'(Zeta(0,w=.1)):    " << Math::FncDZ (zeta0));
-    DBG_INFO ("Z (Zeta(1,w=.1)):    " << Math::FncZ (zeta1));
-    DBG_INFO ("Z'(Zeta(1,w=.1)):    " << Math::FncDZ (zeta1));
+    DBG_INFO ("=========== Specie: "<< sp <<" ===========");
+    DBG_INFO ("Mass (m_p):           " << _cfg.Mass (sp));
+    DBG_INFO ("Charge (e):           " << _cfg.Charge (sp));
+    DBG_INFO ("Relative density:     " << _cfg.Density (sp));
+    DBG_INFO ("Plasma Frequency:     " << _cfg.PlasmaFreq (sp));
+    DBG_INFO ("Cyclotron Frequency:  " << _cfg.CycloFreq (sp));
+    DBG_INFO ("Parallel beta:        " << _cfg.Beta (sp));
+    DBG_INFO ("Anisotropy (per/par): " << _cfg.Ani (sp));
+    DBG_INFO ("vth par/per:          "
+	      << _cfg.VthPar (sp) << "/" << _cfg.VthPer (sp));
+    DBG_INFO ("v0 par/per:           "
+	      << _cfg.V0Par (sp) << "/" << _cfg.V0Per (sp));
   }
 }

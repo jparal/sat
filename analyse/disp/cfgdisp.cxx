@@ -13,16 +13,16 @@
 
 #include "cfgdisp.h"
 
-#define SAT_ASSERT_UNITS if (_units != 0) SAT_ASSERT_MSG(false, "Wrong units");
-
-double ConfigDisp::GetKSample (int i) const
+double
+ConfigDisp::GetKSample (int i) const
 {
   SAT_ASSERT (0 <= i && i < KSamp ());
   double ds = (KMax() - KMin()) / double(KSamp()-1);
   return ds * double(i) + KMin ();
 }
 
-void ConfigDisp::Initialize (int argc, char **argv)
+void
+ConfigDisp::Initialize (int argc, char **argv)
 {
   _cfgname = argv[0];
   _cfgname.ReplaceAll ("sat-", "");
@@ -52,6 +52,9 @@ void ConfigDisp::Initialize (int argc, char **argv)
   cfg.GetValue ("units", _units);
   cfg.GetValue ("rwpewce", _rwpewce);
   cfg.GetValue ("rmpme", _rmpme, M_PHYS_MP/M_PHYS_ME);
+  _vac = -1.;
+  if (cfg.Exists ("vac"))
+    cfg.GetValue ("vac", _vac);
   // cfg.GetValue ("nterms", _nterms, IVector3(0));
   cfg.GetValue ("kvec", _kvec);
   cfg.GetValue ("ksamp", _ksamp);
@@ -72,40 +75,49 @@ void ConfigDisp::Initialize (int argc, char **argv)
     _vpar.Push (cfgfile.GetEntry ("disp.v0par")[sp]);
     _vper.Push (cfgfile.GetEntry ("disp.v0per")[sp]);
   }
+
+  SAT_ASSERT_MSG(_units == 0, "Wrong units");
 }
 
-double ConfigDisp::VthPar (int sp) const
+double
+ConfigDisp::Mass (int sp) const
 {
-  SAT_ASSERT_UNITS;
-
-  if (sp == 0)
-    return Math::Sqrt (Beta(sp) * _rmpme / 2.);
+  if (_mass[sp] == 0)
+    return double(1./Rmpme());
   else
-    return Math::Sqrt (Beta(sp) / (2.* Density(sp) * Mass(sp)));
+    return double(_mass[sp]);
 }
 
-double ConfigDisp::VthPer (int sp) const
+double
+ConfigDisp::VthPar (int sp) const
 {
-  double rvth = Math::Sqrt (Ani (sp));
-  return rvth * VthPar (sp);
+  return Math::Sqrt (Beta(sp) / (2.* Density(sp) * Mass(sp)));
 }
 
-double ConfigDisp::PlasmaFreq (int sp) const
+double
+ConfigDisp::VthPer (int sp) const
 {
-  SAT_ASSERT_UNITS;
-
-  if (sp == 0)
-    return Rwpewce() * _rmpme;
-  else
-    return Rwpewce() * Charge(sp) * Math::Sqrt (Density(sp)*_rmpme/Mass(sp));
+  return Math::Sqrt (Ani(sp)) * VthPar (sp);
 }
 
-double ConfigDisp::CycloFreq (int sp) const
+double
+ConfigDisp::PlasmaFreq (int sp) const
 {
-  SAT_ASSERT_UNITS;
+  double sqr = Math::Sqrt (Density(sp) * Rmpme() / Mass(sp));
+  return Rwpewce() * ChargeAbs(sp) * sqr;
+}
 
-  if (sp == 0)
-    return _rmpme;
-  else
-    return double(Charge(sp)) / double(Mass(sp));
+double
+ConfigDisp::CycloFreq (int sp) const
+{
+  return Charge(sp) / Mass(sp);
+}
+
+complex<double>
+ConfigDisp::Zeta (int sp, int n, double k, complex<double> w) const
+{
+  complex<double> kuj = k * V0Par (sp);
+  complex<double> nom = w + double(n) * CycloFreq(sp) - kuj;
+  complex<double> den = M_SQRT2 * k * VthPar(sp);
+  return nom/den;
 }

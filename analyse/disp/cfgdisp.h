@@ -60,26 +60,24 @@ public:
   double GammaMin () const { return _gamma[0]; }
   double GammaMax () const { return _gamma[1]; }
 
-  int Nspecie ()         const { return _nsp; }
-  int Mass (int sp)      const { return _mass[sp]; }
-  int Charge (int sp)    const { return _charge[sp]; }
+  int Nspecie () const { return _nsp; }
+  double Mass (int sp) const;
+  double Charge (int sp) const { return double(_charge[sp]); }
+  double ChargeAbs (int sp) const { return Math::Abs (Charge(sp)); }
   double Density (int sp) const { return _rdn[sp]; }
-  double Beta (int sp)   const { return _beta[sp]; }
-  double Ani (int sp)    const { return _ani[sp]; }
-  double V0Par (int sp)  const { return _vpar[sp]; }
-  double V0Per (int sp)  const { return _vper[sp]; }
+  double Beta (int sp) const { return _beta[sp]; }
+  double Ani (int sp) const { return _ani[sp]; }
+  double V0Par (int sp) const { return _vpar[sp]; }
+  double V0Per (int sp) const { return _vper[sp]; }
   double VthPar (int sp) const;
   double VthPer (int sp) const;
   double PlasmaFreq (int sp) const; ///< Plasma frequency
-  double CycloFreq (int sp)  const; ///< Cyclotron frequency
+  double CycloFreq (int sp) const; ///< Cyclotron frequency
   double Rmpme () const { return _rmpme; }
+  bool HaveVac () const { return _vac > 0.; }
+  double Vac () const { return _vac; }
 
-  complex<double> Zeta (int sp, int n, double k, complex<double> w) const
-  {
-    complex<double> nom = w + double(n) * PlasmaFreq(sp);
-    complex<double> den = M_SQRT2 * k * VthPar(sp);
-    return nom/den;
-  }
+  complex<double> Zeta (int sp, int n, double k, complex<double> w) const;
 
 private:
   String _cfgname;       ///< Input file name
@@ -87,6 +85,7 @@ private:
   int _units;            ///< Units 0: v_A, w_cp; 1: r_ge and w_ce
   double _rwpewce;       ///< Ratio of el. plasma freq. to el. cyclotron freq.
   double _rmpme;         ///< Ratio of mp/me (comment for real value)
+  double _vac;           ///< Ratio of v_A / c = W_p / w_p
   //IVector3 _nterms;      ///< Number of terms in the sum (comment for -inf,inf)
 
   DVector2 _kvec;        ///< k vectors: k min, k max

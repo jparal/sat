@@ -16,6 +16,7 @@
 #define __SAT_SOLVER_H__
 
 #include "cfgdisp.h"
+#include <gsl/gsl_vector.h>
 
 /// @addtogroup analyse
 /// @{
@@ -34,19 +35,21 @@ public:
   struct SolverParams
   {
     ConfigDisp *cfg;
-    bool real; ///< Are we solving for a real part?
+    double kvec; ///< k vector.
     bool lpol; ///< Polarization.
-    int ksamp; ///< Sample of k we are computing.
+    double imw, rew; ///< Used for initial guess (previous values)
   };
 
-  static double DispRelation (double x, void *params);
-  int Solve (SolverParams *params, double &root);
+  static int DispRelation (const gsl_vector *x, void *params, gsl_vector *f);
+
+  int Solve (SolverParams *params, complex<double> &root);
+
   void SolveAll ();
 
   void Print ();
 
   void Initialize (int argc, char **argv)
-  { cfg.Initialize (argc, argv); }
+  { _cfg.Initialize (argc, argv); }
 
   /// Constructor
   Solver () {};
@@ -54,7 +57,7 @@ public:
   ~Solver () {};
 
 private:
-  ConfigDisp cfg;
+  ConfigDisp _cfg;
 };
 
 /// @}
