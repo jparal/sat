@@ -1,7 +1,7 @@
 simul:
 {
   step = 0.5;     # time step for pcles [1/Omega_pi]
-  tmax = 5000;    # Max time to run to [1/Omega_pi]
+  tmax = 3500;    # Max time to run to [1/Omega_pi]
   nsub = 10;      # substeps for moving ions
   clean = 200;    # Clean unused pcles [steps]
   restart = false; start = 0.; # not in use but it has to be here
@@ -9,38 +9,38 @@ simul:
 
 input:
 {
-  fname  = "08M1288g3t100.gz";
+  fname  = "08M1288h2i5150.gz";
   cells  = [ 594, 288, 288 ];
   resol  = [ 0.4, 1.0, 1.0 ]; # [c/omega_p]
   # b0 = IMF mag. field [nT]  n0 = density of SW [cm^-3]
   hybridconv:
-  { b0 = 21; n0 = 32; };
+  { b0 = 18; n0 = 32; };
   # Relative position in simul. box [-];  radius [c/omega_p] 
   planet:
-  { rpos = [ 0.35, 0.5, 0.5 ]; radius = 12.48; };
-  swaccel = 1.0;   # [m/s^2] (min/max: 0.2/2 [m/s^2])
-  tphoto = 1e4;    # time of photoionization [s] (scales with distance) (10^5)
-  distau = 0.307;  # distance from Sun [AU] (min/mean/max: 0.307 0.387 0.467)
+  { rpos = [ 0.3, 0.5, 0.5 ]; radius = 15.9; };
+  swaccel = 2.0;   # [m/s^2] (min/max: 0.2/2 [m/s^2])
+  tphoto = 5e4;    # time of photoionization [s] (scales with distance) (10^5)
+  distau = 0.3406;  # distance from Sun [AU] (min/mean/max: 0.307 0.387 0.467)
 };
 
 release: # ========= Aphelion ============
 {
   npatch = [360, 180];  # Split the surface into patches in phi, tht direction
-  npcles = 100.;      # emit pcles per time step, specie, thread
-  ionsratio = 5.;       # ions/neutrals ratio [%] when released
+  totpcles = 60000.;   # emit pcles per time step per specie
+  ionsratio = 1.;       # ions/neutrals ratio [%] when released
   sws = {
     ebind = 2.;         # binding energy of Na in regolith [eV]
     etrans = 500;       # transported energy from the SW ion impact [eV]
     mass = 22.98976928; # mass of the Na [m_i]
-    mapfname = "PlDn008M1288g3.gz"; # map file of SW ions precp. from hybrid simul.
-    totflx = 1e23;      # Killen04: (6e21 - 3.8e24)
+    mapfname = "PlDn008M1288h2.gz"; # map file of SW ions precp. from hybrid simul.
+    totflx = 6e21;      # Killen04: (6e21 - 3.8e24)
   };
-  psd = {
-    ubind = 0.052;
-    xpar = 0.7;
-    mass = 22.98976928;
-    totflx = 7e24;      # Killen04: (5e24 - 1e25)
-  };
+  # psd = {
+  #   ubind = 0.052;
+  #   xpar = 0.7;
+  #   mass = 22.98976928;
+  #   totflx = 5e24;      # Killen04: (5e24 - 1e25)
+  # };
 };
 
 output:
@@ -49,16 +49,14 @@ output:
   format:
   {
     type = "xdmf"; version = 1; parallel = false;
-    dir = "out"; runname  = "test";
+    dir = "h2i5150"; runname  = "hions";
     compress = { gz = 6; shuffle = true; };   # output compression
   };
-  dtout = 100; skip0 = false;
+  dtout = 50; skip0 = true;
   sensors:
   {
-    swsspec = { tag = "SWS"; resol = [2,2,2]; };
-    psdspec = { tag = "PSD"; resol = [2,2,2]; };
-    swspcle = { tag = "SWS"; npcle = 1000; wmin = 0.1; dtout = 2.5; };
-    psdpcle = { tag = "PSD"; npcle = 1000; wmin = 0.1; dtout = 2.5; };
+    swsspec  = { tag = "SWS"; resol = [2,2,2]; };
+    psdspec  = { tag = "PSD"; resol = [2,2,2]; };
   };
 };
 
