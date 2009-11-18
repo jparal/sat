@@ -42,12 +42,12 @@ class JxBSensor : public Sensor
 public:
   using Sensor::SaveData;
 
-  void Initialize (Field<Vector<T,R>,D> *J,
+  void Initialize (ConfigFile &cfg, const char *id,
+		   Field<Vector<T,R>,D> *J,
 		   Field<Vector<T,R>,D> *B,
-		   Field<T,D> *rhoc,
-		   const char *id, ConfigFile &cfg)
+		   Field<T,D> *rhoc)
   {
-    Sensor::Initialize (id, cfg);
+    Sensor::Initialize (cfg, id);
     _J = J; _B = B; _rhoc = rhoc;
   }
 

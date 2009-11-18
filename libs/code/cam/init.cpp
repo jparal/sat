@@ -201,15 +201,15 @@ void CAMCode<B,T,D>::Initialize ()
   CurlBxBSensor<T,3,D> *cbxbsens = new CurlBxBSensor<T,3,D>;
   KineticEnergySensor<T,3,D> *ken = new KineticEnergySensor<T,3,D>;
 
-  nsens->Initialize (&_dn, "density", cfg);
-  esens->Initialize (&_E, "elfield", cfg);
-  bsens->Initialize (&_B, "magfield", cfg);
-  usens->Initialize (&_U, "velocity", cfg);
-  dfsens->Initialize (&_specie, &_B, "distfnc", cfg);
-  dbdtsens->Initialize (&_E, &_B, "dbdt", cfg);
-  jxbsens->Initialize (&_U, &_B, &_dn, "jxb", cfg);
-  cbxbsens->Initialize (&_B, &_dn, "cbxb", cfg);
-  ken->Initialize (&_specie, &_B, "kenergy", cfg);
+  nsens->Initialize (cfg, "density", &_dn);
+  esens->Initialize (cfg, "elfield", &_E);
+  bsens->Initialize (cfg, "magfield", &_B);
+  usens->Initialize (cfg, "velocity", &_U);
+  dfsens->Initialize (cfg, "distfnc", &_specie, &_B);
+  dbdtsens->Initialize (cfg, "dbdt", &_E, &_B);
+  jxbsens->Initialize (cfg, "jxb", &_U, &_B, &_dn);
+  cbxbsens->Initialize (cfg, "cbxb", &_B, &_dn);
+  ken->Initialize (cfg, "kenergy", &_specie, &_B);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);

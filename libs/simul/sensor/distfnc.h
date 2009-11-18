@@ -37,8 +37,8 @@ public:
   typedef typename TSpecie::TParticle TParticle;
   typedef RefArray<TSpecie> TSpecieRefArray;
 
-  void Initialize (TSpecieRefArray *sparr, TVecField *bfld,
-		   const char *id, ConfigFile &cfg);
+  void Initialize (ConfigFile &cfg, const char *id,
+		   TSpecieRefArray *sparr, TVecField *bfld);
 
   virtual void SaveData (IOManager &iomng, const SimulTime &stime);
 

@@ -19,7 +19,7 @@ void HISpecieSensor<T>::Initialize (TSpecie *spec, const Vector<T,3> &dx,
 				    const Vector<int,3> &nc,
 				    const char *id, ConfigFile &cfg)
 {
-  Sensor::Initialize (id, cfg);
+  Sensor::Initialize (cfg, id);
 
   if (Enabled ())
   {

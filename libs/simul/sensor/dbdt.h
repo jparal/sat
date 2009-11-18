@@ -34,11 +34,10 @@ class DbDtVecFieldSensor : public Sensor
 public:
   using Sensor::SaveData;
 
-  void Initialize (Field<Vector<T,R>,D> *E,
-		   Field<Vector<T,R>,D> *B,
-		   const char *id, ConfigFile &cfg)
+  void Initialize (ConfigFile &cfg, const char *id,
+		   Field<Vector<T,R>,D> *E, Field<Vector<T,R>,D> *B)
   {
-    Sensor::Initialize (id, cfg);
+    Sensor::Initialize (cfg, id);
     _E = E; _B = B;
   }
 

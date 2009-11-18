@@ -27,7 +27,7 @@ Sensor::~Sensor ()
 {}
 
 void
-Sensor::Initialize (const char *id, ConfigFile &cfg)
+Sensor::Initialize (ConfigFile &cfg, const char *id)
 {
   _id = id;
   char sensentry[SENS_ENTRY_SIZE];

@@ -48,11 +48,11 @@ public:
   typedef Vector<T,R> FldVector;
   typedef Vector<T,2> PerParVector;
 
-  void Initialize (RefArray<TSpecie> *specie,
-		   Field<Vector<T,R>,D> *B,
-		   const char *id, ConfigFile &cfg)
+  void Initialize (ConfigFile &cfg, const char *id,
+		   RefArray<TSpecie> *specie,
+		   Field<Vector<T,R>,D> *B)
   {
-    Sensor::Initialize (id, cfg);
+    Sensor::Initialize (cfg, id);
     _specie = specie;
     _B = B;
   }

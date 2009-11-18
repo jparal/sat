@@ -15,10 +15,10 @@
 #include "distfnc.h"
 
 template <class T, int D>
-void DistFncSensor<T,D>::Initialize (TSpecieRefArray *sparr, TVecField *bfld,
-				     const char *id, ConfigFile &cfg)
+void DistFncSensor<T,D>::Initialize (ConfigFile &cfg, const char *id,
+				     TSpecieRefArray *sparr, TVecField *bfld)
 {
-  Sensor::Initialize (id, cfg);
+  Sensor::Initialize (cfg, id);
   _species = sparr;
   _bfld = bfld;
 

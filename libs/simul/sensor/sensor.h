@@ -43,7 +43,7 @@ public:
   /// Destructor
   virtual ~Sensor ();
 
-  void Initialize (const char *id, ConfigFile &cfg);
+  void Initialize (ConfigFile &cfg, const char *id);
 
   /// This function is called from Initialize() with sensor entry from
   /// configuration file in the parameter @p cfg for extra initialization.

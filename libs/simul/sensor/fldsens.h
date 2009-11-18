@@ -39,9 +39,9 @@ public:
   /// Destructor
   ~VecFieldSensor () {};
 
-  void Initialize (Field<Vector<T,R>,D> *fld, const char *id, ConfigFile &cfg)
+  void Initialize (ConfigFile &cfg, const char *id, Field<Vector<T,R>,D> *fld)
   {
-    Sensor::Initialize (id, cfg);
+    Sensor::Initialize (cfg, id);
     _fld = fld;
   }
 
@@ -65,9 +65,9 @@ template<class T, int D>
 class ScaFieldSensor : public Sensor
 {
 public:
-  void Initialize (Field<T,D> *fld, const char *id, ConfigFile &cfg)
+  void Initialize (ConfigFile &cfg ,const char *id, Field<T,D> *fld)
   {
-    Sensor::Initialize (id, cfg);
+    Sensor::Initialize (cfg, id);
 
     _fld = fld;
   }
