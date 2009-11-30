@@ -14,7 +14,7 @@ simul:
 
 grid:
 {
-  cells  = [ 2000, 50, 100 ];
+  cells  = [ 4096, 50, 100 ];
   resol  = [ .5, 0.5, 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
@@ -34,7 +34,7 @@ plasma:
   {
     cproton = { pcles = 10000.; beta = 1.0; ani = 1.; rmds = .99; qms = 1.;
       v0 = [0.,0.,0.]; };
-    bproton = { pcles = 5000.; beta = 0.1; ani = 1.; rmds = .01; qms = 1.;
+    bproton = { pcles = 10000.; beta = 0.1; ani = 1.; rmds = .01; qms = 1.;
       v0 = [10.,0.,0.]; };
   };
 };
@@ -51,16 +51,16 @@ output:
     compress = { gz = 6; shuffle = true; };   # output compression
   };
 
-  dtout = .4;
+  dtout = .02;
 
   sensors:
   {
     density  = { tag = "Dn"; };
     magfield = { tag = "B"; };
     elfield  = { tag = "E"; };
-    velocity = { tag = "U"; };
-    temp     = { tag = "T"; };
-    kenergy  = { tag = "KEn"; perpar = true; };
+    # velocity = { tag = "U"; };
+    # temp     = { tag = "T"; };
+    # kenergy  = { tag = "KEn"; perpar = true; };
     # dbdt     = { tag = "DbDt"; };
     # jxb      = { tag = "JxB"; };
     # cbxb     = { tag = "CBxB"; };

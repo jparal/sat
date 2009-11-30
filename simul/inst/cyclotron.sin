@@ -5,7 +5,7 @@
 simul:
 {
   step    = 0.02;
-  tmax    = 300;
+  tmax    = 200;
   start   = 0.;
   restart = false;     # restart app
   momsmooth = 2;       # Steps between moment smooth 
@@ -14,8 +14,8 @@ simul:
 
 grid:
 {
-  cells  = [ 1000, 50, 100 ];
-  resol  = [ .25, 0.5, 1. ];           # [c/omega_p]
+  cells  = [ 1024, 50, 100 ];
+  resol  = [ .5, 0.5, 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
@@ -32,7 +32,7 @@ plasma:
   betae = 0.1;
   specie:
   {
-    proton = { pcles = 1000.; beta = 2.; ani = 2.; rmds = 1.; qms = 1.;
+    proton = { pcles = 10000.; beta = 2.; ani = 2.; rmds = 1.; qms = 1.;
       v0 = [0.,0.,0.]; };
   };
 };
@@ -49,7 +49,7 @@ output:
     compress = { gz = 6; shuffle = true; };   # output compression
   };
 
-  dtout = .4;
+  dtout = 0.02;
 
   sensors:
   {
@@ -57,8 +57,8 @@ output:
     magfield = { tag = "B"; };
     elfield  = { tag = "E"; };
     velocity = { tag = "U"; };
-    temp     = { tag = "T"; };
-    kenergy  = { tag = "KEn"; perpar = true; };
+    # temp     = { tag = "T"; };
+    # kenergy  = { tag = "KEn"; perpar = true; };
     # dbdt     = { tag = "DbDt"; };
     # jxb      = { tag = "JxB"; };
     # cbxb     = { tag = "CBxB"; };
