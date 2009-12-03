@@ -36,9 +36,9 @@ int main (int argc, char **argv)
     repfnc.Push (real(pfnc));
   }
 
-  HDF5File file;
-  file.Write (imzeta, "imzeta", FILE_NAME);
-  file.Write (rezeta, "rezeta", FILE_NAME, true);
-  file.Write (impfnc, "impfnc", FILE_NAME, true);
-  file.Write (repfnc, "repfnc", FILE_NAME, true);
+  HDF5File file (FILE_NAME);
+  file.Write (imzeta, "imzeta");
+  file.Write (rezeta, "rezeta");
+  file.Write (impfnc, "impfnc");
+  file.Write (repfnc, "repfnc");
 }
