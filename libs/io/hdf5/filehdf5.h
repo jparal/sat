@@ -19,6 +19,11 @@
 #include "simul/field/field.h"
 #include "simul/field/mesh.h"
 
+#ifdef HAVE_HDF5
+#include <hdf5.h>
+#include "hdf5types.h"
+#endif
+
 /// @addtogroup io_hdf5
 /// @{
 
@@ -35,27 +40,32 @@ class HDF5File : public IOFile
 {
 public:
   /// Constructor
-  HDF5File () : IOFile () {}
+  HDF5File ()
+    : IOFile () {}
+
+  HDF5File (const char *name, IOFile::Flags flags = 0)
+    : IOFile (name, flags) {}
+
+  virtual void Open (const char *fname, IOFile::Flags flags = 0);
+  virtual void Close ();
 
   template<class T, int D>
-  void Write (const Field<T,D> &fld, Centring center,
-	      const char *tag, const char *fname);
+  void Write (const Field<T,D> &fld, Centring center, const char *tag);
 
   template<class T, int R, int D>
-  void Write (const Field<Vector<T,R>,D> &fld, Centring center,
-	      const char *tag, const char *fname);
+  void Write (const Field<Vector<T,R>,D> &fld, Centring center, const char *tag);
 
   template<class T>
-  void Write (const Array<T> &arr, const char *tag, const char *fname,
-	      bool append = false);
+  void Write (const Array<T> &arr, const char *tag);
 
   template<class T, int D>
-  void Read (Field<T,D> &fld, Centring center,
-	     const char *tag, const char *fname);
+  void Read (Field<T,D> &fld, Centring center, const char *tag);
 
   template<class T, int R, int D>
-  void Read (Field<Vector<T,R>,D> &fld, Centring center,
-	     const char *tag, const char *fname);
+  void Read (Field<Vector<T,R>,D> &fld, Centring center, const char *tag);
+
+private:
+  hid_t _file;
 };
 
 /// @}

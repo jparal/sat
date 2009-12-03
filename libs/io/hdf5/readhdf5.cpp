@@ -22,16 +22,13 @@
 #endif
 
 template<class T, int D>
-void HDF5File::Read (Field<T,D> &fld,
-		     Centring center,
-		     const char *tag, const char *fname)
+void HDF5File::Read (Field<T,D> &fld, Centring center, const char *tag)
 {
 }
 
 
 template<class T, int R, int D>
-void HDF5File::Read (Field<Vector<T,R>,D> &fld,
-		     Centring center,
-		     const char *tag, const char *fname)
+void HDF5File::Read (Field<Vector<T,R>,D> &fld, Centring center,
+		     const char *tag)
 {
 }

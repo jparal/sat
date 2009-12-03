@@ -33,17 +33,48 @@
 class IOFile : public RefCount
 {
 public:
+  enum IOS
+  {
+    write = 0x1,
+    read  = 0x2,
+    app   = 0x4,  ///< Append data to existing file.
+    suff  = 0x8   ///< Add suffix to file name when opening.
+  };
+
+  typedef unsigned int Flags;
+
   IOFile ();
+  IOFile (const char *fname, IOFile::Flags flags = 0)
+    : RefCount ()
+  {
+    Initialize ();
+    Open (fname, flags);
+  }
+
+  ~IOFile ()
+  { Close (); }
+
   void Initialize ();
   void Initialize (bool parallel, int gz, bool shuffle);
   void Initialize (const ConfigEntry &cfg);
   void Initialize (const ConfigFile &cfg);
 
-protected:
+  bool Parallel () const
+  { return _parallel; }
+
+  int Gzip () const
+  { return _gz; }
+
+  bool Shuffle () const
+  { return _shuffle; }
+
+  virtual void Open (const char *fname, IOFile::Flags flags);
+  virtual void Close ();
+
+private:
   bool _parallel;               /**< Do the I/O operations parallel? */
   int _gz;                      /**< Use zlib compression library? (0-9) */
   bool _shuffle;                /**< Use byte shuffle as well? (HDF5) */
-  //  int _version;                     /**< File format version */
 };
 
 /// @}

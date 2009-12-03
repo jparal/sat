@@ -24,8 +24,7 @@
 
 #define SPECIALIZE_H5F_WR_ARRS(type)					\
   template /*<class type>*/						\
-  void HDF5File::Write<> (const Array<type>&, const char*,		\
-			  const char*, bool);
+  void HDF5File::Write<> (const Array<type>&, const char*);
 
 #define SPECIALIZE_H5F(type)			\
   SPECIALIZE_H5F_WR_ARRS(type)

@@ -20,9 +20,7 @@
 #endif
 
 template<class T, int D>
-void HDF5File::Write (const Field<T,D> &fld,
-		      Centring center,
-		      const char *tag, const char *fname)
+void HDF5File::Write (const Field<T,D> &fld, Centring center, const char *tag)
 {
   const Layout<D> &layout = fld.GetLayout ();
   const CartDomDecomp<D> &decomp = layout.GetDecomp ();
@@ -55,16 +53,12 @@ void HDF5File::Write (const Field<T,D> &fld,
 
   if (iproc == 0)
   {
-    hid_t file, fspace, fdataset, mspace, plist, type;
+    hid_t fspace, fdataset, mspace, plist, type;
     hsize_t start[D], stride[D], count[D], block[D];
     hsize_t domlen = dom.Length ();
     type = HDF5TypeTraits<T>::GetID ();
     int nproc = decomp.GetNProc ();
     const Vector<int,D> &dims = fld.GetDims ();
-    char fnamebuff[64];
-    snprintf (fnamebuff, 64, "%s.h5", fname);
-
-    file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
     // Select memory dataspace (common for all processors)
     mspace = H5Screate_simple(1, &domlen, NULL);
@@ -84,19 +78,19 @@ void HDF5File::Write (const Field<T,D> &fld,
     }
     fspace = H5Screate_simple (D, fdims, NULL);
 
-    if (_gz || _shuffle)
+    if (Gzip() || Shuffle())
     {
       plist = H5Pcreate (H5P_DATASET_CREATE);
       H5Pset_chunk (plist, D, cdims);
-      if (_shuffle) H5Pset_shuffle (plist);
-      if (_gz) H5Pset_deflate (plist, _gz);
+      if (Shuffle()) H5Pset_shuffle (plist);
+      if (Gzip()) H5Pset_deflate (plist, Gzip());
     }
     else
     {
       plist = H5P_DEFAULT;
     }
 
-    fdataset = H5Dcreate (file, tag, type, fspace, plist);
+    fdataset = H5Dcreate (_file, tag, type, fspace, plist);
     // H5P_DEFAULT, /**< Link creation property list */
     // plist, /**< Dataset creation property list */
     // H5P_DEFAULT); /**< Dataset access property list */
@@ -155,7 +149,6 @@ void HDF5File::Write (const Field<T,D> &fld,
     H5Sclose (mspace);
     H5Dclose (fdataset);
     H5Pclose(plist);
-    H5Fclose(file);
     free (data);
   }
   else // iproc != 0
@@ -182,8 +175,7 @@ void HDF5File::Write (const Field<T,D> &fld,
 
 template<class T, int R, int D>
 void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
-		      Centring center,
-		      const char *tag, const char *fname)
+		      Centring center, const char *tag)
 {
   const Layout<D> &layout = fld.GetLayout ();
   const CartDomDecomp<D> &decomp = layout.GetDecomp ();
@@ -216,16 +208,12 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
 
   if (iproc==0)
   {
-    hid_t file, fspace, fdataset, mspace, plist, type;
+    hid_t fspace, fdataset, mspace, plist, type;
     hsize_t start[D], stride[D], count[D], block[D];
     hsize_t domlen = dom.Length ();
     type = HDF5TypeTraits<T>::GetID ();
     int nproc = decomp.GetNProc ();
     const Vector<int,D> &dims = fld.GetDims ();
-    char fnamebuff[64];
-    snprintf (fnamebuff, 64, "%s.h5", fname);
-
-    file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
     // Select memory dataspace (common for all processors)
     mspace = H5Screate_simple(1, &domlen, NULL);
@@ -245,12 +233,12 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
     }
     fspace = H5Screate_simple (D, fdims, NULL);
 
-    if (_gz || _shuffle)
+    if (Gzip() || Shuffle())
     {
       plist = H5Pcreate (H5P_DATASET_CREATE);
       H5Pset_chunk (plist, D, cdims);
-      if (_shuffle) H5Pset_shuffle (plist);
-      if (_gz) H5Pset_deflate (plist, _gz);
+      if (Shuffle()) H5Pset_shuffle (plist);
+      if (Gzip()) H5Pset_deflate (plist, Gzip());
     }
     else
     {
@@ -267,7 +255,7 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
     {
       char tagtmp[64];
       snprintf (tagtmp, 64, "%s%d", tag, r);
-      fdataset = H5Dcreate (file, tagtmp, type, fspace, plist);
+      fdataset = H5Dcreate (_file, tagtmp, type, fspace, plist);
       // H5P_DEFAULT, /**< Link creation property list */
       // plist, /**< Dataset creation property list */
       // H5P_DEFAULT); /**< Dataset access property list */
@@ -324,7 +312,6 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
     H5Sclose (fspace);
     H5Sclose (mspace);
     H5Pclose(plist);
-    H5Fclose(file);
     free (data);
   }
   else // iproc != 0
@@ -353,21 +340,12 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
 }
 
 template<class T>
-void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname,
-		      bool append)
+void HDF5File::Write (const Array<T> &arr, const char *tag)
 {
-  hid_t file, fspace, fdataset, mspace, plist, type;
+  hid_t fspace, fdataset, mspace, plist, type;
   hsize_t start[1], stride[1], count[1], block[1];
   type = HDF5TypeTraits<T>::GetID ();
   hsize_t domlen = arr.GetSize ();
-
-  char fnamebuff[64];
-  snprintf (fnamebuff, 64, "%s.h5", fname);
-
-  if (append)
-    file = H5Fopen (fnamebuff, H5F_ACC_RDWR, H5P_DEFAULT);
-  else
-    file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
   // Select memory dataspace (common for all processors)
   mspace = H5Screate_simple(1, &domlen, NULL);
@@ -384,19 +362,19 @@ void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname,
 
   fspace = H5Screate_simple (1, fdims, NULL);
 
-  if (_gz || _shuffle)
+  if (Gzip() || Shuffle())
   {
     plist = H5Pcreate (H5P_DATASET_CREATE);
     H5Pset_chunk (plist, 1, cdims);
-    if (_shuffle) H5Pset_shuffle (plist);
-    if (_gz) H5Pset_deflate (plist, _gz);
+    if (Shuffle()) H5Pset_shuffle (plist);
+    if (Gzip()) H5Pset_deflate (plist, Gzip());
   }
   else
   {
     plist = H5P_DEFAULT;
   }
 
-  fdataset = H5Dcreate (file, tag, type, fspace, plist);
+  fdataset = H5Dcreate (_file, tag, type, fspace, plist);
   // H5P_DEFAULT, /**< Link creation property list */
   // plist, /**< Dataset creation property list */
   // H5P_DEFAULT); /**< Dataset access property list */
@@ -419,5 +397,4 @@ void HDF5File::Write (const Array<T> &arr, const char *tag, const char *fname,
   H5Sclose (mspace);
   H5Dclose (fdataset);
   H5Pclose(plist);
-  H5Fclose(file);
 }

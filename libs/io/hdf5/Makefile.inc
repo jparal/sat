@@ -10,6 +10,7 @@ headers += \
 # preproc +=
 
 sources += \
+	hdf5/filehdf5.cxx \
 	hdf5/filehdf5_rd_fldv.cxx \
 	hdf5/filehdf5_rd_flds.cxx \
 	hdf5/filehdf5_wr_arrs.cxx \
