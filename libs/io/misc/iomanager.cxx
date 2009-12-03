@@ -39,13 +39,7 @@ void IOManager::Initialize (const ConfigEntry &cfg)
   cfg.GetValue ("runname", runname, "out");
 
   IOFormat format;
-  if (type == "xdmf")
-  {
-    format = IO_FORMAT_XDMF;
-    //_file = new XdmfFile;
-    _file = new HDF5File;
-  }
-  else if (type == "hdf5")
+  if (type == "hdf5")
   {
     format = IO_FORMAT_HDF5;
     _file = new HDF5File;
@@ -57,7 +51,8 @@ void IOManager::Initialize (const ConfigEntry &cfg)
   // }
   else
   {
-    DBG_WARN ("output format not supported: "<<type);
+    DBG_WARN ("output.format.type='"<<type<<"' not supported"
+	      ", switching to 'hdf5'");
     format = IO_FORMAT_HDF5;
     _file = new HDF5File;
   }

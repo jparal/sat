@@ -19,6 +19,13 @@ void IOManager::Write (Field<T,D> &fld, const SimulTime &stime, const char *tag)
   String fname = GetFileName (tag, stime);
 
   _file->Open (fname, IOFile::suff);
-  _file->Write (fld, tag);
+
+  switch (_format)
+  {
+  case IO_FORMAT_HDF5:
+    ((HDF5File*)_file)->Write (fld, tag);
+    break;
+  }
+
   _file->Close ();
 }
