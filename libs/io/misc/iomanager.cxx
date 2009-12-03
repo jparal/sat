@@ -19,6 +19,11 @@ IOManager::IOManager ()
   Initialize (IO_FORMAT_HDF5, "out", "");
 }
 
+IOManager::~IOManager ()
+{
+  delete _file;
+}
+
 void IOManager::Initialize (IOFormat format, String runname, String dir)
 {
   _format = format;
@@ -35,15 +40,26 @@ void IOManager::Initialize (const ConfigEntry &cfg)
 
   IOFormat format;
   if (type == "xdmf")
+  {
     format = IO_FORMAT_XDMF;
+    //_file = new XdmfFile;
+    _file = new HDF5File;
+  }
   else if (type == "hdf5")
+  {
     format = IO_FORMAT_HDF5;
-  else if (type == "stw")
-    format = IO_FORMAT_STW;
+    _file = new HDF5File;
+  }
+  // else if (type == "stw")
+  // {
+  //   format = IO_FORMAT_STW;
+  //   _file = new STWFile;
+  // }
   else
   {
     DBG_WARN ("output format not supported: "<<type);
     format = IO_FORMAT_HDF5;
+    _file = new HDF5File;
   }
 
   Initialize (format, runname, dir);
@@ -51,7 +67,7 @@ void IOManager::Initialize (const ConfigEntry &cfg)
   /**********************/
   /* Initialize drivers */
   /**********************/
-  _hdf5.Initialize (cfg);
+  _file->Initialize (cfg);
 }
 
 void IOManager::Initialize (const ConfigFile &cfg)

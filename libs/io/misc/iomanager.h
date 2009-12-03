@@ -42,6 +42,8 @@ class IOManager
 public:
   /// Constructor
   IOManager ();
+  /// Destructor
+  ~IOManager ();
 
   void Initialize (IOFormat format, String runname, String dir);
   void Initialize (const ConfigEntry &cfg);
@@ -73,7 +75,7 @@ public:
 
 private:
   IOFormat _format;
-  HDF5File _hdf5;
+  IOFile *_file;
   String _runname;
   String _dir;
 };

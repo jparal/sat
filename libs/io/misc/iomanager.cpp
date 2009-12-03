@@ -18,14 +18,7 @@ void IOManager::Write (Field<T,D> &fld, const SimulTime &stime, const char *tag)
 {
   String fname = GetFileName (tag, stime);
 
-  switch (_format)
-  {
-  case IO_FORMAT_STW:
-    DBG_WARN ("");
-  case IO_FORMAT_XDMF:
-    // write XDMF
-  case IO_FORMAT_HDF5:
-    _hdf5.Write (fld, Cell, tag, fname);
-    break;
-  }
+  _file->Open (fname, IOFile::suff);
+  _file->Write (fld, tag);
+  _file->Close ();
 }

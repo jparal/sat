@@ -24,8 +24,7 @@
 
 #define SPECIALIZE_H5F_RD_FLDV(type,dim,vdim)				\
   template /*<class type, int vdim, int dim>*/				\
-  void HDF5File::Read<> (Field<Vector<type,vdim>,dim>&,			\
-			 Centring center, const char*);
+  void HDF5File::Read<> (Field<Vector<type,vdim>,dim>&, const char*);
 
 #define SPECIALIZE_H5F_FLD(type,dim)				\
   SPECIALIZE_H5F_RD_FLDV(type,dim,1)				\

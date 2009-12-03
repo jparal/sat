@@ -20,7 +20,7 @@
 #endif
 
 template<class T, int D>
-void HDF5File::Write (const Field<T,D> &fld, Centring center, const char *tag)
+void HDF5File::Write (const Field<T,D> &fld, const char *tag)
 {
   const Layout<D> &layout = fld.GetLayout ();
   const CartDomDecomp<D> &decomp = layout.GetDecomp ();
@@ -28,28 +28,6 @@ void HDF5File::Write (const Field<T,D> &fld, Centring center, const char *tag)
   int iproc = decomp.GetIProc ();
   Domain<D> dom;
   fld.GetDomain (dom);
-
-  bool average = false;
-
-  if (fld.HaveGrid ())
-  {
-    if (mesh.Center () == Cell)
-    {
-      if (center == Node)
-      {
-	for (int i=0; i<D; ++i) dom[i].Lo () -= 1;
-	average = true;
-      }
-    }
-    else // if (mesh.Center () == Node)
-    {
-      if (center == Cell)
-      {
-	for (int i=0; i<D; ++i) dom[i].Hi () -= 1;
-	average = true;
-      }
-    }
-  }
 
   if (iproc == 0)
   {
@@ -123,10 +101,7 @@ void HDF5File::Write (const Field<T,D> &fld, Centring center, const char *tag)
       {
 	while (iter.HasNext ())
 	{
-	  if (average)
-	    CartStencil::Average (fld, iter, *pdata++);
-	  else
-	    *pdata++ = fld (iter.GetLoc ());
+	  *pdata++ = fld (iter.GetLoc ());
 	  iter.Next ();
 	}
       }
@@ -162,10 +137,7 @@ void HDF5File::Write (const Field<T,D> &fld, Centring center, const char *tag)
     T val;
     while (iter.HasNext ())
     {
-      if (average)
-	CartStencil::Average (fld, iter, val);
-      else
-	val = fld (iter.GetLoc ());
+      val = fld (iter.GetLoc ());
       os << val;
       iter.Next ();
     }
@@ -174,8 +146,7 @@ void HDF5File::Write (const Field<T,D> &fld, Centring center, const char *tag)
 
 
 template<class T, int R, int D>
-void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
-		      Centring center, const char *tag)
+void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
 {
   const Layout<D> &layout = fld.GetLayout ();
   const CartDomDecomp<D> &decomp = layout.GetDecomp ();
@@ -183,28 +154,6 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
   int iproc = decomp.GetIProc ();
   Domain<D> dom;
   fld.GetDomain (dom);
-
-  bool average = false;
-
-  if (fld.HaveGrid ())
-  {
-    if (mesh.Center () == Cell)
-    {
-      if (center == Node)
-      {
-	for (int i=0; i<D; ++i) dom[i].Lo () -= 1;
-	average = true;
-      }
-    }
-    else // if (mesh.Center () == Node)
-    {
-      if (center == Cell)
-      {
-	for (int i=0; i<D; ++i) dom[i].Hi () -= 1;
-	average = true;
-      }
-    }
-  }
 
   if (iproc==0)
   {
@@ -283,10 +232,7 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
 	{
 	  while (iter.HasNext ())
 	  {
-	    if (average)
-	      CartStencil::Average (fld, iter, tmp);
-	    else
-	      tmp = fld (iter.GetLoc ());
+	    tmp = fld (iter.GetLoc ());
 
 	    *pdata++ = tmp[r];
 	    iter.Next ();
@@ -328,10 +274,7 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld,
       DomainIterator<D> iter (dom);
       while (iter.HasNext ())
       {
-	if (average)
-	  CartStencil::Average (fld, iter, val);
-	else
-	  val = fld (iter.GetLoc ());
+	val = fld (iter.GetLoc ());
 	os << val[r];
 	iter.Next ();
       }

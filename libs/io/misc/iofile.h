@@ -43,16 +43,8 @@ public:
 
   typedef unsigned int Flags;
 
-  IOFile ();
-  IOFile (const char *fname, IOFile::Flags flags = 0)
-    : RefCount ()
-  {
-    Initialize ();
-    Open (fname, flags);
-  }
-
-  ~IOFile ()
-  { Close (); }
+  IOFile () : RefCount ()
+  { Initialize (); }
 
   void Initialize ();
   void Initialize (bool parallel, int gz, bool shuffle);
@@ -68,8 +60,23 @@ public:
   bool Shuffle () const
   { return _shuffle; }
 
-  virtual void Open (const char *fname, IOFile::Flags flags);
-  virtual void Close ();
+  virtual void Open (const char *fname, IOFile::Flags flags) {}
+  virtual void Close () {}
+
+  template<class T, int D>
+  virtual void Write (const Field<T,D> &fld, const char *tag) {}
+
+  template<class T, int R, int D>
+  virtual void Write (const Field<Vector<T,R>,D> &fld, const char *tag) {}
+
+  template<class T>
+  virtual void Write (const Array<T> &arr, const char *tag) {}
+
+  template<class T, int D>
+  virtual void Read (Field<T,D> &fld, const char *tag) {}
+
+  template<class T, int R, int D>
+  virtual void Read (Field<Vector<T,R>,D> &fld, const char *tag) {}
 
 private:
   bool _parallel;               /**< Do the I/O operations parallel? */

@@ -43,26 +43,30 @@ public:
   HDF5File ()
     : IOFile () {}
 
-  HDF5File (const char *name, IOFile::Flags flags = 0)
-    : IOFile (name, flags) {}
+  HDF5File (const char *fname, IOFile::Flags flags = 0)
+    : IOFile ()
+  { Open (fname, flags); }
+
+  ~HDF5File ()
+  { Close(); }
 
   virtual void Open (const char *fname, IOFile::Flags flags = 0);
   virtual void Close ();
 
   template<class T, int D>
-  void Write (const Field<T,D> &fld, Centring center, const char *tag);
+  void Write (const Field<T,D> &fld, const char *tag);
 
   template<class T, int R, int D>
-  void Write (const Field<Vector<T,R>,D> &fld, Centring center, const char *tag);
+  void Write (const Field<Vector<T,R>,D> &fld, const char *tag);
 
   template<class T>
   void Write (const Array<T> &arr, const char *tag);
 
   template<class T, int D>
-  void Read (Field<T,D> &fld, Centring center, const char *tag);
+  void Read (Field<T,D> &fld, const char *tag);
 
   template<class T, int R, int D>
-  void Read (Field<Vector<T,R>,D> &fld, Centring center, const char *tag);
+  void Read (Field<Vector<T,R>,D> &fld, const char *tag);
 
 private:
   hid_t _file;

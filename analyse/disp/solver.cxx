@@ -136,7 +136,7 @@ void Solver::SolveAll ()
     ayp.Push (imag(wp));
   }
 
-  HDF5File file (_cfg.OutName ());
+  HDF5File file (_cfg.OutName (), IOFile::suff);
   file.Write (ak, "k");
   file.Write (awp, "wp");
   file.Write (ayp, "yp");

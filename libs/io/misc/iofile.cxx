@@ -16,12 +16,6 @@
 #include "base/common/debug.h"
 #include "base/sys/assert.h"
 
-IOFile::IOFile ()
-  : RefCount ()
-{
-  Initialize ();
-}
-
 void
 IOFile::Initialize ()
 {

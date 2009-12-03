@@ -25,7 +25,7 @@
 #define SPECIALIZE_H5F_WR_FLDV(type,dim,vdim)				\
   template /*<class type, int vdim, int dim>*/				\
   void HDF5File::Write<> (const Field<Vector<type,vdim>,dim>&,		\
-			  Centring center, const char*);
+			  const char*);
 
 #define SPECIALIZE_H5F_FLD(type,dim)				\
   SPECIALIZE_H5F_WR_FLDV(type,dim,1)				\
