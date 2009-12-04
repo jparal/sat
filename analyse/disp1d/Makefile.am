@@ -7,7 +7,7 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 CFLAGS += $(GSL_CFLAGS)
 LDADD += $(GSL_LIBS)
 
-bin_PROGRAMS = sat-disp
+bin_PROGRAMS = sat-disp1d
 
-sat_disp_SOURCES = cfgdisp.h cfgdisp.cxx main.cxx solver.h solver.cxx
+sat_disp1d_SOURCES = cfgdisp.h cfgdisp.cxx main.cxx solver.h solver.cxx
 dist_noinst_DATA = *.sin rdl.pro

@@ -3,14 +3,12 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS =
+include $(top_srcdir)/mk/amake/Makefile.sat
+CFLAGS += $(GSL_CFLAGS)
+LDADD += $(GSL_LIBS)
 
-if HAVE_GSL
-SUBDIRS += disp1d disp3d shock
-endif
+bin_PROGRAMS = sat-disp3d
 
-if HAVE_NOVA
-SUBDIRS += mercury
-endif
-
-dist_noinst_DATA = README
+sat_disp3d_SOURCES = cfgdisp.h cfgdisp.cxx conduct.cxx main.cxx solver.h \
+solver.cxx
+dist_noinst_DATA = *.sin rdl.pro
