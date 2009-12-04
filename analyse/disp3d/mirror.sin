@@ -10,8 +10,8 @@ disp:
 #  nterms = [0, 0, 0];   # Number of terms in the sum (comment for -inf,inf)
   kvec = [0.01, 1.];    # k vectors: k min, k max
   ksamp = 1000;         # number of samples of k vector
-  theta = [63., 71.];    # theta=angle(k,b0): min, max [degree]
-  tsamp = 1;            # number of samples of thera angle
+  theta = [10., 70.];    # theta=angle(k,b0): min, max [degree]
+  tsamp = 100;            # number of samples of thera angle
   omega = [0.001, 0.2]; # domain of interest - omega_min, omega_max
   gamma = [-0.1, .2];  # domain of interest - gamma_min, gamma_max
   error = 30.;          # Permissible error (diff. between polarisa. of 2 sucs)

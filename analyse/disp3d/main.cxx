@@ -17,6 +17,8 @@
 
 int main (int argc, char **argv)
 {
+  Omp::Initialize ();
+
   Solver sol;
   sol.Initialize (argc, argv);
   sol.Print ();

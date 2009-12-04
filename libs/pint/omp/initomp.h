@@ -30,7 +30,7 @@ struct Omp
    * @param nthread Number of threads to run with.
    * @param nchunk Number of chunks per thread.
    */
-  static void Initialize (int nthread, int nchunk = 1);
+  static void Initialize (int nthread = -1, int nchunk = 1);
 
   /**
    * @brief Initialize OpenMP support from ConfigFile.

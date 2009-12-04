@@ -14,6 +14,7 @@
 #include "solver.h"
 #include "satmath.h"
 #include "satio.h"
+#include "satpint.h"
 #include <iomanip>
 #include <stdio.h>
 #include <gsl/gsl_errno.h>
@@ -141,45 +142,53 @@ int Solver::Solve (SolverParams *params, complex<double> &root)
 
 void Solver::SolveAll ()
 {
-  struct SolverParams params;
-  params.cfg = &(_cfg);
-
   int nk = _cfg.KSamp ();
   int nt = _cfg.ThetaSamp ();
   complex<double> w;
+  double tht;
   Array<double> atht, akvec;
   Field<double,2> frew (nk, nt);
   Field<double,2> fimw (nk, nt);
 
-  double tht;
-  for (int it=0; it<nt; ++it)
-  {
-    tht = _cfg.GetThetaSample (it);
-    atht.Push (_cfg.GetThetaSample(it));
-
-    params.rew = 0.5 * (_cfg.OmegaMin() + _cfg.OmegaMax());
-    params.imw = 0.5 * (_cfg.GammaMin() + _cfg.GammaMax());
-    for (int ik=0; ik<nk; ++ik)
+  int iter = 0, maxit = nk*nt;
+  SAT_PRAGMA_OMP (parallel for schedule(dynamic,1)
+		  private(w,tht) shared(iter))
+    for (int it=0; it<nt; ++it)
     {
-      params.kpar = _cfg.GetKSamplePar (ik, tht);
-      params.kper = _cfg.GetKSamplePer (ik, tht);
-      Solve (&params, w);
+      struct SolverParams params;
+      params.cfg = &(_cfg);
 
-      DBG_INFO ("tht, kpar, kper = "<<tht<<", "<<
-		params.kpar<<", "<<params.kper);
+      tht = _cfg.GetThetaSample (it);
+      atht.Push (_cfg.GetThetaSample(it));
 
-      if (it == 0)
-	akvec.Push (_cfg.GetKSample(ik));
-      frew(it,ik) = real(w);
-      fimw(it,ik) = imag(w);
+      params.rew = 0.5 * (_cfg.OmegaMin() + _cfg.OmegaMax());
+      params.imw = 0.5 * (_cfg.GammaMin() + _cfg.GammaMax());
+      for (int ik=0; ik<nk; ++ik)
+      {
+	params.kpar = _cfg.GetKSamplePar (ik, tht);
+	params.kper = _cfg.GetKSamplePer (ik, tht);
+	Solve (&params, w);
+
+	++iter;
+	DBG_INFO (double(iter)*100./double(maxit)<<"%"<<
+		  ", tht, kvec, kpar, kper = "<<tht<<", "<<
+		  _cfg.GetKSample(ik)<<", "<<params.kpar<<", "<<params.kper);
+
+	SAT_OMP_CRITICAL
+	{
+	  if (it == 0)
+	    akvec.Push (_cfg.GetKSample(ik));
+	  frew(ik,it) = real(w);
+	  fimw(ik,it) = imag(w);
+	}
+      }
     }
-  }
 
   HDF5File file (_cfg.OutName(), IOFile::suff);
   file.Write (akvec, "kvec");
   file.Write (atht, "tht");
   file.Write (frew, "rew");
-  file.Write (fimw, "imy");
+  file.Write (fimw, "imw");
 }
 
 void Solver::Print ()
