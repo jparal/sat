@@ -206,6 +206,7 @@ Info:     SAT : v$SAT_VERSION
 
           CXX : $CXX v$CXXVERSION ($CXXVENDOR)
      CXXFLAGS : $CXXFLAGS
+       CFLAGS : $CFLAGS
 
 Version to build:
 ==================================================================

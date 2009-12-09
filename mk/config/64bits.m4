@@ -18,17 +18,17 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 	AIX)
 	  case "$CXX" in
 	    *xlC*)
-	      CXXFLAGS64="-q64"
+	      FLAGS64="-q64"
 #			ARFLAGS64="-cruX64"
 	      LDFLAGS64="-b64"
 	      ;;
 	    *KCC)
-	      CXXFLAGS64="-q64"
+	      FLAGS64="-q64"
 	      ARFLAGS64="-q64"
 	      LDFLAGS64="-b64"
 	      ;;
 	    *g++*)
-	      CXXFLAGS64="-maix64"
+	      FLAGS64="-maix64"
 	      ARFLAGS64="-cruX64"
 	      LDFLAGS64="-Wl,-b64"
 	      ;;
@@ -50,17 +50,17 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 	Irix)
 	  case "$CXX" in
 	    *KCC)
-	      CXXFLAGS64="-64"
+	      FLAGS64="-64"
 	      LDFLAGS64="-64"
 	      ARFLAGS64="-64"
 	      ;;
 	    *CC*)
-	      CXXFLAGS64="-64"
+	      FLAGS64="-64"
 	      LDFLAGS64="-64"
 	      ARFLAGS64="-64"
 	      ;;
-	    *g++*)
-	      CXXFLAGS64="-m64"
+	    *g++*) dnl clang++ and g++
+	      FLAGS64="-m64"
 #			LDFLAGS64="-Wl,-64"
 	      ;;
 	  esac
@@ -81,23 +81,23 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 	Linux)
 	  case "$CXX" in
 	    *pgCC)
-	      CXXFLAGS64="-tp x64"
+	      FLAGS64="-tp x64"
 	      LDFLAGS64="-tp x64"
 	      ;;
 	    *CC*)
-	      CXXFLAGS64="-64"
+	      FLAGS64="-64"
 	      LDFLAGS64="-64"
 	      ARFLAGS64="-64"
 	      ;;
 	    *g++*)
-	      CXXFLAGS64="-m64"
+	      FLAGS64="-m64"
 #			LDFLAGS64="-Wl,-m64"
 	      ;;
 	  esac
 	  ;;
       esac
 
-      if test x"$CXXFLAGS64" = x; then
+      if test x"$FLAGS64" = x; then
 	AC_MSG_WARN([Unable to find appropriate 64bit flags for OS: $ac_host_os CXX: $CXX])
       else
 	ac_bits=64
@@ -107,8 +107,9 @@ AC_DEFUN([AC_CMP_FLAGS_64BITS],[
 
     AC_SUBST(ac_bits)
 
-    if test -n "$CXXFLAGS64"; then
-      CXXFLAGS="$CXXFLAGS64 $CXXFLAGS"
+    if test -n "$FLAGS64"; then
+      CXXFLAGS="$FLAGS64 $CXXFLAGS"
+      CFLAGS="$FLAGS64 $CFLAGS"
     fi
     if test -n "$LDFLAGS64"; then
       LDFLAGS="$LDFLAGS64 $LDFLAGS"

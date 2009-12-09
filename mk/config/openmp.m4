@@ -6,10 +6,11 @@ AC_DEFUN([AC_CMP_FLAGS_OPENMP],[
     AC_ARG_ENABLE(openmp,
       AS_HELP_STRING([--enable-openmp],[enable C/C++ OpenMP compilation flags]),[
 	if test "$enableval" = yes; then
-	  if test "$CXXFLAGS_OMP" != ""; then
+	  if test "$FLAGS_OMP" != ""; then
 	    AC_MSG_RESULT([yes])
 	    ac_openmp=yes
-	    CXXFLAGS="$CXXFLAGS_OMP $CXXFLAGS"
+	    CXXFLAGS="$FLAGS_OMP $CXXFLAGS"
+	    CFLAGS="$FLAGS_OMP $CFLAGS"
 	    LDFLAGS="$CXXFLAGS_OMP $LDFLAGS"
 	    AC_DEFINE(HAVE_OPENMP,1,[define if we want support for OpenMP])
 	  else

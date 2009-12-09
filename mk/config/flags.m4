@@ -43,7 +43,7 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	  CXXFLAGS_OPT="-O3 -qstrict -qstrict_induction -qinline -qmaxmem=8192 -qansialias -qhot -qunroll=yes"
 	  CXXFLAGS_DBG="-g -qcheck=all"
 	  CXXFLAGS_PRF="-pg"
-	  CXXFLAGS_OMP="-qthreaded -qsmp=noauto:noopt:omp"
+	  FLAGS_OMP="-qthreaded -qsmp=noauto:noopt:omp"
 	  CXX_V=`xlC -qversion 2>&1`
 	  CXXVERSION_MAJOR=`echo $CXX_V | sed -n '1 s/.*V\([[0-9]]*\)\.\([[0-9]]*\).*/\1/p'`
 	  CXXVERSION_MINOR=`echo $CXX_V | sed -n '1 s/.*V\([[0-9]]*\)\.\([[0-9]]*\).*/\2/p'`
@@ -58,7 +58,7 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	  CXXFLAGS_OPT="-O3 -Zp16 -ip -ansi_alias -funroll-loops"
 	  CXXFLAGS_DBG="-g -O0 -C"
 	  CXXFLAGS_PRF="-pg"
-	  CXXFLAGS_OMP="-openmp -openmp-report0"
+	  FLAGS_OMP="-openmp -openmp-report0"
 	  CXX_V=`icpc -v 2>&1`
 	  CXXVERSION_MAJOR=`echo $CXX_V | sed -n '1 s/Version \([[0-9]]*\)\.\([[0-9]]\).*/\1/p'`
 	  CXXVERSION_MINOR=`echo $CXX_V | sed -n '1 s/Version \([[0-9]]*\)\.\([[0-9]]\).*/\2/p'`
@@ -84,7 +84,20 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	  ARFLAGS="-rv"
 	  RANLIB="ar ts"
 	  ;;
-	*g++*|*c++*)  dnl GCC C++  http://gcc.gnu.org/
+	*clang++*)  dnl clang C++ http://clang.llvm.org/
+	  CC_tmp=gcc
+	  CXXVENDOR="CLANG"
+	  GCC_V=`$CXX --version`
+	  CXXVERSION_MAJOR=`expr "$GCC_V" : '.* \(@<:@0-9@:>@\)\..*'`
+	  CXXVERSION_MINOR=`expr "$GCC_V" : '.* @<:@0-9@:>@\.\(@<:@0-9@:>@\).*'`
+	  CXXVERSION="$CXXVERSION_MAJOR.$CXXVERSION_MINOR"
+          CFLAGS=""
+          CXXFLAGS=""
+	  CXXFLAGS_OPT="-O4"
+	  CXXFLAGS_DBG="-g -O0"
+	  CXXFLAGS_PRF="-pg"
+          ;;
+	*g++*|*c++*)  dnl GCC C++ http://gcc.gnu.org/
 	  CC_tmp=gcc
 	  CXXVENDOR="GCC"
 	  GCC_V=`$CXX --version`
@@ -102,7 +115,7 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	  CXXFLAGS_DBG="-g"  #long-long is required for older mpich versions
 	  CXXFLAGS_PRF="-pg"
 	  if test $CXXVERSION_MAJOR -ge "4" -a $CXXVERSION_MAJOR -ge "2" ; then
-	    CXXFLAGS_OMP="-fopenmp"
+	    FLAGS_OMP="-fopenmp"
 	  fi
 	  ;;
 	*KCC*)  dnl KAI C++  http://www.kai.com/
@@ -151,7 +164,7 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	  CXXFLAGS_OPT="-O4 -Mnoframe -Mnodepchk -Minline=levels:25 -Munroll"
 	  CXXFLAGS_DBG="-g -O0"
 	  CXXFLAGS_PRF="-pg"
-	  CXXFLAGS_OMP="-mp"
+	  FLAGS_OMP="-mp"
 	  CXX_V=`pgCC -V 2>&1`
 	  CXXVERSION_MAJOR=`echo $CXX_V | sed -n '1 s/.*pgCC.* \([[0-9]]*\)\.\([[0-9]]\).*/\1/p'`
 	  CXXVERSION_MINOR=`echo $CXX_V | sed -n '1 s/.*pgCC.* \([[0-9]]*\)\.\([[0-9]]\).*/\2/p'`
@@ -177,7 +190,7 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	      CXXFLAGS="-LANG:std -LANG:restrict -no_auto_include" #-c99
 	      CXXFLAGS_OPT="-O3 -IPA -OPT:Olimit=0:alias=typed:swp=ON"
 	      CXXFLAGS_DBG="-g"
-	      CXXFLAGS_OMP="-mp"
+	      FLAGS_OMP="-mp"
 	      CXX_V=`CC -v 2>&1`
 	      CXXVERSION_MAJOR=`echo $CXX_V | sed -n '1 s/.*Version \([[0-9]]*\)\.\([[0-9]]\).*/\1/p'`
 	      CXXVERSION_MINOR=`echo $CXX_V | sed -n '1 s/.*Version \([[0-9]]*\)\.\([[0-9]]\).*/\2/p'`
@@ -216,14 +229,24 @@ AC_DEFUN([AC_CMP_FLAGS],[
       AC_MSG_RESULT([no])
     fi
 
+    AC_ARG_WITH([flags],
+      AC_HELP_STRING([--with-flags],
+        [add extra flags to CFLAGS and CXXFLAGS]),
+      [CXXFLAGS="$CXXFLAGS $withval" CFLAGS="$CFLAGS $withval"])
+
+    AC_ARG_WITH([cflags],
+      AC_HELP_STRING([--with-cflags],
+        [add extra flags to CFLAGS]),
+      [CFLAGS="$CFLAGS $withval"])
+
     AC_ARG_WITH([cxxflags],
       AC_HELP_STRING([--with-cxxflags],
-        [add extra CXXFLAGS]),
+        [add extra flags to CXXFLAGS]),
       [CXXFLAGS="$CXXFLAGS $withval"])
 
     AC_ARG_WITH([cxxflags-opt],
       AC_HELP_STRING([--with-cxxflags-opt],
-        [add extra optimization CXXFLAGS]),
+        [add extra optimization flags to CXXFLAGS]),
       [CXXFLAGS_OPT="$CXXFLAGS_OPT $withval"])
 
     AC_ARG_WITH([cxxflags-dbg],
