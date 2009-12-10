@@ -226,7 +226,7 @@ PRO PLT_IMG1P2, d1, d2, d3, $
   cbpos1 = [xpos(5) + .08, ypos(0), xpos(5) + .10, ypos(1)]
 
   PLT_COLORBAR, /VERTICAL, TITLE=ztitle, RANGE=[zmin, zmax], $
-                ANNOTATECOLOR=color, POSITION=cbpos1
+                ANNOTATECOLOR=color, POSITION=cbpos1, _EXTRA=_extra
 
   IF KEYWORD_SET(ps) THEN BEGIN
      DEVICE,/CLOSE
