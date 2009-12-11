@@ -94,6 +94,7 @@
    (indent-tabs-mode nil)
    (c-comment-only-line-offset . (0 . 0))
    (c-offsets-alist . ((statement-block-intro . +)
+                       (innamespace . 0)
                        (knr-argdecl-intro . 5)
                        (substatement-open . 0)
                        (substatement-label . 0)
