@@ -1,5 +1,5 @@
 PRO PLT_IMG, data, $
-             OPLOT=oplot, POSITION=position, NLEVEL=nlevel, $
+             OPLOT=oplot, POSITION=position, $
              DESC=desc, DSCCOLOR=dsccolor, DSCCHARSIZE=dsccharsize, $
 ;; AXIS:
              DX=dx, DY=dy, $
@@ -148,15 +148,15 @@ ENDIF
 
 dataloc=data
 
-;; ndx=WHERE(data GT zmax, cnt)
-;; IF (cnt GT 0) THEN BEGIN
-;;   dataloc(ndx)=zmax
-;; ENDIF
+ndx=WHERE(data GT zmax, cnt)
+IF (cnt GT 0) THEN BEGIN
+  dataloc(ndx)=zmax
+ENDIF
 
-;; ndx=WHERE(data LT zmin, cnt)
-;; IF (cnt GT 0) THEN BEGIN
-;;   dataloc(ndx)=zmin
-;; ENDIF
+ndx=WHERE(data LT zmin, cnt)
+IF (cnt GT 0) THEN BEGIN
+  dataloc(ndx)=zmin
+ENDIF
 
 IF NOT(KEYWORD_SET(zlog)) THEN BEGIN
    zlog=0
@@ -203,8 +203,14 @@ IF (N_ELEMENTS(xreverse) NE 0) THEN xtickformat='PLT_XTICKS'
 ;;               Data only
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 TVLCT, r, g, b, /GET
-CONTOUR, dataloc, ix, iy,$
-         NLEV=nlevel, /FILL, LEV=lev, $
+
+rss = size(r)
+levels = rss(1)
+step = (logzmax - logzmin) / levels
+userlevels = indgen(levels) * step + min(dataloc)
+
+CONTOUR, dataloc, ix, iy, /FILL, $
+         C_COLORS=indgen(levels)+3, LEVELS=userlevels, $
          XRANGE=[xmin,xmax],YRANGE=[ymin,ymax], ZRANGE=[logzmin,logzmax],$
          /XST, /YST, /ZST, /DATA, XTICKNAME=gg, YTICKNAME=gg, $
          POSITION=position, NOERASE=oplot
@@ -225,7 +231,6 @@ ENDIF
 ;;               AXIS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 CONTOUR, dataloc, ix, iy,$
-         NLEV=nlevel, /FILL, LEV=lev, $
          XRANGE=[xmin,xmax], YRANGE=[ymin,ymax], ZRANGE=[zmin,zmax], $
          XTITLE=xtitle, XTICKNAME=xtickname, XTICKFORMAT=xtickformat, $
          YTITLE=ytitle, YTICKNAME=ytickname, $
