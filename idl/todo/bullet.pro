@@ -7,9 +7,9 @@ pro bullet, x, y, radi, ct, color, imx=imx, imy=imy
 ;; imy=cos(imi)
 ; text + text offset
 
-loadct,ct
+loadct,ct,/silent
 polyfill,imx*radi + x, imy*radi + y,color=color,/data
-loadct,0
+loadct,0,/silent
 oplot,   imx*radi + x, imy*radi + y,color=0, thick=1
 
 return

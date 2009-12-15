@@ -22,7 +22,7 @@ pro pubenv
 ;  12 Sept 2005 - Created
 ;
 
-loadct,0
+loadct,0,/silent
 
 !P.COLOR=0
 !P.FONT=0
