@@ -74,6 +74,8 @@ PRO PLT_IMG, data, $
 ;
 ;
 ; MODIFICATION HISTORY:
+; - v1.1.4 2009-12-15 Jan Paral
+;    Fix ZLOG parameter
 ; - v0.3.0 2008-01-17 Jan Paral
 ;    Bug in trajcolor when trajectory is only one
 ; - v0.3.0 2007-08-16 Jan Paral
@@ -146,23 +148,31 @@ ENDIF
 
 dataloc=data
 
-ndx=WHERE(data GT zmax, cnt)
-sn=size(ndx)
-;; IF (sn(0) NE 0) THEN BEGIN
+;; ndx=WHERE(data GT zmax, cnt)
+;; IF (cnt GT 0) THEN BEGIN
 ;;   dataloc(ndx)=zmax
 ;; ENDIF
-ndx=WHERE(data LT zmin, cnt)
-sn=SIZE(ndx)
-IF (sn(0) NE 0) THEN BEGIN
-  dataloc(ndx)=zmin
-ENDIF
+
+;; ndx=WHERE(data LT zmin, cnt)
+;; IF (cnt GT 0) THEN BEGIN
+;;   dataloc(ndx)=zmin
+;; ENDIF
 
 IF NOT(KEYWORD_SET(zlog)) THEN BEGIN
    zlog=0
+   logzmin = FLOAT(zmin)
+   logzmax = FLOAT(zmax)
 END ELSE BEGIN
    zlog=1
-   dataloc=DAT_SCALEVEC(dataloc,1.,2500.)
-   dataloc=BytScl(ALog10(dataloc), Top=253)
+
+   ndx=WHERE(data LT zmin, cnt)
+   IF (cnt GT 0) THEN BEGIN
+      dataloc(ndx)=zmin/2.
+   ENDIF
+
+   dataloc = ALog10(dataloc)
+   logzmin = Alog10(zmin)
+   logzmax = Alog10(zmax)
 ENDELSE
 
 IF NOT(KEYWORD_SET(plcolor)) THEN plcolor='Black'
@@ -180,10 +190,8 @@ imy=planet*COS(imi)
 ;;               PREPARE PLOT
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IF NOT(KEYWORD_SET(nlevel)) THEN nlevel=50
-zmin = FLOAT(zmin)
-zmax = FLOAT(zmax)
 nlevel = FLOAT(nlevel)
-lev = zmin + findgen(nlevel) * ((zmax-zmin)/(nlevel-1))
+lev = logzmin + findgen(nlevel) * ((logzmax-logzmin)/(nlevel-1))
 
 gg=REPLICATE(' ',30)
 
@@ -197,7 +205,7 @@ IF (N_ELEMENTS(xreverse) NE 0) THEN xtickformat='PLT_XTICKS'
 TVLCT, r, g, b, /GET
 CONTOUR, dataloc, ix, iy,$
          NLEV=nlevel, /FILL, LEV=lev, $
-         XRANGE=[xmin,xmax],YRANGE=[ymin,ymax],ZRANGE=[zmin,zmax],$
+         XRANGE=[xmin,xmax],YRANGE=[ymin,ymax], ZRANGE=[logzmin,logzmax],$
          /XST, /YST, /ZST, /DATA, XTICKNAME=gg, YTICKNAME=gg, $
          POSITION=position, NOERASE=oplot
 
