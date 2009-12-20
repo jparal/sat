@@ -10,14 +10,11 @@ function print_help()
 {
     echo "TeX substitutions in postscript files"
     echo
-    echo "  USAGE: $SCRIPTNAME [options] <input ps file> [output ps file]"
+    echo "  USAGE: $SCRIPTNAME [options] FILES"
     echo
     echo "Substitute strings in ps file for LaTeX strings. LaTeX strings must"
     echo "be between $SUBS_TAG tags (i.e. $SUBS_TAG\$\alpha\$$SUBS_TAG )."
     echo "NOTE: programs ps2epsi, latex and dvips are needed."
-    echo
-    echo "output file:"
-    echo "  if output file isn't specified then input file is used"
     echo
     echo "options:"
     echo "  -h | --help     this help page"
@@ -124,19 +121,56 @@ function generate_tex_file()
 
 function my_exit()
 {
+    if [ d"$1" != d"" ]; then
+	echo "Error: $1"
+	exit 1
+    else
+	exit 0
+    fi
+}
+
+function pssubst()
+{
+    TEXFILE="$INFILE_PATH/$INFILE_CORE.tex"
+    DVIFILE="$INFILE_PATH/$INFILE_CORE.dvi"
+    AUXFILE="$INFILE_PATH/$INFILE_CORE.aux"
+    LOGFILE="$INFILE_PATH/$INFILE_CORE.log"
+    EPSFILE="$INFILE_PATH/$INFILE_CORE.eps"
+    CFGFILE="$INFILE_PATH/$INFILE_CORE.pssubst"
+
+    [ -f "$CFGFILE" ] && . "$CFGFILE"
+
+    [ -n "$HEIGHT_OPT" ]   && HEIGHT="$HEIGHT_OPT"
+    [ -n "$WIDTH_OPT" ]    && WIDTH="$WIDTH_OPT"
+    [ -n "$ANGLE_OPT" ]    && ANGLE="$ANGLE_OPT"
+    [ -n "$FONTSIZE_OPT" ] && FONTSIZE="$FONTSIZE_OPT"
+
+    echo -n "Generating eps file ... "
+    eval ps2epsi $INFILE $INFILE_EPSI $OUTPUT
+    echo "OK"
+
+    echo -n "Generating tex file ... "
+    eval generate_tex_file $OUTPUT
+    echo "OK"
+
+    echo -n "Generating dvi file ... "
+    eval latex "$TEXFILE" $OUTPUT
+    echo "OK"
+
+    echo -n "Generating output file ... "
+    eval dvips "$DVIFILE" -o "$OUTFILE" $OUTPUT
+    echo "OK"
+
+    echo -n "Generating eps file ... "
+    eval ps2epsi "$OUTFILE" "$EPSFILE" $OUTPUT
+    echo "OK"
+
     if [ "$RMTMP" = "1" ]; then
         echo -n "Removing tmp files ... "
         rm -rf $TEXFILE $DVIFILE $AUXFILE $LOGFILE $INFILE_EPSI
         echo "OK"
     else
         echo "Leaving tmp files ... OK"
-    fi
-
-    if [ d"$1" != d"" ]; then
-	echo "Error: $1"
-	exit 1
-    else
-	exit 0
     fi
 }
 
@@ -152,7 +186,6 @@ if [ $# -lt 1 ]; then
     print_help
 fi
 
-echo -n "Parsing params ... "
 
 ######################################
 # Parse aguments BEGIN
@@ -203,55 +236,18 @@ do
 	    INFILE_CORE=`basename "$INFILE" | sed -e 's/\.ps$//'`
 	    INFILE_PATH=`dirname "$INFILE"`
 	    INFILE_EPSI="$INFILE_CORE.epsi"
-	    shift
-	    if [ "$1" != "" ]
-	    then
-		OUTFILE="$1"
-	    else
-		OUTFILE="$INFILE"
-	    fi
+            OUTFILE="$INFILE"
+            pssubst
+	    # shift
+	    # if [ "$1" != "" ]
+	    # then
+	    #     OUTFILE="$1"
+	    # else
+	    #     OUTFILE="$INFILE"
+	    # fi
 	    ;;
     esac
     shift
 done
-
-TEXFILE="$INFILE_PATH/$INFILE_CORE.tex"
-DVIFILE="$INFILE_PATH/$INFILE_CORE.dvi"
-AUXFILE="$INFILE_PATH/$INFILE_CORE.aux"
-LOGFILE="$INFILE_PATH/$INFILE_CORE.log"
-EPSFILE="$INFILE_PATH/$INFILE_CORE.eps"
-CFGFILE="$INFILE_PATH/$INFILE_CORE.pssubst"
-
-[ -f "$CFGFILE" ] && . "$CFGFILE"
-
-[ -n "$HEIGHT_OPT" ]   && HEIGHT="$HEIGHT_OPT"
-[ -n "$WIDTH_OPT" ]    && WIDTH="$WIDTH_OPT"
-[ -n "$ANGLE_OPT" ]    && ANGLE="$ANGLE_OPT"
-[ -n "$FONTSIZE_OPT" ] && FONTSIZE="$FONTSIZE_OPT"
-
-echo "OK"
-######################################
-# Parse aguments END
-######################################
-
-echo -n "Generating eps file ... "
-eval ps2epsi $INFILE $INFILE_EPSI $OUTPUT
-echo "OK"
-
-echo -n "Generating tex file ... "
-eval generate_tex_file $OUTPUT
-echo "OK"
-
-echo -n "Generating dvi file ... "
-eval latex "$TEXFILE" $OUTPUT
-echo "OK"
-
-echo -n "Generating output file ... "
-eval dvips "$DVIFILE" -o "$OUTFILE" $OUTPUT
-echo "OK"
-
-echo -n "Generating eps file ... "
-eval ps2epsi "$OUTFILE" "$EPSFILE" $OUTPUT
-echo "OK"
 
 my_exit
