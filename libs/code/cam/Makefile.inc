@@ -4,35 +4,35 @@
 ###############################################################################
 
 headers_cam = \
-	cam/cam.h
+	$(abs_srcdir)/cam/cam.h
 
 preproc_cam = \
-	cam/advmom.cpp \
-	cam/advfld.cpp \
-	cam/calcb.cpp \
-	cam/calce.cpp \
-	cam/calcmom.cpp \
-	cam/calcpe.cpp \
-	cam/efldbc.cpp \
-	cam/exec.cpp \
-	cam/first.cpp \
-	cam/hyb.cpp \
-	cam/init.cpp \
-	cam/last.cpp \
-	cam/mombc.cpp \
-	cam/mominit.cpp \
-	cam/momfirst.cpp \
-	cam/momlast.cpp \
-	cam/momnorm.cpp \
-	cam/move.cpp \
-	cam/movesp.cpp \
-	cam/pclebc.cpp \
-	cam/smooth.cpp
+	$(abs_srcdir)/cam/advmom.cpp \
+	$(abs_srcdir)/cam/advfld.cpp \
+	$(abs_srcdir)/cam/calcb.cpp \
+	$(abs_srcdir)/cam/calce.cpp \
+	$(abs_srcdir)/cam/calcmom.cpp \
+	$(abs_srcdir)/cam/calcpe.cpp \
+	$(abs_srcdir)/cam/efldbc.cpp \
+	$(abs_srcdir)/cam/exec.cpp \
+	$(abs_srcdir)/cam/first.cpp \
+	$(abs_srcdir)/cam/hyb.cpp \
+	$(abs_srcdir)/cam/init.cpp \
+	$(abs_srcdir)/cam/last.cpp \
+	$(abs_srcdir)/cam/mombc.cpp \
+	$(abs_srcdir)/cam/mominit.cpp \
+	$(abs_srcdir)/cam/momfirst.cpp \
+	$(abs_srcdir)/cam/momlast.cpp \
+	$(abs_srcdir)/cam/momnorm.cpp \
+	$(abs_srcdir)/cam/move.cpp \
+	$(abs_srcdir)/cam/movesp.cpp \
+	$(abs_srcdir)/cam/pclebc.cpp \
+	$(abs_srcdir)/cam/smooth.cpp
 
 # sources +=
 
 extrsrc += \
-	cam/DocCAM.dox
+	$(abs_srcdir)/cam/DocCAM.dox
 
 headers += $(headers_cam)
 preproc += $(preproc_cam)

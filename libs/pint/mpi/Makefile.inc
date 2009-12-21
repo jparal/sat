@@ -1,18 +1,18 @@
 
 headers += \
-	mpi/cartdec.h \
-	mpi/mpihdr.h \
-	mpi/streammpi.h \
-	mpi/wrap.h
+	$(abs_srcdir)/mpi/cartdec.h \
+	$(abs_srcdir)/mpi/mpihdr.h \
+	$(abs_srcdir)/mpi/streammpi.h \
+	$(abs_srcdir)/mpi/wrap.h
 
 lochdrs += \
-	mpi/mpitype.h
+	$(abs_srcdir)/mpi/mpitype.h
 
 preproc += \
-	mpi/streammpi.cpp \
-	mpi/wrap.cpp
+	$(abs_srcdir)/mpi/streammpi.cpp \
+	$(abs_srcdir)/mpi/wrap.cpp
 
 sources += \
-	mpi/cartdec.cxx \
-	mpi/streammpi.cxx \
-	mpi/wrap.cxx
+	$(abs_srcdir)/mpi/cartdec.cxx \
+	$(abs_srcdir)/mpi/streammpi.cxx \
+	$(abs_srcdir)/mpi/wrap.cxx

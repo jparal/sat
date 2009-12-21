@@ -1,24 +1,24 @@
 
 headers += \
-	cfgfile/grammar.h \
-	cfgfile/cfgcore.h \
-	cfgfile/cfgfile.h \
-	cfgfile/private.h \
-	cfgfile/scanner.h \
-	cfgfile/wincompat.h
+	$(abs_srcdir)/cfgfile/grammar.h \
+	$(abs_srcdir)/cfgfile/cfgcore.h \
+	$(abs_srcdir)/cfgfile/cfgfile.h \
+	$(abs_srcdir)/cfgfile/private.h \
+	$(abs_srcdir)/cfgfile/scanner.h \
+	$(abs_srcdir)/cfgfile/wincompat.h
 
 preproc += \
-	cfgfile/cfgfile.cpp
+	$(abs_srcdir)/cfgfile/cfgfile.cpp
 
 sources += \
-	cfgfile/grammar.c \
-	cfgfile/cfgcore.c \
-	cfgfile/cfgfile.cxx \
-	cfgfile/scanner.c
+	$(abs_srcdir)/cfgfile/grammar.c \
+	$(abs_srcdir)/cfgfile/cfgcore.c \
+	$(abs_srcdir)/cfgfile/cfgfile.cxx \
+	$(abs_srcdir)/cfgfile/scanner.c
 
 extrsrc += \
-	cfgfile/fixgrammar.pl \
-	cfgfile/fixscanner.pl \
-	cfgfile/genfiles.sh \
-	cfgfile/grammar.y \
-	cfgfile/scanner.l
+	$(abs_srcdir)/cfgfile/fixgrammar.pl \
+	$(abs_srcdir)/cfgfile/fixscanner.pl \
+	$(abs_srcdir)/cfgfile/genfiles.sh \
+	$(abs_srcdir)/cfgfile/grammar.y \
+	$(abs_srcdir)/cfgfile/scanner.l

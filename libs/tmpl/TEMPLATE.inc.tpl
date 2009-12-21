@@ -4,10 +4,13 @@
 ###############################################################################
 
 headers += \
-	(>>>POINT<<<)
+	$(abs_srcdir)/(>>>POINT<<<)
 
-preproc += 
+# preproc += \
+#         $(abs_srcdir)/
 
-sources += 
+# sources += \
+#         $(abs_srcdir)/
 
-extrsrc += 
+# extrsrc += \
+#         $(abs_srcdir)/

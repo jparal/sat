@@ -4,10 +4,10 @@
 ###############################################################################
 
 headers += \
-	stw/filestw.h
+	$(abs_srcdir)/stw/filestw.h
 
 preproc +=  \
-	stw/filestw.cpp
+	$(abs_srcdir)/stw/filestw.cpp
 
 # sources +=
 

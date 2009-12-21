@@ -4,13 +4,13 @@
 ###############################################################################
 
 headers += \
-	xdmf/filexdmf.h \
-	xdmf/hdf5types.h
+	$(abs_srcdir)/xdmf/filexdmf.h \
+	$(abs_srcdir)/xdmf/hdf5types.h
 
 preproc +=  \
-	xdmf/filexdmf.cpp
+	$(abs_srcdir)/xdmf/filexdmf.cpp
 
 sources += \
-	xdmf/filexdmf.cxx
+	$(abs_srcdir)/xdmf/filexdmf.cxx
 
 # extrsrc += 

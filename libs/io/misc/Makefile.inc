@@ -4,18 +4,18 @@
 ###############################################################################
 
 headers += \
-	misc/fmanip.h \
-	misc/gzstream.h \
-	misc/iofile.h \
-	misc/iomanager.h
+	$(abs_srcdir)/misc/fmanip.h \
+	$(abs_srcdir)/misc/gzstream.h \
+	$(abs_srcdir)/misc/iofile.h \
+	$(abs_srcdir)/misc/iomanager.h
 
 preproc += \
-	misc/iomanager.cpp
+	$(abs_srcdir)/misc/iomanager.cpp
 
 sources += \
-	misc/fmanip.cxx \
-	misc/gzstream.cxx \
-	misc/iofile.cxx \
-	misc/iomanager.cxx
+	$(abs_srcdir)/misc/fmanip.cxx \
+	$(abs_srcdir)/misc/gzstream.cxx \
+	$(abs_srcdir)/misc/iofile.cxx \
+	$(abs_srcdir)/misc/iomanager.cxx
 
 # extrsrc += 

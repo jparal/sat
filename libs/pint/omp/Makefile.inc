@@ -1,10 +1,10 @@
 
 headers += \
-	omp/initomp.h
+	$(abs_srcdir)/omp/initomp.h
 
 # lochdrs +=
 
 # preproc +=
 
 sources += \
-	omp/initomp.cxx
+	$(abs_srcdir)/omp/initomp.cxx
