@@ -4,10 +4,10 @@
 ###############################################################################
 
 headers += \
-	$(abs_srcdir)/misc/code.h
+	misc/code.h
 
 # preproc += \
-# 	$(abs_srcdir)/misc/init.cpp
+# 	misc/init.cpp
 
 sources += \
-	$(abs_srcdir)/misc/init.cxx
+	misc/init.cxx

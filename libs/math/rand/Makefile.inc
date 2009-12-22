@@ -4,28 +4,28 @@
 ###############################################################################
 
 headers += \
-	$(abs_srcdir)/rand/arms.h \
-	$(abs_srcdir)/rand/cos.h \
-	$(abs_srcdir)/rand/maxwell.h \
-	$(abs_srcdir)/rand/psd.h \
-	$(abs_srcdir)/rand/range.h \
-	$(abs_srcdir)/rand/rndgen.h \
-	$(abs_srcdir)/rand/sigmund.h \
-	$(abs_srcdir)/rand/sphere.h \
-	$(abs_srcdir)/rand/thompson.h
+	rand/arms.h \
+	rand/cos.h \
+	rand/maxwell.h \
+	rand/psd.h \
+	rand/range.h \
+	rand/rndgen.h \
+	rand/sigmund.h \
+	rand/sphere.h \
+	rand/thompson.h
 
 # preproc += \
-# 	$(abs_srcdir)/rand/.cpp
+# 	rand/.cpp
 
 sources += \
-	$(abs_srcdir)/rand/arms.cxx \
-	$(abs_srcdir)/rand/cos.cxx \
-	$(abs_srcdir)/rand/maxwell.cxx \
-	$(abs_srcdir)/rand/psd.cxx \
-	$(abs_srcdir)/rand/range.cxx \
-	$(abs_srcdir)/rand/rndgen.cxx \
-	$(abs_srcdir)/rand/sigmund.cxx \
-	$(abs_srcdir)/rand/sphere.cxx \
-	$(abs_srcdir)/rand/thompson.cxx
+	rand/arms.cxx \
+	rand/cos.cxx \
+	rand/maxwell.cxx \
+	rand/psd.cxx \
+	rand/range.cxx \
+	rand/rndgen.cxx \
+	rand/sigmund.cxx \
+	rand/sphere.cxx \
+	rand/thompson.cxx
 
 # extrsrc += 

@@ -4,10 +4,10 @@
 ###############################################################################
 
 headers_mcarlo = \
-	$(abs_srcdir)/mcarlo/mcarlo.h
+	mcarlo/mcarlo.h
 
 # preproc_mcarlo = \
-# 	$(abs_srcdir)/mcarlo/mcarlo.cpp
+# 	mcarlo/mcarlo.cpp
 
 # sources +=
 

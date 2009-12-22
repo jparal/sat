@@ -4,16 +4,16 @@
 ###############################################################################
 
 headers += \
-	$(abs_srcdir)/pcle/camspecie.h \
-	$(abs_srcdir)/pcle/cmdpcle.h \
-	$(abs_srcdir)/pcle/pcle.h \
-	$(abs_srcdir)/pcle/specie.h
+	pcle/camspecie.h \
+	pcle/cmdpcle.h \
+	pcle/pcle.h \
+	pcle/specie.h
 
 # preproc +=
 
 sources += \
-	$(abs_srcdir)/pcle/camspecie.cxx \
-	$(abs_srcdir)/pcle/specie.cxx
+	pcle/camspecie.cxx \
+	pcle/specie.cxx
 
 extrsrc += \
-	$(abs_srcdir)/pcle/DocSpecie.dox
+	pcle/DocSpecie.dox

@@ -4,20 +4,20 @@
 ###############################################################################
 
 headers += \
-	$(abs_srcdir)/misc/convert.h \
-	$(abs_srcdir)/misc/domain.h \
-	$(abs_srcdir)/misc/hybridconv.h \
-	$(abs_srcdir)/misc/loc.h \
-	$(abs_srcdir)/misc/range.h \
-	$(abs_srcdir)/misc/simtime.h
+	misc/convert.h \
+	misc/domain.h \
+	misc/hybridconv.h \
+	misc/loc.h \
+	misc/range.h \
+	misc/simtime.h
 
 # preproc += 
 
 sources += \
-	$(abs_srcdir)/misc/convert.cxx \
-	$(abs_srcdir)/misc/domain.cxx \
-	$(abs_srcdir)/misc/hybridconv.cxx \
-	$(abs_srcdir)/misc/range.cxx \
-	$(abs_srcdir)/misc/simtime.cxx
+	misc/convert.cxx \
+	misc/domain.cxx \
+	misc/hybridconv.cxx \
+	misc/range.cxx \
+	misc/simtime.cxx
 
 # extrsrc += 

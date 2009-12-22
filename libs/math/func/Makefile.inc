@@ -4,15 +4,15 @@
 ###############################################################################
 
 headers += \
-	$(abs_srcdir)/func/faddeeva.h \
-	$(abs_srcdir)/func/plasmafnc.h \
- 	$(abs_srcdir)/func/stdmath.h
+	func/faddeeva.h \
+	func/plasmafnc.h \
+ 	func/stdmath.h
 
 preproc += \
-	$(abs_srcdir)/func/stdmath.cpp
+	func/stdmath.cpp
 
 sources += \
-	$(abs_srcdir)/func/faddeeva.cxx \
-	$(abs_srcdir)/func/plasmafnc.cxx
+	func/faddeeva.cxx \
+	func/plasmafnc.cxx
 
 # extrsrc += 

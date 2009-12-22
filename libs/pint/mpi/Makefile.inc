@@ -1,18 +1,22 @@
+###############################################################################
+##   Copyright (C) by Jan Paral and SAT team                                  #
+##   See docs/license/sat file for copying and redistribution conditions.     #
+###############################################################################
 
 headers += \
-	$(abs_srcdir)/mpi/cartdec.h \
-	$(abs_srcdir)/mpi/mpihdr.h \
-	$(abs_srcdir)/mpi/streammpi.h \
-	$(abs_srcdir)/mpi/wrap.h
+	mpi/cartdec.h \
+	mpi/mpihdr.h \
+	mpi/streammpi.h \
+	mpi/wrap.h
 
 lochdrs += \
-	$(abs_srcdir)/mpi/mpitype.h
+	mpi/mpitype.h
 
 preproc += \
-	$(abs_srcdir)/mpi/streammpi.cpp \
-	$(abs_srcdir)/mpi/wrap.cpp
+	mpi/streammpi.cpp \
+	mpi/wrap.cpp
 
 sources += \
-	$(abs_srcdir)/mpi/cartdec.cxx \
-	$(abs_srcdir)/mpi/streammpi.cxx \
-	$(abs_srcdir)/mpi/wrap.cxx
+	mpi/cartdec.cxx \
+	mpi/streammpi.cxx \
+	mpi/wrap.cxx

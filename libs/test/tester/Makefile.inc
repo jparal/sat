@@ -1,30 +1,34 @@
+###############################################################################
+##   Copyright (C) by Jan Paral and SAT team                                  #
+##   See docs/license/sat file for copying and redistribution conditions.     #
+###############################################################################
 
 headers += \
-	$(abs_srcdir)/tester/checks.h \
-	$(abs_srcdir)/tester/details.h \
-	$(abs_srcdir)/tester/exception.h \
-	$(abs_srcdir)/tester/info.h \
-	$(abs_srcdir)/tester/macros.h \
-	$(abs_srcdir)/tester/repdeferred.h \
-	$(abs_srcdir)/tester/reporter.h \
-	$(abs_srcdir)/tester/repstdout.h \
-	$(abs_srcdir)/tester/repxml.h \
-	$(abs_srcdir)/tester/results.h \
-	$(abs_srcdir)/tester/runner.h \
-	$(abs_srcdir)/tester/suite.h \
-	$(abs_srcdir)/tester/testbase.h \
-	$(abs_srcdir)/tester/tester.h \
-	$(abs_srcdir)/tester/testlist.h
+	tester/checks.h \
+	tester/details.h \
+	tester/exception.h \
+	tester/info.h \
+	tester/macros.h \
+	tester/repdeferred.h \
+	tester/reporter.h \
+	tester/repstdout.h \
+	tester/repxml.h \
+	tester/results.h \
+	tester/runner.h \
+	tester/suite.h \
+	tester/testbase.h \
+	tester/tester.h \
+	tester/testlist.h
 
 sources += \
-	$(abs_srcdir)/tester/checks.cxx \
-	$(abs_srcdir)/tester/details.cxx \
-	$(abs_srcdir)/tester/exception.cxx \
-	$(abs_srcdir)/tester/info.cxx \
-	$(abs_srcdir)/tester/repdeferred.cxx \
-	$(abs_srcdir)/tester/repstdout.cxx \
-	$(abs_srcdir)/tester/repxml.cxx \
-	$(abs_srcdir)/tester/results.cxx \
-	$(abs_srcdir)/tester/runner.cxx \
-	$(abs_srcdir)/tester/testbase.cxx \
-	$(abs_srcdir)/tester/testlist.cxx
+	tester/checks.cxx \
+	tester/details.cxx \
+	tester/exception.cxx \
+	tester/info.cxx \
+	tester/repdeferred.cxx \
+	tester/repstdout.cxx \
+	tester/repxml.cxx \
+	tester/results.cxx \
+	tester/runner.cxx \
+	tester/testbase.cxx \
+	tester/testlist.cxx
