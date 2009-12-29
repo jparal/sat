@@ -118,7 +118,7 @@
  '(c-default-style (quote ((c-mode . "sat") (c++-mode . "sat") (java-mode . "java") (other . "gnu"))))
  '(case-fold-search t)
  '(compilation-scroll-output t)
- '(compile-command "make -j2 -s ")
+ '(compile-command "make -j4 ")
  '(cvs-reuse-cvs-buffer (quote always))
  '(default-input-method "czech")
  '(doxymacs-blank-multiline-comment-template (quote ("/**" > n "* " p > n "*/" > n)))
