@@ -195,7 +195,7 @@ public:
   ~BlockAllocator()
   {
     ObjectDispose dispose (*this, false);
-    DisposeAll (dispose);
+    superclass::DisposeAll (dispose);
   }
 
   /**
