@@ -21,13 +21,15 @@ SUITE (MpiSuite)
   {
     Mpi::Initialize (g_pargc, g_pargv);
     double d = 2.3;
-    double starttime, endtime; 
+    double starttime, endtime;
+#ifdef HAVE_MPI
     starttime = MPI_Wtime();
     for (int i=0; i<1000; ++i)
     {
       d += d / 1.23;
     }
-    endtime   = MPI_Wtime(); 
+    endtime   = MPI_Wtime();
+#endif
     Mpi::Finalize ();
     printf("That took %f seconds\n",endtime-starttime);
   }

@@ -44,9 +44,8 @@ public:
 
   /// Constructor
   Specie ()
-  {
-    _layout.Initialize ();
-  };
+  { _layout.Initialize (); }
+
   /// Destructor
   ~Specie () {};
 
@@ -211,8 +210,10 @@ private:
 
   Layout<D> _layout;
 
+#ifdef HAVE_MPI
   int Send (int dim, bool left);
   int Recv (int dim, bool left);
+#endif
 };
 
 /// @}

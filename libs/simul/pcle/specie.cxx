@@ -62,9 +62,13 @@ int Specie<T,D>::Clean (int *clean)
     }
   }
 
-  if (clean != NULL) *clean = cleaned;
+  if (clean != NULL)
+    *clean = cleaned;
+
   return cleaned;
 }
+
+#ifdef HAVE_MPI
 
 template<class T, int D>
 int Specie<T,D>::Send (int dim, bool left)
@@ -83,6 +87,7 @@ int Specie<T,D>::Send (int dim, bool left)
   pclecmd_t off = left ? PCLE_CMD_SEND_LEFT : PCLE_CMD_SEND_RIGHT;
   pclecmd_t cmd = PCLE_CMD_SEND_DIM(off,dim);
   CommandIterator iter = GetCommandIterator (cmd);
+
   while (iter.HasNext ())
   {
     PcleCommandInfo& info = iter.Next (true);
@@ -134,6 +139,8 @@ int Specie<T,D>::Recv (int dim, bool left)
   return nrecv;
 }
 
+#endif /* HAVE_MPI */
+
 template<class T, int D>
 bool Specie<T,D>::Sync (int *send, int *recv)
 {
@@ -145,10 +152,9 @@ bool Specie<T,D>::Sync (int *send, int *recv)
 
     // When local boundary
     if (decomp.GetSize (i) == 1)
-    {
       continue;
-    }
 
+#ifdef HAVE_MPI
     // Separate Even/Odd and communicate internal boundaries on patches
     if (decomp.GetPosition (i) % 2 == 0)
     {
@@ -164,6 +170,8 @@ bool Specie<T,D>::Sync (int *send, int *recv)
       lsend += Send (i, false);
       lrecv += Recv (i, false);
     }
+#endif /* HAVE_MPI */
+
   }
 
   if (send != NULL) *send += lsend;

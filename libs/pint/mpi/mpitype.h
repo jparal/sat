@@ -23,6 +23,32 @@ template<class T, int D> class Vector;
 /// @addtogroup pint_mpi
 /// @{
 
+#ifndef HAVE_MPI
+#  define MPI_Datatype int
+
+#  define MPI_CHAR 0
+#  define MPI_UNSIGNED_CHAR 1
+#  define MPI_SHORT 2
+#  define MPI_UNSIGNED_SHORT 3
+#  define MPI_INT 4
+#  define MPI_UNSIGNED 5
+#  define MPI_LONG 6
+#  define MPI_UNSIGNED_LONG 7
+#  define MPI_FLOAT 8
+#  define MPI_DOUBLE 9
+#  define MPI_LONG_DOUBLE 10
+#  define MPI_SIGNED_CHAR 11
+#  define MPI_LONG_LONG_INT 12
+#  define MPI_UNSIGNED_LONG_LONG 13
+#  define MPI_LONG_LONG 14
+#  define MPI_FLOAT_INT 15
+#  define MPI_DOUBLE_INT 16
+#  define MPI_LONG_INT 17
+#  define MPI_SHORT_INT 18
+#  define MPI_2INT 19
+#  define MPI_LONG_DOUBLE_INT 20
+#endif
+
 template<class T>
 struct MpiType
 {

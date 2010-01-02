@@ -3,15 +3,17 @@ AC_DEFUN([AC_LIB_MPI],[
 
     ac_mpi=no
     AC_MSG_CHECKING([whether to enable MPI])
-    AC_ARG_ENABLE(mpi,
-      AS_HELP_STRING([--enable-mpi], [enable Message Passing Interface (MPI) support]), [
+    AC_ARG_ENABLE(mpi, AS_HELP_STRING([--enable-mpi],
+        [enable Message Passing Interface (MPI) support]),
+      [
 	if test "$enableval" = yes; then
 	  AC_MSG_RESULT([yes])
+          AC_DEFINE_UNQUOTED(HAVE_MPI, 1,
+            [Whether we have <mpi.h> header file and we are willing to use it])
 	  ac_mpi=yes
 	  AC_FIND_MPI
 	fi
-	],
-      [AC_MSG_RESULT([no])])
+	], [AC_MSG_RESULT([no])])
   ])
 
 dnl ********************************************************************
@@ -311,95 +313,93 @@ dnl ********************************************************************
 AC_DEFUN([AC_FIND_MPI],
 [
 
-   ac_find_mpi_cache_used=yes
+  ac_find_mpi_cache_used=yes
 
-   AC_CACHE_VAL(ac_cv_mpi_include, ac_find_mpi_cache_used=no)
-   AC_CACHE_VAL(ac_cv_mpi_libs, ac_find_mpi_cache_used=no)
-   AC_CACHE_VAL(ac_cv_mpi_lib_dirs, ac_find_mpi_cache_used=no)
-   AC_CACHE_VAL(ac_cv_mpi_flags, ac_find_mpi_cache_used=no)
+  AC_CACHE_VAL(ac_cv_mpi_include, ac_find_mpi_cache_used=no)
+  AC_CACHE_VAL(ac_cv_mpi_libs, ac_find_mpi_cache_used=no)
+  AC_CACHE_VAL(ac_cv_mpi_lib_dirs, ac_find_mpi_cache_used=no)
+  AC_CACHE_VAL(ac_cv_mpi_flags, ac_find_mpi_cache_used=no)
 
-   if test "$ac_find_mpi_cache_used" = "yes"; then
-      AC_MSG_CHECKING(for location of mpi.h)
-      MPIINCLUDE=$ac_cv_mpi_include
-      AC_MSG_RESULT("\(cached\) $MPIINCLUDE")
+  if test "$ac_find_mpi_cache_used" = "yes"; then
+    AC_MSG_CHECKING(for location of mpi.h)
+    MPIINCLUDE=$ac_cv_mpi_include
+    AC_MSG_RESULT("\(cached\) $MPIINCLUDE")
 
-      AC_MSG_CHECKING(for MPI library directories)
-      MPILIBDIRS=$ac_cv_mpi_lib_dirs
-      AC_MSG_RESULT("\(cached\) $MPILIBDIRS")
+    AC_MSG_CHECKING(for MPI library directories)
+    MPILIBDIRS=$ac_cv_mpi_lib_dirs
+    AC_MSG_RESULT("\(cached\) $MPILIBDIRS")
 
-      AC_MSG_CHECKING(for MPI libraries)
-      MPILIBS=$ac_cv_mpi_libs
-      AC_MSG_RESULT("\(cached\) $MPILIBS")
+    AC_MSG_CHECKING(for MPI libraries)
+    MPILIBS=$ac_cv_mpi_libs
+    AC_MSG_RESULT("\(cached\) $MPILIBS")
 
-      AC_MSG_CHECKING(for other MPI-related flags)
-      MPIFLAGS=$ac_cv_mpi_flags
-      AC_MSG_RESULT("\(cached\) $MPIFLAGS")
-   else
+    AC_MSG_CHECKING(for other MPI-related flags)
+    MPIFLAGS=$ac_cv_mpi_flags
+    AC_MSG_RESULT("\(cached\) $MPIFLAGS")
+  else
    
 
-      dnl * Set up user options.  If user uses any of the fist three options,
-      dnl * then automatic tests are not run.
+    dnl * Set up user options.  If user uses any of the fist three options,
+    dnl * then automatic tests are not run.
 
-      ac_user_chose_mpi=no
-      AC_ARG_WITH(mpi-include, [AC_HELP_STRING([--with-mpi-include=DIR], [the DIR where mpi.h desides])],
-                  for mpi_dir in $withval; do
-                     MPIINCLUDE="$MPIINCLUDE -I$withval"
-                  done; ac_user_chose_mpi=yes)
+    ac_user_chose_mpi=no
+    AC_ARG_WITH(mpi-include,
+      [AC_HELP_STRING([--with-mpi-include=DIR], [the DIR where mpi.h desides])],
+      for mpi_dir in $withval; do
+        MPIINCLUDE="$MPIINCLUDE -I$withval"
+      done; ac_user_chose_mpi=yes)
 
-      AC_ARG_WITH(mpi-libs,
-[AC_HELP_STRING([--with-mpi-libs=LIBS],[LIBS is space-separated list of library names 
-                          needed for MPI, e.g. "nsl socket mpi"])],
-                  for mpi_lib in $withval; do
-                     MPILIBS="$MPILIBS -l$mpi_lib"
-                  done; ac_user_chose_mpi=yes)
+    AC_ARG_WITH(mpi-libs,
+      [AC_HELP_STRING([--with-mpi-libs=LIBS],[LIBS is space-separated list of library names 
+            needed for MPI, e.g. "nsl socket mpi"])],
+      for mpi_lib in $withval; do
+        MPILIBS="$MPILIBS -l$mpi_lib"
+      done; ac_user_chose_mpi=yes)
 
+    AC_ARG_WITH(mpi-libdir,
+      [AC_HELP_STRING([--with-mpi-libdir=DIRS],
+          [DIRS is space-separated list of directories
+            containing the libraries specified by e.g "/usr/lib /usr/local/mpi/lib"])],
+      for mpi_lib_dir in $withval; do
+        MPILIBDIRS="-L$mpi_lib_dir $MPILIBDIRS"
+      done; ac_user_chose_mpi=yes)
 
-      AC_ARG_WITH(mpi-libdir,
-[AC_HELP_STRING([--with-mpi-libdir=DIRS],
-                          [DIRS is space-separated list of directories
-                          containing the libraries specified by
-                          e.g "/usr/lib /usr/local/mpi/lib"])],
-                  for mpi_lib_dir in $withval; do
-                     MPILIBDIRS="-L$mpi_lib_dir $MPILIBDIRS"
-                  done; ac_user_chose_mpi=yes)
+    dnl * --with-mpi-flags only adds to automatic selections, 
+    dnl * does not override
 
-      dnl * --with-mpi-flags only adds to automatic selections, 
-      dnl * does not override
+    AC_ARG_WITH(mpi-flags,
+      [AC_HELP_STRING([--with-mpi-flags=FLAGS],
+          [FLAGS is space-separated list of whatever flags other
+            than -l and -L are needed to link with mpi libraries])],
+      MPIFLAGS=$withval)
 
-      AC_ARG_WITH(mpi-flags,
-[AC_HELP_STRING([--with-mpi-flags=FLAGS],[FLAGS is space-separated list of whatever flags other
-                          than -l and -L are needed to link with mpi libraries])],
-                          MPIFLAGS=$withval)
-
-
-      if test "$ac_user_chose_mpi" = "no"; then
+    if test "$ac_user_chose_mpi" = "no"; then
 
       dnl * Find an MPICC.  If there is none, call AC_CHECK_MPI to choose MPI
       dnl * settings based on architecture name.  If AC_CHECK_MPI fails,
       dnl * print warning message.  Manual MPI settings must be used.
 
-         AC_ARG_WITH(mpicc,
-[AC_HELP_STRING([--with-mpicc=ARG],[ARG is mpicc or similar MPI C compiling tool])],
-            MPICC=$withval,
-            [AC_CHECK_PROGS(MPICC, mpcc mpicc tmcc hcc)])
+      AC_ARG_WITH(mpicc,
+        [AC_HELP_STRING([--with-mpicc=ARG],[ARG is mpicc or similar MPI C compiling tool])],
+        MPICC=$withval,
+        [AC_CHECK_PROGS(MPICC, mpcc mpicc tmcc hcc)])
 
-         if test -z "$MPICC"; then
-            AC_MSG_WARN([no acceptable mpicc found in \$PATH])
-            AC_CHECK_MPI
-            if test -z "$MPILIBS"; then
-             AC_MSG_WARN([MPI not found - must set manually using --with flags])
-            fi
+      if test -z "$MPICC"; then
+        AC_MSG_WARN([no acceptable mpicc found in \$PATH])
+          AC_CHECK_MPI
+          if test -z "$MPILIBS"; then
+            AC_MSG_WARN([MPI not found - must set manually using --with flags])
+          fi
 
-         dnl * When $MPICC is there, run the automatic test
-         dnl * here begins the hairy stuff
+          dnl * When $MPICC is there, run the automatic test
+          dnl * here begins the hairy stuff
 
-         else      
+      else      
  
-            dnl changequote(, )dnl
-  
-            dnl * Create a minimal MPI program.  It will be compiled using
-            dnl * $MPICC with verbose output.
-            cat > mpconftest.c << EOF
+        dnl changequote(, )dnl
+        dnl * Create a minimal MPI program.  It will be compiled using
+        dnl * $MPICC with verbose output.
+        cat > mpconftest.c << EOF
 #include "mpi.h"
 
 main(int argc, char **argv)
@@ -413,33 +413,33 @@ main(int argc, char **argv)
 }
 EOF
 
-            ac_mplibs=
-            ac_mplibdirs=
-            ac_flags=
-            ac_lmpi_exists=no
+        ac_mplibs=
+        ac_mplibdirs=
+        ac_flags=
+        ac_lmpi_exists=no
 
-            dnl * These are various ways to produce verbose output from $MPICC
-            dnl * All of their outputs are stuffed into variable
-            dnl * $ac_mpoutput
+        dnl * These are various ways to produce verbose output from $MPICC
+        dnl * All of their outputs are stuffed into variable
+        dnl * $ac_mpoutput
 
-            for ac_command in "$MPICC -show"\
+        for ac_command in "$MPICC -show"\
                                 "$MPICC -v"\
                                 "$MPICC -#"\
                                 "$MPICC"; do
 
-               ac_this_output=`$ac_command mpconftest.c -o mpconftest 2>&1`
+          ac_this_output=`$ac_command mpconftest.c -o mpconftest 2>&1`
 
-               dnl * If $MPICC uses xlc, then commas must be removed from output
-               xlc_p=`echo $ac_this_output | grep xlcentry`
-               if test -n "$xlc_p"; then
-                  ac_this_output=`echo $ac_this_output | sed 's/,/ /g'`
-               fi
+          dnl * If $MPICC uses xlc, then commas must be removed from output
+          xlc_p=`echo $ac_this_output | grep xlcentry`
+          if test -n "$xlc_p"; then
+            ac_this_output=`echo $ac_this_output | sed 's/,/ /g'`
+          fi
 
-               dnl * Turn on flag once -lmpi is found in output
-               lmpi_p=`echo $ac_this_output | grep "\-lmpi"`
-               if test -n "$lmpi_p"; then
-                  ac_lmpi_exists=yes
-               fi
+          dnl * Turn on flag once -lmpi is found in output
+          lmpi_p=`echo $ac_this_output | grep "\-lmpi"`
+          if test -n "$lmpi_p"; then
+            ac_lmpi_exists=yes
+          fi
 
                ac_mpoutput="$ac_mpoutput $ac_this_output"
                ac_this_output=
@@ -734,9 +734,6 @@ dnl ])dnl
             AC_MSG_RESULT($MPILIBS)
             AC_MSG_CHECKING(for other MPI-related flags)
             AC_MSG_RESULT($MPIFLAGS)
-
-	    AC_DEFINE_UNQUOTED(HAVE_MPI,1,
-              [Whether we have <mpi.h> header file and we are willing to use it])
          fi
       fi
 
@@ -744,29 +741,17 @@ dnl ])dnl
       AC_CACHE_VAL(ac_cv_mpi_lib_dirs, ac_cv_mpi_lib_dirs=$MPILIBDIRS)
       AC_CACHE_VAL(ac_cv_mpi_libs, ac_cv_mpi_libs=$MPILIBS)
       AC_CACHE_VAL(ac_cv_mpi_flags, ac_cv_mpi_flags=$MPIFLAGS)
-
-      AC_DEFINE_UNQUOTED(HAVE_MPI,1,
-		        [Whether we have <mpi.h> header file and we are willing to use it])
    fi
 
-      AC_ARG_WITH(mpi-bootcmd,
-          [AC_HELP_STRING([--with-mpi-bootcmd=CMD],
-                          [how to boot MPI (usualy mpiboot) environment])],
-                  MPIBOOT=$withval)
-      AC_ARG_WITH(mpi-runcmd,
-          [AC_HELP_STRING([--with-mpi-runcmd=CMD],
-                          [how to run MPI (default: mpirun -np @NP @PROG @ARGS) programs])],
-                  MPIRUN=$withval)
-      AC_ARG_WITH(mpi-haltcmd,
-          [AC_HELP_STRING([--with-mpi-haltcmd=CMD],
-                          [how to halt MPI environment])],
-                  MPIHALT=$withval)
+   AC_ARG_WITH(mpi-bootcmd, [AC_HELP_STRING([--with-mpi-bootcmd=CMD],
+         [how to boot MPI (usualy mpiboot) environment])], MPIBOOT=$withval)
+   AC_ARG_WITH(mpi-runcmd,
+     [AC_HELP_STRING([--with-mpi-runcmd=CMD],
+         [how to run MPI (default: mpirun -np @NP @PROG @ARGS) programs])],
+     MPIRUN=$withval)
+   AC_ARG_WITH(mpi-haltcmd, [AC_HELP_STRING([--with-mpi-haltcmd=CMD],
+         [how to halt MPI environment])], MPIHALT=$withval)
 
-
-#    AC_SUBST(MPIINCLUDE)
-#    AC_SUBST(MPILIBDIRS)
-#    AC_SUBST(MPILIBS)
-#    AC_SUBST(MPIFLAGS)
    AC_SUBST(MPIBOOT)
    AC_SUBST(MPIRUN)
    AC_SUBST(MPIHALT)
@@ -778,10 +763,6 @@ dnl ])dnl
    AC_SUBST(CXXFLAGS_MPI)
    AC_SUBST(LDFLAGS_MPI)
 
-
-#    CFLAGS="$MPIFLAGS $MPIINCLUDE $CFLAGS"
-#    CXXFLAGS="$MPIFLAGS $MPIINCLUDE $CXXFLAGS"
-#    LDFLAGS="$MPIFLAGS $MPILIBDIRS $MPILIBS $LDFLAGS"
 ])dnl
 
 dnl ********************************************************************
