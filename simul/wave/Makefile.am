@@ -9,11 +9,11 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-exename = alfven
-srcfile = alfven.cxx alfven.h alfven.sin
-instdir = $(prefix)/simul/alfven
+exename = wave
+srcfile = wave.cxx wave.h alfven.sin
+instdir = $(prefix)/simul/wave
 
 noinst_PROGRAMS = $(exename)
-alfven_SOURCES = $(srcfile)
+wave_SOURCES = $(srcfile)
 dist_noinst_DATA = $(srcfile)
 # nobase_inst_DATA = $(srcfile)

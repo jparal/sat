@@ -2,7 +2,7 @@
 # CAM Config file
 #------------------------------------------------------------------------------
 
-alfven = { nperiod = [4, 4]; amplitude = 0.05; grpvel = 1.0; };
+wave = { nperiod = [4, 4]; amp = 0.1; vphase = .5; };
 
 simul:
 {
@@ -16,17 +16,17 @@ simul:
 
 grid:
 {
-  cells  = [ 100, 50, 100 ];
-  resol  = [ 1.0, 0.5, 1. ];           # [c/omega_p]
+  cells  = [ 1000, 50, 100 ];
+  resol  = [ .25, 0.5, 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
 field:
 {
   nsub   = 10;                       # number of sub-steps of B-field
-  imf    = { phi = 0.; psi = 0.; };  # orientation of B-field
+  imf    = { phi = 0.; psi = 0.; };  # phi=v(x,y); psi=v(x,z) orientation of B-field
   dnmin  = 0.005;                    # minimal density to resolve
-  resist = 0.01;                     # artificial resistivity
+  resist = 0.001;                     # artificial resistivity
 };
 
 plasma:
@@ -34,7 +34,7 @@ plasma:
   betae = 0.5;
   specie:
   {
-    proton = { pcles = 500.; beta = 0.01; rvth = 1.; rmds = 1.; qms = 1.;
+    proton = { pcles = 500.; beta = 0.5; rvth = 1.; rmds = 1.; qms = 1.;
       v0 = [0.,0.,0.]; };
   };
 };
@@ -45,13 +45,13 @@ output:
 
   format:
   {
-    type     = "xdmf"; version = 1; parallel = false;
+    type     = "hdf5"; version = 1; parallel = false;
     dir      = "out";
     runname  = "test";
     compress = { gz = 6; shuffle = true; };   # output compression
   };
 
-  dtout = .4;
+  dtout = .2;
 
   sensors:
   {
@@ -59,8 +59,8 @@ output:
     magfield = { tag = "B"; };
     elfield  = { tag = "E"; };
     velocity = { tag = "U"; };
-    temp     = { tag = "T"; };
-    kenergy  = { tag = "KEn"; perpar = true; };
+    # temp     = { tag = "T"; };
+    # kenergy  = { tag = "KEn"; perpar = true; };
     # dbdt     = { tag = "DbDt"; };
     # jxb      = { tag = "JxB"; };
     # cbxb     = { tag = "CBxB"; };

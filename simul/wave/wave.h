@@ -3,22 +3,25 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   alfven.h
- * @brief  Alfven wave CAM simulation class
+ * @file   wave.h
+ * @brief  Wave CAM simulation class
  * @author @jparal
  *
  * @revision{1.0}
  * @reventry{2008/07, @jparal}
  * @revmessg{Initial version}
+ * @revision{1.1}
+ * @reventry{2009/12, @jparal}
+ * @revmessg{Rename from alfven to wave}
  */
 
-#ifndef __SAT_ALFVEN_CAM_H__
-#define __SAT_ALFVEN_CAM_H__
+#ifndef __SAT_WAVE_CAM_H__
+#define __SAT_WAVE_CAM_H__
 
 #include "sat.h"
 
 /**
- * @brief Alfven wave CAM simulation class
+ * @brief Wave CAM simulation class
  *
  * Initialization is now dimension independent
  *
@@ -30,10 +33,10 @@
  * @revmessg{print configuration of wave setup}
  */
 template<class T, int D>
-class AlfvenCAMCode : public CAMCode<AlfvenCAMCode<T,D>,T,D>
+class WaveCAMCode : public CAMCode<WaveCAMCode<T,D>,T,D>
 {
 public:
-  typedef CAMCode<AlfvenCAMCode<T,D>,T,D> TBase;
+  typedef CAMCode<WaveCAMCode<T,D>,T,D> TBase;
   typedef typename TBase::TSpecie TSpecie;
   typedef Particle<T,D> TParticle;
   typedef typename TBase::ScaField ScaField;
@@ -41,9 +44,9 @@ public:
 
   virtual void PreInitialize (const ConfigFile &cfg)
   {
-    cfg.GetValue ("alfven.nperiod", _npex);
-    cfg.GetValue ("alfven.amplitude", _amp);
-    cfg.GetValue ("alfven.grpvel", _grpvel, 1.0);
+    cfg.GetValue ("wave.nperiod", _npex);
+    cfg.GetValue ("wave.amp", _amp);
+    cfg.GetValue ("wave.vphase", _grpvel, 1.0);
   }
 
   virtual void PostInitialize (const ConfigFile &cfg)
@@ -63,10 +66,10 @@ public:
       l[i] = M_2PI/k[i];
     }
 
-    DBG_INFO ("Alfven wave simulation:");
+    DBG_INFO ("Wave simulation:");
     DBG_INFO ("  nperiod           : "<<_npex);
-    DBG_INFO ("  amplitude [B_0]   : "<<_amp);
-    DBG_INFO ("  grpvel    [v_A]   : "<<_grpvel);
+    DBG_INFO ("  amp       [B_0]   : "<<_amp);
+    DBG_INFO ("  vphase    [v_A]   : "<<_grpvel);
     DBG_INFO ("  k         [w_p/c] : "<< k);
     DBG_INFO ("  lambda    [c/w_p] : "<< l);
   }
@@ -132,4 +135,4 @@ private:
   Vector<T,D> _k;
 };
 
-#endif /* __SAT_ALFVEN_CAM_H__ */
+#endif /* __SAT_WAVE_CAM_H__ */
