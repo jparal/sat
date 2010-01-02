@@ -20,7 +20,7 @@ shock_parse_curves( shock_arg_param *p )
   file = fopen( p->fileName1, "r" );
 
   if ( !file ) {
-    shock_error("Error : Cant open file 1.\n");
+    shock_error("Error: Cant open file 1.\n");
   }
 
   //Scan for data dimensions
@@ -34,7 +34,8 @@ shock_parse_curves( shock_arg_param *p )
   case 2:
     break;
   default:
-    shock_error("Error : During reading dimesions from input file. Support only for 1D/2D data.\n");
+    shock_error("Error: During reading dimensions from input file.\n"
+		"Error: Support only for 1D/2D data.\n");
   }
 
   //Allocate memory for data
@@ -104,7 +105,8 @@ shock_parse_curves( shock_arg_param *p )
   case 2:
     break;
   default:
-    shock_error("Error : Cant parse input file during reading dimesions./nError : Support only for 1D/2D data.\n");
+    shock_error("Error: Cant parse input file during reading dimensions./n"
+		"Error: Support only for 1D/2D data.\n");
   }
 
   //Allocate memory for data
