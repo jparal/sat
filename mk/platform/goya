@@ -5,6 +5,8 @@ CC=gcc-4.4
 # CC=pgcc
 # CXX=icpc
 # CC=icc
+# CXX=clang++
+# CC=clang
 
 with_cxxflags_dbg="-funroll-loops -fno-inline"
 with_cxxflags_opt="-mtune=native -march=native"
@@ -21,7 +23,3 @@ enable_64bit=yes
 enable_mpi=yes
 with_mpicc=mpicc
 with_mpirun="mpirun -np @NP @PROG @ARGS"
-
-# with_mpirun="mpirun.lam -np @NP @PROG @ARGS"
-# with_mpiboot=lamboot
-# with_mpihalt=lamhalt
