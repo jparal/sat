@@ -168,7 +168,6 @@ AC_CONFIG_FILES([
     mk/scripts/runtest.sh
     mk/scripts/runbench.sh
     simul/Makefile
-    simul/wave/Makefile
     simul/hions/Makefile
     simul/inst/Makefile
     simul/inst/linear/Makefile

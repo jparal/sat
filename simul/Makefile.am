@@ -3,6 +3,6 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = hions inst wave tmpl
+SUBDIRS = hions inst tmpl
 
 dist_noinst_DATA = README
