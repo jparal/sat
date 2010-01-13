@@ -3,6 +3,6 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = convert rand ref zfnc tmpl
+SUBDIRS = rand ref zfnc tmpl
 
 dist_noinst_DATA = README

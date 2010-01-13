@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS =
+SUBDIRS = convert
 
 if HAVE_GSL
 SUBDIRS += disp1d disp3d shock

@@ -74,6 +74,7 @@ AC_CONFIG_FILES([bin/pssubst],  [chmod +x bin/pssubst])
 AC_CONFIG_FILES([
     Makefile
     analyse/Makefile
+    analyse/convert/Makefile
     analyse/disp1d/Makefile
     analyse/disp3d/Makefile
     analyse/mercury/Makefile
@@ -100,7 +101,6 @@ AC_CONFIG_FILES([
     docs/tech/cam/fig/Makefile
     docs/tech/cam/pic/Makefile
     example/Makefile
-    example/convert/Makefile
     example/rand/Makefile
     example/ref/Makefile
     example/zfnc/Makefile
