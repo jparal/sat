@@ -2,6 +2,8 @@
 # CAM Config file
 #------------------------------------------------------------------------------
 
+wave = { nperiod = [10]; amp = 0.01; };
+
 simul:
 {
   step    = 0.02;
@@ -14,7 +16,7 @@ simul:
 
 grid:
 {
-  cells  = [ 4096, 50, 100 ];
+  cells  = [ 1024, 50, 100 ];
   resol  = [ .5, 0.5, 1. ];           # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
@@ -45,7 +47,7 @@ output:
 
   format:
   {
-    type     = "xdmf"; version = 1; parallel = false;
+    type     = "hdf5"; version = 1; parallel = false;
     dir      = "bump";
     runname  = "test";
     compress = { gz = 6; shuffle = true; };   # output compression

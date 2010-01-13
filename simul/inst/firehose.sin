@@ -43,7 +43,7 @@ output:
 
   format:
   {
-    type     = "xdmf"; version = 1; parallel = false;
+    type     = "hdf5"; version = 1; parallel = false;
     dir      = "firehose";
     runname  = "test";
     compress = { gz = 6; shuffle = true; };   # output compression

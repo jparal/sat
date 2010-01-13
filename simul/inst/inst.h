@@ -3,8 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   ioncyclo.h
- * @brief  Ioncyclo wave CAM simulation class
+ * @file   inst.h
+ * @brief  Instability CAM simulation
  * @author @jparal
  *
  * @revision{1.0}
@@ -12,8 +12,8 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_IONCYCLO_CAM_H__
-#define __SAT_IONCYCLO_CAM_H__
+#ifndef __SAT_INST_CAM_H__
+#define __SAT_INST_CAM_H__
 
 #include "sat.h"
 
@@ -145,4 +145,4 @@ private:
   Vector<T,D> _k;       ///< k vector of the wave
 };
 
-#endif /* __SAT_IONCYCLO_CAM_H__ */
+#endif /* __SAT_INST_CAM_H__ */
