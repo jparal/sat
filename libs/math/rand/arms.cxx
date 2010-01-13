@@ -57,7 +57,7 @@ double ARMSRandGen::Get ()
 void ARMSRandGen::Initialize (double xl, double xr, bool dometrop)
 {
   int ninit = 4;
-  double xinit[ninit], convex=1.0;
+  double xinit[4], convex=1.0;
   int npoint=100;
 
   /* set up starting values linearly */
