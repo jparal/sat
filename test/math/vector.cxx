@@ -20,9 +20,9 @@ template<int D>
 class Loc : public Vector<int,D>
 {
 public:
-  Loc (int i0) : Vector<int,D>::Vector (i0) {};
-  Loc (int i0, int i1) : Vector<int,D>::Vector (i0, i1) {};
-  Loc (int i0, int i1, int i2) : Vector<int,D>::Vector (i0, i1, i2) {};
+  Loc (int i0) : Vector<int,D> (i0) {};
+  Loc (int i0, int i1) : Vector<int,D> (i0, i1) {};
+  Loc (int i0, int i1, int i2) : Vector<int,D> (i0, i1, i2) {};
 };
 
 SUITE (VectorSuite)
