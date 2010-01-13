@@ -19,7 +19,7 @@
 
 #define SATIO_PATH_SEPERATOR '/'
 
-void IO::Mkdir (const String &path, mode_t mode)
+void MkdirLocal (const String &path, mode_t mode)
 {
   int length = path.Length();
   char *path_buf= new char[length+1];
@@ -100,18 +100,35 @@ void IO::Mkdir (const String &path, mode_t mode)
   delete [] path_buf;
 }
 
+void IO::Mkdir (const String &path, mode_t mode)
+{
+  if (Mpi::Rank() == 0)
+    MkdirLocal (path, mode);
+
+  Mpi::Barrier ();
+}
+
 void IO::Rename (const String &oldname, const String &newname)
 {
-  SAT_ASSERT (!oldname.IsEmpty ());
-  SAT_ASSERT (!newname.IsEmpty ());
+  if (Mpi::Rank() == 0)
+  {
+    SAT_ASSERT (!oldname.IsEmpty ());
+    SAT_ASSERT (!newname.IsEmpty ());
 
-  rename (oldname.GetData (), newname.GetData ());
+    rename (oldname.GetData (), newname.GetData ());
+  }
+
+  Mpi::Barrier ();
 }
 
 void IO::Remove (const String &name)
 {
-  SAT_ASSERT (!name.IsEmpty ());
+  if (Mpi::Rank() == 0)
+  {
+    SAT_ASSERT (!name.IsEmpty ());
+    unlink (name.GetData ());
+  }
 
-  unlink (name.GetData ());
+  Mpi::Barrier ();
 }
 
