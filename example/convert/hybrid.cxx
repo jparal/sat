@@ -14,28 +14,27 @@
 
 #include "sat.h"
 
-/**
- * @todo Move this program into tools so we can actually convert values on the
- *       go.
- */
 int main (int argc, char **argv)
 {
+  if (argc != 3)
+    printf ("Usage: %s B0 n0\n", argv[0]);
+
+  float b0; // [nT]
+  float n0; // [cm^-3]
+  b0 = strtod (argv[1], NULL);
+  n0 = strtod (argv[2], NULL);
+
   SIHybridUnitsConvert<float> si2h;
-  float b0 = 21; // [nT]
-  float n0 = 32; // [cm^-3]
   si2h.Initialize (b0, n0);
 
   bool inv;
   inv = true; // hybrid => SI
   inv = false; // SI => hybrid
-  DBG_INFO ("Time [1 s]:      "<<si2h.Time (1, inv));
-  DBG_INFO ("Length [1 m]:    "<<si2h.Length (1, inv));
-  DBG_INFO ("Speed [1 m/s]:   "<<si2h.Speed (1, inv));
-  DBG_INFO ("Accel [1 m/s^2]: "<<si2h.Accel (1, inv));
-
-  DBG_LINE ("Examples");
-  double ev = 1;
-  DBG_INFO ("Speed of "<<ev<<" eV Na pcle: "<<
-	    si2h.Speed (Math::Sqrt((ev*2.*1.6e-19)/(29.9*1.67e-27)))<<" [v_A]");
-  DBG_INFO ("Mercury gravity: "<<si2h.Accel (M_PHYS_MERCURY_GRAV));
+  DBG_INFO ("Mg. Field [nT]:  "<< b0);
+  DBG_INFO ("Density [cm^-3]: "<< n0);
+  DBG_INFO ("=======================================");
+  DBG_INFO ("Time [1 s]:      "<< si2h.Time (1, inv));
+  DBG_INFO ("Length [1 m]:    "<< si2h.Length (1, inv));
+  DBG_INFO ("Speed [1 m/s]:   "<< si2h.Speed (1, inv));
+  DBG_INFO ("Accel [1 m/s^2]: "<< si2h.Accel (1, inv));
 }
