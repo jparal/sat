@@ -31,7 +31,7 @@ void SWSSphereEmitter<T>::InitializeLocal (ConfigEntry &cfg,
   DBG_INFO ("  transmitted energy Tm [eV]: "<<_etrans);
   DBG_INFO ("  mass of the particle:       "<<mass);
   DBG_INFO ("  input map file:             "<<_mapfname);
-  SetMass (mass);
+  this->SetMass (mass);
 
   _conv = (2.*M_PHYS_E)/(mass*M_PHYS_MI);
   _sigdf.Initialize (_ebind, _etrans);

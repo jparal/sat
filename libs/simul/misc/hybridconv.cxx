@@ -18,8 +18,8 @@ void SIHybridUnitsConvert<T>::Initialize (T b0, T n0)
 {
   T time = 10.4375/b0;
   T length = 229.625e3/Math::Sqrt(n0);
-  SetTime (time, true);
-  SetLength (length, true);
+  this->SetTime (time, true);
+  this->SetLength (length, true);
 }
 
 template <class T>

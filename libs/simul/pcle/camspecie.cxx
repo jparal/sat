@@ -124,7 +124,7 @@ void CamSpecie<T,D>::LoadPcles (const Field<T,D> &dn,
       CartStencil::BilinearWeight (u, pos, pcle.vel);
       pcle.vel += b * vpar + v1 * vper1 + v2 * vper2;
 
-      Push (pcle);
+      this->Push (pcle);
     }
 
     it.Next ();

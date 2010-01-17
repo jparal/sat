@@ -66,7 +66,7 @@ public:
     while (itn.HasNext ())
     { _n(itn.GetLoc ()) = 1. + mxw.Get (); itn.Next (); }
 
-    CalcE (_b, _u, _n, false);
+    this->CalcE (_b, _u, _n, false);
 
     FldVector cb, b, u, e, ee, dx, jb, cbb;
     dx = 1.;

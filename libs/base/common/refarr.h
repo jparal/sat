@@ -113,7 +113,7 @@ public:
 
   size_t PushNew (T *what)
   {
-    size_t size = Push (what);
+    size_t size = this->Push (what);
     what->DecRef ();
     return size;
   }
