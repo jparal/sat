@@ -79,7 +79,7 @@ int Solver::DispRelation (const gsl_vector *x, void *params, gsl_vector *f)
   return GSL_SUCCESS;
 }
 
-int print_state (int iter, gsl_multiroot_fsolver * s)
+void print_state (int iter, gsl_multiroot_fsolver * s)
 {
   printf ("i=%3d: x=(%.3e %.3e) dx=(%.3e, %.3e)"
           " fx=(%.3e %.3e)\n", iter,
