@@ -30,6 +30,8 @@
 
 #include "csbacktrace.h"
 
+#if 0
+
 SAT::Debug::CallStackCreatorBacktrace g_csci;
 SAT::Debug::CallStackNameResolverBacktrace g_res;
 
@@ -102,7 +104,7 @@ namespace Debug
 //   }
 // }
 
-// #include "newenable.h"
+#include "newenable.h"
 
 void CallStackImpl::Free() { delete this; }
 
@@ -230,3 +232,5 @@ CallStack* CallStackHelper::CreateCallStack (int skip, bool fast)
   delete stack;
   return 0;
 }
+
+#endif

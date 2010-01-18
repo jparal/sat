@@ -52,6 +52,7 @@ namespace SAT
 	"Message:   %s\n", msg);
       fflush (stderr);
 
+#if 0
       CallStack* stack = CallStackHelper::CreateCallStack (1);
       if (stack != 0)
       {
@@ -60,6 +61,7 @@ namespace SAT
 	fflush (stderr);
 	stack->Free();
       }
+#endif
 
       assertCnt--;
 
