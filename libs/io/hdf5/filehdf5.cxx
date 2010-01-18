@@ -15,6 +15,9 @@
 
 void HDF5File::Open (const char *fname, IOFile::Flags flags)
 {
+  if (Mpi::Rank() != 0)
+    return;
+
   char fnamebuff[64];
 
   if (flags & suff)
@@ -30,5 +33,11 @@ void HDF5File::Open (const char *fname, IOFile::Flags flags)
 
 void HDF5File::Close ()
 {
-  H5Fclose(_file);
+  if (Mpi::Rank() != 0)
+    return;
+
+  if (_file)
+    H5Fclose(_file);
+
+  _file = 0;
 }

@@ -41,10 +41,10 @@ class HDF5File : public IOFile
 public:
   /// Constructor
   HDF5File ()
-    : IOFile () {}
+    : _file(0), IOFile () {}
 
   HDF5File (const char *fname, IOFile::Flags flags = 0)
-    : IOFile ()
+    : _file(0), IOFile ()
   { Open (fname, flags); }
 
   ~HDF5File ()
