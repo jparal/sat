@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-files = inputrc bash_profile satrc
+files = inputrc bashrc login satrc
 instdir = $(prefix)/contrib/etc
 
 dist_noinst_DATA = $(files)
