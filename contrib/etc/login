@@ -1,0 +1,6 @@
+##
+## NOTE: Rename this file to ~/.login if you want the changes to take effect
+##
+
+## Set default shell to BASH:
+exec /bin/bash
