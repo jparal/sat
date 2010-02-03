@@ -19,20 +19,17 @@ void Mesh<D>::Initialize ()
 {
   _ncell = 0;
   _resol = 1.;
-  _origin = 0.;
   UpdateResol ();
 }
 
 template<int D>
 void Mesh<D>::Initialize (const Vector<int,D>& ncell,
 			  const Vector<double,D>& resol,
-			  const Vector<double,D>& origin,
 			  Centring center)
 {
   _ncell = ncell;
   _resol = resol;
   _center = center;
-  _origin = origin;
   UpdateResol ();
 }
 
@@ -46,7 +43,6 @@ void Mesh<D>::Initialize (const ConfigEntry &cfg)
   {
     _ncell[i] = cells[i];
     _resol[i] = resol[i];
-    _origin[i] = 0.;
   }
   _center = Node;
   UpdateResol ();

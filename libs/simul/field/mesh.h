@@ -51,13 +51,17 @@ public:
 
   void Initialize (const Vector<int,D>& ncell,
 		   const Vector<double,D>& resol,
-		   const Vector<double,D>& origin,
 		   Centring center);
 
-  void Initialize (const ConfigEntry &cfg);
-
+  // Length .. , 
   int GetCells (int i) const
   { return _ncell[i]; }
+
+  const Vector<int,D>& Cells () const
+  { return _ncell; }
+
+  const Vector<double,D>& Resol () const
+  { return _resol; }
 
   double GetResol (int i) const
   { return _resol[i]; }
@@ -80,29 +84,9 @@ public:
   Vector<int,D> GetResolInvH () const
   { return _hinvresol; }
 
-  double GetOrigin (int i) const
-  { return _origin[i]; }
-
-  const Vector<int,D>& Cells () const
-  { return _ncell; }
-
-  const Vector<double,D>& Resol () const
-  { return _resol; }
-
-  const Vector<double,D>& Origin () const
-  { return _origin; }
-
   Centring Center () const
   { return _center; }
 
-  Vector<int,D>& Cells ()
-  { return _ncell; }
-
-  Vector<double,D>& Resol ()
-  { return _resol; }
-
-  Vector<double,D>& Origin ()
-  { return _origin; }
 
   Vector<double,D> Size ()
   {
@@ -110,9 +94,10 @@ public:
     for (int i=0;i<D;++i) size[i] = _resol[i]*_ncell[i];
     return size;
   }
-
-  Centring& Center ()
-  { return _center; }
+  Vector<double,D>& Resol ()  { return _resol; }
+  Vector<int,D>& Cells ()  { return _ncell; }
+  void Initialize (const ConfigEntry &cfg);
+  Centring& Center () { return _center; }
 
 private:
   void UpdateResol ();
@@ -124,10 +109,7 @@ private:
   Vector<double,D> _finvresol;
   Vector<double,D> _qinvresol;
   Vector<double,D> _hinvresol;
-  /// Local origin (can change when Distribution class is provided)
-  Vector<double,D> _origin;
-  /// Placement of the values
-  Centring _center;
+  Centring _center;   /// Placement of the values on the rectangular mesh
 };
 
 /// @}
