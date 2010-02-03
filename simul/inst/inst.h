@@ -10,6 +10,9 @@
  * @revision{1.0}
  * @reventry{2008/07, @jparal}
  * @revmessg{Initial version}
+ * @revision{1.1}
+ * @reventry{2010/01, @jparal}
+ * @revmessg{Move functions into separate source files.}
  */
 
 #ifndef __SAT_INST_CAM_H__
@@ -25,9 +28,12 @@
  * @revision{1.0}
  * @reventry{2008/07, @jparal}
  * @revmessg{Initial version}
- * @reventry{2008/03, @jparal}
- * @revmessg{initialization is now dimension independent}
- * @revmessg{print configuration of wave setup}
+ * @reventry{2009/03, @jparal}
+ * @revmessg{Initialization is now dimension independent.}
+ * @revmessg{Print configuration of wave setup.}
+ * @revision{1.1}
+ * @reventry{2010/01, @jparal}
+ * @revmessg{Allow initialization of various plasma waves.}
  */
 template<class T, int D>
 class InstabilityCAMCode : public CAMCode<InstabilityCAMCode<T,D>,T,D>
@@ -39,50 +45,23 @@ public:
   typedef typename TBase::ScaField ScaField;
   typedef typename TBase::VecField VecField;
 
-  virtual void PreInitialize (const ConfigFile &cfg)
-  {
-    if (cfg.Exists ("wave"))
-    {
-      _wave = true;
-      cfg.GetValue ("wave.nperiod", _npex);
-      cfg.GetValue ("wave.amp", _amp);
-    }
-    else
-    {
-      DBG_WARN ("Skipping wave initialization!");
-      _wave = false;
-    }
-  }
+  /// @brief Parse the configuration file arguments before CAM code does.
+  /// @param cfg Root of configuration file.
+  virtual void PreInitialize (const ConfigFile &cfg);
 
-  virtual void PostInitialize (const ConfigFile &cfg)
-  {
-    if (!_wave) return;
-
-    Vector<T,D> l, k;
-    VecField &U = this->_U;
-
-    for (int i=0; i<D; ++i)
-    {
-      int nc = U.Size (i)-1;
-      int gh = U.GetLayout ().GetGhost (i);
-      int np = U.GetLayout ().GetDecomp ().GetSize (i);
-      T dx = U.GetMesh ().GetResol (i);
-      _k[i] = (M_2PI * (T)_npex[i]) / ((T)((nc - 2*gh) * np));
-
-      k[i] = _k[i] / dx;
-      l[i] = M_2PI/k[i];
-    }
-
-    DBG_INFO ("Wave initialization:");
-    DBG_INFO ("  nperiod           : "<<_npex);
-    DBG_INFO ("  amp       [B_0]   : "<<_amp);
-    DBG_INFO ("  k         [w_p/c] : "<< k);
-    DBG_INFO ("  lambda    [c/w_p] : "<< l);
-  }
+  /// @brief Initialize application after CAM code does.
+  /// @param cfg Root of configuration file.
+  virtual void PostInitialize (const ConfigFile &cfg);
 
   void BulkInitAdd (TSpecie *sp, VecField &U)
   {
-    if (!_wave) return;
+    if (!_wave)
+      return;
+
+    // if (_mode == "saw")
+    // else if (_mode == "fast")
+    // else
+    //   DBG_ERROR
 
     Vector<int,D> nc, ip;
     for (int i=0; i<D; ++i)
@@ -91,9 +70,9 @@ public:
       ip[i] = U.GetLayout ().GetDecomp ().GetPosition (i);
     }
 
-    Domain<D> dom;
-    U.GetDomainAll (dom);
-    DomainIterator<D> it (dom);
+    DBG_INFO ("U cells: "<<U.GetMesh().Cells ());
+
+    DomainIterator<D> it (U.GetDomainAll ());
 
     T pos;
     while (it.HasNext ())
@@ -102,8 +81,9 @@ public:
       for (int i=0; i<D; ++i)
         pos += (T)(it.GetLoc()[i] + ip[i]*nc[i]) * _k[i];
 
-      U(it.GetLoc())[1] = _amp * Math::Cos (pos);
-      U(it.GetLoc())[2] = _amp * Math::Sin (pos);
+      // T kx = _k * it.GetPosition ();
+      U(it)[1] += _amp * Math::Cos (pos);
+      U(it)[2] += _amp * Math::Sin (pos);
 
       it.Next ();
     }
@@ -113,6 +93,8 @@ public:
   {
     if (!_wave) return;
 
+    DBG_INFO ("B cells: "<<b.GetMesh().Cells ());
+
     Vector<int,D> nc, ip;
     for (int i=0; i<D; ++i)
     {
@@ -120,9 +102,7 @@ public:
       ip[i] = b.GetLayout ().GetDecomp ().GetPosition (i);
     }
 
-    Domain<D> dom;
-    b.GetDomainAll (dom);
-    DomainIterator<D> it (dom);
+    DomainIterator<D> it (b.GetDomainAll ());
 
     T pos;
     while (it.HasNext ())
@@ -140,9 +120,13 @@ public:
 
 private:
   bool _wave;           ///< enable wave initialization
+  String _mode;
+  T _angle;             ///< angle (k,x) in XY plane
   T _amp;               ///< amplitude of wave
   Vector<int,D> _npex;  ///< number of periods in X
   Vector<T,D> _k;       ///< k vector of the wave
 };
+
+#include "init.cpp"
 
 #endif /* __SAT_INST_CAM_H__ */

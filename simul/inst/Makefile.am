@@ -10,12 +10,14 @@
 include $(top_srcdir)/mk/amake/Makefile.sat
 
 exename = inst
-srcfile = inst.cxx inst.h *.sin
+srcfile = inst.cxx
+hdrfile = init.cpp inst.h
+cfgfile = *.sin
 instdir = $(prefix)/simul/inst
 
 noinst_PROGRAMS = $(exename)
 inst_SOURCES = $(srcfile)
-dist_noinst_DATA = $(srcfile)
-# nobase_inst_DATA = $(srcfile)
+dist_noinst_DATA = $(srcfile) $(hdrfile) $(cfgfile)
+# nobase_inst_DATA = $(cfgfile)
 
 SUBDIRS = linear
