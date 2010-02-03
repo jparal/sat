@@ -97,6 +97,7 @@ public:
   bool HasNext ()
   { return _idx<_nidx; }
 
+  /// Next element.
   void Next ()
   {
     ++_idx;
@@ -110,6 +111,14 @@ public:
 	return;
     }
   }
+
+  /// operator Loc<D>
+  operator Loc<D> () const
+  { return _loc; }
+
+  /// operator const Loc<D>&
+  operator const Loc<D>& () const
+  { return _loc; }
 
 private:
   Loc<D> _loc;
