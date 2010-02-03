@@ -213,3 +213,40 @@ T Field<T,D>::Average ()
   val /= _tot;
   return val;
 }
+
+template<class T, int D> inline
+void Field<T,D>::GetDomainAll (Domain<D> &dom) const
+{
+  for (int i=0; i<D; ++i)
+    dom[i] = Range (0, _len[i]-1);
+}
+
+template<class T, int D> inline
+void Field<T,D>::GetDomain (Domain<D> &dom) const
+{
+  if (!_havegrid)
+    return GetDomainAll (dom);
+
+  int nghz;
+  for (int i=0; i<D; ++i)
+  {
+    nghz = _layout.GetGhost (i);
+    dom[i] = Range (nghz, _len[i]-nghz-1);
+  }
+}
+
+template<class T, int D> inline
+Domain<D> Field<T,D>::GetDomainAll () const
+{
+  Domain<D> dom;
+  GetDomainAll (dom);
+  return dom;
+}
+
+template<class T, int D> inline
+Domain<D> Field<T,D>::GetDomain () const
+{
+  Domain<D> dom;
+  GetDomain (dom);
+  return dom;
+}

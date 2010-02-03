@@ -217,21 +217,36 @@ public:
   /// Return average value.
   T Average ();
 
-  /// Return Domain including ghost zones.
-  void GetDomainAll (Domain<D> &dom) const
-  { for (int i=0; i<D; ++i) dom[i] = Range (0, _len[i]-1); }
-  /// Return Domain excluding ghost zones.
-  void GetDomain (Domain<D> &dom) const
+  /// Return position of the index in space while taking into account MPI
+  /// decomposition, ghost zones as well as Node/Cell centering and resolution.
+  ///
+  /// @param loc index location
+  Vector<T,D> GetPosition (const Loc<D> &loc) const
   {
-    if (!_havegrid) return GetDomainAll (dom);
+    // Note: location Loc is an index to array.
+    // We have to take into account position of the field inside of the MPI
+    // patch as well as centering Node/Cell.
+    Vector<T,D> pos;
 
-    int nghz;
-    for (int i=0; i<D; ++i)
-    {
-      nghz = _layout.GetGhost (i);
-      dom[i] = Range (nghz, _len[i]-nghz-1);
-    }
+    // if (_haveGrid)
+    // {
+    // }
+    // else
+    // {
+    // }
+
+    return pos;
   }
+
+  /// Return Domain including ghost zones.
+  void GetDomainAll (Domain<D> &dom) const;
+  /// Return Domain including ghost zones.
+  Domain<D> GetDomainAll () const;
+  /// Return Domain excluding ghost zones.
+  void GetDomain (Domain<D> &dom) const;
+  /// Return Domain excluding ghost zones.
+  Domain<D> GetDomain () const;
+
   /// Do we have grid information available?
   bool HaveGrid () const { return _havegrid; }
   /// Return Mesh object of this Field.
