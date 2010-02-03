@@ -58,19 +58,12 @@ public:
     if (!_wave)
       return;
 
-    // if (_mode == "saw")
-    // else if (_mode == "fast")
-    // else
-    //   DBG_ERROR
-
     Vector<int,D> nc, ip;
     for (int i=0; i<D; ++i)
     {
       nc[i] = U.Size (i)-1;
       ip[i] = U.GetLayout ().GetDecomp ().GetPosition (i);
     }
-
-    DBG_INFO ("U cells: "<<U.GetMesh().Cells ());
 
     DomainIterator<D> it (U.GetDomainAll ());
 
@@ -92,8 +85,6 @@ public:
   void BInitAdd (VecField &b)
   {
     if (!_wave) return;
-
-    DBG_INFO ("B cells: "<<b.GetMesh().Cells ());
 
     Vector<int,D> nc, ip;
     for (int i=0; i<D; ++i)

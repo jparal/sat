@@ -17,7 +17,7 @@ void InstabilityCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
   if (cfg.Exists ("wave"))
   {
     _wave = true;
-    cfg.GetValue ("wave.mode", _mode);
+    cfg.GetValue ("wave.mode", _mode, "saw");
     cfg.GetValue ("wave.nperiod", _npex);
     cfg.GetValue ("wave.amp", _amp);
     cfg.GetValue ("wave.angle", _angle, 0.);
