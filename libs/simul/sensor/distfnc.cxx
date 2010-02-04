@@ -55,7 +55,7 @@ void DistFncSensor<T,D>::SaveData (IOManager &iomng, const SimulTime &stime)
   }
 
   fld.Initialize (dims);
-  fld = 0.;
+  fld = 0;
 
   float vmin, vmax;
   Vector<int,D+3> pspos;
@@ -66,7 +66,7 @@ void DistFncSensor<T,D>::SaveData (IOManager &iomng, const SimulTime &stime)
     {
       if (j<D)
       {
-	pspos[j] = Math::Floor (pcle.pos[j]);
+	pspos[j] = (int)Math::Floor (pcle.pos[j]);
       }
       else
       {
@@ -80,7 +80,7 @@ void DistFncSensor<T,D>::SaveData (IOManager &iomng, const SimulTime &stime)
 	else
 	{
 	  float cast = float(_bins[j-D]-1) / (vmax-vmin);
-	  pspos[j] = Math::Floor ((pcle.vel[j-D]-vmin)*cast);
+	  pspos[j] = (int)Math::Floor ((pcle.vel[j-D]-vmin)*cast);
 	}
       }
     }

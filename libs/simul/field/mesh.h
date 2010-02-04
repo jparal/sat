@@ -50,21 +50,21 @@ public:
   void Initialize ();
 
   void Initialize (const Vector<int,D>& ncell,
-		   const Vector<double,D>& resol,
-		   Centring center);
+                   const Vector<double,D>& resol,
+                   Centring center);
 
-  // Length .. , 
+  // Length .. ,
   int GetCells (int i) const
   { return _ncell[i]; }
+
+  double GetResol (int i) const
+  { return _resol[i]; }
 
   const Vector<int,D>& Cells () const
   { return _ncell; }
 
   const Vector<double,D>& Resol () const
   { return _resol; }
-
-  double GetResol (int i) const
-  { return _resol[i]; }
 
   double GetResolInv (int i) const
   { return _finvresol[i]; }
@@ -75,13 +75,13 @@ public:
   double GetResolInvH (int i) const
   { return _hinvresol[i]; }
 
-  Vector<int,D> GetResolInv () const
+  Vector<double,D> GetResolInv () const
   { return _finvresol; }
 
-  Vector<int,D> GetResolInvQ () const
+  Vector<double,D> GetResolInvQ () const
   { return _qinvresol; }
 
-  Vector<int,D> GetResolInvH () const
+  Vector<double,D> GetResolInvH () const
   { return _hinvresol; }
 
   Centring Center () const
@@ -94,10 +94,10 @@ public:
     for (int i=0;i<D;++i) size[i] = _resol[i]*_ncell[i];
     return size;
   }
-  Vector<double,D>& Resol ()  { return _resol; }
-  Vector<int,D>& Cells ()  { return _ncell; }
   void Initialize (const ConfigEntry &cfg);
   Centring& Center () { return _center; }
+  // Vector<double,D>& Resol ()  { return _resol; }
+  Vector<int,D>& Cells ()  { return _ncell; }
 
 private:
   void UpdateResol ();

@@ -123,8 +123,8 @@ void CAMCode<B,T,D>::Initialize ()
   /************************************/
   /* Setup initial magnetic field _B0 */
   /************************************/
-  _phi = (M_PI / 180.0) * _phi;
-  _psi = (M_PI / 180.0) * _psi;
+  _phi = Math::Deg2Rad (_phi);
+  _psi = Math::Deg2Rad (_psi);
   _B0[0] = Math::Cos (_phi) * Math::Cos (_psi);
   _B0[1] = Math::Sin (_phi) * Math::Cos (_psi);
   _B0[2] = Math::Sin (_psi);
@@ -235,7 +235,13 @@ void CAMCode<B,T,D>::Initialize ()
     TSpecie *sp = _specie.Get (i);
 
     _dn = 1.;
-    _U = _v0;
+    _U = sp->InitalVel ();
+
+    // @todo: Review this change.
+    // 3.2.2010/jparal: I think it should be initial velocity of specie instead
+    // of total velocity of the plasma.
+    // _U = _v0;
+
     static_cast<B*>(this)->DnInitAdd (sp, _dn);
     static_cast<B*>(this)->BulkInitAdd (sp, _U);
     sp->LoadPcles (_dn, _U, _B0);

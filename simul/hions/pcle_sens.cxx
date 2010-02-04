@@ -23,7 +23,7 @@ void HIParticleSensor<T>::Initialize (TSpecie *spec, const char *id,
 				      ConfigFile &cfg)
 {
 #ifdef HAVE_H5PART
-  Sensor::Initialize (id, cfg);
+  Sensor::Initialize (cfg, id);
 
   if (Enabled ())
   {

@@ -26,7 +26,7 @@ void HISpecieSensor<T>::Initialize (TSpecie *spec, const Vector<T,3> &dx,
     _spec = spec;
     for (int i=0; i<3; ++i)
     {
-      _nc[i] = nc[i] * dx[i] / _sdx[i];
+      _nc[i] = int(dx[i] * nc[i] / _sdx[i]);
       _dxi[i] = (T)1. / _sdx[i];
     }
     DBG_INFO ("  resol  : "<<_sdx);
