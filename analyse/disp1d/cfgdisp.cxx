@@ -76,7 +76,14 @@ ConfigDisp::Initialize (int argc, char **argv)
     _vper.Push (cfgfile.GetEntry ("disp.v0per")[sp]);
   }
 
-  SAT_ASSERT_MSG(_units == 0, "Wrong units");
+  // Health checks:
+
+  double rhoc = 0.;
+  for (int sp=0; sp<_nsp; ++sp)
+    rhoc += _rdn[sp] * _charge[sp];
+
+  SAT_ASSERT_MSG( Math::Abs( rhoc<M_MEPS ), "Plasma is not charge neutral.");
+  SAT_ASSERT_MSG(_units == 0, "Wrong units.");
 }
 
 double
