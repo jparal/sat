@@ -94,9 +94,13 @@ void CAMCode<B,T,D>::Initialize ()
   _layou.Initialize (Loc<D> (1), Loc<D> (1), openbc, _decomp);
   _layop.Initialize (Loc<D> (0), Loc<D> (0), openbc, _decomp);
 
-  /*******************/
-  /* Section: SECIES */
-  /*******************/
+  /********************/
+  /* Section: SPECIES */
+  /********************/
+  DBG_INFO ("============== Species: =============");
+  T rmdstot = 0.0;
+  Vector<T,3> currtot = 0.0;
+
   cfg.GetValue ("plasma.betae", _betae);
   ConfigEntry &species = cfg.GetEntry ("plasma.specie");
   for (int i=0; i<species.GetLength (); ++i)
@@ -105,11 +109,19 @@ void CAMCode<B,T,D>::Initialize ()
     TSpecie *sp = new CamSpecie<T,D> ();
     sp->Initialize (species[i], _meshp, _layop);
     _specie.PushNew (sp);
+    // Just the health check
+    rmdstot += sp->RelMassDens ();
+    currtot += sp->RelMassDens () * sp->InitalVel ();
   }
+  SAT_ASSERT_MSG( Math::Abs( rmdstot-1.0 ) < M_MEPS,
+		  "Sum of relative mass densities has to be zero!");
+  if (Math::Abs( currtot.Abs() ) > M_MEPS)
+    DBG_WARN ("Total current is non-zero: "<<currtot);
 
   /******************/
   /* Section: FIELD */
   /******************/
+  DBG_INFO ("=============== Fields: =============");
   cfg.GetValue ("field.nsub", _nsub, 10);
   cfg.GetValue ("field.imf.phi", _phi, 90.);
   cfg.GetValue ("field.imf.psi", _psi, 0.);
@@ -125,9 +137,9 @@ void CAMCode<B,T,D>::Initialize ()
   /************************************/
   _phi = Math::Deg2Rad (_phi);
   _psi = Math::Deg2Rad (_psi);
-  _B0[0] = Math::Cos (_phi) * Math::Cos (_psi);
-  _B0[1] = Math::Sin (_phi) * Math::Cos (_psi);
-  _B0[2] = Math::Sin (_psi);
+  _B0[0] = Math::Cos(_phi) * Math::Cos(_psi);
+  _B0[1] = Math::Sin(_phi) * Math::Cos(_psi);
+  _B0[2] = Math::Sin(_psi);
   DBG_INFO1 ("background B field (B_0)   : "<<_B0);
 
   /*****************************************************************/
