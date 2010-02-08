@@ -16,8 +16,8 @@ simul:
 
 grid:
 {
-  cells  = [ 2048, 50, 100 ];        # kc/wp = 0.006 .. 12.6
-  resol  = [ .5, 0.5, 1. ];          # [c/omega_p]
+  cells  = [ 1024, 50, 100 ];        # kc/wp = 0.006 .. 12.6
+  resol  = [ 1., 0.5, 1. ];          # [c/omega_p]
   openbc = [ false, false, false ];  # Open Boundary Conditions
 };
 
@@ -34,10 +34,10 @@ plasma:
   betae = 0.00055;
   specie:
   {
-    cproton = { pcles = 5000.; beta = 1.0; ani = 1.; rmds = .99; qms = 1.;
-      v0 = [-0.5263157894736842,0.,0.]; }; # ie. J = uc*nc + ub*nb = 0
-    bproton = { pcles = 1000.; beta = 0.1; ani = 1.; rmds = .05; qms = 1.;
-      v0 = [10.,0.,0.]; };
+    cproton = { pcles = 3000.; beta = 1.0; ani = 1.; rmds = .97; qms = 1.;
+      v0 = [0.,0.,0.]; }; # Note: J = uc*nc + ub*nb != 0
+    bproton = { pcles = 1000.; beta = 0.1; ani = 1.; rmds = .03; qms = 1.;
+      v0 = [5.,0.,0.]; };
   };
 };
 
@@ -47,13 +47,13 @@ output:
 
   format:
   {
-    type     = "hdf5"; version = 1; parallel = false;
-    dir      = "bump";
-    runname  = "test";
+    type = "hdf5"; version = 1; parallel = false;
     compress = { gz = 6; shuffle = true; };   # output compression
+    runname = "test";
+    dir = "bump";
   };
 
-  dtout = .02;
+  dtout = .2;
 
   sensors:
   {
