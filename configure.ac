@@ -8,7 +8,7 @@ AC_INIT([Simalate & Analyse Toolkit],
   [m4_normalize(esyscmd([mk/scripts/getversion.sh VERSION --base]))],
   [Jan Paral <jparal@gmail.com>], [sat])
 
-PACKAGE_COPYRIGHT="Copyright (c) 2005-2009 by SAT team. All rights reserved."
+PACKAGE_COPYRIGHT="Copyright (c) 2005-2010 by SAT team. All rights reserved."
 AC_DEFINE_UNQUOTED(PACKAGE_COPYRIGHT, ["$PACKAGE_COPYRIGHT"],
   [Copyright of the package])
 AC_SUBST([PACKAGE_COPYRIGHT], [$PACKAGE_COPYRIGHT])
