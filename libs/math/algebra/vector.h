@@ -275,6 +275,10 @@ public:
   /// Return squared magnitude of the Vector
   T Norm2 () const;
 
+  /// Return magnitude of the Vector
+  T Abs () const
+  { return Norm (); }
+
   /// Return squared magnitude of the Vector
   T SquaredNorm () const;
 
