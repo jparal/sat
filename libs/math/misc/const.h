@@ -49,9 +49,11 @@
 #undef  M_1_SQRT2
 #define M_1_SQRT2       0.70710678118654752440  /**< 1/sqrt(2)  */
 
-#define M_EPS   0.001
-#define M_EPSS  0.000001
-#define M_EPSSS 0.000000000001
+#define M_EPS   0.001            ///< Small-Epsilon
+#define M_SEPS  0.001            ///< Small-Epsilon
+#define M_MEPS  0.000001         ///< Mili-Epsilon
+#define M_UEPS  0.000000001      ///< Micro-Epsilon
+#define M_NEPS  0.000000000001   ///< Nano-Epsilon
 
 #define M_PHYS_ME 9.10938188e-31    ///< Mass of the electron [kg]
 #define M_PHYS_MI 1.67262158e-27    ///< Mass of the proton [kg]
