@@ -56,7 +56,7 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
     }
     else
     {
-      _cfgname = _argv[1];
+      _cfgname = _argv[i];
     }
   }
 
