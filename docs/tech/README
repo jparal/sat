@@ -1,0 +1,13 @@
+
+To use SAT bib style from AGU:
+
+\usepackage{sat}
+
+\begin{document}
+
+\cite{matthews94}
+
+\bibliographystyle{satbib}
+\bibliography{articles}
+
+\end{document}

@@ -1,0 +1,1 @@
+../satdoc.cls

@@ -5,4 +5,4 @@
 
 SUBDIRS = cam
 
-EXTRA_DIST = articles.bib sat.bst sat.cls sat.eps
+EXTRA_DIST = README articles.bib sat.bst sat.cls satbib.sty sat.eps
