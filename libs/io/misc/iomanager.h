@@ -25,7 +25,7 @@
 
 enum IOFormat
 {
-  IO_FORMAT_STW,
+  //  IO_FORMAT_STW,
   IO_FORMAT_HDF5,
   IO_FORMAT_XDMF
 };

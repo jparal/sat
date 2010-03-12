@@ -22,6 +22,7 @@ void IOManager::Write (Field<T,D> &fld, const SimulTime &stime, const char *tag)
 
   switch (_format)
   {
+  case IO_FORMAT_XDMF:
   case IO_FORMAT_HDF5:
     ((HDF5File*)_file)->Write (fld, tag);
     break;
