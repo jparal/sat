@@ -5,7 +5,8 @@
 
 SUBDIRS = fig pic
 
-EXTRA_DIST = articles.bib cam.tex sat.bst sat.cls sat.eps
+EXTRA_DIST = Makefile.loc articles.bib cam.tex sat.eps satbib.bst satbib.sty \
+satdoc.cls
 
 distclean-local:
 	-rm -f *.aux *.bbl *.blg *.dvi *.log *.out *.pdf *.ps *.toc
