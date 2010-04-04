@@ -47,7 +47,8 @@ int Mpi::Nodes ()
 {
   int nodes = 1;
 #ifdef HAVE_MPI
-  MPI_Comm_size (s_comm, &nodes);
+  if (s_isinit)
+    MPI_Comm_size (s_comm, &nodes);
 #endif
   return nodes;
 }

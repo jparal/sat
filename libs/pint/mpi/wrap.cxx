@@ -122,6 +122,11 @@ int Mpi::TreeDepth ()
 void Mpi::Barrier ()
 {
 #ifdef HAVE_MPI
+  // In the case when we don't use/initialize MPI but we compiled binary w/MPI
+  // we should not call any functions since they will fail most likely.
+  if (!s_isinit)
+    return;
+
   (void) MPI_Barrier (s_comm);
   const int tree = TreeDepth ();
   UpdateOutflow (tree, 0);
