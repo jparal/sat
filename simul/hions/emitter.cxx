@@ -150,6 +150,7 @@ T SphereEmitter<T>::GetDnHyb2SI (T dt, const Vector<T,3> &dx) const
 template<class T>
 T SphereEmitter<T>::GetEnHyb2SI (T dt, const Vector<T,3> &dx) const
 {
+  // Mass of proton / 1ev in J =  1.0408e-8
   return (0.5*_si2hyb.Speed(1,true)*_si2hyb.Speed(1,true)*
 	  GetMass() * 1.0408e-8);
 }
