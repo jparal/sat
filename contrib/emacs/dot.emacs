@@ -61,14 +61,10 @@
 (autoload 'align-cols "align" "Align text in the region." t)
 (column-number-mode 1)
 
-;; Shift+Enter for R
-;; * if R if not running, it starts automatically and opens an inferior frame
-;; * if a region is selected, executes the region
-;; * otherwise, it runs the current line
 (setq ess-ask-for-ess-directory nil)
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter)
-(setq comint-prompt-read-only t)
+(setq comint-prompt-read-only nil)
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
@@ -102,8 +98,6 @@
              (local-set-key [C-down] 'comint-next-input)))
 
 (require 'ess-site)
-(require 'ess-R-object-tooltip)
-
 (require 'git)
 (require 'git-blame)
 (require 'tabbar)
