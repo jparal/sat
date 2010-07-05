@@ -155,8 +155,8 @@ public:
     _cmdqueue[pos].cmd |= cmd;
   }
 
-  void Push (TParticle &pcle)
-  { _pcles.Push(pcle); }
+  size_t Push (TParticle &pcle)
+  { return _pcles.Push(pcle); }
 
   /// return the number of particles on the current processor
   size_t GetSize () const

@@ -13,6 +13,7 @@
 
 #include "satsysdef.h"
 #include "camspecie.h"
+#include "math/rand/bimaxwell.h"
 #include "math/rand/maxwell.h"
 #include "simul/field/cartstencil.h"
 
@@ -71,63 +72,33 @@ template<class T, int D>
 void CamSpecie<T,D>::LoadPcles (const Field<T,D> &dn,
 				const Field<Vector<T,3>,D> &u, Vector<T,3> b)
 {
-  float bb;
-  T vpar, vper1, vper2;
-  Vector<T,3> v1, v2;
   TParticle pcle;
-  T dnl;
-  Vector<T,D> pos;
-  int np;
-
-  b.Normalize ();
-
-  bb = Math::Sqrt (b[1]*b[1] + b[2]*b[2]);
-  if (bb > 0.05)
-  {
-    v1[0] = 0.;
-    v1[1] =   b[2] / bb;
-    v1[2] = - b[1] / bb;
-  }
-  else
-  {
-    bb = Math::Sqrt (b[0]*b[0] + b[1]*b[1]);
-    v1[0] =   b[1] / bb;
-    v1[1] = - b[0] / bb;
-    v1[2] = 0.;
-  }
-  v2 = b % v1;
-
-  MaxwellRandGen<T> maxwpa (Vthpar ());
-  MaxwellRandGen<T> maxwpe (Vthper ());
+  _bimax.Initialize( b, Vthper(), Vthpar() );
 
   Domain<D> dom;
   for (int i=0; i<D; ++i)
     // Go from 0 .. number of vertexes - 2
-    dom[i] = Range (0, _mesh.GetCells (i)-2);
+    dom[i] = Range( 0, _mesh.GetCells( i ) - 2 );
 
-  DomainIterator<D> it (dom);
-  while (it.HasNext ())
+  DomainIterator<D> it( dom );
+  while (it.HasNext())
   {
+    T dnl;
     CartStencil::Average (dn, it, dnl);
-    np = (int)(dnl * _ng);
+    int np = (int)(dnl * _ng);
 
     for (int i=0; i<np; ++i)
     {
       for (int j=0; j<D; ++j)
-	pos[j] = _rnd.Get () + (T)it.GetLoc (j);
+	pcle.pos[j] = _rnd.Get() + (T)it.GetLoc(j);
 
-      vper1 = maxwpe.Get ();
-      vper2 = maxwpe.Get ();
-      vpar  = maxwpa.Get ();
+      CartStencil::BilinearWeight( u, pcle.pos, pcle.vel );
+      pcle.vel += _bimax.Get();
 
-      pcle.pos = pos;
-      CartStencil::BilinearWeight (u, pos, pcle.vel);
-      pcle.vel += b * vpar + v1 * vper1 + v2 * vper2;
-
-      this->Push (pcle);
+      this->Push( pcle );
     }
 
-    it.Next ();
+    it.Next();
   }
 }
 

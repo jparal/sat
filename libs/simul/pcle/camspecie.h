@@ -129,6 +129,12 @@ public:
   float ChargePerPcle () const
   { return  _sq; }
 
+  RandomGen<T>* GetRndGen()
+  { return &_rnd; }
+
+  BiMaxwellRandGen<T>* GetBiMaxwGen()
+  { return &_bimax; }
+
   /// @}
 
 private:
@@ -154,8 +160,9 @@ private:
   float _sm;
   /// Charge represented by single super-particle
   float _sq;
-  /// random number generator
+  /// random number generators
   RandomGen<T> _rnd;
+  BiMaxwellRandGen<T> _bimax;
 };
 
 /// @}

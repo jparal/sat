@@ -113,6 +113,7 @@ void CAMCode<B,T,D>::Initialize ()
     rmdstot += sp->RelMassDens ();
     currtot += sp->RelMassDens () * sp->InitalVel ();
   }
+
   SAT_ASSERT_MSG( Math::Abs( rmdstot-1.0 ) < M_MEPS,
 		  "Sum of relative mass densities has to be zero!");
   if (Math::Abs( currtot.Abs() ) > M_MEPS)

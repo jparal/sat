@@ -203,6 +203,9 @@ public:
    */
   bool PcleBC (TSpecie *sp, size_t id, TParticle &pcle);
 
+  /// Synchronize particles crossing the boundary.
+  void PcleSync (TSpecie *sp, ScaField &dn, VecField &U);
+
   /// @brief Moment boundary conditions.
   /// Just add values from neighbour processes and call MomAdd function to take
   /// care of outer boundary of simulation box and the obstacles.
@@ -240,7 +243,7 @@ public:
 
   /// Inject particles from all boundaries (call InjectAdd which you can
   /// overload to add problem specific particle injection)
-  void Inject (TSpecie *sp, ScaField &dn, VecField &U) {}
+  void Inject (TSpecie *sp, ScaField &dn, VecField &U);
 
   /// @}
 
@@ -438,7 +441,6 @@ public:
 // Particles
 #include "movesp.cpp"
 #include "move.cpp"
-#include "pclebc.cpp"
 // Calculate
 #include "calcpe.cpp"
 #include "calcb.cpp"
@@ -454,6 +456,8 @@ public:
 // Boundary conditions
 #include "efldbc.cpp"
 #include "mombc.cpp"
+#include "pclebc.cpp"
+#include "pcleinj.cpp"
 
 /// @}
 
