@@ -5,6 +5,7 @@
 
 headers += \
 	rand/arms.h \
+	rand/bimaxwell.h \
 	rand/cos.h \
 	rand/maxwell.h \
 	rand/psd.h \
@@ -19,6 +20,7 @@ headers += \
 
 sources += \
 	rand/arms.cxx \
+	rand/bimaxwell.cxx \
 	rand/cos.cxx \
 	rand/maxwell.cxx \
 	rand/psd.cxx \

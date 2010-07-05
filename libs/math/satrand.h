@@ -3,6 +3,7 @@
 
 #include "satsysdef.h"
 #include "math/rand/arms.h"
+#include "math/rand/bimaxwell.h"
 #include "math/rand/cos.h"
 #include "math/rand/maxwell.h"
 #include "math/rand/psd.h"
