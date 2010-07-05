@@ -47,6 +47,7 @@ private:
   Vector<int,3> _bins;
   Vector<float,3> _vmin, _vmax;
   bool _perpar;
+  bool _collect;
   TVecField *_bfld;
 };
 

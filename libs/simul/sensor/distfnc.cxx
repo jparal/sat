@@ -33,7 +33,10 @@ void DistFncSensor<T,D>::Initialize (ConfigFile &cfg, const char *id,
     ent.GetValue ("vmax", _vmax);
     SAT_ASSERT (_vmin < _vmax);
     ent.GetValue ("perpar", _perpar, true);
-    DBG_INFO (" => bins = "<<_bins<<"; velocity = "<<_vmin<<" -> "<<_vmax);
+    ent.GetValue ("collect", _collect, true);
+    DBG_INFO("  bins   : "<<_bins);
+    DBG_INFO("  vmin   : "<<_vmin);
+    DBG_INFO("  vmax   : "<<_vmax);
   }
 }
 
@@ -74,9 +77,15 @@ void DistFncSensor<T,D>::SaveData (IOManager &iomng, const SimulTime &stime)
 	vmax = _vmax[j-D];
 
 	if (pcle.vel[j-D] < vmin)
-	  pspos[j] = 0;
+	{
+	  if (_collect)
+	    pspos[j] = 0;
+	}
 	else if (pcle.vel[j-D] > vmax)
-	  pspos[j] = _bins[j-D] - 1;
+	{
+	  if (_collect)
+	    pspos[j] = _bins[j-D] - 1;
+	}
 	else
 	{
 	  float cast = float(_bins[j-D]-1) / (vmax-vmin);
