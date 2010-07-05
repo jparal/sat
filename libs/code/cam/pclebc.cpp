@@ -24,13 +24,12 @@ bool CAMCode<B,T,D>::PcleBC (TSpecie *sp, size_t id, TParticle &pcle)
       pclecmd_t cmd;
       if (_layop.IsOpen (i) && _layop.GetDecomp ().IsLeftBnd (i))
       {
-	// @todo treat boundary more appropriately
 	cmd = PCLE_CMD_REMOVE;
       }
       else
       {
-	cmd = PCLE_CMD_SEND_DIM(PCLE_CMD_SEND_LEFT,i);
-	pos[i] += _pmax[i];
+        cmd = PCLE_CMD_SEND_DIM(PCLE_CMD_SEND_LEFT,i);
+        pos[i] += _pmax[i];
       }
 
       sp->Exec (id, cmd);
@@ -42,13 +41,12 @@ bool CAMCode<B,T,D>::PcleBC (TSpecie *sp, size_t id, TParticle &pcle)
       pclecmd_t cmd;
       if (_layop.IsOpen (i) && _layop.GetDecomp ().IsRightBnd (i))
       {
-	// @todo treat boundary more appropriately
 	cmd = PCLE_CMD_REMOVE;
       }
       else
       {
-	cmd = PCLE_CMD_SEND_DIM(PCLE_CMD_SEND_RIGHT,i);
-	pos[i] -= _pmax[i];
+        cmd = PCLE_CMD_SEND_DIM(PCLE_CMD_SEND_RIGHT,i);
+        pos[i] -= _pmax[i];
       }
 
       sp->Exec (id, cmd);
@@ -57,4 +55,36 @@ bool CAMCode<B,T,D>::PcleBC (TSpecie *sp, size_t id, TParticle &pcle)
   }
 
   return remove;
+}
+
+template<class B, class T, int D>
+void CAMCode<B,T,D>::PcleSync (TSpecie *sp, ScaField &dn, VecField &us)
+{
+  /**********************************************************************/
+  /* Synchronize particles:                                             */
+  /* 1) repeat till we have any particles marked for transfer           */
+  /*   1a) synchronize                                                  */
+  /*   1b) apply boundary condition to the incoming particles           */
+  /*   1c) update a position of newcomers (already done in the previous */
+  /*       calling of boundary conditions                               */
+  /*   1d) update moments dnsb and Usb                                  */
+  /* 2) remove old particles                                            */
+  /**********************************************************************/
+  BilinearWeightCache<T,D> cache;
+  int send = 0, recv = 0, clean = 0;
+  sp->Sync (&send, &recv);
+
+  TSpecieCommandIterator iter = sp->GetCommandIterator (PCLE_CMD_ARRIVED);
+  while (iter.HasNext ())
+  {
+    const PcleCommandInfo& info = iter.Next (true);
+    TParticle &pcle = sp->Get (info.pid);
+
+    FillCache (pcle.pos, cache);
+    cache.ipos += 1;
+    CartStencil::BilinearWeightAdd (dn, cache, (T)1.);
+    CartStencil::BilinearWeightAdd (us, cache, pcle.vel);
+  }
+
+  sp->Clean (&clean);
 }

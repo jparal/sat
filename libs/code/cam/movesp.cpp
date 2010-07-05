@@ -71,31 +71,4 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     CartStencil::BilinearWeightAdd (dnsb, cache, (T)1.);
     CartStencil::BilinearWeightAdd (Usb, cache, v);
   }
-
-  /**********************************************************************/
-  /* Synchronize particles:                                             */
-  /* 1) repeat till we have any particles marked for transfer           */
-  /*   1a) synchronize                                                  */
-  /*   1b) apply boundary condition to the incoming particles           */
-  /*   1c) update a position of newcomers (already done in the previous */
-  /*       calling of boundary conditions                               */
-  /*   1d) update moments dnsb and Usb                                  */
-  /* 2) remove old particles                                            */
-  /**********************************************************************/
-  int send = 0, recv = 0, clean = 0;
-  sp->Sync (&send, &recv);
-
-  TSpecieCommandIterator iter = sp->GetCommandIterator (PCLE_CMD_ARRIVED);
-  while (iter.HasNext ())
-  {
-    const PcleCommandInfo& info = iter.Next (true);
-    TParticle &pcle = sp->Get (info.pid);
-
-    FillCache (pcle.pos, cache);
-    cache.ipos += 1;
-    CartStencil::BilinearWeightAdd (dnsb, cache, (T)1.);
-    CartStencil::BilinearWeightAdd (Usb, cache, pcle.vel);
-  }
-
-  sp->Clean (&clean);
 }

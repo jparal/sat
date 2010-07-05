@@ -37,6 +37,7 @@ void CAMCode<B,T,D>::Move ()
 
     MoveSp (sp, dnsa, usa, dnsb, usb);
     Inject (sp, dnsb, usb);
+    PcleSync (sp, dnsb, usb);
 
     dnsa *= sq;
     usa  *= sq;
