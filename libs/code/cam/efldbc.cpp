@@ -18,13 +18,22 @@ void CAMCode<B,T,D>::EfieldBC ()
 {
   _E.Sync ();
 
+  Domain<D> dom;
   for (int i=0; i<D; ++i)
   {
     if (_layop.IsOpen (i) && _layop.GetDecomp ().IsLeftBnd (i))
-      _E(0) = _E0;
+    {
+      _E.GetDomainAll( dom );
+      dom[i] = Range( 0, 0 );
+      _E.Set( dom, _E0 );
+    }
 
     if (_layop.IsOpen (i) && _layop.GetDecomp ().IsRightBnd (i))
-      _E(_E.Size(1)-1) = _E0;
+    {
+      _E.GetDomainAll( dom );
+      dom[i] = Range( _E.Size(i)-1, _E.Size(i)-1 );
+      _E.Set( dom, _E0 );
+    }
   }
 
   static_cast<B*>(this)->EfieldAdd ();
