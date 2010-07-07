@@ -47,8 +47,7 @@ public:
   void Initialize (const Range &range);
 
   int Length () const
-  { return 1+_hi-_lo; // if (_dirty) UpdateLength (); return _len;
-  }
+  { return 1+_hi-_lo; }
 
   int Low () const
   { return _lo; }
@@ -60,20 +59,13 @@ public:
   { return _hi; }
 
   int& Lo ()
-  { // _dirty = true;
-    return _lo; }
+  { return _lo; }
 
   int& Hi ()
-  { // _dirty = true;
-    return _hi; }
+  { return _hi; }
 
 private:
-  // void UpdateLength ()
-  // { _len = 1+_hi-_lo; _dirty = false; }
-
   int _lo, _hi;
-  //, _len;
-  //  bool _dirty;
 };
 
 /// @}

@@ -191,6 +191,9 @@ public:
   template<class T2>
   void operator+= (const Field<T2,D>& val);
 
+  template<class T2>
+  void Set (const Domain<D> &dom, const T2 &val);
+
   /// @}
 
   /// Return rank of the Field.
@@ -221,22 +224,14 @@ public:
   /// decomposition, ghost zones as well as Node/Cell centering and resolution.
   ///
   /// @param loc index location
-  Vector<T,D> GetPosition (const Loc<D> &loc) const
-  {
-    // Note: location Loc is an index to array.
-    // We have to take into account position of the field inside of the MPI
-    // patch as well as centering Node/Cell.
-    Vector<T,D> pos;
-
-    // if (_haveGrid)
-    // {
-    // }
-    // else
-    // {
-    // }
-
-    return pos;
-  }
+  // Vector<T,D> GetPosition (const Loc<D> &loc) const
+  // {
+  //   // Note: location Loc is an index to array.
+  //   // We have to take into account position of the field inside of the MPI
+  //   // patch as well as centering Node/Cell.
+  //   Vector<T,D> pos;
+  //   return pos;
+  // }
 
   /// Return Domain including ghost zones.
   void GetDomainAll (Domain<D> &dom) const;

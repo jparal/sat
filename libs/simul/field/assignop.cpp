@@ -91,3 +91,15 @@ void Field<T,D>::operator+= (const Field<T2,D>& val)
   T2 *pdata = val._data;
   for (int i=0; i<_tot; ++i) _data[i] += pdata[i];
 }
+
+template<class T, int D>
+template<class T2>
+void Field<T,D>::Set( const Domain<D> &dom, const T2 &val )
+{
+  DomainIterator<D> iter (dom);
+  while (iter.HasNext ())
+  {
+    (*this)(iter.GetLoc ()) = val;
+    iter.Next ();
+  }
+}

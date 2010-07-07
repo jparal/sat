@@ -16,26 +16,22 @@
 void Range::Initialize ()
 {
   _lo = _hi = 0;
-  //  UpdateLength ();
 }
 
 void Range::Initialize (const Range &range)
 {
   _lo = range._lo;
   _hi = range._hi;
-  //  UpdateLength ();
 }
 
 void Range::Initialize (int i0)
 {
   _lo = _hi = i0;
-  //  UpdateLength ();
 }
 
 void Range::Initialize (int i0, int i1)
 {
   _lo = i0;
   _hi = i0<=i1 ? i1 : i0;
-  //  UpdateLength ();
 }
 
