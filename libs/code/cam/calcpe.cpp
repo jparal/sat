@@ -18,9 +18,7 @@ void CAMCode<B,T,D>::CalcPe (const ScaField &dn)
   dn.GetDomain (dom);
   DomainIterator<D> iter (dom);
 
-  while (iter.HasNext ())
-  {
-    _pe(iter.GetLoc ()) = _te * Math::Pow (dn(iter.GetLoc ()), (T)_gamma);
-    iter.Next ();
-  }
+  do
+    _pe(iter) = _te * Math::Pow (dn(iter), (T)_gamma);
+  while (iter.Next());
 }

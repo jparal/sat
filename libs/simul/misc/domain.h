@@ -98,17 +98,17 @@ public:
   { return _idx<_nidx; }
 
   /// Next element.
-  void Next ()
+  bool Next ()
   {
     ++_idx;
     if_pt (_loc[0]++<_range[0].Hi ())
-      return;
+      return HasNext();
 
     for (int i=1; i<D; ++i)
     {
       _loc[i-1] = _range[i-1].Low ();
       if (_loc[i]++<_range[i].Hi ())
-	return;
+	return HasNext();
     }
   }
 
