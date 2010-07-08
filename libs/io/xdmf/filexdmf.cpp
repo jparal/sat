@@ -132,7 +132,7 @@ void XdmfFile::Write (const Field<T,D> &fld,
 	  if (average)
 	    CartStencil::Average (fld, iter, *pdata++);
 	  else
-	    *pdata++ = fld (iter.GetLoc ());
+	    *pdata++ = fld (iter);
 	  iter.Next ();
 	}
       }
@@ -172,7 +172,7 @@ void XdmfFile::Write (const Field<T,D> &fld,
       if (average)
 	CartStencil::Average (fld, iter, val);
       else
-	val = fld (iter.GetLoc ());
+	val = fld (iter);
       os << val;
       iter.Next ();
     }
@@ -298,7 +298,7 @@ void XdmfFile::Write (const Field<Vector<T,R>,D> &fld,
 	    if (average)
 	      CartStencil::Average (fld, iter, tmp);
 	    else
-	      tmp = fld (iter.GetLoc ());
+	      tmp = fld (iter);
 
 	    *pdata++ = tmp[r];
 	    iter.Next ();
@@ -344,7 +344,7 @@ void XdmfFile::Write (const Field<Vector<T,R>,D> &fld,
 	if (average)
 	  CartStencil::Average (fld, iter, val);
 	else
-	  val = fld (iter.GetLoc ());
+	  val = fld (iter);
 	os << val[r];
 	iter.Next ();
       }

@@ -30,12 +30,12 @@ void CAMCode<B,T,D>::AdvMom ()
   DomainIterator<D> ite (dom);
   while (itu.HasNext ())
   {
-    ni = _dn(itu.GetLoc ());
-    ui = _U (itu.GetLoc ());
-    uf = _Uf(itu.GetLoc ());
+    ni = _dn(itu);
+    ui = _U (itu);
+    uf = _Uf(itu);
     CartStencil::Average (_E, ite, ei);
 
-    _U(itu.GetLoc ()) = uf + dth * (ni*ei + ui % bi);
+    _U(itu) = uf + dth * (ni*ei + ui % bi);
 
     itu.Next ();
     itb.Next ();

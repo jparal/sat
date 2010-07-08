@@ -41,14 +41,14 @@ void CAMCode<B,T,D>::MomFirst ()
     DomainIterator<D> it (dom);
     while (it.HasNext ())
     {
-      dn = dnsa(it.GetLoc ());
-      blk = usa(it.GetLoc ());
+      dn = dnsa(it);
+      blk = usa(it);
 
-      _dn (it.GetLoc ()) += q2m * dn;
-      _U  (it.GetLoc ()) += q2m * blk;
+      _dn (it) += q2m * dn;
+      _U  (it) += q2m * blk;
 
-      _dnf(it.GetLoc ()) += dq * dn;
-      _Uf (it.GetLoc ()) += dq * blk;
+      _dnf(it) += dq * dn;
+      _Uf (it) += dq * blk;
 
       it.Next ();
     }

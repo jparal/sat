@@ -101,7 +101,7 @@ void HDF5File::Write (const Field<T,D> &fld, const char *tag)
       {
 	while (iter.HasNext ())
 	{
-	  *pdata++ = fld (iter.GetLoc ());
+	  *pdata++ = fld (iter);
 	  iter.Next ();
 	}
       }
@@ -137,7 +137,7 @@ void HDF5File::Write (const Field<T,D> &fld, const char *tag)
     T val;
     while (iter.HasNext ())
     {
-      val = fld (iter.GetLoc ());
+      val = fld (iter);
       os << val;
       iter.Next ();
     }
@@ -232,7 +232,7 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
 	{
 	  while (iter.HasNext ())
 	  {
-	    tmp = fld (iter.GetLoc ());
+	    tmp = fld (iter);
 
 	    *pdata++ = tmp[r];
 	    iter.Next ();
@@ -274,7 +274,7 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
       DomainIterator<D> iter (dom);
       while (iter.HasNext ())
       {
-	val = fld (iter.GetLoc ());
+	val = fld (iter);
 	os << val[r];
 	iter.Next ();
       }

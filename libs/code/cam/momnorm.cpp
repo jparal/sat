@@ -21,16 +21,16 @@ void CAMCode<B,T,D>::MomNorm (const ScaField &dn, VecField &blk)
   T dni;
   while (it.HasNext ())
   {
-    dni = dn(it.GetLoc ());
+    dni = dn(it);
 
     if (dni < _dnmin)
     {
-      blk(it.GetLoc ()) = FldVector (0.);
+      blk(it) = FldVector (0.);
     }
     else
     {
       dni = 1./ dni;
-      blk(it.GetLoc ()) *= dni;
+      blk(it) *= dni;
     }
 
     it.Next ();

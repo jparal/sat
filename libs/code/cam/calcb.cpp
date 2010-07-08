@@ -28,7 +28,7 @@ void CAMCode<B,T,D>::CalcB (T dt, VecField &Ba)
     {
       CartStencil::Curl (_E, ite, curle);
       curle *= (T)dt;
-      Ba (itb.GetLoc ()) -= curle;
+      Ba (itb) -= curle;
     }
     itb.Next ();
     ite.Next ();

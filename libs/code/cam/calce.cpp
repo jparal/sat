@@ -41,12 +41,12 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     CartStencil::Curl (mf, itb, cb);
     if (enpe) CartStencil::Grad (_pe, itu, gpe);
 
-    for (int i=0; i<D; ++i) pos[i] = (itb.GetLoc ())[i];
+    for (int i=0; i<D; ++i) pos[i] = itb.GetLoc(i);
     resist = Resist (pos);
 
     if (dnc < _dnmin)
     {
-      _E(ite.GetLoc ()) = resist * cb;
+      _E(ite) = resist * cb;
     }
     else
     {
@@ -62,7 +62,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
       ef *= dnc;
       cb *= resist;
       ef += cb;
-      _E(ite.GetLoc ()) = ef;
+      _E(ite) = ef;
     }
 
     itb.Next ();
