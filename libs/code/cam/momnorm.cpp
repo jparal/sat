@@ -19,20 +19,14 @@ void CAMCode<B,T,D>::MomNorm (const ScaField &dn, VecField &blk)
   DomainIterator<D> it (dom);
 
   T dni;
-  while (it.HasNext ())
+  do
   {
     dni = dn(it);
 
     if (dni < _dnmin)
-    {
       blk(it) = FldVector (0.);
-    }
     else
-    {
-      dni = 1./ dni;
-      blk(it) *= dni;
-    }
-
-    it.Next ();
+      blk(it) /= dni;
   }
+  while (it.Next());
 }

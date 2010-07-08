@@ -38,7 +38,8 @@ void CAMCode<B,T,D>::MomInit ()
     Domain<D> dom;
     _dn.GetDomain (dom);
     DomainIterator<D> it (dom);
-    while (it.HasNext ())
+
+    do
     {
       dn = dnsa(it);
       blk = usa(it);
@@ -47,9 +48,8 @@ void CAMCode<B,T,D>::MomInit ()
       _U  (it) += dq * blk;
       _dna(it) += dm * dn;
       _Ua (it) += dm * blk;
-
-      it.Next ();
     }
+    while (it.Next());
   }
 
   MomBC (_dn, _U);

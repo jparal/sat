@@ -22,7 +22,7 @@ void CAMCode<B,T,D>::CalcB (T dt, VecField &Ba)
   DomainIterator<D> ite (dom);
 
   FldVector curle;
-  while (itb.HasNext ())
+  do
   {
     if_pt (!static_cast<B*>(this)->BcalcAdd (itb))
     {
@@ -30,7 +30,6 @@ void CAMCode<B,T,D>::CalcB (T dt, VecField &Ba)
       curle *= (T)dt;
       Ba (itb) -= curle;
     }
-    itb.Next ();
-    ite.Next ();
   }
+  while (itb.Next() && ite.Next());
 }

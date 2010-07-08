@@ -21,16 +21,13 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
   blk.GetDomain (dom); dom.HiAdd (-1); DomainIterator<D> itu (dom);
   _E.GetDomain (dom);  DomainIterator<D> ite (dom);
 
-  SAT_DBG_ASSERT (ite.Length () == itb.Length ());
-  SAT_DBG_ASSERT (ite.Length () == itu.Length ());
-
   if (enpe)
     CalcPe (dn);
 
   T dnc, resist;
   PosVector pos;
-  FldVector bc, uc, uxb, cb, cbxb, gpe, ef;
-  while (ite.HasNext ())
+  FldVector bc, uc, uxb, cb, gpe, ef;
+  do
   {
     // TODO: compute dnc and uc is quite a waste of time ... especially when we
     // advance field since we can compute this values (dnc, uc) only once
@@ -51,24 +48,19 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     else
     {
       uxb = uc % bc;
-      cbxb = cb % bc;
-      dnc = 1. / dnc;
 
-      ef = cbxb;
+      ef = cb % bc;;
       ef -= uxb;
-      if (enpe)
-      	ef -= gpe;
+      if (enpe) ef -= gpe;
+      ef /= dnc;
 
-      ef *= dnc;
       cb *= resist;
       ef += cb;
+
       _E(ite) = ef;
     }
-
-    itb.Next ();
-    itu.Next ();
-    ite.Next ();
   }
+  while (itb.Next () && itu.Next() && ite.Next());
 
   // We better apply BC so smoothing has values from its neighbours
   EfieldBC ();

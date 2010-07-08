@@ -35,7 +35,7 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
       dom[dim] = Range( 0, 0 );
 
       DomainIterator<D> it( dom );
-      while (it.HasNext())
+      do
       {
 	for (int pp=0; pp<npcles; ++pp)
 	{
@@ -49,8 +49,8 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
 	    sp->Exec( pid, PCLE_CMD_ARRIVED );
 	  }
 	}
-	it.Next();
       }
+      while (it.Next());
     }
 
     if (_layop.IsOpen( dim ) && _layop.GetDecomp().IsRightBnd( dim ))
@@ -58,7 +58,7 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
       dom[dim] = Range( _meshp.GetCells( dim )-1, _meshp.GetCells( dim )-1 );
 
       DomainIterator<D> it( dom );
-      while (it.HasNext())
+      do
       {
 	for (int pp=0; pp<npcles; ++pp)
 	{
@@ -72,9 +72,8 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
 	    sp->Exec( pid, PCLE_CMD_ARRIVED );
 	  }
 	}
-	it.Next();
       }
+      while (it.Next());
     }
-
   }
 }

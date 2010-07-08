@@ -29,7 +29,8 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
     loc = it.GetLoc ();
     loc[i] -= 1;
     mid = fld(loc);
-    while (it.HasNext ())
+
+    do
     {
       loc = it.GetLoc ();
 
@@ -37,11 +38,11 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
       mid = fld(loc);
       avg += (T)0.5 * mid;
       loc[i] += 1;
-      avg += (T)0.25 * fld (loc);
+      avg += (T)0.25 * fld(loc);
 
       loc[i] -= 1;
       fld(loc) = avg;
-      it.Next ();
     }
+    while (it.Next());
   }
 }

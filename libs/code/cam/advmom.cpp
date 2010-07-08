@@ -28,7 +28,8 @@ void CAMCode<B,T,D>::AdvMom ()
   _E.GetDomainAll (dom);
   dom.HiAdd (-1);
   DomainIterator<D> ite (dom);
-  while (itu.HasNext ())
+
+  do
   {
     ni = _dn(itu);
     ui = _U (itu);
@@ -36,11 +37,8 @@ void CAMCode<B,T,D>::AdvMom ()
     CartStencil::Average (_E, ite, ei);
 
     _U(itu) = uf + dth * (ni*ei + ui % bi);
-
-    itu.Next ();
-    itb.Next ();
-    ite.Next ();
   }
+  while (itu.Next() && itb.Next() && ite.Next());
 
   if (_momsmooth && (_time.Iter() % _momsmooth == 0))
   {
