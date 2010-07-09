@@ -69,6 +69,14 @@ Field<T,D>::Field (const Vector<int,VD> &d)
   Initialize (d);
 }
 
+template<class T, int D>
+Field<T,D>::Field (const Field<T,D> &orig)
+  : _data(NULL), _havegrid(false)
+{
+  Initialize (orig);
+  *this = orig;
+}
+
 template<class T, int D> inline
 void Field<T,D>::Initialize (int d0)
 {

@@ -66,6 +66,8 @@ public:
 
   Field (const Mesh<D> &mesh, const Layout<D> &layout = Layout<D> ());
 
+  Field (const Field<T,D> &orig);
+
   /// Destructor
   ~Field ();
 
