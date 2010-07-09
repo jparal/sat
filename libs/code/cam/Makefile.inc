@@ -27,6 +27,7 @@ preproc_cam = \
 	cam/move.cpp \
 	cam/movesp.cpp \
 	cam/pclebc.cpp \
+	cam/pcleinj.cpp \
 	cam/smooth.cpp
 
 # sources +=
