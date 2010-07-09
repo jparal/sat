@@ -18,31 +18,24 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
   Domain<D2> dom;
   fld.GetDomain (dom);
   DomainIterator<D2> it (dom);
-
+  const T wgt = MetaInv<4*D2>::Is;
   Vector<int,D2> loc;
-  T2 avg, mid;
-  //const T inv = 0.25; //MetaInv<4*D2>::Is;
 
-  for (int i=0; i<D2; ++i)
+  Field<T2,D2> orig(fld);
+  do
   {
-    it.Reset ();
-    loc = it.GetLoc ();
-    loc[i] -= 1;
-    mid = fld(loc);
-
-    do
+    loc = it.GetLoc();
+    T2 avg = (T)0.5 * orig(loc);
+    for (int i=0; i<D2; ++i)
     {
-      loc = it.GetLoc ();
-
-      avg = mid * (T)0.25;
-      mid = fld(loc);
-      avg += (T)0.5 * mid;
-      loc[i] += 1;
-      avg += (T)0.25 * fld(loc);
-
       loc[i] -= 1;
-      fld(loc) = avg;
+      avg += wgt * orig(loc);
+      loc[i] += 2;
+      avg += wgt * orig(loc);
+      loc[i] -= 1;
     }
-    while (it.Next());
+
+    fld(loc) = avg;
   }
+  while (it.Next());
 }
