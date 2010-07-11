@@ -107,9 +107,10 @@ public:
     for (int i=1; i<D; ++i)
     {
       _loc[i-1] = _range[i-1].Low ();
-      if (_loc[i]++<_range[i].Hi ())
+      if (_loc[i]++<_range[i].Hi())
 	return HasNext();
     }
+    return HasNext();
   }
 
   /// operator Loc<D>
