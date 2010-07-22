@@ -8,18 +8,18 @@ CC=gcc-4.4
 # CXX=clang++
 # CC=clang
 
-with_cxxflags_dbg="-funroll-loops -fno-inline"
-with_cxxflags_opt="-mtune=native -march=native"
+enable_64bit=yes
 
 # enable_debug=yes
 # enable_debug=memory,reference,valgrind
+with_cxxflags_dbg="-funroll-loops -fno-inline"
+with_cxxflags_opt="-mtune=native -march=native"
 
 prefix="$HOME/install/sat"
-
 with_hdf5_libs=-lz
 
 enable_openmp=yes
-enable_64bit=yes
 enable_mpi=yes
+
 with_mpicc=mpicc
 with_mpirun="mpirun -np @NP @PROG @ARGS"
