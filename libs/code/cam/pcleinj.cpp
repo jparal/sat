@@ -34,9 +34,9 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
     for (int i=dim+1; i<D; ++i)
     {
       if (_layop.GetDecomp().IsLeftBnd( i ))
-	dom[i].Lo()--;
+        dom[i].Lo()--;
       if (_layop.GetDecomp().IsRightBnd( i ))
-	dom[i].Hi()++;
+        dom[i].Hi()++;
     }
 
     if (_layop.IsOpen( dim ) && _layop.GetDecomp().IsLeftBnd( dim ))
@@ -46,33 +46,33 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
       DomainIterator<D> it( dom );
       do
       {
-	PosVector loc = it.GetLoc();
-	for (int ip=0; ip<npcles; ++ip)
-	{
-	  pcle.vel = v0 + max.Get();
+        PosVector loc = it.GetLoc();
+        for (int ip=0; ip<npcles; ++ip)
+        {
+          pcle.vel = v0 + max.Get();
 
-	  T r2 = rnd.Get();
-	  bool in = true;
-	  for (int i=0; i<D; ++i)
-	  {
-	    if (!in)
-	      continue;
+          T r2 = rnd.Get();
+          bool in = true;
+          for (int i=0; i<D; ++i)
+          {
+            if (!in)
+              continue;
 
-	    T r1 = (i==dim ? -1. : 1.) * rnd.Get();
-	    T pp = dt*pcle.vel[i]*dxi[i];
-	    T ll = r1 + loc[i] + pp;
-	    if (_pmin[i] < ll && ll < _pmax[i])
-	      pcle.pos[i] = (i==dim ? 0. : 1.) * r1 + loc[i] + pp * r2;
-	    else
-	      in = false;
-	  }
+            T r1 = (i==dim ? -1. : 1.) * rnd.Get();
+            T pp = dt*pcle.vel[i]*dxi[i];
+            T ll = r1 + loc[i] + pp;
+            if (_pmin[i] < ll && ll < _pmax[i])
+              pcle.pos[i] = (i==dim ? 0. : 1.) * r1 + loc[i] + pp * r2;
+            else
+              in = false;
+          }
 
-	  if (in)
-	  {
-	    pid = sp->Push( pcle );
-	    sp->Exec( pid, PCLE_CMD_ARRIVED );
-	  }
-	}
+          if (in)
+          {
+            pid = sp->Push( pcle );
+            sp->Exec( pid, PCLE_CMD_ARRIVED );
+          }
+        }
       }
       while (it.Next());
     }
@@ -84,33 +84,33 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
       DomainIterator<D> it( dom );
       do
       {
-	PosVector loc = it.GetLoc();
-	for (int ip=0; ip<npcles; ++ip)
-	{
-	  pcle.vel = v0 + max.Get();
+        PosVector loc = it.GetLoc();
+        for (int ip=0; ip<npcles; ++ip)
+        {
+          pcle.vel = v0 + max.Get();
 
-	  T r2 = rnd.Get();
-	  bool in = true;
-	  for (int i=0; i<D; ++i)
-	  {
-	    if (!in)
-	      continue;
+          T r2 = rnd.Get();
+          bool in = true;
+          for (int i=0; i<D; ++i)
+          {
+            if (!in)
+              continue;
 
-	    T r1 = rnd.Get();
-	    T pp = dt*pcle.vel[i]*dxi[i];
-	    T ll = r1 + loc[i] + pp;
-	    if (_pmin[i] < ll && ll < _pmax[i])
-	      pcle.pos[i] = (i==dim ? 0. : 1.) * r1 + loc[i] + pp * r2;
-	    else
-	      in = false;
-	  }
+            T r1 = rnd.Get();
+            T pp = dt*pcle.vel[i]*dxi[i];
+            T ll = r1 + loc[i] + pp;
+            if (_pmin[i] < ll && ll < _pmax[i])
+              pcle.pos[i] = (i==dim ? 0. : 1.) * r1 + loc[i] + pp * r2;
+            else
+              in = false;
+          }
 
-	  if (in)
-	  {
-	    pid = sp->Push( pcle );
-	    sp->Exec( pid, PCLE_CMD_ARRIVED );
-	  }
-	}
+          if (in)
+          {
+            pid = sp->Push( pcle );
+            sp->Exec( pid, PCLE_CMD_ARRIVED );
+          }
+        }
       }
       while (it.Next());
 
