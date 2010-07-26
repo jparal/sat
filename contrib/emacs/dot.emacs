@@ -34,6 +34,7 @@
 ;; No splash screen
 (setq inhibit-startup-message t)
 
+(autoload 'nuke-trailing-whitespace "nuke-trailing-whitespace" nil t)
 ;; Indent entire buffer (binded to <f2>)
 (defun indent-buffer ()
   (interactive)
@@ -121,7 +122,7 @@
 
 ;; C-q TAB   ... make a TAB
 ;; C-x h and use M-x untabify
-(setq-default indent-tabs-mode nil)
+;; (setq-default indent-tabs-mode nil) .. we set this below
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; My own styles
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -168,6 +169,7 @@
  '(gdb-use-separate-io-buffer t)
  '(global-font-lock-mode t nil (font-lock))
  '(idlwave-header-to-beginning-of-file nil)
+ '(indent-tabs-mode nil)
  '(scroll-bar-mode (quote right))
  '(setq-default indent-tabs-mode)
  '(sh-indentation 2)
