@@ -97,7 +97,7 @@
              (local-set-key [C-up] 'comint-previous-input)
              (local-set-key [C-down] 'comint-next-input)))
 
-(require 'ess-site)
+;; (require 'ess-site)
 (require 'git)
 (require 'git-blame)
 (require 'tabbar)
