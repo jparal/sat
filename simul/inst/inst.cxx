@@ -3,8 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   ioncyclo.cxx
- * @brief  Ioncyclo wave CAM-CL simulation
+ * @file   inst.cxx
+ * @brief  Instability CAM simulation
  * @author @jparal
  *
  * @revision{1.0}
