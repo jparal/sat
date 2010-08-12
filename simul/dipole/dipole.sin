@@ -1,0 +1,90 @@
+#------------------------------------------------------------------------------
+# CAM Config file
+#------------------------------------------------------------------------------
+
+dipole:
+{
+  amp = 10000;               # Amplitude of dipole: mu0 m / 4Pi
+  rpos = [0.3, 0.5, 0.5];  # Relative position in simul box
+  radius = 15.9;
+};
+
+simul:
+{
+  step    = 0.02;
+  tmax    = 100;
+  start   = 0.;
+  restart = false;     # restart app
+  momsmooth = 1;       # Steps between moment smooth 
+  esmooth   = 1;       # Steps between el. field smooth
+};
+
+grid:
+{
+  cells  = [ 600, 300, 64 ];
+  resol  = [ .5, 1., 1. ];           # [c/omega_p]
+  openbc = [ true, false, false ];  # Open Boundary Conditions
+  bndcnd:
+  {
+    periodic = [ false, true, true ];
+    dampgrad = [ 1., 1., 1.];   # r = (0,1>
+    damplen  = [ 10., 10., 10.]; # Length of damped region
+    reslen   = [ 10., 10., 10.]; # Length of resistivity layer
+  };
+};
+
+field:
+{
+  nsub   = 10;                       # number of sub-steps of B-field
+  imf    = { phi = 0.; psi = 20.; };  # orientation of B-field
+  dnmin  = 0.05;                    # minimal density to resolve
+  resist = 0.02;                     # artificial resistivity
+};
+
+plasma:
+{
+  betae = 0.5;
+  specie:
+  {
+    proton = { pcles = 100.; beta = 1.; ani = 1.; rmds = 1.; qms = 1.;
+      v0 = [3.,0.,0.]; };
+  };
+};
+
+output:
+{
+  logfile = "alfven.log";    # Default: progname.log
+
+  format:
+  {
+    type     = "hdf5"; version = 1; parallel = false;
+    dir      = "out";
+    runname  = "test";
+    compress = { gz = 6; shuffle = true; };   # output compression
+  };
+
+  dtout = 0.2;
+
+  sensors:
+  {
+    density  = { tag = "Dn"; };
+    magfield = { tag = "B"; };
+    elfield  = { tag = "E"; };
+    velocity = { tag = "U"; };
+    # temp     = { tag = "T"; };
+    # kenergy  = { tag = "KEn"; perpar = true; };
+    # dbdt     = { tag = "DbDt"; };
+    # jxb      = { tag = "JxB"; };
+    # cbxb     = { tag = "CBxB"; };
+    #     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
+      #       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
+  };
+};
+
+parallel:
+{
+  mpi = { proc = [ 8, 4, 1 ]; };  # ratio of CPU splitting in X,Y,Z dimensions
+  omp = { threads = -1; };        # -1 when setup is dynamically
+};
+
+sat= { version = [1,0,0]; };
