@@ -3,7 +3,7 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   onsignal.cxx
+ * @file   fpe.cxx
  * @author @jparal
  *
  * @revision{1.0}
