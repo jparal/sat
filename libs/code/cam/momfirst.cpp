@@ -58,5 +58,5 @@ void CAMCode<B,T,D>::MomFirst ()
   MomBC (_dnf, _Uf);
 
   if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-    Smooth (_dnf);
+    Smooth (_dnf, false);
 }

@@ -41,6 +41,9 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     for (int i=0; i<D; ++i) pos[i] = itb.GetLoc(i);
     resist = Resist (pos);
 
+    if_pf (static_cast<B*>(this)->EcalcAdd (itb))
+      continue;
+
     if (dnc < _dnmin)
     {
       _E(ite) = resist * cb;
@@ -62,11 +65,11 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
   }
   while (itb.Next () && itu.Next() && ite.Next());
 
-  // We better apply BC so smoothing has values from its neighbours
+  // We better apply BC so smoothing has values from its neighbors
   EfieldBC ();
 
   if (_esmooth && (_time.Iter() % _esmooth == 0))
-    Smooth (_E);
+    Smooth (_E, true);
 
   EfieldBC ();
 }

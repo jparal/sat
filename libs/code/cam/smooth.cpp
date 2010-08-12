@@ -13,7 +13,7 @@
 
 template<class B, class T, int D>
 template<class T2, int D2>
-void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
+void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld, bool isefld)
 {
   Domain<D2> dom;
   fld.GetDomain (dom);
@@ -24,6 +24,9 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
   Field<T2,D2> orig(fld);
   do
   {
+    if_pf (isefld && static_cast<B*>(this)->EcalcAdd (it))
+      continue;
+
     loc = it.GetLoc();
     T2 avg = (T)0.5 * orig(loc);
     for (int i=0; i<D2; ++i)

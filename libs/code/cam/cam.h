@@ -113,6 +113,8 @@ public:
    */
   bool BcalcAdd (const DomainIterator<D> &iter)
   { return false; }
+  bool EcalcAdd (const DomainIterator<D> &iter)
+  { return false; }
 
   /// Extra magnetic field initialization (called at the very beginning)
   /// @note note that magnetic field is already set to _B0 at this point so
@@ -340,7 +342,7 @@ public:
   /// Smooth any field
   /// @todo add desription about smoothing algorithm
   template<class T2, int D2>
-  void Smooth (Field<T2,D2> &fld);
+  void Smooth (Field<T2,D2> &fld, bool isefld);
 
   /// @}
 

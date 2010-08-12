@@ -42,7 +42,7 @@ void CAMCode<B,T,D>::AdvMom ()
 
   if (_momsmooth && (_time.Iter() % _momsmooth == 0))
   {
-    Smooth (_dn);
-    Smooth (_U);
+    Smooth (_dn, false);
+    Smooth (_U, false);
   }
 }

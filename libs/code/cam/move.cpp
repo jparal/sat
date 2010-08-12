@@ -73,8 +73,8 @@ void CAMCode<B,T,D>::Move ()
 
   if (_momsmooth && (_time.Iter() % _momsmooth == 0))
   {
-    Smooth (_dna);
-    Smooth (_dnf);
-    Smooth (_Ua);
+    Smooth (_dna, false);
+    Smooth (_dnf, false);
+    Smooth (_Ua, false);
   }
 }
