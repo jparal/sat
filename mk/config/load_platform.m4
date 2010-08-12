@@ -27,8 +27,8 @@ AC_DEFUN([AC_LOAD_PLATFORM], [
             command line and in FILE are replaced by what is
             in FILE.])])
       if test "$with_platform" = "" ; then
-	if test -r "${srcdir}/mk/platform/`hostname -s`" ; then
-          with_platform="`hostname -s`"
+	if test -r "${srcdir}/mk/platform/`hostname -s`.in" ; then
+          with_platform="`hostname -s`.in"
         fi
       fi
       if test "$with_platform" = "yes" ; then

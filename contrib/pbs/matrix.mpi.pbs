@@ -1,0 +1,23 @@
+#PBS -S /bin/sh
+#PBS -M jparal@gmail.com
+#PBS -q q16
+##PBS -q q32
+##PBS -q q64
+#PBS -l procs=16
+#PBS -l walltime=24:00:00
+
+export SIN_FILE=dipole
+
+cd $PBS_O_WORKDIR
+
+[ -f $HOME/.bashrc ]       && source $HOME/.bashrc
+[ -f $HOME/.bash_profile ] && source $HOME/.bash_profile
+[ -f $HOME/.profile ]      && source $HOME/.profile
+
+echo "Current working directory is `pwd`"
+
+echo "Starting run at: `date`"
+
+mpirun -np 16 ./dipole $SIN_FILE.sin > $SIN_FILE.log
+
+echo "Job finished at: `date`"

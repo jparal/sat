@@ -1,0 +1,18 @@
+CXX=g++
+CC=gcc
+
+enable_64bit=yes
+# with_cxxflags="-L/usr/apps/lib -I/usr/apps/hdf5166/include"
+with_cxxflags="-L$HOME/install/lib -I$HOME/install/include"
+
+# enable_openmp=yes
+enable_mpi=yes
+with_mpirun="mpirun -np @NP @PROG @ARGS"
+
+with_hdf5="$HOME/install/"
+with_hdf5_libs="-lm -lz"
+
+# with_hdf5="/usr/apps/hdf5166/"
+# with_hdf5_libs="-lm -lsz -lz"
+
+prefix="$HOME/install/sat"
