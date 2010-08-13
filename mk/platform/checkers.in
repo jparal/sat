@@ -1,0 +1,26 @@
+# Those modules are needed to load (for example in .profile)
+# module load gcc-4.3.2
+# module load mpi/openmpi/1.3.2
+
+CXX=g++
+CC=gcc
+#CXX=icpc
+#CC=icc
+
+enable_64bit=yes
+
+# enable_debug=yes
+# enable_debug=memory,reference,valgrind
+with_cxxflags_dbg="-funroll-loops -fno-inline"
+with_cxxflags_opt="-mtune=native -march=native"
+
+prefix="$HOME/install/sat"
+with_cxxflags="-L$HOME/install/lib -I$HOME/install/include"
+with_hdf5="$HOME/install"
+with_hdf5_libs="-lz"
+
+# enable_openmp=yes
+enable_mpi=yes
+
+with_mpicc=mpicc
+with_mpirun="mpirun -np @NP @PROG @ARGS"
