@@ -73,13 +73,13 @@ AC_DEFUN([AC_CMP_FLAGS],[
 	  CXXVERSION="$CXXVERSION_MAJOR.$CXXVERSION_MINOR"
 	  CFLAGS=""
 	  if test $CXXVERSION_MAJOR -eq "6" -a $CXXVERSION_MINOR -lt "3" ; then
-	    CXXFLAGS="-std ansi -D__USE_STD_IOSTREAM -DBZ_ENABLE_XOPEN_SOURCE -ieee -model ansi -accept restrict_keyword -nousing_std"
+	    CXXFLAGS=""
 	  else
-	    CXXFLAGS="-std ansi -D__USE_STD_IOSTREAM -DBZ_ENABLE_XOPEN_SOURCE -D_OSF_SOURCE -ieee -model ansi -accept restrict_keyword -nousing_std"
+	    CXXFLAGS=""
 	  fi
-	  CXXFLAGS_OPT="-fast -inline speed -nocleanup"
-	  CXXFLAGS_DBG="-g -msg_display_tag"
-	  CXXFLAGS_PRF="-pg -g1"
+	  CXXFLAGS_OPT=""
+	  CXXFLAGS_DBG=""
+	  CXXFLAGS_PRF=""
 	  AR="ar"
 	  ARFLAGS="-rv"
 	  RANLIB="ar ts"

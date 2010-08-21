@@ -1,12 +1,21 @@
+#
+# Set "cross_compiling=no" in 'configure' script
+#
 
-with_cxxflags="-L$HOME/install/lib -I$HOME/install/include"
+CXX=mpicxx
+CC=mpicc
+
+with_cxxflags="-I/soft/include -I/soft/hdf5-1.6.6/include -L/soft/lib"
+
+with_cxxflags_dbg="-O -finline-functions -funroll-loops -g"
+with_cxxflags_opt="-O -finline-functions -funroll-loops -g"
 
 # enable_openmp=yes
 # enable_64bit=yes
 enable_mpi=yes
 with_mpirun="mpirun -np @NP @PROG @ARGS"
 
-with_hdf5="$HOME/install"
-with_hdf5_libs="-lz"
+with_hdf5="/soft/hdf5-1.6.6/"
+with_hdf5_libs="-lz /opt/ibmcmp/vac/bg/9.0/bglib/libxl.a /soft/lib/libmpitrace.a"
 
 prefix="$HOME/install/sat"

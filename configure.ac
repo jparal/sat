@@ -6,7 +6,7 @@
 # Initialization, version number, and other random setup/init stuff
 AC_INIT([Simalate & Analyse Toolkit],
   [m4_normalize(esyscmd([mk/scripts/getversion.sh VERSION --base]))],
-  [Jan Paral <jparal@gmail.com>], [sat])
+  [jparal@gmail.com], [sat])
 
 PACKAGE_COPYRIGHT="Copyright (c) 2005-2010 by SAT team. All rights reserved."
 AC_DEFINE_UNQUOTED(PACKAGE_COPYRIGHT, ["$PACKAGE_COPYRIGHT"],
@@ -17,7 +17,7 @@ AC_SUBST([PACKAGE_COPYRIGHT], [$PACKAGE_COPYRIGHT])
 AC_SUBST([CONFIGURE_DEPENDENCIES], ['$(top_srcdir)/VERSION'])
 SAT_SAVE_VERSION([SAT], [$srcdir/VERSION])
 
-AC_PREREQ(2.60)
+AC_PREREQ(2.63)
 AC_CONFIG_AUX_DIR(./mk/config)
 AC_CONFIG_MACRO_DIR(./mk/config)
 AC_CONFIG_HEADER([libs/satconfig.h])
@@ -29,8 +29,8 @@ AC_LOAD_PLATFORM
 # Initialize automake:
 #   subdir-objects .. move object file into the sub-directories
 #   silent-rules .... build output is less verbose (make V=[0|1]) (>= v1.11)
-AM_INIT_AUTOMAKE([foreign no-define 1.11])
-AM_SILENT_RULES([yes])
+AM_INIT_AUTOMAKE([foreign no-define 1.10])
+# AM_SILENT_RULES([yes])
 
 AC_PROG_CXX([g++ xlc++ xlC icpc icc pathCC cxx aCC c++ CC pgCC KCC FCC])
 AC_PROG_LN_S
