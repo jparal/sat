@@ -1,4 +1,6 @@
 
+LDADD += $(libs_dir)/io/libsatio.a
+
 if HAVE_ZLIB
 LDADD += $(ZLIB_LIBS)
 endif
@@ -15,5 +17,3 @@ LDADD += $(H5PART_LIBS)
 endif
 
 endif
-
-LDADD += $(libs_dir)/io/libsatio.a
