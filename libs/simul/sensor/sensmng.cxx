@@ -69,7 +69,7 @@ void SensorManager::Save (const char *id, const SimulTime &stime)
     if (!strcmp (sensor->GetID (), id))
       sensor->Save (_iomng, stime);
   }
-  DBG_INFO ("saving sensor: done ...");
+  DBG_INFO ("sonsors saved..");
 }
 
 void SensorManager::SaveAll (SimulTime &stime)
@@ -81,7 +81,7 @@ void SensorManager::SaveAll (SimulTime &stime)
     Sensor *sensor = _sensors.Get (i);
     sensor->Save (_iomng, stime);
   }
-  DBG_INFO ("saving sensor: done ...");
+  DBG_INFO ("sensors saved..");
 }
 
 void SensorManager::AddSensor (Sensor *sens)
