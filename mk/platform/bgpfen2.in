@@ -5,7 +5,8 @@
 CXX=mpicxx
 CC=mpicc
 
-with_cxxflags="-I/soft/include -I/soft/hdf5-1.6.6/include -L/soft/lib"
+with_ldflags="-Wl,--allow-multiple-definition /opt/ibmcmp/xlmass/bg/4.4/bglib/libmass.a -L/soft/lib /opt/ibmcmp/vac/bg/9.0/bglib/libxl.a /soft/lib/libmpitrace.a"
+with_cxxflags="-I/soft/include -I/soft/hdf5-1.6.6/include"
 
 with_cxxflags_dbg="-O -finline-functions -funroll-loops -g"
 with_cxxflags_opt="-O -finline-functions -funroll-loops -g"
@@ -16,6 +17,6 @@ enable_mpi=yes
 with_mpirun="mpirun -np @NP @PROG @ARGS"
 
 with_hdf5="/soft/hdf5-1.6.6/"
-with_hdf5_libs="-lz /opt/ibmcmp/vac/bg/9.0/bglib/libxl.a /soft/lib/libmpitrace.a"
+with_hdf5_libs="-lz"
 
 prefix="$HOME/install/sat"

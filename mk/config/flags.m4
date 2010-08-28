@@ -17,6 +17,9 @@ AC_DEFUN([AC_CMP_FLAGS],[
     AC_SUBST(AR)
     AC_SUBST(ARFLAGS)
     AC_SUBST(LDFLAGS)
+    AC_SUBST(LDFLAGS_DBG)
+    AC_SUBST(LDFLAGS_OPT)
+    AC_SUBST(LDFLAGS_PRF)
     AC_SUBST(RANLIB)
 
     dnl Set default values
@@ -258,6 +261,26 @@ AC_DEFUN([AC_CMP_FLAGS],[
       AC_HELP_STRING([--with-cxxflags-prf],
         [add extra profile CXXFLAGS]),
       [CXXFLAGS_PRF="$CXXFLAGS_PRF $withval"])
+
+    AC_ARG_WITH([ldflags],
+      AC_HELP_STRING([--with-ldflags],
+        [add extra flags to LDFLAGS]),
+      [LDFLAGS="$withval $LDFLAGS"])
+
+    AC_ARG_WITH([ldflags-opt],
+      AC_HELP_STRING([--with-ldflags-opt],
+        [add extra optimization flags to LDFLAGS]),
+      [LDFLAGS_OPT="$withval $LDFLAGS_OPT"])
+
+    AC_ARG_WITH([ldflags-dbg],
+      AC_HELP_STRING([--with-ldflags-dbg],
+        [add extra debug LDFLAGS]),
+      [LDFLAGS_DBG="$withval $LDFLAGS_DBG"])
+
+    AC_ARG_WITH([ldflags-prf],
+      AC_HELP_STRING([--with-ldflags-prf],
+        [add extra profile LDFLAGS]),
+      [LDFLAGS_PRF="$withval $LDFLAGS_PRF"])
 
     if test "$ac_cxx_flags_preset" = yes ; then
       AC_MSG_NOTICE([Setting compiler flags for $CXXVENDOR $CXX])
