@@ -17,10 +17,10 @@
 
 #include "satconfig.h"
 
-#if defined(HAVE_SIGNAL_H) && defined(HAVE_FPU_CONTROL_H)
+#if defined(HAVE_SIGNAL_H) && defined(HAVE_FENV_H)
 #  define SAT_ENABLE_FPEXCEPTION 1
 #  include <signal.h>
-#  include <fpu_control.h>
+#  include <fenv.h>
 #endif
 
 /// @addtogroup base_sys
@@ -30,6 +30,8 @@ namespace SAT
 {
   /// Enable floating point exception
   void EnableFPException ();
+  /// Disable floating point exception
+  void DisableFPException ();
 };
 
 /// @}
