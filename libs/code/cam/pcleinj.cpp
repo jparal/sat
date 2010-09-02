@@ -21,8 +21,9 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
   const PosVector dxi = _meshp.GetResolInv ();
   RandomGen<T> &rnd = *(sp->GetRndGen());
   BiMaxwellRandGen<T> &max = *(sp->GetBiMaxwGen());
-  Vector<float,3> v0 = sp->InitalVel();
-  const size_t npcles = sp->InitalPcles();
+  Vector<T,3> v0 = sp->InitalVel();
+  // @TODO deal with the types...
+  const size_t npcles = (size_t)sp->InitalPcles ();
 
   for (int dim=0; dim<D; ++dim)
   {

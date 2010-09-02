@@ -48,34 +48,67 @@ public:
   {
     PosVector xp;
     for (int i=0; i<D; ++i)
-      xp[i] = ( pcle.pos[i] + _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+      xp[i] = (pcle.pos[i] + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
 
     if (xp.Norm2() < _radius2)
     {
       sp->Exec (id, PCLE_CMD_REMOVE);
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
 
-  bool EcalcAdd (const DomainIterator<D> &iter)
+  void EfieldAdd ()
   {
-    return BcalcAdd (iter);
+    Domain<D> dom;
+    ((TBase*)this)->_E.GetDomain (dom);  DomainIterator<D> ite (dom);
+    PosVector xp;
+    do
+    {
+      for (int i=0; i<D; ++i)
+	xp[i] = ( T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i] )*_dx[i] - _cx[i];
+
+      if (xp.Norm2() < _radius2)
+      	((TBase*)this)->_E(ite) = 0.;
+    }
+    while (ite.Next());
   }
 
-  bool BcalcAdd (const DomainIterator<D> &iter)
+  bool EcalcAdd (const DomainIterator<D> &ite)
   {
     PosVector xp;
     for (int i=0; i<D; ++i)
-      xp[i] = ( (T)(iter.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+      xp[i] = ( T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i] )*_dx[i] - _cx[i];
 
     if (xp.Norm2() < _radius2)
       return true;
-    else
-      return false;
+
+    /// Reset tangential component of E field at the surface
+    // T ld = 1.;
+    // T ee = (xp.Norm()-_radius)/ld;
+    // T ta = (T)1. - Math::Exp (-ee*ee*ee);
+
+    // T na;
+    // FldVector nv, tv, ef = _E(ite);
+    // xp.Normalize ();
+    // na = xp * ef;
+    // nv = xp * na;
+    // tv = ef - nv;
+
+    return false;
+  }
+
+  bool BcalcAdd (const DomainIterator<D> &itb)
+  {
+    PosVector xp;
+    for (int i=0; i<D; ++i)
+      xp[i] = ( T(itb.GetLoc()[i])+ _ip[i]*_nc[i] )*_dx[i] - _cx[i];
+
+    if (xp.Norm2() < _radius2)
+      return true;
+
+    return false;
   }
 
   void BInitAdd (VecField &b)
@@ -100,24 +133,64 @@ public:
         xp[i] = ( (T)(it.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
 
       T r3 = xp.Norm() * xp.Norm2();
+      r3 = r3 > 0.0001 ? r3 : 0.0001;
       xp.Normalize();
       b(it) += ((T)3.*(mv*xp) * xp - mv)/r3;
     }
     while (it.Next());
   }
 
-  void EfieldAdd()
-  {
-    // Set Et = 0 on the planet's surface
-    
-  }
+  // T ResistAdd (const PosVector &pos) const
+  // {
+  //   PosVector cp;
+  //   for (int i=0; i<D; ++i)
+  //     cp[i] = pos[i]*_dx[i] - _cx[i];
+
+  //   /// Exponential resistivity
+  //   // T ld = 4.0;
+  //   // T ee = (cp.Norm()-_radius)/ld;
+  //   // return Math::Exp (-ee * ee);
+
+  //   /// Tangential resistivity
+  //   T ld = 4.0;
+  //   T am = 0.8;
+  //   T rm = 0.8;
+  //   T ee = cp.Norm()-_radius;
+  //   return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+  // }
+
+  // T BmaskAdd (const DomainIterator<D> &itb)
+  // {
+  //   PosVector xp;
+  //   for (int i=0; i<D; ++i)
+  //     xp[i] = (T(itb.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+
+  //   T ld = 3.;
+  //   T ee = (xp.Norm()-_radius)/ld;
+  //   if (ee > 5.)
+  //     return (T)1.;
+  //   else
+  //     return (T)1. - Math::Exp (-ee*ee);
+  // }
+
+  // T EmaskAdd (const DomainIterator<D> &ite)
+  // {
+  //   PosVector xp;
+  //   for (int i=0; i<D; ++i)
+  //     xp[i] = (T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
+
+  //   T ld = 3.;
+  //   T ee = (xp.Norm()-_radius)/ld;
+  //   if (ee > 5.)
+  //     return (T)1.;
+  //   else
+  //     return (T)1. - Math::Exp (-ee*ee);
+  // }
 
 private:
   bool _dipole;
-  T _amp;
-  T _radius2;
-  Vector<T,D> _rpos;
-  FldVector _nc, _ip, _cx, _dx;
+  T _amp, _radius, _radius2;
+  Vector<T,D> _rpos, _nc, _ip, _cx, _dx;
 };
 
 #include "init.cpp"

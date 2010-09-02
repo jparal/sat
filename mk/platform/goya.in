@@ -13,7 +13,7 @@ enable_64bit=yes
 # enable_debug=yes
 # enable_debug=memory,reference,valgrind
 with_cxxflags_dbg="-funroll-loops -fno-inline"
-with_cxxflags_opt="-mtune=native -march=native"
+with_cxxflags_opt="-mtune=native -march=native -g"
 
 prefix="$HOME/install/sat"
 with_hdf5_libs=-lz

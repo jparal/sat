@@ -14,14 +14,13 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::CalcMom (TSpecie *sp, ScaField &dn, VecField &blk)
 {
-  dn = 0.;
-  blk = FldVector (0.);
+  dn = (T)0.;
+  blk = (T)0.;
 
   BilinearWeightCache<T,D> cache;
-  TSpecieIterator it = sp->GetIterator ();
-  while (it.HasNext ())
+  for (int pid=0; pid<sp->GetSize(); ++pid)
   {
-    const TParticle &pcle = it.Next ();
+    const TParticle &pcle = sp->Get (pid);
 
     FillCache (pcle.pos, cache);
     cache.ipos += 1;

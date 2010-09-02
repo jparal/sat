@@ -78,6 +78,13 @@ Field<T,D>::Field (const Field<T,D> &orig)
 }
 
 template<class T, int D> inline
+Field<T,D>::Field (const Mesh<D> &mesh, const Layout<D> &layout)
+  : _data(NULL), _havegrid(false)
+{
+  Initialize (mesh, layout);
+}
+
+template<class T, int D> inline
 void Field<T,D>::Initialize (int d0)
 {
   _len[0] = d0;
@@ -146,12 +153,6 @@ template<class T, int D> inline
 Field<T,D>::~Field ()
 {
   Free ();
-}
-
-template<class T, int D> inline
-Field<T,D>::Field (const Mesh<D> &mesh, const Layout<D> &layout)
-{
-  Initialize (mesh, layout);
 }
 
 template<class T, int D> inline

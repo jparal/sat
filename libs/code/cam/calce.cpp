@@ -26,9 +26,12 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
 
   T dnc, resist;
   PosVector pos;
-  FldVector bc, uc, uxb, cb, gpe, ef;
+  FldVector bc, uc, uxb, cb, gpe, elapl, enew, efld;
   do
   {
+    // if_pf (static_cast<B*>(this)->EcalcAdd (ite))
+    //   continue;
+
     // TODO: compute dnc and uc is quite a waste of time ... especially when we
     // advance field since we can compute this values (dnc, uc) only once
     // instead of nsub*2 times
@@ -36,32 +39,47 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     CartStencil::Average (blk, itu, uc);
     CartStencil::Average (mf,  itb, bc);
     CartStencil::Curl (mf, itb, cb);
-    if (enpe) CartStencil::Grad (_pe, itu, gpe);
+    CartStencil::Lapl (_E, ite, elapl);
+    elapl *= _viscos;
+    if (enpe)
+      CartStencil::Grad (_pe, itu, gpe);
 
-    for (int i=0; i<D; ++i) pos[i] = itb.GetLoc(i);
+    // @TODO Move to iterator instead of calculating the position here
+    for (int i=0; i<D; ++i)
+      pos[i] = itb.GetLoc(i) +
+	(_B.Size(i)-1) * _B.GetLayout().GetDecomp().GetPosition(i);
     resist = Resist (pos);
-
-    if_pf (static_cast<B*>(this)->EcalcAdd (itb))
-      continue;
 
     if (dnc < _dnmin)
     {
-      _E(ite) = resist * cb;
+      enew = resist * cb;
+      enew += elapl;
     }
     else
     {
       uxb = uc % bc;
 
-      ef = cb % bc;;
-      ef -= uxb;
-      if (enpe) ef -= gpe;
-      ef /= dnc;
+      enew = cb % bc;
+      enew -= uxb;
+      if (enpe) enew -= gpe;
+      enew /= dnc;
 
       cb *= resist;
-      ef += cb;
-
-      _E(ite) = ef;
+      enew += cb;
+      enew += elapl;
     }
+
+    efld = _E(ite);
+    efld += (enew - efld) * static_cast<B*>(this)->EmaskAdd (ite);
+
+    // const T emax = 1000.;
+    // if (efld.Norm2 () > emax*emax)
+    // {
+    //   efld.Normalize ();
+    //   efld *= emax;
+    // }
+
+    _E(ite) = efld;
   }
   while (itb.Next () && itu.Next() && ite.Next());
 

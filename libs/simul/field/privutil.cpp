@@ -24,7 +24,9 @@ void Field<T,D>::Alloc (int dim)
   if (_data != NULL)
     delete[] _data;
 
+  _data = NULL;
   _data = new T[_tot];
+  SAT_ASSERT (_data != NULL);
 }
 
 template<class T, int D>

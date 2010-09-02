@@ -13,6 +13,7 @@ preproc_cam = \
 	cam/calce.cpp \
 	cam/calcmom.cpp \
 	cam/calcpe.cpp \
+	cam/calcpsi.cpp \
 	cam/efldbc.cpp \
 	cam/exec.cpp \
 	cam/first.cpp \

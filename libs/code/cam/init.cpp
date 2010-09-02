@@ -16,8 +16,6 @@ void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 {
   Code::Initialize (pargc, pargv, true, false);
 
-  SAT::EnableFPException ();
-
   DBG_INFO ("=========== PreInitialize: ==========");
   PreInitialize (Code::GetCfgFile ());
   DBG_INFO ("=========== Initialize: =============");
@@ -37,8 +35,8 @@ void CAMCode<B,T,D>::Initialize ()
   _time.Initialize (cfg.GetEntry ("simul"), ver);
   cfg.GetValue ("simul.momsmooth", _momsmooth, 1);
   cfg.GetValue ("simul.esmooth", _esmooth, 1);
-  DBG_INFO1 ("moment/electric Field smoothing: "<<
-	     _momsmooth<<", "<<_esmooth);
+  DBG_INFO ("moment/electric Field smoothing: "<<
+	    _momsmooth<<", "<<_esmooth);
 
   /*****************/
   /* Section: MISC */
@@ -50,17 +48,19 @@ void CAMCode<B,T,D>::Initialize ()
   cfg.GetValue ("parallel.mpi.proc", ratio);
   cfg.GetValue ("grid.openbc", openbc);
 
-  DBG_INFO1 ("MPI decomposition ratio  : "<<ratio);
-  DBG_INFO1 ("open Boundary conditions : "<<openbc);
+  DBG_INFO ("MPI decomposition ratio  : "<<ratio);
+  DBG_INFO ("open Boundary conditions : "<<openbc);
 
   mesh.Initialize (cfg.GetEntry ("grid"));
   _decomp.Initialize (ratio, Mpi::COMM_WORLD);
-  DBG_INFO1 ("total number of cells    : "<<mesh.Cells ());
-  DBG_INFO1 ("spatial resolution       : "<<mesh.Resol ());
-  DBG_INFO1 ("spatial size             : "<<mesh.Size ());
+  DBG_INFO ("total number of cells    : "<<mesh.Cells ());
+  DBG_INFO ("   X spatial resolution  : "<<mesh.Resol ());
+  DBG_INFO ("   = physical size       : "<<mesh.Size ());
   _decomp.Decompose (mesh.Cells ());
-  DBG_INFO1 ("number of cells per CPU  : "<<mesh.Cells ());
-  DBG_INFO1 ("spatial size per CPU     : "<<mesh.Size ());
+  DBG_INFO ("Per single CPU:");
+  DBG_INFO ("total number of cells    : "<<mesh.Cells ());
+  DBG_INFO ("   X spatial resolution  : "<<mesh.Resol ());
+  DBG_INFO ("   = physical size       : "<<mesh.Size ());
 
   // Minimal/Maximal position of the particle:
   _pmin = PosVector ((T)0.0);
@@ -75,11 +75,11 @@ void CAMCode<B,T,D>::Initialize ()
   //    dn        #cells + 1       1         1    #cells + 3    Node
   //    Particles #cells           0         0    #cells + 1    Node
   //
-  // Note that dn and U needs extra 1 grid points of both side (even when is
-  // defined on the same grid like B) just to have a space for boundary
-  // conditions. The idea is to use Sync mechanism in Field class to copy 1
-  // layer of ghost zone and in boundary conditions treatment just add the
-  // ghost values to the outer values.
+  // Note that dn and U needs extra 1 grid points on both sides (even though
+  // they are defined on the same grid like B) just to have a space for
+  // boundary conditions. The idea is to use Sync mechanism in Field class to
+  // copy 1 layer of ghost zone and in boundary conditions treatment just add
+  // the ghost values to the outer values.
 
   _meshe = mesh; _meshb = mesh; _meshu = mesh; _meshp = mesh;
 
@@ -105,7 +105,7 @@ void CAMCode<B,T,D>::Initialize ()
   ConfigEntry &species = cfg.GetEntry ("plasma.specie");
   for (int i=0; i<species.GetLength (); ++i)
   {
-    DBG_INFO1 ("processing specie: '"<<species[i].GetName ()<<"'");
+    DBG_INFO ("processing specie: '"<<species[i].GetName ()<<"'");
     TSpecie *sp = new CamSpecie<T,D> ();
     sp->Initialize (species[i], _meshp, _layop);
     _specie.PushNew (sp);
@@ -115,7 +115,7 @@ void CAMCode<B,T,D>::Initialize ()
   }
 
   SAT_ASSERT_MSG( Math::Abs( rmdstot-1.0 ) < M_MEPS,
-		  "Sum of relative mass densities has to be zero!");
+                  "Sum of relative mass densities has to be zero!");
   if (Math::Abs( currtot.Abs() ) > M_MEPS)
     DBG_WARN ("Total current is non-zero: "<<currtot);
 
@@ -128,10 +128,12 @@ void CAMCode<B,T,D>::Initialize ()
   cfg.GetValue ("field.imf.psi", _psi, 0.);
   cfg.GetValue ("field.dnmin", _dnmin, 0.05);
   cfg.GetValue ("field.resist", _resist, 0.001);
-  DBG_INFO1 ("B field sub-steps          : "<<_nsub);
-  DBG_INFO1 ("IMF phi(x,y); psi(x,z)     : "<<_phi<<"; "<<_psi);
-  DBG_INFO1 ("minimal density            : "<<_dnmin);
-  DBG_INFO1 ("resistivity                : "<<_resist);
+  cfg.GetValue ("field.viscos", _viscos, 0.0);
+  DBG_INFO ("B field sub-steps          : "<<_nsub);
+  DBG_INFO ("IMF phi(x,y); psi(x,z)     : "<<_phi<<"; "<<_psi);
+  DBG_INFO ("minimal density            : "<<_dnmin);
+  DBG_INFO ("resistivity                : "<<_resist);
+  DBG_INFO ("viscosity                  : "<<_viscos);
 
   /************************************/
   /* Setup initial magnetic field _B0 */
@@ -141,7 +143,7 @@ void CAMCode<B,T,D>::Initialize ()
   _B0[0] = Math::Cos(_phi) * Math::Cos(_psi);
   _B0[1] = Math::Sin(_phi) * Math::Cos(_psi);
   _B0[2] = Math::Sin(_psi);
-  DBG_INFO1 ("background B field (B_0)   : "<<_B0);
+  DBG_INFO ("background B field (B_0)   : "<<_B0);
 
   /*****************************************************************/
   /* Setup plasma bulk velocity _v0 and initial electric field _E0 */
@@ -152,13 +154,13 @@ void CAMCode<B,T,D>::Initialize ()
   {
     TSpecie *sp = _specie.Get (i);
     dns = sp->RelMassDens () * sp->ChargeMassRatio ();
-    _v0 += sp->InitalVel () * dns;
+    _v0 += sp->InitalVel () * (T)dns;
     dnt += dns;
   }
   _v0 /= dnt;
   _E0 = - (_v0 % _B0);
-  DBG_INFO1 ("background E field (E_0)   : "<<_E0);
-  DBG_INFO1 ("total bulk velocity (u_i)  : "<<_v0);
+  DBG_INFO ("background E field (E_0)   : "<<_E0);
+  DBG_INFO ("total bulk velocity (u_i)  : "<<_v0);
 
   /***********************************/
   /* Setup the rest of the variables */
@@ -176,16 +178,18 @@ void CAMCode<B,T,D>::Initialize ()
   _te = _betae / (2. * cd);
   _cs = Math::Sqrt (0.5 * (_betai + _betae));
 
-  DBG_INFO1 ("total ion beta (beta_i)    : "<<_betai);
-  DBG_INFO1 ("ion temperature (T_i)      : "<< _betai / (2. * cd));
-  DBG_INFO1 ("electron beta (beta_e)     : "<<_betae);
-  DBG_INFO1 ("electron temperature (T_e) : "<<_te);
-  DBG_INFO1 ("sound speed (c_s)          : "<<_cs);
+  DBG_INFO ("total ion beta (beta_i)    : "<<_betai);
+  DBG_INFO ("ion temperature (T_i)      : "<<_betai / (2. * cd));
+  DBG_INFO ("electron beta (beta_e)     : "<<_betae);
+  DBG_INFO ("electron temperature (T_e) : "<<_te);
+  DBG_INFO ("sound speed (c_s)          : "<<_cs);
 
   /****************************/
   /* Setup mesh related stuff */
   /****************************/
   _E.Initialize (_meshe, _layoe);
+  _Psi.Initialize (_meshe, _layoe);
+  _Psih.Initialize (_meshe, _layoe);
 
   _B.Initialize (_meshb, _layob);
   _Bh.Initialize (_meshb, _layob);
@@ -205,6 +209,7 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.Initialize (cfg);
 
   ScaFieldSensor<T,D> *nsens = new ScaFieldSensor<T,D>;
+  ScaFieldSensor<T,D> *psisens = new ScaFieldSensor<T,D>;
   VecFieldSensor<T,3,D> *bsens = new VecFieldSensor<T,3,D>;
   VecFieldSensor<T,3,D> *esens = new VecFieldSensor<T,3,D>;
   VecFieldSensor<T,3,D> *usens = new VecFieldSensor<T,3,D>;
@@ -216,6 +221,7 @@ void CAMCode<B,T,D>::Initialize ()
 
   nsens->Initialize (cfg, "density", &_dn);
   esens->Initialize (cfg, "elfield", &_E);
+  psisens->Initialize (cfg, "psifnc", &_Psi);
   bsens->Initialize (cfg, "magfield", &_B);
   usens->Initialize (cfg, "velocity", &_U);
   dfsens->Initialize (cfg, "distfnc", &_specie, &_B);
@@ -227,6 +233,7 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);
   _sensmng.AddSensor (esens);
+  _sensmng.AddSensor (psisens);
   _sensmng.AddSensor (usens);
   _sensmng.AddSensor (dfsens);
   _sensmng.AddSensor (dbdtsens);
@@ -237,12 +244,15 @@ void CAMCode<B,T,D>::Initialize ()
   DBG_INFO ("=========== PostInitialize: =========");
   PostInitialize (cfg);
 
+  //  _Psi = (T)0.; // initial value for psi function
+  //  _Psih = (T)0.;
   _B = _B0; // _Bh is initialized in function First()
   static_cast<B*>(this)->BInitAdd (_B);
 
   /*******************/
   /* Species Loading */
   /*******************/
+  int totcleaned = 0;
   for (int i=0; i<_specie.GetSize (); ++i)
   {
     TSpecie *sp = _specie.Get (i);
@@ -258,7 +268,22 @@ void CAMCode<B,T,D>::Initialize ()
     static_cast<B*>(this)->DnInitAdd (sp, _dn);
     static_cast<B*>(this)->BulkInitAdd (sp, _U);
     sp->LoadPcles (_dn, _U, _B0);
+
+    /// Remove particles based on the problem (for example: inside of the
+    /// planet for the dipole problem)
+    size_t npcle = sp->GetSize ();
+    for (int pid=0; pid<npcle; ++pid)
+    {
+      TParticle &pcle = sp->Get (pid);
+      static_cast<B*>(this)->PcleBCAdd (sp, pid, pcle);
+    }
+    int cleaned;
+    sp->Clean (&cleaned);
+    Mpi::SumReduceOne (&cleaned);
+    totcleaned += cleaned;
   }
+
+  DBG_INFO ("Particles cleaned during init: " << totcleaned);
 }
 
 

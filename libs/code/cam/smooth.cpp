@@ -24,8 +24,8 @@ void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld, bool isefld)
   Field<T2,D2> orig(fld);
   do
   {
-    if_pf (isefld && static_cast<B*>(this)->EcalcAdd (it))
-      continue;
+    // if_pf (isefld && static_cast<B*>(this)->EcalcAdd (it))
+    //   continue;
 
     loc = it.GetLoc();
     T2 avg = (T)0.5 * orig(loc);

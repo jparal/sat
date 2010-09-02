@@ -97,36 +97,36 @@ public:
   /// @brief Plasma beta of the specie.
   /// Is a ratio of the plasma pressure to the magnetic pressure defined as:
   /// @f[ \beta = \frac{p}{B^2/2 \mu_0} @f]
-  float Beta () const
+  T Beta () const
   { return _beta; }
   /// Number of macro-particles per cell at initialization
-  float InitalPcles () const
+  T InitalPcles () const
   { return _ng; }
   /// Species initial bulk velocity
-  const Vector<float,3>& InitalVel () const
+  const Vector<T,3>& InitalVel () const
   { return _vs; }
   /// ration between perpendicular and parallel temperature
   /// @f$ v_{th,\perp}/v_{th,\parallel} @f$
-  float RatioVth () const
+  T RatioVth () const
   { return _rvth; }
   /// Parallel thermal velocity
-  float Vthpar () const
+  T Vthpar () const
   { return _vthpa; }
   /// Perpendicular thermal velocity
-  float Vthper () const
+  T Vthper () const
   { return _vthpe; }
   /// relative mass density particle represent with respect to @f$ n_0 @f$
-  float RelMassDens () const
+  T RelMassDens () const
   { return _rmds; }
   /// charge/mass ratio in units of electron charge @f$ e @f$ and proton
   /// mass @f$ m_i @f$
-  float ChargeMassRatio () const
+  T ChargeMassRatio () const
   { return  _qms; }
   /// Mass represented by single super-particle
-  float MassPerPcle () const
+  T MassPerPcle () const
   { return  _sm; }
   /// Charge represented by single super-particle
-  float ChargePerPcle () const
+  T ChargePerPcle () const
   { return  _sq; }
 
   RandomGen<T>* GetRndGen()
@@ -143,23 +143,23 @@ private:
   /// Specie name (i.e. proton, ...)
   String _name;
   /// Ion beta of the specie
-  float _beta;
+  T _beta;
   /// Number of macro-particles per cell at initialization
-  float _ng;
+  T _ng;
   /// Species initial bulk velocity
-  Vector<float,3> _vs;
+  Vector<T,3> _vs;
   /// vth_perpendicular/vth_parallel
-  float _rvth;
+  T _rvth;
   /// Parallel and perpendicular thermal velocity
-  float _vthpa, _vthpe;
+  T _vthpa, _vthpe;
   /// relative mass density particle represent with respect to n0
-  float _rmds;
+  T _rmds;
   /// charge/mass ratio in units of electron charge 'e' and proton mass 'm_i'
-  float _qms;
+  T _qms;
   /// Mass represented by single super-particle
-  float _sm;
+  T _sm;
   /// Charge represented by single super-particle
-  float _sq;
+  T _sq;
   /// random number generators
   RandomGen<T> _rnd;
   BiMaxwellRandGen<T> _bimax;

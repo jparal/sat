@@ -19,8 +19,8 @@ void DipoleCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
     _dipole = true;
     cfg.GetValue ("dipole.amp", _amp);
     cfg.GetValue ("dipole.rpos", _rpos);
-    cfg.GetValue ("dipole.radius", _radius2);
-    _radius2 *= _radius2;
+    cfg.GetValue ("dipole.radius", _radius);
+    _radius2 = _radius * _radius;
   }
   else
   {
@@ -52,10 +52,17 @@ void DipoleCAMCode<T,D>::PostInitialize (const ConfigFile &cfg)
   //   l[i] = M_2PI/k[i];
   // }
 
+  FldVector xp = 0., mv = 0., b0 = ((TBase*)this)->_B0;
+  T r3 = _radius2 * _radius;
+  xp[0] = _radius;
+  mv[D-1] = _amp;
+  b0 += ((T)3.*(mv*xp) * xp - mv)/r3;
+
   DBG_INFO ("Dipole initialization:");
-  DBG_INFO ("  amp    : "<<_amp);
-  DBG_INFO ("  rpos   : "<<_rpos);
-  DBG_INFO ("  radius : "<<Math::Sqrt(_radius2));
+  DBG_INFO ("  amplitude      : "<<_amp);
+  DBG_INFO ("  relative pos.  : "<<_rpos);
+  DBG_INFO ("  planet radius  : "<< Math::Sqrt(_radius2));
+  DBG_INFO ("  B/B0 @ surface : "<< b0.Norm ());
 }
 
 

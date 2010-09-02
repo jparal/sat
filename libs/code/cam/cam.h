@@ -111,10 +111,16 @@ public:
    *
    * @return true when point should NOT be computed by code and false otherwise
    */
-  bool BcalcAdd (const DomainIterator<D> &iter)
+  bool BcalcAdd (const DomainIterator<D> &itb)
   { return false; }
-  bool EcalcAdd (const DomainIterator<D> &iter)
+  bool EcalcAdd (const DomainIterator<D> &ite)
   { return false; }
+
+  T BmaskAdd (const DomainIterator<D> &itb)
+  { return (T)1.; }
+
+  T EmaskAdd (const DomainIterator<D> &ite)
+  { return (T)1.; }
 
   /// Extra magnetic field initialization (called at the very beginning)
   /// @note note that magnetic field is already set to _B0 at this point so
@@ -241,7 +247,7 @@ public:
 
   /// Move single specie and collect density and bulk velocity moments
   void MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
-	       ScaField &dnsb, VecField &Usb);
+               ScaField &dnsb, VecField &Usb);
 
   /// Inject particles from all boundaries (call InjectAdd which you can
   /// overload to add problem specific particle injection)
@@ -276,7 +282,7 @@ public:
    * @param[in] dt time step
    * @param[in,out] Ba magnetic field to advance
    */
-  void CalcB (T dt, VecField &Ba);
+  void CalcB (T dt, const ScaField &psi, VecField &Ba);
 
   /**
    * @brief Calculate moments density and bulk velocity for the given specie.
@@ -312,7 +318,9 @@ public:
    * @param[in] enpe  Enable electron pressure term?
    */
   void CalcE (const VecField &mf, const VecField &blk, const ScaField &dn,
-	      bool enpe = true);
+              bool enpe = true);
+
+  void CalcPsi (T dt, const VecField &b, ScaField &psi);
 
   /// Advance Magnetic field by @p dt time using @p _nsub sub-steps.
   void AdvField (T dt);
@@ -381,6 +389,7 @@ public:
   int _nsub;         ///< number substep for magnetic field
   T _dnmin;     ///< density threshold when fields are advanced
   T _resist;    ///< global resistivity for code stability
+  T _viscos;    ///< global viscosity for code stability
 
   T _betae;     ///< electron beta
   T _betai;     ///< total ion beta of all species
@@ -429,6 +438,7 @@ public:
   VecField _B;
   VecField _Bh;
   VecField _E;
+  ScaField _Psi, _Psih; ///< Function for cleaning div B
   ScaField _pe;
   ScaField _dn, _dna, _dnf;
   VecField _U,  _Ua,  _Uf;
@@ -447,6 +457,7 @@ public:
 #include "calcpe.cpp"
 #include "calcb.cpp"
 #include "calce.cpp"
+#include "calcpsi.cpp"
 #include "calcmom.cpp"
 #include "advmom.cpp"
 #include "advfld.cpp"

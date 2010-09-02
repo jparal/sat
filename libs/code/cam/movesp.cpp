@@ -13,7 +13,7 @@
 
 template<class B, class T, int D>
 void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
-			     ScaField &dnsb, VecField &Usb)
+                             ScaField &dnsb, VecField &Usb)
 {
   dnsa = (T)0.; Usa = (T)0.;
   dnsb = (T)0.; Usb = (T)0.;
@@ -42,15 +42,23 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     p  += p05;
     CartStencil::BilinearWeight (_E, p, ep);
 
-    // Position advance
-    p = pcle.pos;
-    for (int i=0; i<D; ++i)
-      p[i] += (dt * v[i]) * dxi[i];
-
     // Velocity advance
     vh = v;
     vh += dth * (ep + v % bp);
     v += dta * (ep + vh % bp);
+
+    /// @TODO make the constant more sensible
+    const T vmax = 10.;
+    if (v.Norm2() > vmax*vmax)
+    {
+      v.Normalize ();
+      v *= vmax;
+    }
+
+    // Position advance
+    p = pcle.pos;
+    for (int i=0; i<D; ++i)
+      p[i] += (dt * v[i]) * dxi[i];
 
     cache.ipos += 1; // since dn has ghost = 1
     CartStencil::BilinearWeightAdd (dnsa, cache, (T)1.);
@@ -61,7 +69,7 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     pcle.vel = v;
 
     if_pf (static_cast<B*>(this)->PcleBCAdd (sp, pid, pcle) ||
-	   PcleBC (sp, pid, pcle))
+           PcleBC (sp, pid, pcle))
     {
       continue;
     }

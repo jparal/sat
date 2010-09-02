@@ -34,32 +34,44 @@ void CAMCode<B,T,D>::Move ()
     T sq = sp->ChargePerPcle ();
     T sm = sp->MassPerPcle ();
     T qom = sq / sm;
+    size_t npcle;
 
     MoveSp (sp, dnsa, usa, dnsb, usb);
     Inject (sp, dnsb, usb);
+
+    // /// @TODO is this extra cleaning necessary?
+    // npcle = sp->GetSize ();
+    // for (int pid=0; pid<npcle; ++pid)
+    // {
+    //   TParticle &pcle = sp->Get (pid);
+    //   PcleBC (sp, pid, pcle);
+    // }
+
     PcleSync (sp, dnsb, usb);
 
     dnsa *= sq;
-    usa  *= sq;
-
     dnsb *= sq;
+
+    usa  *= sq;
     usb  *= sq;
 
-    _dn += dnsa;
-    _U  += usa;
+    _dna += dnsa;
+    _dnf += dnsb;
 
-    _dna += dnsb;
-    _Ua  += usb;
+    _Ua  += usa;
+    _Uf  += usb;
 
     dnsb *= qom;
     usb  *= qom;
 
-    _dnf += dnsb;
-    _Uf  += usb;
+    _dn += dnsb;
+    _U  += usb;
   }
 
-  _dna += _dnf; _dna *= 0.5;
-  _Ua += _Uf; _Ua *= 0.5;
+  _dna += _dnf;
+  _dna *= 0.5;
+  _Ua += _Uf;
+  _Ua *= 0.5;
 
   /***************************************************/
   /* (a) We need to adjust moments at the borders:   */
@@ -73,8 +85,11 @@ void CAMCode<B,T,D>::Move ()
 
   if (_momsmooth && (_time.Iter() % _momsmooth == 0))
   {
+    Smooth (_dn, false);
     Smooth (_dna, false);
     Smooth (_dnf, false);
+    Smooth (_U, false);
     Smooth (_Ua, false);
+    Smooth (_Uf, false);
   }
 }

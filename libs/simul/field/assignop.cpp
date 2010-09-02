@@ -79,7 +79,9 @@ template<class T, int D>
 void Field<T,D>::operator= (const Field<T,D>& val)
 {
   UpdateMeta (val);
-  memcpy (_data, val._data, _tot * sizeof(T));
+  for (int i=0; i<_tot; ++i)
+    _data[i] = val._data[i];
+  // memcpy (_data, val._data, _tot * sizeof(T));
 }
 
 template<class T, int D>

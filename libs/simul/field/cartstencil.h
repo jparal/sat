@@ -60,6 +60,21 @@ public:
 		    Vector<T,3> &val);
 
   template<class T> SAT_INLINE_FLATTEN
+  static void Div (const Field<Vector<T,3>,1> &fld,
+		   const DomainIterator<1> &iter,
+		   T &val);
+
+  template<class T> SAT_INLINE_FLATTEN
+  static void Div (const Field<Vector<T,3>,2> &fld,
+		   const DomainIterator<2> &iter,
+		   T &val);
+
+  template<class T> SAT_INLINE_FLATTEN
+  static void Div (const Field<Vector<T,3>,3> &fld,
+		   const DomainIterator<3> &iter,
+		   T &val);
+
+  template<class T> SAT_INLINE_FLATTEN
   static void Curl (const Field<Vector<T,3>,1> &fld,
 		    const DomainIterator<1> &iter,
 		    Vector<T,3> &val);
@@ -71,6 +86,21 @@ public:
 
   template<class T> SAT_INLINE_FLATTEN
   static void Curl (const Field<Vector<T,3>,3> &fld,
+		    const DomainIterator<3> &iter,
+		    Vector<T,3> &val);
+
+  template<class T> SAT_INLINE_FLATTEN
+  static void Lapl (const Field<Vector<T,3>,1> &fld,
+		    const DomainIterator<1> &iter,
+		    Vector<T,3> &val);
+
+  template<class T> SAT_INLINE_FLATTEN
+  static void Lapl (const Field<Vector<T,3>,2> &fld,
+		    const DomainIterator<2> &iter,
+		    Vector<T,3> &val);
+
+  template<class T> SAT_INLINE_FLATTEN
+  static void Lapl (const Field<Vector<T,3>,3> &fld,
 		    const DomainIterator<3> &iter,
 		    Vector<T,3> &val);
 
