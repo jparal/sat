@@ -9,6 +9,6 @@ LDADD =
 CFLAGS += $(NOVA_CFLAGS)
 LDADD += $(NOVA_LIBS)
 
-bin_PROGRAMS = sat-mercury
+EXTRA_PROGRAMS = sat-mercury
 
 sat_mercury_SOURCES = main.cxx

@@ -11,6 +11,6 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 
 # EXTRA_DIST =
 
-noinst_PROGRAMS = ref
+EXTRA_PROGRAMS = ref
 
 ref_SOURCES = ref.cxx

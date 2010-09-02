@@ -15,7 +15,7 @@ hdrfile = init.cpp inst.h
 cfgfile = *.sin
 instdir = $(prefix)/simul/inst
 
-noinst_PROGRAMS = $(exename)
+EXTRA_PROGRAMS = $(exename)
 inst_SOURCES = $(srcfile)
 dist_noinst_DATA = $(srcfile) $(hdrfile) $(cfgfile)
 # nobase_inst_DATA = $(cfgfile)

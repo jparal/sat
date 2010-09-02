@@ -20,7 +20,7 @@ extrsrc = hions.sin
 exename = hions
 instdir = $(prefix)/simul/hions
 
-noinst_PROGRAMS = $(exename)
+EXTRA_PROGRAMS = $(exename)
 hions_SOURCES = $(headers) $(sources)
 EXTRA_DIST = $(extrsrc) $(preproc)
 dist_noinst_DATA = $(srcfile)

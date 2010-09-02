@@ -11,6 +11,6 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 
 EXTRA_DIST = analyseme.m
 
-noinst_PROGRAMS = zfnc
+EXTRA_PROGRAMS = zfnc
 
 zfnc_SOURCES = zfnc.cxx

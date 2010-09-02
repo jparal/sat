@@ -11,6 +11,6 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 
 # EXTRA_DIST =
 
-noinst_PROGRAMS = hybrid
+EXTRA_PROGRAMS = hybrid
 
 hybrid_SOURCES = hybrid.cxx
