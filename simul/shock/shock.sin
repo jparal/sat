@@ -1,0 +1,88 @@
+#------------------------------------------------------------------------------
+# CAM Config file
+#------------------------------------------------------------------------------
+
+shock:
+{
+};
+
+simul:
+{
+  step    = 0.02;
+  tmax    = 100;
+  start   = 0.;
+  restart = false;     # restart app
+  momsmooth = 1;       # Steps between moment smooth 
+  esmooth   = 1;       # Steps between el. field smooth
+};
+
+grid:
+{
+  cells  = [ 400, 100, 200 ];
+  resol  = [ .25, .5, 1. ];           # [c/omega_p]
+  openbc = [ true, false, false ];  # Open Boundary Conditions
+  bndcnd:
+  {
+    periodic = [ false, true, true ];
+    dampgrad = [ 1., 1., 1.];   # r = (0,1>
+    damplen  = [ 10., 10., 10.]; # Length of damped region
+    reslen   = [ 10., 10., 10.]; # Length of resistivity layer
+  };
+};
+
+field:
+{
+  nsub   = 10;                       # number of sub-steps of B-field
+  imf    = { phi = 90.; psi = 0.; };  # orientation of B-field
+  dnmin  = 0.1;                    # minimal density to resolve
+  resist = 0.02;                     # artificial resistivity
+  viscos = 0.0;
+};
+
+plasma:
+{
+  betae = 0.5;
+  specie:
+  {
+    proton = { pcles = 200.; beta = 1.; ani = 1.; rmds = 1.; qms = 1.;
+      v0 = [5.,0.,0.]; };
+  };
+};
+
+output:
+{
+  logfile = "alfven.log";    # Default: progname.log
+
+  format:
+  {
+    type     = "hdf5"; version = 1; parallel = false;
+    dir      = "out";
+    runname  = "test";
+    compress = { gz = 6; shuffle = true; };   # output compression
+  };
+
+  dtout = 1.;
+
+  sensors:
+  {
+    density  = { tag = "Dn"; };
+    magfield = { tag = "B"; };
+    elfield  = { tag = "E"; };
+    velocity = { tag = "U"; };
+    # temp     = { tag = "T"; };
+    # kenergy  = { tag = "KEn"; perpar = true; };
+    # dbdt     = { tag = "DbDt"; };
+    # jxb      = { tag = "JxB"; };
+    # cbxb     = { tag = "CBxB"; };
+    #     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
+      #       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
+  };
+};
+
+parallel:
+{
+  mpi = { proc = [ 1, 1, 1 ]; };  # ratio of CPU splitting in X,Y,Z dimensions
+  omp = { threads = -1; };        # -1 when setup is dynamically
+};
+
+sat= { version = [1,0,0]; };

@@ -1,0 +1,13 @@
+
+* Review order of position/velocity advancing in movesp.cpp
+* Is smoothing of _dn in advmom.cpp necessary? I'm not calculating it there.
+* When some of the eprocesses and up in the centre of the planet we get:
+ Assertion: n < count
+ Location:  ../../libs/base/common/array.h:674
+* Field:Field is _data == NULL?
+* add --with-ldflags option to configure
+* communication in pcle is blocking computation by factor of 2
+* finish Psi function for divB cleaning (sync,..)
+* deal with div E/B != 0 (cleansing, ...)
+* check out the first and last steps for dn[af]. are they correct?
+* move smoothing into calcmom instead all over the place.

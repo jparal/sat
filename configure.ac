@@ -172,6 +172,7 @@ AC_CONFIG_FILES([
     simul/hions/Makefile
     simul/inst/Makefile
     simul/inst/linear/Makefile
+    simul/shock/Makefile
     simul/tmpl/Makefile
     simul/tmpl/TEMPLATE.cxx.tpl
     test/Makefile
@@ -207,6 +208,7 @@ Info:     SAT : v$SAT_VERSION
           CXX : $CXX v$CXXVERSION ($CXXVENDOR)
      CXXFLAGS : $CXXFLAGS
        CFLAGS : $CFLAGS
+      LDFLAGS : $LDFLAGS
 
 Version to build:
 ==================================================================
