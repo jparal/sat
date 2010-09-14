@@ -53,6 +53,7 @@ DEFINE_STDMATH_FNC2(Pow,   pow,    powf,   powl)
 DEFINE_STDMATH_FNC1(Sin,   sin,   sinf,   sinl)
 DEFINE_STDMATH_FNC1(Cos,   cos,   cosf,   cosl)
 DEFINE_STDMATH_FNC1(Tan,   tan,   tanf,   tanl)
+DEFINE_STDMATH_FNC1(Tanh,  tanh,  tanhf,  tanhl)
 
 DEFINE_STDMATH_FNC1(ASin,  asin,  asinf,  asinl)
 DEFINE_STDMATH_FNC1(ACos,  acos,  acosf,  acosl)

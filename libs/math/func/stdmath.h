@@ -50,6 +50,8 @@ template <class T> static T Sin (T v);
 template <class T> static T Cos (T v);
 /// Tan
 template <class T> static T Tan (T v);
+/// Tanh
+template <class T> static T Tanh (T v);
 /// ArcSin
 template <class T> static T ASin (T v);
 /// ArcCos
