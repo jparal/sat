@@ -17,7 +17,6 @@
 int main (int argc, char **argv)
 {
   SAT::EnableFPException();
-  //  fedisableexcept (FE_ALL_EXCEPT);
   ShockCAMCode<float,2> sh;
   sh.Initialize (&argc, &argv);
   sh.Exec ();

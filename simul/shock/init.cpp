@@ -17,7 +17,10 @@ void ShockCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
   if (cfg.Exists ("shock"))
   {
     _shock = true;
-    // cfg.GetValue ("shock.amp", _amp);
+    cfg.GetValue ("shock.dnmin", _dnmin, 1.0);
+    cfg.GetValue ("shock.dnmax", _dnmax, 2.0);
+    cfg.GetValue ("shock.rpos", _rpos, 0.5);
+    cfg.GetValue ("shock.thick", _thick, 1.0);
   }
   else
   {
@@ -50,6 +53,10 @@ void ShockCAMCode<T,D>::PostInitialize (const ConfigFile &cfg)
   // }
 
   DBG_INFO ("Shock initialization:");
+  DBG_INFO ("  min density       : "<<_dnmin);
+  DBG_INFO ("  max density       : "<<_dnmax);
+  DBG_INFO ("  thickness         : "<<_thick);
+  DBG_INFO ("  relative position : "<<_rpos);
 }
 
 

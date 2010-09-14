@@ -57,6 +57,60 @@ public:
     return false;
   }
 
+  void DnInitAdd (TSpecie *sp, ScaField &dn)
+  {
+    _nc=0.; _ip=0.; _dx=0.;
+    FldVector np=0., lx=0., xp=0.;
+    for (int i=0; i<D; ++i)
+    {
+      _nc[i] = dn.Size(i)-3;
+      np[i] = dn.GetLayout().GetDecomp().GetSize(i);
+      _ip[i] = dn.GetLayout().GetDecomp().GetPosition(i);
+      _dx[i] = dn.GetMesh().GetResol(i);
+      lx[i] = _nc[i] * np[i] * _dx[i];
+    }
+
+    DomainIterator<D> it( dn.GetDomainAll() );
+    do
+    {
+      for (int i=0; i<D; ++i)
+        xp[i] = ( (T)(it.GetLoc()[i])- 1. + _ip[i]*_nc[i] ) * _dx[i];
+
+      dn(it) = _dnmin + (_dnmax-_dnmin) *
+        (Math::Tanh ((xp[0]-lx[0]*_rpos)/_thick)/2.+.5);
+    }
+    while (it.Next());
+  }
+
+  void MomBCAdd (ScaField &dn, VecField &blk)
+  {
+    Domain<D> dom;
+
+    const int i=0;
+    const Layout<D>& layout = ((TBase*)this)->_layop;
+    if (layout.IsOpen (i) && layout.GetDecomp().IsLeftBnd (i))
+    {
+      dn.GetDomainAll (dom);
+      dom[i] = Range (0, 1);
+      dn.Set (dom, _dnmin);
+
+      // blk.GetDomainAll (dom);
+      // dom[i] = Range (0, 1);
+      // blk.Set (dom, _v0);
+    }
+
+    if (layout.IsOpen (i) && layout.GetDecomp().IsRightBnd (i))
+    {
+      dn.GetDomainAll (dom);
+      dom[i] = Range (dn.Size(i)-2, dn.Size(i)-1);
+      dn.Set (dom, _dnmax);
+
+      // blk.GetDomainAll (dom);
+      // dom[i] = Range (blk.Size(i)-2, blk.Size(i)-1);
+      // blk.Set (dom, _v0);
+    }
+  }
+
   // T ResistAdd (const PosVector &pos) const
   // {
   //   PosVector cp;
@@ -151,8 +205,9 @@ public:
   // }
 
 private:
+  T _dnmin, _dnmax, _rpos, _thick;
   bool _shock;
-  Vector<T,D> _nc, _ip, _cx, _dx;
+  Vector<T,D> _nc, _ip, _dx;
 };
 
 #include "init.cpp"

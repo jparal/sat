@@ -4,6 +4,10 @@
 
 shock:
 {
+  dnmin = .2;
+  dnmax = 2.;
+  thick = .1;
+  rpos = 0.5;
 };
 
 simul:
@@ -18,8 +22,8 @@ simul:
 
 grid:
 {
-  cells  = [ 400, 100, 200 ];
-  resol  = [ .25, .5, 1. ];           # [c/omega_p]
+  cells  = [ 200, 100, 200 ];
+  resol  = [ .2, .2, 1. ];           # [c/omega_p]
   openbc = [ true, false, false ];  # Open Boundary Conditions
   bndcnd:
   {
@@ -33,7 +37,7 @@ grid:
 field:
 {
   nsub   = 10;                       # number of sub-steps of B-field
-  imf    = { phi = 90.; psi = 0.; };  # orientation of B-field
+  imf    = { phi = 0.; psi = 0.; };  # orientation of B-field
   dnmin  = 0.1;                    # minimal density to resolve
   resist = 0.02;                     # artificial resistivity
   viscos = 0.0;
@@ -44,8 +48,8 @@ plasma:
   betae = 0.5;
   specie:
   {
-    proton = { pcles = 200.; beta = 1.; ani = 1.; rmds = 1.; qms = 1.;
-      v0 = [5.,0.,0.]; };
+    proton = { pcles = 100.; beta = 1.; ani = 1.; rmds = 1.; qms = 1.;
+      v0 = [0.,0.,0.]; };
   };
 };
 
@@ -61,7 +65,7 @@ output:
     compress = { gz = 6; shuffle = true; };   # output compression
   };
 
-  dtout = 1.;
+  dtout = .2;
 
   sensors:
   {
