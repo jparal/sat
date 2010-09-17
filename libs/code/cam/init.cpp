@@ -102,6 +102,9 @@ void CAMCode<B,T,D>::Initialize ()
   Vector<T,3> currtot = 0.0;
 
   cfg.GetValue ("plasma.betae", _betae);
+  cfg.GetValue ("plasma.vmax", _vmax, -1.);
+  DBG_INFO ("max velocity of pcles : "<<_vmax);
+
   ConfigEntry &species = cfg.GetEntry ("plasma.specie");
   for (int i=0; i<species.GetLength (); ++i)
   {
@@ -126,6 +129,7 @@ void CAMCode<B,T,D>::Initialize ()
   cfg.GetValue ("field.nsub", _nsub, 10);
   cfg.GetValue ("field.imf.phi", _phi, 90.);
   cfg.GetValue ("field.imf.psi", _psi, 0.);
+  cfg.GetValue ("field.imf.amp", _bamp, 1.);
   cfg.GetValue ("field.dnmin", _dnmin, 0.05);
   cfg.GetValue ("field.resist", _resist, 0.001);
   cfg.GetValue ("field.viscos", _viscos, 0.0);
@@ -138,11 +142,13 @@ void CAMCode<B,T,D>::Initialize ()
   /************************************/
   /* Setup initial magnetic field _B0 */
   /************************************/
+  Vector<T,3> b0;
   _phi = Math::Deg2Rad (_phi);
   _psi = Math::Deg2Rad (_psi);
-  _B0[0] = Math::Cos(_phi) * Math::Cos(_psi);
-  _B0[1] = Math::Sin(_phi) * Math::Cos(_psi);
-  _B0[2] = Math::Sin(_psi);
+  b0[0] = Math::Cos(_phi) * Math::Cos(_psi);
+  b0[1] = Math::Sin(_phi) * Math::Cos(_psi);
+  b0[2] = Math::Sin(_psi);
+  _B0 = b0 *_bamp;
   DBG_INFO ("background B field (B_0)   : "<<_B0);
 
   /*****************************************************************/
@@ -246,7 +252,7 @@ void CAMCode<B,T,D>::Initialize ()
 
   //  _Psi = (T)0.; // initial value for psi function
   //  _Psih = (T)0.;
-  _B = _B0; // _Bh is initialized in function First()
+  _B = .0; // _Bh is initialized in function First()
   static_cast<B*>(this)->BInitAdd (_B);
 
   /*******************/
@@ -267,7 +273,7 @@ void CAMCode<B,T,D>::Initialize ()
 
     static_cast<B*>(this)->DnInitAdd (sp, _dn);
     static_cast<B*>(this)->BulkInitAdd (sp, _U);
-    sp->LoadPcles (_dn, _U, _B0);
+    sp->LoadPcles (_dn, _U, b0);
 
     /// Remove particles based on the problem (for example: inside of the
     /// planet for the dipole problem)

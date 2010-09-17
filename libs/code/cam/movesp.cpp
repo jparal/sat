@@ -21,6 +21,7 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
   T dt = _time.Dt ();
   T dta = (sp->ChargePerPcle () / sp->MassPerPcle ()) * dt;
   T dth = 0.5 * dta;
+  T vmax2 = _vmax*_vmax;
 
   const PosVector p05 (0.5);
   const PosVector dxi = _meshp.GetResolInv ();
@@ -47,13 +48,8 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     vh += dth * (ep + v % bp);
     v += dta * (ep + vh % bp);
 
-    /// @TODO make the constant more sensible
-    const T vmax = 10.;
-    if (v.Norm2() > vmax*vmax)
-    {
-      v.Normalize ();
-      v *= vmax;
-    }
+    if (_vmax > 0. && v.Norm2() > vmax2)
+      v.Normalize (_vmax);
 
     // Position advance
     p = pcle.pos;

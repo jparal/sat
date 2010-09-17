@@ -404,8 +404,9 @@ public:
   int _momsmooth;    ///< moment smoothing
   int _esmooth;      ///< electric field smoothing
 
+  T _vmax;                  ///< Square of maximal particle velocity.
   RefArray<TSpecie> _specie; ///< proton species
-  PosVector _pmin, _pmax;         ///< minimal/maximal position of particle
+  PosVector _pmin, _pmax;    ///< minimal/maximal position of particle
 
   SensorManager _sensmng;   ///< sensor manager
   CartDomDecomp<D> _decomp; ///< domain decomposition
@@ -421,6 +422,7 @@ public:
    * @endcode
    */
   T _phi, _psi;
+  T _bamp;         ///< Amplitude of solar wind (1 by default)
   Vector<T,3> _v0; ///< bulk velocity of entire plasma
   Vector<T,3> _B0; ///< Initial/background magnetic field
   Vector<T,3> _E0; ///< Initial electric field
