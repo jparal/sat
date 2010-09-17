@@ -15,7 +15,7 @@ hdrfile = dipole.h init.cpp
 cfgfile = *.sin
 instdir = $(prefix)/simul/dipole
 
-noinst_PROGRAMS = $(exename)
+EXTRA_PROGRAMS = $(exename)
 dipole_SOURCES = $(srcfile)
 dist_noinst_DATA = $(srcfile) $(hdrfile) $(cfgfile)
 # nobase_inst_DATA = $(cfgfile)
