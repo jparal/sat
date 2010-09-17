@@ -1,4 +1,4 @@
 /dipole
-out_*
+out*
 *.log
 *.out
