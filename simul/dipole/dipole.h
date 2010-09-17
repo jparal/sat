@@ -159,33 +159,33 @@ public:
   //   return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
   // }
 
-  // T BmaskAdd (const DomainIterator<D> &itb)
-  // {
-  //   PosVector xp;
-  //   for (int i=0; i<D; ++i)
-  //     xp[i] = (T(itb.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+  T BmaskAdd (const DomainIterator<D> &itb)
+  {
+    PosVector xp;
+    for (int i=0; i<D; ++i)
+      xp[i] = (T(itb.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
 
-  //   T ld = 3.;
-  //   T ee = (xp.Norm()-_radius)/ld;
-  //   if (ee > 5.)
-  //     return (T)1.;
-  //   else
-  //     return (T)1. - Math::Exp (-ee*ee);
-  // }
+    T ld = 2.;
+    T ee = (xp.Norm()-_radius)/ld;
+    if (ee > 5.)
+      return (T)1.;
+    else
+      return (T)1. - Math::Exp (-ee*ee);
+  }
 
-  // T EmaskAdd (const DomainIterator<D> &ite)
-  // {
-  //   PosVector xp;
-  //   for (int i=0; i<D; ++i)
-  //     xp[i] = (T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
+  T EmaskAdd (const DomainIterator<D> &ite)
+  {
+    PosVector xp;
+    for (int i=0; i<D; ++i)
+      xp[i] = (T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
 
-  //   T ld = 3.;
-  //   T ee = (xp.Norm()-_radius)/ld;
-  //   if (ee > 5.)
-  //     return (T)1.;
-  //   else
-  //     return (T)1. - Math::Exp (-ee*ee);
-  // }
+    T ld = 2.;
+    T ee = (xp.Norm()-_radius)/ld;
+    if (ee > 5.)
+      return (T)1.;
+    else
+      return (T)1. - Math::Exp (-ee*ee);
+  }
 
 private:
   bool _dipole;
