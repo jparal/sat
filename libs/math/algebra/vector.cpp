@@ -163,12 +163,12 @@ String Vector<T,D>::Description () const
 }
 
 template <class T, int D> inline
-void Vector<T,D>::Normalize ()
+void Vector<T,D>::Normalize (const T mag)
 {
   T len = _d[0] * _d[0];
   for (int i=1; i<D; ++i) len += _d[i] * _d[i];
   if (len < SMALL_EPS) return;
-  *this /= Math::Sqrt (len);
+  *this /= Math::Sqrt (len) / mag;
 }
 
 template <class T, int D> inline

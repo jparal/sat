@@ -261,7 +261,7 @@ public:
   { return Description (); }
 
   /// Set the magnitude of the Vector to 1
-  void Normalize ();
+  void Normalize (const T mag = T(1));
 
   /// Multiply all values
   T Mult () const;
