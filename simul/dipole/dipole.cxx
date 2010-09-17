@@ -16,7 +16,7 @@
 
 int main (int argc, char **argv)
 {
-  //  SAT::EnableFPException();
+  SAT::EnableFPException();
   DipoleCAMCode<float,2> dip;
   dip.Initialize (&argc, &argv);
   dip.Exec ();
