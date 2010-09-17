@@ -49,6 +49,21 @@ void CAMCode<B,T,D>::Move ()
 
     PcleSync (sp, dnsb, usb);
 
+    dnsa.Sync ();
+    dnsb.Sync ();
+
+    usa.Sync ();
+    usb.Sync ();
+
+    if (_momsmooth && (_time.Iter() % _momsmooth == 0))
+    {
+      Smooth (dnsa);
+      Smooth (dnsb);
+
+      Smooth (usa);
+      Smooth (usb);
+    }
+
     dnsa *= sq;
     dnsb *= sq;
 
@@ -83,13 +98,13 @@ void CAMCode<B,T,D>::Move ()
   MomBC (_dnf, _Uf);
   MomBC (_dna, _Ua);
 
-  if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-  {
-    Smooth (_dn, false);
-    Smooth (_dna, false);
-    Smooth (_dnf, false);
-    Smooth (_U, false);
-    Smooth (_Ua, false);
-    Smooth (_Uf, false);
-  }
+  // if (_momsmooth && (_time.Iter() % _momsmooth == 0))
+  // {
+  //   Smooth (_dn, false);
+  //   Smooth (_dna, false);
+  //   Smooth (_dnf, false);
+  //   Smooth (_U, false);
+  //   Smooth (_Ua, false);
+  //   Smooth (_Uf, false);
+  // }
 }

@@ -55,13 +55,13 @@ void CAMCode<B,T,D>::MomInit ()
   MomBC (_dn, _U);
   MomBC (_dna, _Ua);
 
-  if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-  {
-    Smooth (_dn, false);
-    Smooth (_dna, false);
-    Smooth (_U, false);
-    Smooth (_Ua, false);
-  }
+  // if (_momsmooth && (_time.Iter() % _momsmooth == 0))
+  // {
+  //   Smooth (_dn, false);
+  //   Smooth (_dna, false);
+  //   Smooth (_U, false);
+  //   Smooth (_Ua, false);
+  // }
 
   MomNorm (_dn, _U);
 }

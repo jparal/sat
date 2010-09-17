@@ -29,8 +29,8 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
   FldVector bc, uc, uxb, cb, gpe, elapl, enew, efld;
   do
   {
-    // if_pf (static_cast<B*>(this)->EcalcAdd (ite))
-    //   continue;
+     if_pf (static_cast<B*>(this)->EcalcAdd (ite))
+       continue;
 
     // TODO: compute dnc and uc is quite a waste of time ... especially when we
     // advance field since we can compute this values (dnc, uc) only once
@@ -87,7 +87,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
   EfieldBC ();
 
   if (_esmooth && (_time.Iter() % _esmooth == 0))
-    Smooth (_E, true);
+    Smooth (_E);
 
   EfieldBC ();
 }

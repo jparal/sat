@@ -27,4 +27,12 @@ void CAMCode<B,T,D>::CalcMom (TSpecie *sp, ScaField &dn, VecField &blk)
     CartStencil::BilinearWeightAdd (dn, cache, (T)1.);
     CartStencil::BilinearWeightAdd (blk, cache, pcle.vel);
   }
+
+  dn.Sync ();
+  blk.Sync ();
+  if (_momsmooth && (_time.Iter() % _momsmooth == 0))
+  {
+    Smooth (dn);
+    Smooth (blk);
+  }
 }

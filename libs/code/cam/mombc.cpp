@@ -14,32 +14,32 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::MomBC (ScaField &dn, VecField &blk)
 {
-  dn.Sync ();
-  blk.Sync ();
+  // dn.Sync ();
+  // blk.Sync ();
 
   Domain<D> dom;
   for (int i=0; i<D; ++i)
   {
-    if (_layop.IsOpen (i) && _layop.GetDecomp ().IsLeftBnd (i))
+    if (_layop.IsOpen (i) && _layop.GetDecomp().IsLeftBnd (i))
     {
-      dn.GetDomainAll( dom );
-      dom[i] = Range( 0, 1 );
-      dn.Set( dom, 1. );
+      dn.GetDomainAll (dom);
+      dom[i] = Range (0, 1);
+      dn.Set (dom, 1.);
 
-      blk.GetDomainAll( dom );
-      dom[i] = Range( 0, 1 );
-      blk.Set( dom, _v0 );
+      blk.GetDomainAll (dom);
+      dom[i] = Range (0, 1);
+      blk.Set (dom, _v0);
     }
 
-    if (_layop.IsOpen (i) && _layop.GetDecomp ().IsRightBnd (i))
+    if (_layop.IsOpen (i) && _layop.GetDecomp().IsRightBnd (i))
     {
-      dn.GetDomainAll( dom );
-      dom[i] = Range( dn.Size(i)-2, dn.Size(i)-1 );
-      dn.Set( dom, 1. );
+      dn.GetDomainAll (dom);
+      dom[i] = Range (dn.Size(i)-2, dn.Size(i)-1);
+      dn.Set (dom, 1.);
 
-      blk.GetDomainAll( dom );
-      dom[i] = Range( blk.Size(i)-2, blk.Size(i)-1 );
-      blk.Set( dom, _v0 );
+      blk.GetDomainAll (dom);
+      dom[i] = Range (blk.Size(i)-2, blk.Size(i)-1);
+      blk.Set (dom, _v0);
     }
   }
 

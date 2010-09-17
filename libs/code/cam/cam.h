@@ -350,7 +350,7 @@ public:
   /// Smooth any field
   /// @todo add desription about smoothing algorithm
   template<class T2, int D2>
-  void Smooth (Field<T2,D2> &fld, bool isefld);
+  void Smooth (Field<T2,D2> &fld);
 
   /// @}
 

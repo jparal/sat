@@ -40,10 +40,10 @@ void CAMCode<B,T,D>::AdvMom ()
   }
   while (itu.Next() && itb.Next() && ite.Next());
 
-  if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-  {
-    /// @TODO Why smoothing when I did not advance it?
-    // Smooth (_dn, false);
-    Smooth (_U, false);
-  }
+  // if (_momsmooth && (_time.Iter() % _momsmooth == 0))
+  // {
+  //   /// @TODO Why smoothing when I did not advance it?
+  //   // Smooth (_dn, false);
+  //   Smooth (_U, false);
+  // }
 }
