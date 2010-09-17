@@ -32,7 +32,7 @@ void SAT::EnableFPException ()
   newaction.sa_flags = 0;;
   sigaction(SIGFPE,&newaction,NULL);
   // FE_INEXACT | FE_DIVBYZERO | FE_UNDERFLOW | FE_OVERFLOW | FE_INVALID
-  feenableexcept (FE_UNDERFLOW | FE_OVERFLOW | FE_INVALID);
+  feenableexcept (FE_OVERFLOW | FE_INVALID);
 
 #endif
 }
