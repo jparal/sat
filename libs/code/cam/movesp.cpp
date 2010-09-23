@@ -25,7 +25,7 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
 
   const PosVector p05 (0.5);
   const PosVector dxi = _meshp.GetResolInv ();
-  PosVector p; // Particle position
+  PosVector x; // Particle position
   VelVector v, vh; // Particle velocity and half step velocity
   FldVector ep, bp; // E and B fields at particle position
 
@@ -35,15 +35,16 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
   {
     TParticle &pcle = sp->Get (pid);
 
+    /// v^0, x^1/2
     v = pcle.vel;
-    p = pcle.pos;
-    CartStencil::BilinearWeight (_B, p, cache, bp);
+    x = pcle.pos;
 
-    // Electric field is shifted
-    p  += p05;
-    CartStencil::BilinearWeight (_E, p, ep);
+    /// Obtain E,B at x^1/2
+    CartStencil::BilinearWeight (_B, x, cache, bp);
+    x += p05; // Electric field is shifted
+    CartStencil::BilinearWeight (_E, x, ep);
 
-    // Velocity advance
+    /// Advance velocity v^0 -> v^1
     vh = v;
     vh += dth * (ep + v % bp);
     v += dta * (ep + vh % bp);
@@ -51,18 +52,19 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     if (_vmax > 0. && v.Norm2() > vmax2)
       v.Normalize (_vmax);
 
-    // Position advance
-    p = pcle.pos;
+    /// Advance position x^1/2 -> x^3/2
+    x = pcle.pos;
     for (int i=0; i<D; ++i)
-      p[i] += (dt * v[i]) * dxi[i];
-
-    cache.ipos += 1; // since dn has ghost = 1
-    CartStencil::BilinearWeightAdd (dnsa, cache, (T)1.);
-    CartStencil::BilinearWeightAdd (Usa, cache, v);
+      x[i] += (dt * v[i]) * dxi[i];
 
     // Update position and velocity
-    pcle.pos = p;
+    pcle.pos = x;
     pcle.vel = v;
+
+    /// Collect moments at x^1/2 ; v^1
+    cache.ipos += 1; // since dn has ghost = 1
+    CartStencil::BilinearWeightAdd (dnsa, cache, (T)1.);
+    CartStencil::BilinearWeightAdd (Usa, cache, pcle.vel);
 
     if_pf (static_cast<B*>(this)->PcleBCAdd (sp, pid, pcle) ||
            PcleBC (sp, pid, pcle))
@@ -70,9 +72,10 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
       continue;
     }
 
-    FillCache (p, cache);
+    /// Collect moments at x^3/2 ; v^1
+    FillCache (pcle.pos, cache);
     cache.ipos += 1;
     CartStencil::BilinearWeightAdd (dnsb, cache, (T)1.);
-    CartStencil::BilinearWeightAdd (Usb, cache, v);
+    CartStencil::BilinearWeightAdd (Usb, cache, pcle.vel);
   }
 }
