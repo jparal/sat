@@ -178,11 +178,19 @@ public:
     return retval;
   }
 
+  /// Divide element-wise vector by vector
+  friend TVector operator/ (const TVector &v1, const Vector<T, D> &v2)
+  {
+    TVector retval;
+    for (int i=0; i<D; ++i) retval._d[i] = v1._d[i] / T(v2._d[i]);
+    return retval;
+  }
+
   /// Compare two vectors
   friend bool operator== (const TVector &v1, const Vector<T, D> &v2)
   {
     bool retval = v1._d[0] == (T)(v2._d[0]);
-    for (int i=1; i<D; ++i) retval = retval && (v1._d[i] == (T)(v2._d[i]));
+    for (int i=1; i<D; ++i) retval = retval && (v1._d[i] == T(v2._d[i]));
     return retval;
   }
 
