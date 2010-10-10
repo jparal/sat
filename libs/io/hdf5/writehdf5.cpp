@@ -28,6 +28,8 @@ void HDF5File::Write (const Field<T,D> &fld, const char *tag)
   int iproc = decomp.GetIProc ();
   Domain<D> dom;
   fld.GetDomain (dom);
+  if (mesh.Center () == Node)
+    dom.HiAdd (-1);
 
   if (iproc == 0)
   {
@@ -154,6 +156,8 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
   int iproc = decomp.GetIProc ();
   Domain<D> dom;
   fld.GetDomain (dom);
+  if (mesh.Center () == Node)
+    dom.HiAdd (-1);
 
   if (iproc==0)
   {
