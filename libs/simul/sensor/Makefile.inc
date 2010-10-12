@@ -10,6 +10,7 @@ headers += \
 	sensor/fldsens.h \
 	sensor/jxb.h \
 	sensor/kenergy.h \
+	sensor/laplace.h \
 	sensor/sensmng.h \
 	sensor/sensor.h
 

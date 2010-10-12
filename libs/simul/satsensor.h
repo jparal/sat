@@ -8,6 +8,7 @@
 #include "simul/sensor/fldsens.h"
 #include "simul/sensor/jxb.h"
 #include "simul/sensor/kenergy.h"
+#include "simul/sensor/laplace.h"
 #include "simul/sensor/sensmng.h"
 #include "simul/sensor/sensor.h"
 
