@@ -15,9 +15,6 @@
 
 void HDF5File::Open (const char *fname, IOFile::Flags flags)
 {
-  if (Mpi::Rank() != 0)
-    return;
-
   char fnamebuff[64];
 
   if (flags & suff)
@@ -25,19 +22,53 @@ void HDF5File::Open (const char *fname, IOFile::Flags flags)
   else
     snprintf (fnamebuff, 64, "%s", fname);
 
-  if (flags & app)
-    _file = H5Fopen (fnamebuff, H5F_ACC_RDWR, H5P_DEFAULT);
+#ifdef HAVE_HDF5_PARALLEL
+  if (Parallel ())
+  {
+    hid_t pfopen;
+    Mpi::Comm comm = Mpi::COMM_WORLD;
+    MPI_Info info = MPI_INFO_NULL;
+
+    pfopen = H5Pcreate (H5P_FILE_ACCESS);
+    H5Pset_fapl_mpio (pfopen, comm, info);
+
+    if (flags & app)
+      _file = H5Fopen (fnamebuff, H5F_ACC_RDWR, pfopen);
+    else
+      _file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, pfopen);
+
+    H5Pclose (pfopen);
+  }
   else
-    _file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+#endif /* HAVE_HDF5_PARALLEL */
+  {
+    if (Mpi::Rank() != 0)
+      return;
+
+    if (flags & app)
+      _file = H5Fopen (fnamebuff, H5F_ACC_RDWR, H5P_DEFAULT);
+    else
+      _file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+  }
 }
 
 void HDF5File::Close ()
 {
-  if (Mpi::Rank() != 0)
-    return;
+#ifdef HAVE_HDF5_PARALLEL
+  if (Parallel ())
+  {
+    if (_file)
+      H5Fclose(_file);
+  }
+  else
+#endif /* HAVE_HDF5_PARALLEL */
+  {
+    if (Mpi::Rank() != 0)
+      return;
 
-  if (_file)
-    H5Fclose(_file);
+    if (_file)
+      H5Fclose(_file);
+  }
 
   _file = 0;
 }

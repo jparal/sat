@@ -69,6 +69,22 @@ public:
   void Read (Field<Vector<T,R>,D> &fld, const char *tag);
 
 private:
+  template<class T>
+  void ReceiveData (T *data, size_t len, int iprc);
+  template<class T>
+  void SendData (T *data, size_t len);
+
+  template<class T, class T2, int D>
+  void WriteChunk (T *data, const Field<T2,D> &fld, const char *tag,
+		   int iprc, int rank);
+  template<class T, int D>
+  void CopyData (T *data, const Field<T,D> &fld);
+  template<class T, int R, int D>
+  void CopyData (T *data, const Field<Vector<T,R>,D> &fld, int rank);
+
+  template<class T, int D>
+  Domain<D> GetWritableDomain (const Field<T,D> &fld);
+
   hid_t _file;
 };
 

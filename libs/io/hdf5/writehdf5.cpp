@@ -22,268 +22,250 @@
 template<class T, int D>
 void HDF5File::Write (const Field<T,D> &fld, const char *tag)
 {
-  const Layout<D> &layout = fld.GetLayout ();
-  const CartDomDecomp<D> &decomp = layout.GetDecomp ();
-  const Mesh<D> &mesh = fld.GetMesh ();
-  int iproc = decomp.GetIProc ();
-  Domain<D> dom;
-  fld.GetDomain (dom);
-  if (mesh.Center () == Node)
-    dom.HiAdd (-1);
+  size_t len = GetWritableDomain(fld).Length ();
+  T *data = (T*)malloc (len * sizeof(T));
 
-  if (iproc == 0)
+  // bool wait = true;
+  // while (wait);
+
+#ifdef HAVE_HDF5_PARALLEL
+
+  if (Parallel ())
   {
-    hid_t fspace, fdataset, mspace, plist, type;
-    hsize_t start[D], stride[D], count[D], block[D];
-    hsize_t domlen = dom.Length ();
-    type = HDF5TypeTraits<T>::GetID ();
-    int nproc = decomp.GetNProc ();
-    const Vector<int,D> &dims = fld.GetDims ();
-
-    // Select memory dataspace (common for all processors)
-    mspace = H5Screate_simple(1, &domlen, NULL);
-    start[0]  = 0;
-    stride[0] = 1;
-    count[0]  = domlen;
-    block[0]  = 1;
-    H5Sselect_hyperslab(mspace, H5S_SELECT_SET, start, stride, count, block);
-
-    // Create file dataset
-    hsize_t fdims[D], cdims[D];
-    for (int i=0, j=D-1; i<D; ++i,--j)
+    CopyData (data, fld);
+    WriteChunk (data, fld, tag, -1, -1);
+  }
+  else
+#endif /* HAVE_HDF5_PARALLEL */
+  {
+    int iproc = fld.GetLayout().GetDecomp().GetIProc ();
+    int nproc = fld.GetLayout().GetDecomp().GetNProc ();
+    if (iproc == 0)
     {
-      int domsize = dom[i].Length ();
-      fdims[j] = domsize * decomp.GetSize (i);
-      cdims[j] = domsize;
-    }
-    fspace = H5Screate_simple (D, fdims, NULL);
+      for (int iprc=0; iprc<nproc; ++iprc)
+      {
+	if (iprc == 0)
+	  CopyData (data, fld);
+	else
+	  ReceiveData (data, len, iprc);
 
-    if (Gzip() || Shuffle())
-    {
-      plist = H5Pcreate (H5P_DATASET_CREATE);
-      H5Pset_chunk (plist, D, cdims);
-      if (Shuffle()) H5Pset_shuffle (plist);
-      if (Gzip()) H5Pset_deflate (plist, Gzip());
+	WriteChunk (data, fld, tag, iprc, -1);
+      }
     }
     else
     {
-      plist = H5P_DEFAULT;
-    }
-
-    fdataset = H5Dcreate (_file, tag, type, fspace, plist);
-    // H5P_DEFAULT, /**< Link creation property list */
-    // plist, /**< Dataset creation property list */
-    // H5P_DEFAULT); /**< Dataset access property list */
-
-    /*************************************/
-    /*************************************/
-    T val;
-    // Create memory dataset
-    T *data = (T*)malloc (dom.Length () * sizeof(T));
-
-    for (int iprc=0; iprc<nproc; ++iprc)
-    {
-      DomainIterator<D> iter (dom);
-
-      // Select file dataspace (unique for each processor)
-      for (int i=0, j=D-1; i<D; ++i, --j)
-      {
-	start[j] = decomp.GetPosition (i, iprc) * dom[i].Length ();
-	stride[j] = 1;
-	count[j] = dom[i].Length ();
-	block[j] = 1;
-      }
-
-      H5Sselect_hyperslab(fspace, H5S_SELECT_SET, start, stride, count, block);
-
-      /****************************************/
-      /****************************************/
-      T *pdata = data;
-      if (iprc == 0)
-      {
-	while (iter.HasNext ())
-	{
-	  *pdata++ = fld (iter);
-	  iter.Next ();
-	}
-      }
-      else // iprc != 0
-      {
-	int tag = 0;
-	MpiIStream<T> is (iprc, tag);
-	for (int i=0; i<dom.Length (); ++i)
-	{
-	  is >> val;
-	  *pdata++ = val;
-	}
-      }
-
-      H5Dwrite (fdataset, type, mspace, fspace, H5P_DEFAULT, data);
-    }
-
-    // Close the hdf5 handlers
-    H5Sclose (fspace);
-    H5Sclose (mspace);
-    H5Dclose (fdataset);
-    H5Pclose(plist);
-    free (data);
-  }
-  else // iproc != 0
-  {
-    /***************************/
-    /* Send my data to iproc 0 */
-    /***************************/
-    int tag = 0;
-    DomainIterator<D> iter (dom);
-    MpiOStream<T> os (0, tag);
-    T val;
-    while (iter.HasNext ())
-    {
-      val = fld (iter);
-      os << val;
-      iter.Next ();
+      CopyData (data, fld);
+      SendData (data, len);
     }
   }
+
+  free (data);
 }
-
 
 template<class T, int R, int D>
 void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
 {
-  const Layout<D> &layout = fld.GetLayout ();
-  const CartDomDecomp<D> &decomp = layout.GetDecomp ();
-  const Mesh<D> &mesh = fld.GetMesh ();
-  int iproc = decomp.GetIProc ();
-  Domain<D> dom;
-  fld.GetDomain (dom);
-  if (mesh.Center () == Node)
-    dom.HiAdd (-1);
+  size_t len = GetWritableDomain(fld).Length ();
+  T *data = (T*)malloc (len * sizeof(T));
 
-  if (iproc==0)
+#ifdef HAVE_HDF5_PARALLEL
+
+  if (Parallel ())
   {
-    hid_t fspace, fdataset, mspace, plist, type;
-    hsize_t start[D], stride[D], count[D], block[D];
-    hsize_t domlen = dom.Length ();
-    type = HDF5TypeTraits<T>::GetID ();
-    int nproc = decomp.GetNProc ();
-    const Vector<int,D> &dims = fld.GetDims ();
-
-    // Select memory dataspace (common for all processors)
-    mspace = H5Screate_simple(1, &domlen, NULL);
-    start[0]  = 0;
-    stride[0] = 1;
-    count[0]  = domlen;
-    block[0]  = 1;
-    H5Sselect_hyperslab(mspace, H5S_SELECT_SET, start, stride, count, block);
-
-    // Create file dataset
-    hsize_t fdims[D], cdims[D];
-    for (int i=0, j=D-1; i<D; ++i,--j)
+    for (int rank=0; rank<R; ++rank)
     {
-      int domsize = dom[i].Length ();
-      fdims[j] = domsize * decomp.GetSize (i);
-      cdims[j] = domsize;
+      CopyData (data, fld, rank);
+      WriteChunk (data, fld, tag, -1, rank);
     }
-    fspace = H5Screate_simple (D, fdims, NULL);
-
-    if (Gzip() || Shuffle())
+  }
+  else
+#endif /* HAVE_HDF5_PARALLEL */
+  {
+    int iproc = fld.GetLayout().GetDecomp().GetIProc ();
+    int nproc = fld.GetLayout().GetDecomp().GetNProc ();
+    if (iproc == 0)
     {
-      plist = H5Pcreate (H5P_DATASET_CREATE);
-      H5Pset_chunk (plist, D, cdims);
-      if (Shuffle()) H5Pset_shuffle (plist);
-      if (Gzip()) H5Pset_deflate (plist, Gzip());
+      for (int rank=0; rank<R; ++rank)
+      {
+        for (int iprc=0; iprc<nproc; ++iprc)
+        {
+          if (iprc == 0)
+            CopyData (data, fld, rank);
+          else
+            ReceiveData (data, len, iprc);
+
+          WriteChunk (data, fld, tag, iprc, rank);
+        }
+      }
     }
     else
     {
-      plist = H5P_DEFAULT;
-    }
-
-    /*************************************/
-    /*************************************/
-    T val;
-    // Create memory dataset
-    T *data = (T*)malloc (dom.Length () * sizeof(T));
-
-    for (int r=0; r<R; ++r)
-    {
-      char tagtmp[64];
-      snprintf (tagtmp, 64, "%s%d", tag, r);
-      fdataset = H5Dcreate (_file, tagtmp, type, fspace, plist);
-      // H5P_DEFAULT, /**< Link creation property list */
-      // plist, /**< Dataset creation property list */
-      // H5P_DEFAULT); /**< Dataset access property list */
-
-      for (int iprc=0; iprc<nproc; ++iprc)
+      for (int rank=0; rank<R; ++rank)
       {
-	DomainIterator<D> iter (dom);
-
-	// Select file dataspace (unique for each processor)
-	for (int i=0, j=D-1; i<D; ++i, --j)
-	{
-	  start[j] = decomp.GetPosition (i, iprc) * dom[i].Length ();
-	  stride[j] = 1;
-	  count[j] = dom[i].Length ();
-	  block[j] = 1;
-	}
-
-	H5Sselect_hyperslab(fspace, H5S_SELECT_SET, start, stride, count, block);
-
-	/****************************************/
-	/****************************************/
-	T *pdata = data;
-	Vector<T,R> tmp;
-	if (iprc == 0)
-	{
-	  while (iter.HasNext ())
-	  {
-	    tmp = fld (iter);
-
-	    *pdata++ = tmp[r];
-	    iter.Next ();
-	  }
-	}
-	else
-	{
-	  int tag = 0;
-	  MpiIStream<T> is (iprc, tag);
-	  for (int i=0; i<dom.Length (); ++i)
-	  {
-	    is >> val;
-	    *pdata++ = val;
-	  }
-	}
-
-	H5Dwrite (fdataset, type, mspace, fspace, H5P_DEFAULT, data);
+        CopyData (data, fld, rank);
+        SendData (data, len);
       }
-      H5Dclose (fdataset);
     }
-
-    // Close the hdf5 handlers
-    H5Sclose (fspace);
-    H5Sclose (mspace);
-    H5Pclose(plist);
-    free (data);
   }
-  else // iproc != 0
+
+  free (data);
+}
+
+template<class T>
+void HDF5File::ReceiveData (T *data, size_t len, int iprc)
+{
+  T val;
+  int tag = 0;
+  MpiIStream<T> is (iprc, tag);
+  for (int i=0; i<len; ++i)
   {
-    /***************************/
-    /* Send my data to iproc 0 */
-    /***************************/
-    Vector<T,R> val;
-
-    for (int r=0; r<R; ++r)
-    {
-      int tag = 0;
-      MpiOStream<T> os (0, tag);
-      DomainIterator<D> iter (dom);
-      while (iter.HasNext ())
-      {
-	val = fld (iter);
-	os << val[r];
-	iter.Next ();
-      }
-    }
+    is >> val;
+    *data++ = val;
   }
+}
+
+template<class T>
+void HDF5File::SendData (T *data, size_t len)
+{
+  int tag = 0;
+  T val;
+  MpiOStream<T> os (0, tag);
+  for (int i=0; i<len; ++i)
+  {
+    val = *data++;
+    os << val;
+  }
+}
+
+template<class T, class T2, int D>
+void HDF5File::WriteChunk (T *data, const Field<T2,D> &fld, const char *tag, int iprc, int rank)
+{
+  const Layout<D> &layout = fld.GetLayout ();
+  const Mesh<D> &mesh = fld.GetMesh ();
+  const CartDomDecomp<D> &decomp = layout.GetDecomp ();
+  Domain<D> dom = GetWritableDomain (fld);
+
+  char tagtmp[64];
+  if (rank < 0)
+    snprintf (tagtmp, 64, "%s", tag);
+  else
+    snprintf (tagtmp, 64, "%s%d", tag, rank);
+
+  if (iprc < 0)
+    iprc = decomp.GetIProc ();
+
+  hid_t fspace, fdataset, mspace, plist, type;
+  hsize_t start[D], stride[D], count[D], block[D];
+  hsize_t domlen = dom.Length ();
+  type = HDF5TypeTraits<T>::GetID ();
+
+  // Select memory dataspace (common for all processors)
+  mspace = H5Screate_simple(1, &domlen, NULL);
+  start[0]  = 0;
+  stride[0] = 1;
+  count[0]  = domlen;
+  block[0]  = 1;
+  H5Sselect_hyperslab(mspace, H5S_SELECT_SET, start, stride, count, block);
+
+  // Create file dataset
+  hsize_t fdims[D], cdims[D];
+  for (int i=0, j=D-1; i<D; ++i,--j)
+  {
+    int domsize = dom[i].Length ();
+    fdims[j] = domsize * decomp.GetSize (i);
+    cdims[j] = domsize;
+  }
+  fspace = H5Screate_simple (D, fdims, NULL);
+
+  if ((Gzip() || Shuffle()) && !Parallel ())
+  {
+    // @TODO I create plist here but in the other branch of this condition I
+    //       just assign a value: is this correct?
+    plist = H5Pcreate (H5P_DATASET_CREATE);
+    H5Pset_chunk (plist, D, cdims);
+
+    if (Shuffle ())
+      H5Pset_shuffle (plist);
+    if (Gzip ())
+      H5Pset_deflate (plist, Gzip());
+  }
+  else
+  {
+    plist = H5P_DEFAULT;
+  }
+
+  // Select file dataspace (unique for each processor)
+  for (int i=0, j=D-1; i<D; ++i, --j)
+  {
+    start[j] = decomp.GetPosition (i, iprc) * dom[i].Length ();
+    stride[j] = 1;
+    count[j] = dom[i].Length ();
+    block[j] = 1;
+  }
+
+  H5Sselect_hyperslab(fspace, H5S_SELECT_SET, start, stride, count, block);
+
+#ifdef HAVE_HDF5_PARALLEL
+  if (Parallel ())
+  {
+    hid_t pdatxfer;
+    pdatxfer = H5Pcreate (H5P_DATASET_XFER);
+    H5Pset_dxpl_mpio (pdatxfer, H5FD_MPIO_COLLECTIVE);
+
+    fdataset = H5Dcreate (_file, tagtmp, type, fspace, plist);
+    H5Dwrite (fdataset, type, mspace, fspace, pdatxfer, data);
+
+    H5Pclose(pdatxfer);
+  }
+  else
+#endif /* HAVE_HDF5_PARALLEL */
+  {
+    if (iprc == 0)
+      fdataset = H5Dcreate (_file, tagtmp, type, fspace, plist);
+    else
+      fdataset = H5Dopen (_file, tagtmp);
+
+    H5Dwrite (fdataset, type, mspace, fspace, H5P_DEFAULT, data);
+  }
+
+  H5Dclose (fdataset);
+  H5Sclose (fspace);
+  H5Sclose (mspace);
+  H5Pclose (plist);
+}
+
+template<class T, int D>
+void HDF5File::CopyData (T *data, const Field<T,D> &fld)
+{
+  Domain<D> dom = GetWritableDomain (fld);
+  DomainIterator<D> it (dom);
+  do
+  {
+    *data++ = fld (it);
+  }
+  while (it.Next ());
+}
+
+template<class T, int R, int D>
+void HDF5File::CopyData (T *data, const Field<Vector<T,R>,D> &fld, int rank)
+{
+  Domain<D> dom = GetWritableDomain (fld);
+  DomainIterator<D> it (dom);
+  do
+  {
+    *data++ = fld(it)[rank];
+  }
+  while (it.Next ());
+}
+
+template<class T, int D>
+Domain<D> HDF5File::GetWritableDomain (const Field<T,D> &fld)
+{
+  Domain<D> dom;
+  fld.GetDomain (dom);
+  if (fld.GetMesh().Center () == Node)
+    dom.HiAdd (-1);
+  return dom;
 }
 
 template<class T>
@@ -333,7 +315,7 @@ void HDF5File::Write (const Array<T> &arr, const char *tag)
   count[0] = arr.GetSize ();
   block[0] = 1;
 
-  H5Sselect_hyperslab(fspace, H5S_SELECT_SET, start, stride, count, block);
+  H5Sselect_hyperslab (fspace, H5S_SELECT_SET, start, stride, count, block);
 
   /****************************************/
   /****************************************/
@@ -343,5 +325,5 @@ void HDF5File::Write (const Array<T> &arr, const char *tag)
   H5Sclose (fspace);
   H5Sclose (mspace);
   H5Dclose (fdataset);
-  H5Pclose(plist);
+  H5Pclose (plist);
 }
