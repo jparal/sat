@@ -130,20 +130,43 @@ void CartDomDecomp<D>::Init (int iproc)
 template<int D>
 void CartDomDecomp<D>::SplitProcessors (Vector<int,D>& ratio, int nproc)
 {
-  Vector<int,D> split = ratio;
+  // Is split already set up from the configuration file?
+  if (ratio.Mult () == nproc)
+    return;
 
-  for (;split.Mult () < nproc;)
+  // reset ratio
+  ratio = 1;
+
+  int iproc = 2, idim = 0, nploc = nproc;
+  while (nploc > 1)
   {
-    for (int dim=0; dim<D;++dim)
+    if (nploc % iproc == 0)
     {
-      int idx = 0;
-      while (split.Mult () < nproc && idx++ < ratio[dim])
-	++split[dim];
+      ratio[idim++ % D] *= iproc;
+      nploc /= iproc;
+      iproc = 2;
     }
-  }
-  SAT_ASSERT_MSG (split.Mult () == nproc, "Unable to split processors"
-		  " using given ratio");
-  ratio = split;
+    else
+    {
+      iproc++;
+    }
+  };
+
+  SAT_ASSERT_MSG (ratio.Mult () == nproc, "Unable to split processors");
+
+  // Vector<int,D> split = ratio;
+  // for (;split.Mult () < nproc;)
+  // {
+  //   for (int dim=0; dim<D;++dim)
+  //   {
+  //     int idx = 0;
+  //     while (split.Mult () < nproc && idx++ < ratio[dim])
+  // 	++split[dim];
+  //   }
+  // }
+  // SAT_ASSERT_MSG (split.Mult () == nproc, "Unable to split processors"
+  // 		  " using given ratio");
+  // ratio = split;
 }
 
 template class CartDomDecomp<1>;

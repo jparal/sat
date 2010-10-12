@@ -71,6 +71,9 @@ public:
   int GetSize (int idim) const
   { return _npe[idim]; }
 
+  const Vector<int,D>&  Size () const
+  { return _npe; }
+
   int GetPosition (int idim, int iproc) const;
   int GetLeft (int idim, int iproc) const;
   int GetRight (int idim, int iproc) const;
