@@ -3,7 +3,6 @@
 
 #include "satsysdef.h"
 #include "simul/field/bwcache.h"
-#include "simul/field/cartgrid.h"
 #include "simul/field/cartstencil.h"
 #include "simul/field/field.h"
 #include "simul/field/layout.h"
