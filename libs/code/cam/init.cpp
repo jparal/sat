@@ -48,11 +48,16 @@ void CAMCode<B,T,D>::Initialize ()
   cfg.GetValue ("parallel.mpi.proc", ratio);
   cfg.GetValue ("grid.openbc", openbc);
 
-  DBG_INFO ("MPI decomposition ratio  : "<<ratio);
-  DBG_INFO ("open Boundary conditions : "<<openbc);
-
   mesh.Initialize (cfg.GetEntry ("grid"));
   _decomp.Initialize (ratio, Mpi::COMM_WORLD);
+
+  DBG_INFO ("MPI decomposition ratio  : "<<_decomp.Size ());
+  DBG_INFO ("open Boundary conditions : "<<openbc);
+
+  for (int i=0; i<D; ++i)
+    while (mesh.Cells()[i] % _decomp.Size()[i] != 0)
+      mesh.Cells()[i]++;
+
   DBG_INFO ("total number of cells    : "<<mesh.Cells ());
   DBG_INFO ("   X spatial resolution  : "<<mesh.Resol ());
   DBG_INFO ("   = physical size       : "<<mesh.Size ());
@@ -224,6 +229,7 @@ void CAMCode<B,T,D>::Initialize ()
   JxBSensor<T,3,D> *jxbsens = new JxBSensor<T,3,D>;
   CurlBxBSensor<T,3,D> *cbxbsens = new CurlBxBSensor<T,3,D>;
   KineticEnergySensor<T,3,D> *ken = new KineticEnergySensor<T,3,D>;
+  LaplaceSensor<T,3,D> *lap = new LaplaceSensor<T,3,D>;
 
   nsens->Initialize (cfg, "density", &_dn);
   esens->Initialize (cfg, "elfield", &_E);
@@ -235,6 +241,7 @@ void CAMCode<B,T,D>::Initialize ()
   jxbsens->Initialize (cfg, "jxb", &_U, &_B, &_dn);
   cbxbsens->Initialize (cfg, "cbxb", &_B, &_dn);
   ken->Initialize (cfg, "kenergy", &_specie, &_B);
+  lap->Initialize (cfg, "laplace", &_E);
 
   _sensmng.AddSensor (nsens);
   _sensmng.AddSensor (bsens);
@@ -246,6 +253,7 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (jxbsens);
   _sensmng.AddSensor (cbxbsens);
   _sensmng.AddSensor (ken);
+  _sensmng.AddSensor (lap);
 
   DBG_INFO ("=========== PostInitialize: =========");
   PostInitialize (cfg);

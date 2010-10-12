@@ -176,16 +176,16 @@ void CartStencil::Lapl (const Field<Vector<T,3>,1> &fld,
 			const DomainIterator<1> &iter,
 			Vector<T,3> &val)
 {
-  Vector<Vector<T,3>,3> adj;
-  Loc<1> loc = iter.GetLoc ();
-  adj[0] = T(-2.)*fld(loc);
+  Vector<T,3> adj;
+  Loc<1> loc;
 
-  loc[0] -= 1; adj[1] = fld(loc);
-  loc[0] += 2; adj[2] = fld(loc);
+  loc = iter.GetLoc ();
+  adj = T(-2.)*fld(loc);
+  loc[0] -= 1; adj += fld (loc);
+  loc[0] += 2; adj += fld (loc);
 
-  /// @TODO move dxi2 to mesh class
   T dxi = fld.GetMesh().GetResolInv (0);
-  val =  dxi*dxi * (adj[0] + adj[1]  + adj[2]);
+  val =  dxi*dxi * adj;
 }
 
 template<class T> SAT_INLINE_FLATTEN
@@ -193,20 +193,41 @@ void CartStencil::Lapl (const Field<Vector<T,3>,2> &fld,
 			const DomainIterator<2> &iter,
 			Vector<T,3> &val)
 {
-  Vector<Vector<T,3>,3> adj;
-  Loc<2> loc = iter.GetLoc ();
-  adj[0] = T(-2.)*fld(loc);
+  // Vector<T,3> adj;
+  // Loc<2> loc;
+  // val = (T)0.;
 
-  loc[0] -= 1; adj[1] = fld(loc);
-  loc[0] += 2; adj[2] = fld(loc);
-  T dxi = fld.GetMesh().GetResolInv (0);
-  val =  dxi*dxi * (adj[0] + adj[1]  + adj[2]);
+  // for (int i=0; i<2; ++i)
+  // {
+  //   loc = iter.GetLoc ();
+  //   adj = T(6.)*fld (loc);
 
-  loc = iter.GetLoc ();
-  loc[1] -= 1; adj[1] = fld(loc);
-  loc[1] += 2; adj[2] = fld(loc);
-  T dyi = fld.GetMesh().GetResolInv (1);
-  val +=  dyi*dyi * (adj[0] + adj[1]  + adj[2]);
+  //   loc[i] -= 1; adj -= T(4)*fld (loc);
+  //   if (loc[i] > 0) loc[i] -= 1; else loc[i] += 3;
+  //   adj += fld (loc);
+
+  //   loc = iter.GetLoc ();
+  //   loc[i] += 1; adj -= T(4)*fld (loc);
+  //   if (loc[i] < fld.GetSize (i)-1) loc[i] += 1; else loc[i] -= 3;
+  //   adj += fld (loc);
+
+  //   T dxi = fld.GetMesh().GetResolInv (i);
+  //   val +=  dxi*dxi*dxi*dxi * adj;
+  // }
+
+  Vector<T,3> adj;
+  Loc<2> loc;
+  val = (T)0.;
+
+  for (int i=0; i<2; ++i)
+  {
+    loc = iter.GetLoc ();
+    adj = T(-2.)*fld (loc);
+    loc[i] -= 1; adj += fld (loc);
+    loc[i] += 2; adj += fld (loc);
+    T dxi = fld.GetMesh().GetResolInv (i);
+    val +=  dxi*dxi * adj;
+  }
 }
 
 template<class T> SAT_INLINE_FLATTEN
@@ -214,26 +235,27 @@ void CartStencil::Lapl (const Field<Vector<T,3>,3> &fld,
 			const DomainIterator<3> &iter,
 			Vector<T,3> &val)
 {
-  Vector<Vector<T,3>,3> adj;
-  Loc<3> loc = iter.GetLoc ();
-  adj[0] = T(-2.)*fld(loc);
+  Vector<T,3> adj;
+  Loc<3> loc;
+  val = (T)0.;
 
-  loc[0] -= 1; adj[1] = fld(loc);
-  loc[0] += 2; adj[2] = fld(loc);
-  T dxi = fld.GetMesh().GetResolInv (0);
-  val =  dxi*dxi * (adj[0] + adj[1]  + adj[2]);
+  for (int i=0; i<3; ++i)
+  {
+    loc = iter.GetLoc ();
+    adj = T(6.)*fld (loc);
 
-  loc = iter.GetLoc ();
-  loc[1] -= 1; adj[1] = fld(loc);
-  loc[1] += 2; adj[2] = fld(loc);
-  T dyi = fld.GetMesh().GetResolInv (1);
-  val +=  dyi*dyi * (adj[0] + adj[1]  + adj[2]);
+    loc[i] -= 1; adj -= T(4)*fld (loc);
+    if (loc[i] > 0) loc[i] -= 1; else loc[i] += 3;
+    adj += fld (loc);
 
-  loc = iter.GetLoc ();
-  loc[2] -= 1; adj[1] = fld(loc);
-  loc[2] += 2; adj[2] = fld(loc);
-  T dzi = fld.GetMesh().GetResolInv (2);
-  val +=  dzi*dzi * (adj[0] + adj[1]  + adj[2]);
+    loc = iter.GetLoc ();
+    loc[i] += 1; adj -= T(4)*fld (loc);
+    if (loc[i] < fld.GetSize (i)-1) loc[i] += 1; else loc[i] -= 3;
+    adj += fld (loc);
+
+    T dxi = fld.GetMesh().GetResolInv (i);
+    val +=  dxi*dxi*dxi*dxi * adj;
+  }
 }
 
 template<class T, class T2, int D> SAT_INLINE_FLATTEN

@@ -72,13 +72,6 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     efld = _E(ite);
     efld += (enew - efld) * static_cast<B*>(this)->EmaskAdd (ite);
 
-    // const T emax = 1000.;
-    // if (efld.Norm2 () > emax*emax)
-    // {
-    //   efld.Normalize ();
-    //   efld *= emax;
-    // }
-
     _E(ite) = efld;
   }
   while (itb.Next () && itu.Next() && ite.Next());
