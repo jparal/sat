@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while [ x"$1" != x"" ]
+do
+    mv "$1" "$1.orig"
+    echo "Packing: $1"
+    h5repack -i "$1.orig" -o "$1" -f SHUF -f GZIP=9
+    rm -f "$1.orig"
+    shift
+done
