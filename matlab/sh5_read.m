@@ -5,3 +5,4 @@ function [data,attr] = sh5_read(sensor,basename,tag,iter)
 
 fname = sio_fname(sensor,basename,iter);
 [data,attr] = hdf5read(fname,tag,'ReadAttributes',true);
+data=permute(data,length(size(data)):-1:1);
