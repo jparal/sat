@@ -50,11 +50,38 @@ public:
     for (int i=0; i<D; ++i)
       xp[i] = (pcle.pos[i] + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
 
-    if (xp.Norm2() < _radius2)
+    T dist2 = xp.Norm2 ();
+    if (dist2 < _radius2*(0.99*0.99))
     {
       sp->Exec (id, PCLE_CMD_REMOVE);
       return true;
     }
+
+    // if (dist2 < _radius2*(1.01*1.01))
+    // {
+    //   bool repeat;
+    //   do
+    //   {
+    //     repeat = false;
+    //     T ang = M_2PI*_rand.Get ();// - M_PI_2;
+    //     T rr = _radius * (1.01 + .2*_rand.Get ());
+    //     xp[0] = rr * Math::Cos (ang) + _cx[0];
+    //     xp[1] = rr * Math::Sin (ang) + _cx[1];
+    //     for (int i=0; i<D; ++i)
+    //     {
+    //       pcle.pos[i] = (xp[i]/_dx[i] - _ip[i]*_nc[i]);
+    //       if (pcle.pos[i] <= ((TBase*)this)->_pmin[i] ||
+    //           ((TBase*)this)->_pmax[i] <= pcle.pos[i])
+    //         repeat = true;
+    //     }
+    //   }
+    //   while (repeat);
+
+    //   xp.Normalize (Math::Abs (T(2.)+_maxw.Get ()));
+    //   pcle.vel[0] = xp[0];
+    //   pcle.vel[1] = xp[1];
+    //   pcle.vel[2] = 0.;
+    // }
 
     return false;
   }
@@ -67,10 +94,10 @@ public:
     do
     {
       for (int i=0; i<D; ++i)
-	xp[i] = ( T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i] )*_dx[i] - _cx[i];
+        xp[i] = ( T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i] )*_dx[i] - _cx[i];
 
       if (xp.Norm2() < _radius2)
-      	((TBase*)this)->_E(ite) = 0.;
+        ((TBase*)this)->_E(ite) = 0.;
     }
     while (ite.Next());
   }
@@ -126,6 +153,10 @@ public:
     }
     mv[D-1] = _amp;
 
+    // Set minimal radius at 80% of _radius, under which we dont calculate
+    // dipole field since it is not necessary anyway and cases it problems in
+    // variable outputs and FPEs.
+    const T r3min = _radius2*0.8*0.8 * _radius*0.8;
     DomainIterator<D> it( b.GetDomainAll() );
     do
     {
@@ -133,31 +164,36 @@ public:
         xp[i] = ( (T)(it.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
 
       T r3 = xp.Norm() * xp.Norm2();
-      r3 = r3 > 0.0001 ? r3 : 0.0001;
       xp.Normalize();
-      b(it) += ((T)3.*(mv*xp) * xp - mv)/r3;
+
+      if (r3 > r3min)
+	b(it) += ((T)3.*(mv*xp) * xp - mv)/r3;
+      else if (r3 > M_EPS)
+	b(it) += ((T)3.*(mv*xp) * xp - mv)/r3min;
+      else
+	continue;
     }
     while (it.Next());
   }
 
-  // T ResistAdd (const PosVector &pos) const
-  // {
-  //   PosVector cp;
-  //   for (int i=0; i<D; ++i)
-  //     cp[i] = pos[i]*_dx[i] - _cx[i];
+  T ResistAdd (const PosVector &pos) const
+  {
+    PosVector cp;
+    for (int i=0; i<D; ++i)
+      cp[i] = pos[i]*_dx[i] - _cx[i];
 
-  //   /// Exponential resistivity
-  //   // T ld = 4.0;
-  //   // T ee = (cp.Norm()-_radius)/ld;
-  //   // return Math::Exp (-ee * ee);
+    /// Exponential resistivity
+    // T ld = 4.0;
+    // T ee = (cp.Norm()-_radius)/ld;
+    // return Math::Exp (-ee * ee);
 
-  //   /// Tangential resistivity
-  //   T ld = 4.0;
-  //   T am = 0.8;
-  //   T rm = 0.8;
-  //   T ee = cp.Norm()-_radius;
-  //   return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
-  // }
+    /// Tangential resistivity
+    T ld = 4.0;
+    T am = 0.8;
+    T rm = 0.8;
+    T ee = cp.Norm()-_radius;
+    return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+  }
 
   T BmaskAdd (const DomainIterator<D> &itb)
   {
@@ -187,8 +223,36 @@ public:
       return (T)1. - Math::Exp (-ee*ee);
   }
 
+  void DnInitAdd (TSpecie *sp, ScaField &dn)
+  {
+    if (sp->GetName () != "ionosphere")
+      return;
+
+    PosVector xp;
+    DomainIterator<D> it( dn.GetDomainAll() );
+    do
+    {
+      for (int i=0; i<D; ++i)
+        xp[i] = ( (T)(it.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+
+      if (xp.Norm2 () < _radius2)
+        dn(it) = 0.;
+
+      /// Tangential profile of ionospheric particles
+      T ld = 3. * _radius;
+      T rm = _radius / 2.;
+      T am = .1;
+      T ee = xp.Norm()-_radius;
+
+      dn(it) = am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+    }
+    while (it.Next());
+  }
+
 private:
   bool _dipole;
+  RandomGen<T> _rand;
+  MaxwellRandGen<T> _maxw;
   T _amp, _radius, _radius2;
   Vector<T,D> _rpos, _nc, _ip, _cx, _dx;
 };

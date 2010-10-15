@@ -15,6 +15,9 @@ template<class B, class T, int D>
 void CAMCode<B,T,D>::Exec ()
 {
   MomInit ();
+  // If E is not defined during the first calling of CalcE then Laplace
+  // operator of E is undefined as well.
+  _E = T(0);
   CalcE (_B, _Ua, _dn, true);
 
   do

@@ -56,8 +56,10 @@ void DipoleCAMCode<T,D>::PostInitialize (const ConfigFile &cfg)
   T r3 = _radius2 * _radius;
   xp[0] = _radius;
   mv[D-1] = _amp;
-  b0 += ((T)3.*(mv*xp) * xp - mv)/r3;
+  if (r3 > M_EPS)
+    b0 += ((T)3.*(mv*xp) * xp - mv)/r3;
 
+  _maxw.Initialize (1.);
   DBG_INFO ("Dipole initialization:");
   DBG_INFO ("  amplitude      : "<<_amp);
   DBG_INFO ("  relative pos.  : "<<_rpos);

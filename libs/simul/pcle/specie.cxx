@@ -43,6 +43,8 @@ int Specie<T,D>::Clean (int *clean)
 
     if (info.cmd & PCLE_CMD_REMOVE)
     {
+      ++cleaned;
+
       info.cmd = PCLE_CMD_NONE;
       size_t rmvd = _pcles.DeleteIndexFast (info.pid);
 
@@ -51,14 +53,15 @@ int Specie<T,D>::Clean (int *clean)
       	info.cmd = linfo->cmd;
       	linfo->cmd = PCLE_CMD_NONE;
 
+	if (lcmd < 1)
+	  continue;
+
       	do
       	{
       	  linfo = &(_cmdqueue.Get (--lcmd));
       	}
       	while ((!(linfo->cmd) || (linfo->cmd & PCLE_CMD_REMOVE)) && lcmd>0);
       }
-
-      ++cleaned;
     }
   }
 

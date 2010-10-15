@@ -24,13 +24,18 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
   if (enpe)
     CalcPe (dn);
 
-  T dnc, resist;
+  T dnc, resist, emask;
   PosVector pos;
   FldVector bc, uc, uxb, cb, gpe, elapl, enew, efld;
   do
   {
-     if_pf (static_cast<B*>(this)->EcalcAdd (ite))
-       continue;
+    if_pf (static_cast<B*>(this)->EcalcAdd (ite))
+      continue;
+
+    if (_time.Iter () > 0)
+      emask = static_cast<B*>(this)->EmaskAdd (ite);
+    else
+      emask = T(1);
 
     // TODO: compute dnc and uc is quite a waste of time ... especially when we
     // advance field since we can compute this values (dnc, uc) only once
@@ -40,7 +45,8 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     CartStencil::Average (mf,  itb, bc);
     CartStencil::Curl (mf, itb, cb);
     CartStencil::Lapl (_E, ite, elapl);
-    elapl *= _viscos;
+    elapl *= _viscos * emask;
+
     if (enpe)
       CartStencil::Grad (_pe, itu, gpe);
 
@@ -70,7 +76,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     }
 
     efld = _E(ite);
-    efld += (enew - efld) * static_cast<B*>(this)->EmaskAdd (ite);
+    efld += (enew - efld) * emask;
 
     _E(ite) = efld;
   }
