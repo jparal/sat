@@ -258,9 +258,10 @@ void CAMCode<B,T,D>::Initialize ()
   DBG_INFO ("=========== PostInitialize: =========");
   PostInitialize (cfg);
 
-  //  _Psi = (T)0.; // initial value for psi function
-  //  _Psih = (T)0.;
-  _B = .0; // _Bh is initialized in function First()
+  _E = _E0;
+  //  _Psi = T(0); // initial value for psi function
+  //  _Psih = T(0);
+  _B = _B0; // _Bh is initialized in function First()
   static_cast<B*>(this)->BInitAdd (_B);
 
   /*******************/
