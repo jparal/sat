@@ -68,22 +68,19 @@ public:
   DomainIterator (const Domain<D> &dom)
   { Initialize (dom); }
 
+  DomainIterator (const Domain<D> &dom, const Vector<double,D> &origin)
+  { Initialize (dom, origin); }
+
   void Initialize ()
-  {}
+  { _haveOrigin = false; }
 
-  void Initialize (const Domain<D> &dom)
-  { for (int i=0; i<D; ++i) _range[i] = dom[i]; Reset (); }
+  void Initialize (const Domain<D> &dom);
 
-  void Reset ()
-  {
-    _idx = 0;
-    _nidx = 1;
-    for (int i=0; i<D; ++i)
-    {
-      _loc[i] = _range[i].Low ();
-      _nidx *= _range[i].Length ();
-    }
-  }
+  /// Origin is a position of location [0,0] in the cell units with respect to
+  /// entire simulation domain (including other MPI processes)
+  void Initialize (const Domain<D> &dom, const Vector<double,D> &origin);
+
+  void Reset ();
 
   int Length () const
   { return _nidx; }
@@ -94,24 +91,25 @@ public:
   int GetLoc (int dim) const
   { return _loc[dim]; }
 
+  Vector<double,D> GetPosition () const
+  {
+    SAT_ASSERT (_haveOrigin);
+    Vector<double,D> pos = _origin;
+    pos += _loc;
+    return pos;
+  }
+
+  double GetPosition (int dim) const
+  {
+    SAT_ASSERT (_haveOrigin);
+    return _origin[dim] + double(_loc[dim]);
+  }
+
   bool HasNext ()
   { return _idx<_nidx; }
 
   /// Next element.
-  bool Next ()
-  {
-    ++_idx;
-    if_pt (_loc[0]++<_range[0].Hi ())
-      return HasNext();
-
-    for (int i=1; i<D; ++i)
-    {
-      _loc[i-1] = _range[i-1].Low ();
-      if (_loc[i]++<_range[i].Hi())
-	return HasNext();
-    }
-    return HasNext();
-  }
+  bool Next ();
 
   /// operator Loc<D>
   operator Loc<D> () const
@@ -122,6 +120,10 @@ public:
   { return _loc; }
 
 private:
+  bool _haveOrigin;
+  /// origin of location [0,0,0] in cell units.  This number can be non integer
+  /// because of the mesh alignment
+  Vector<double,D> _origin;
   Loc<D> _loc;
   int _idx;
   int _nidx;

@@ -222,19 +222,6 @@ public:
   /// Return average value.
   T Average ();
 
-  /// Return position of the index in space while taking into account MPI
-  /// decomposition, ghost zones as well as Node/Cell centering and resolution.
-  ///
-  /// @param loc index location
-  // Vector<T,D> GetPosition (const Loc<D> &loc) const
-  // {
-  //   // Note: location Loc is an index to array.
-  //   // We have to take into account position of the field inside of the MPI
-  //   // patch as well as centering Node/Cell.
-  //   Vector<T,D> pos;
-  //   return pos;
-  // }
-
   /// Return Domain including ghost zones.
   void GetDomainAll (Domain<D> &dom) const;
   /// Return Domain including ghost zones.
@@ -243,6 +230,15 @@ public:
   void GetDomain (Domain<D> &dom) const;
   /// Return Domain excluding ghost zones.
   Domain<D> GetDomain () const;
+
+  /// Return DomainIterator including ghost zones. If parameter omitLast is
+  /// true then returned domain iterator excludes most right values from all
+  /// dimensions.  This is necessary when calculating average.
+  void GetDomainIteratorAll (DomainIterator<D> &iter, bool omitLast) const;
+  /// Return DomainIterator excluding ghost zones. If parameter omitLast is
+  /// true then returned domain iterator excludes most right values from all
+  /// dimensions.  This is necessary when calculating average.
+  void GetDomainIterator (DomainIterator<D> &iter, bool omitLast) const;
 
   /// Do we have grid information available?
   bool HaveGrid () const { return _havegrid; }
@@ -256,6 +252,9 @@ private:
   void Alloc (int dim);
   /// Compute strides and _tot (assume that _len is all set already
   void UpdateStride ();
+
+  void InitIterator (DomainIterator<D> &iter,
+		     Domain<D> &dom, bool omitLast) const;
 
   template<class T2>
   void UpdateMeta (const Field<T2,D>& val);

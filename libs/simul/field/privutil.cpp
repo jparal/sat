@@ -76,3 +76,32 @@ void Field<T,D>::UpdateMeta (const Field<T2,D>& val)
     _layout = val._layout;
   }
 }
+
+template<class T, int D>
+void Field<T,D>::InitIterator (DomainIterator<D> &iter, Domain<D> &dom,
+			       bool omitLast) const
+{
+  if (omitLast)
+    dom.HiAdd (-1);
+
+  if (HaveGrid ())
+  {
+    Vector<double,D> origin;
+
+    for (int i=0; i<D; ++i)
+    {
+      int nghz = _layout.GetGhost (i);
+      int pos = _layout.GetDecomp().GetPosition(i);
+      int len = _len[i] - 2*nghz - (_mesh.Center () == Node ? 1 : 0);
+
+      double orig = double(-nghz) + (_mesh.Center () == Cell ? 0.5 : 0.);
+      origin[i] =  orig + double(pos * len);
+    }
+
+    iter.Initialize (dom, origin);
+  }
+  else
+  {
+    iter.Initialize (dom);
+  }
+}

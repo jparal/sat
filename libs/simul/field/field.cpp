@@ -259,3 +259,21 @@ Domain<D> Field<T,D>::GetDomain () const
   GetDomain (dom);
   return dom;
 }
+
+template<class T, int D> inline
+void Field<T,D>::GetDomainIteratorAll (DomainIterator<D> &iter,
+				       bool omitLast) const
+{
+  Domain<D> dom;
+  GetDomainAll (dom);
+  InitIterator (iter, dom, omitLast);
+}
+
+template<class T, int D> inline
+void Field<T,D>::GetDomainIterator (DomainIterator<D> &iter,
+				    bool omitLast) const
+{
+  Domain<D> dom;
+  GetDomain (dom);
+  InitIterator (iter, dom, omitLast);
+}
