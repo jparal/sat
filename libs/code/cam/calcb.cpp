@@ -21,8 +21,7 @@ void CAMCode<B,T,D>::CalcB (T dt, const ScaField &psi, VecField &Ba)
   dom.HiAdd (-1);
   DomainIterator<D> ite (dom);
 
-  T r = 1., ld = 10.;
-  const T dx = _meshp.GetResol (0);
+  T ld = 10.;
   FldVector curle, gradpsi;
   do
   {
@@ -31,26 +30,27 @@ void CAMCode<B,T,D>::CalcB (T dt, const ScaField &psi, VecField &Ba)
       CartStencil::Curl (_E, ite, curle);
       //      CartStencil::Grad (psi, ite, gradpsi);
 
-      /**
-       * Mask advancing of B field with exponential instead of parabola
-       */
-      // Along the X-axis
-      T fmu = 1., fmb = 1.;
-      if (_layop.IsOpen (0))
+      // Mask advancing of B field with exponential function
+      T mask = static_cast<B*>(this)->BmaskAdd (itb);
+      for (int idim=0; idim<D; ++idim)
       {
-	T npx = _B.GetLayout().GetDecomp().GetSize (0);
-	T ipx = _B.GetLayout().GetDecomp().GetPosition (0);
-	T ncx = _B.Size(0)-1;
-	T llx = npx * ncx * dx;
-	T ppx = (ipx * ncx + (T)itb.GetLoc(0)) * dx;
+        if (_layop.IsOpen (idim))
+        {
+	  T dx = _meshp.GetResol (idim);
+          T npx = _B.GetLayout().GetDecomp().GetSize (idim);
+          T ipx = _B.GetLayout().GetDecomp().GetPosition (idim);
+          T ncx = _B.Size(idim)-1;
+          T llx = npx * ncx * dx;
+          T ppx = (ipx * ncx + (T)itb.GetLoc(idim)) * dx;
 
-	fmb = (T)1. - Math::Exp (-(llx-ppx)/ld);
+          // left & right boundaries
+          mask *= T(1) - Math::Exp (-ppx/ld);
+          mask *= T(1) - Math::Exp (-(llx-ppx)/ld);
+        }
       }
-      // User supplied masking parameter
-      fmu = static_cast<B*>(this)->BmaskAdd (itb);
 
-      curle *= (T)dt * (fmu < fmb ? fmu : fmb);
-      //      gradpsi *= (T)dt * (fmu < fmb ? fmu : fmb);
+      curle *= dt * mask;
+      //      gradpsi *= dt * mask;
       Ba (itb) -= curle;
       //      Ba (itb) += gradpsi;
     }
