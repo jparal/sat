@@ -139,7 +139,6 @@ AC_CONFIG_FILES([
     libs/io/hdf5/Makefile
     libs/io/misc/Makefile
     libs/io/stw/Makefile
-    libs/io/xdmf/Makefile
     libs/math/Makefile
     libs/math/algebra/Makefile
     libs/math/func/Makefile

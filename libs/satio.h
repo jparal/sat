@@ -5,6 +5,5 @@
 #include "io/sathdf5.h"
 #include "io/satmisc.h"
 #include "io/satstw.h"
-#include "io/satxdmf.h"
 
 #endif /* __sat_satio_h__ */

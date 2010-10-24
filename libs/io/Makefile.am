@@ -3,9 +3,9 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-SUBDIRS = hdf5 misc stw xdmf
+SUBDIRS = hdf5 misc stw
 
-headers = sathdf5.h satmisc.h satstw.h satxdmf.h
+headers = sathdf5.h satmisc.h satstw.h
 preproc =
 sources =
 extrsrc = DocIO.dox
@@ -27,7 +27,6 @@ EXTRA_DIST = $(extrsrc)
 include hdf5/Makefile.inc
 include misc/Makefile.inc
 include stw/Makefile.inc
-include xdmf/Makefile.inc
 
 genheaders:
 	@$(top_srcdir)/mk/scripts/genheaders.sh io $(headers)
