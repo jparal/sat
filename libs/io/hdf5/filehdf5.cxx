@@ -15,12 +15,16 @@
 
 void HDF5File::Open (const char *fname, IOFile::Flags flags)
 {
-  char fnamebuff[64];
+  String namebuf (fname);
+
+  if (Separate ())
+  {
+    namebuf.Append ("_");
+    namebuf.Append (Mpi::Rank ());
+  }
 
   if (flags & suff)
-    snprintf (fnamebuff, 64, "%s.h5", fname);
-  else
-    snprintf (fnamebuff, 64, "%s", fname);
+    namebuf.Append (".h5");
 
 #ifdef HAVE_HDF5_PARALLEL
   if (Parallel ())
@@ -33,22 +37,22 @@ void HDF5File::Open (const char *fname, IOFile::Flags flags)
     H5Pset_fapl_mpio (pfopen, comm, info);
 
     if (flags & app)
-      _file = H5Fopen (fnamebuff, H5F_ACC_RDWR, pfopen);
+      _file = H5Fopen (namebuf, H5F_ACC_RDWR, pfopen);
     else
-      _file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, pfopen);
+      _file = H5Fcreate (namebuf, H5F_ACC_TRUNC, H5P_DEFAULT, pfopen);
 
     H5Pclose (pfopen);
   }
   else
 #endif /* HAVE_HDF5_PARALLEL */
   {
-    if (Mpi::Rank() != 0)
+    if (Serial () && Mpi::Rank() != 0)
       return;
 
     if (flags & app)
-      _file = H5Fopen (fnamebuff, H5F_ACC_RDWR, H5P_DEFAULT);
+      _file = H5Fopen (namebuf, H5F_ACC_RDWR, H5P_DEFAULT);
     else
-      _file = H5Fcreate (fnamebuff, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+      _file = H5Fcreate (namebuf, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
   }
 }
 
@@ -63,7 +67,7 @@ void HDF5File::Close ()
   else
 #endif /* HAVE_HDF5_PARALLEL */
   {
-    if (Mpi::Rank() != 0)
+    if (Serial () && Mpi::Rank() != 0)
       return;
 
     if (_file)

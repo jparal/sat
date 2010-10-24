@@ -25,18 +25,7 @@ void HDF5File::Write (const Field<T,D> &fld, const char *tag)
   size_t len = GetWritableDomain(fld).Length ();
   T *data = (T*)malloc (len * sizeof(T));
 
-  // bool wait = true;
-  // while (wait);
-
-#ifdef HAVE_HDF5_PARALLEL
-
-  if (Parallel ())
-  {
-    CopyData (data, fld);
-    WriteChunk (data, fld, tag, -1, -1);
-  }
-  else
-#endif /* HAVE_HDF5_PARALLEL */
+  if (Serial ())
   {
     int iproc = fld.GetLayout().GetDecomp().GetIProc ();
     int nproc = fld.GetLayout().GetDecomp().GetNProc ();
@@ -44,12 +33,12 @@ void HDF5File::Write (const Field<T,D> &fld, const char *tag)
     {
       for (int iprc=0; iprc<nproc; ++iprc)
       {
-	if (iprc == 0)
-	  CopyData (data, fld);
-	else
-	  ReceiveData (data, len, iprc);
+        if (iprc == 0)
+          CopyData (data, fld);
+        else
+          ReceiveData (data, len, iprc);
 
-	WriteChunk (data, fld, tag, iprc, -1);
+        WriteChunk (data, fld, tag, iprc, -1);
       }
     }
     else
@@ -58,6 +47,19 @@ void HDF5File::Write (const Field<T,D> &fld, const char *tag)
       SendData (data, len);
     }
   }
+  else if (Separate ())
+  {
+    CopyData (data, fld);
+    WriteChunk (data, fld, tag, -1, -1);
+  }
+#ifdef HAVE_HDF5_PARALLEL
+  if (Parallel ())
+  {
+    CopyData (data, fld);
+    WriteChunk (data, fld, tag, -1, -1);
+  }
+  else
+#endif /* HAVE_HDF5_PARALLEL */
 
   free (data);
 }
@@ -68,18 +70,7 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
   size_t len = GetWritableDomain(fld).Length ();
   T *data = (T*)malloc (len * sizeof(T));
 
-#ifdef HAVE_HDF5_PARALLEL
-
-  if (Parallel ())
-  {
-    for (int rank=0; rank<R; ++rank)
-    {
-      CopyData (data, fld, rank);
-      WriteChunk (data, fld, tag, -1, rank);
-    }
-  }
-  else
-#endif /* HAVE_HDF5_PARALLEL */
+  if (Serial ())
   {
     int iproc = fld.GetLayout().GetDecomp().GetIProc ();
     int nproc = fld.GetLayout().GetDecomp().GetNProc ();
@@ -107,6 +98,24 @@ void HDF5File::Write (const Field<Vector<T,R>,D> &fld, const char *tag)
       }
     }
   }
+  else if (Separate ())
+  {
+    for (int rank=0; rank<R; ++rank)
+    {
+      CopyData (data, fld, rank);
+      WriteChunk (data, fld, tag, -1, rank);
+    }
+  }
+#ifdef HAVE_HDF5_PARALLEL
+  else if (Parallel ())
+  {
+    for (int rank=0; rank<R; ++rank)
+    {
+      CopyData (data, fld, rank);
+      WriteChunk (data, fld, tag, -1, rank);
+    }
+  }
+#endif /* HAVE_HDF5_PARALLEL */
 
   free (data);
 }
@@ -138,7 +147,8 @@ void HDF5File::SendData (T *data, size_t len)
 }
 
 template<class T, class T2, int D>
-void HDF5File::WriteChunk (T *data, const Field<T2,D> &fld, const char *tag, int iprc, int rank)
+void HDF5File::WriteChunk (T *data, const Field<T2,D> &fld, const char *tag,
+                           int iprc, int rank)
 {
   const Layout<D> &layout = fld.GetLayout ();
   const Mesh<D> &mesh = fld.GetMesh ();
@@ -172,7 +182,7 @@ void HDF5File::WriteChunk (T *data, const Field<T2,D> &fld, const char *tag, int
   for (int i=0, j=D-1; i<D; ++i,--j)
   {
     int domsize = dom[i].Length ();
-    fdims[j] = domsize * decomp.GetSize (i);
+    fdims[j] = domsize * (Separate () ? 1 :decomp.GetSize (i));
     cdims[j] = domsize;
   }
   fspace = H5Screate_simple (D, fdims, NULL);
@@ -197,7 +207,8 @@ void HDF5File::WriteChunk (T *data, const Field<T2,D> &fld, const char *tag, int
   // Select file dataspace (unique for each processor)
   for (int i=0, j=D-1; i<D; ++i, --j)
   {
-    start[j] = decomp.GetPosition (i, iprc) * dom[i].Length ();
+    int pos = Separate () ? 0 : decomp.GetPosition (i, iprc);
+    start[j] = dom[i].Length () * pos;
     stride[j] = 1;
     count[j] = dom[i].Length ();
     block[j] = 1;
@@ -220,7 +231,7 @@ void HDF5File::WriteChunk (T *data, const Field<T2,D> &fld, const char *tag, int
   else
 #endif /* HAVE_HDF5_PARALLEL */
   {
-    if (iprc == 0)
+    if (Separate () || iprc == 0)
       fdataset = H5Dcreate (_file, tagtmp, type, fspace, plist);
     else
       fdataset = H5Dopen (_file, tagtmp);

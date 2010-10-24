@@ -19,13 +19,13 @@
 void
 IOFile::Initialize ()
 {
-  _parallel = false;
+  _driver = 0;
   _shuffle = true;
   _gz = 6;
 }
 
 void
-IOFile::Initialize (bool parallel, int gz, bool shuffle)
+IOFile::Initialize (int driver, int gz, bool shuffle)
 {
   if (gz < 0 || gz >9)
     DBG_WARN ("gz parameter '"<<gz<<"' should be between 0 and 9 (including)");
@@ -33,7 +33,7 @@ IOFile::Initialize (bool parallel, int gz, bool shuffle)
   if (gz < 0) gz = 0;
   if (gz > 9) gz = 9;
 
-  _parallel = parallel;
+  _driver = driver;
   _shuffle = shuffle;
   _gz = gz;
 }
@@ -49,12 +49,12 @@ IOFile::Initialize (const ConfigFile &cfg)
 void
 IOFile::Initialize (const ConfigEntry &cfg)
 {
-  bool parallel;
   int gz;
   bool shuffle;
   int version;
+  int driver;
 
-  cfg.GetValue ("parallel", parallel, false);
+  cfg.GetValue ("driver", driver, 0);
   cfg.GetValue ("version", version, 1);
 
   if (cfg.Exists ("compress"))
@@ -70,5 +70,5 @@ IOFile::Initialize (const ConfigEntry &cfg)
     shuffle = true;
   }
 
-  Initialize (parallel, gz, shuffle);
+  Initialize (driver, gz, shuffle);
 }

@@ -47,12 +47,18 @@ public:
   { Initialize (); }
 
   void Initialize ();
-  void Initialize (bool parallel, int gz, bool shuffle);
+  void Initialize (int driver, int gz, bool shuffle);
   void Initialize (const ConfigEntry &cfg);
   void Initialize (const ConfigFile &cfg);
 
+  bool Serial () const
+  { return _driver <= 0; }
+
+  bool Separate () const
+  { return _driver == 1; }
+
   bool Parallel () const
-  { return _parallel; }
+  { return _driver >= 2; }
 
   int Gzip () const
   { return _gz; }
@@ -64,7 +70,7 @@ public:
   virtual void Close () {}
 
 private:
-  bool _parallel;               /**< Do the I/O operations parallel? */
+  int _driver; ///< Can be: 0:serial, 1:separate, 2:parallel
   int _gz;                      /**< Use zlib compression library? (0-9) */
   bool _shuffle;                /**< Use byte shuffle as well? (HDF5) */
 };
