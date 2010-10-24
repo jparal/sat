@@ -58,14 +58,16 @@ void CamSpecie<T,D>::Initialize (const ConfigEntry &cfg,
   _sm = _rmds / _ng;
   _sq = _qms * _sm;
 
-  DBG_INFO1 ("  charge per particle (sq)    : "<< ChargePerPcle ());
-  DBG_INFO1 ("  mass per particle (sm)      : "<< MassPerPcle ());
-  DBG_INFO1 ("  specie beta (beta)          : "<< Beta ());
-  DBG_INFO1 ("  rel. mass dens. (rmsd)      : "<< RelMassDens ());
-  DBG_INFO1 ("  vth_per/vth_par = rvth (A)  : "
+  DBG_INFO ("  number of pcles per cell    : "<< InitalPcles ());
+  DBG_INFO ("  charge over mass (q/m)      : "<< ChargeMassRatio ());
+  DBG_INFO ("  charge per particle (sq)    : "<< ChargePerPcle ());
+  DBG_INFO ("  mass per particle (sm)      : "<< MassPerPcle ());
+  DBG_INFO ("  rel. mass dens. (rmsd)      : "<< RelMassDens ());
+  DBG_INFO ("  specie beta (beta)          : "<< Beta ());
+  DBG_INFO ("  vth_per/vth_par = rvth (A)  : "
 	     << Vthper () << "/"<< Vthpar () << " = " << RatioVth ()
 	     << " (A = " << _rvth*_rvth << ")");
-  DBG_INFO1 ("  initial velocity (v0)       : "<< InitalVel ());
+  DBG_INFO ("  initial velocity (v0)       : "<< InitalVel ());
 }
 
 template<class T, int D>
