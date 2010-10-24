@@ -9,6 +9,12 @@
 %   the example:
 %     fname = sio_fname('B','test',10);
 
-function fname = sio_fname(sensor, basename, iter)
+function fname = sio_fname(sensor, basename, iter, rank)
 
-fname = sprintf('%s%si%d.h5',sensor,basename,iter);
+if (nargin == 3)
+    fname = sprintf('%s%si%d.h5',sensor,basename,iter);
+end
+
+if (nargin == 4)
+    fname = sprintf('%s%si%d_%d.h5',sensor,basename,iter,rank);
+end
