@@ -14,8 +14,8 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::CalcMom (TSpecie *sp, ScaField &dn, VecField &blk)
 {
-  dn = (T)0.;
-  blk = (T)0.;
+  dn = T(0);
+  blk = T(0);
 
   BilinearWeightCache<T,D> cache;
   for (int pid=0; pid<sp->GetSize(); ++pid)
@@ -24,7 +24,7 @@ void CAMCode<B,T,D>::CalcMom (TSpecie *sp, ScaField &dn, VecField &blk)
 
     FillCache (pcle.pos, cache);
     cache.ipos += 1;
-    CartStencil::BilinearWeightAdd (dn, cache, (T)1.);
+    CartStencil::BilinearWeightAdd (dn, cache, T(1));
     CartStencil::BilinearWeightAdd (blk, cache, pcle.vel);
   }
 

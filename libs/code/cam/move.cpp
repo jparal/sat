@@ -39,14 +39,6 @@ void CAMCode<B,T,D>::Move ()
     MoveSp (sp, dnsa, usa, dnsb, usb);
     Inject (sp, dnsb, usb);
 
-    // /// @TODO is this extra cleaning necessary?
-    // npcle = sp->GetSize ();
-    // for (int pid=0; pid<npcle; ++pid)
-    // {
-    //   TParticle &pcle = sp->Get (pid);
-    //   PcleBC (sp, pid, pcle);
-    // }
-
     PcleSync (sp, dnsb, usb);
 
     dnsa.Sync ();
@@ -97,14 +89,4 @@ void CAMCode<B,T,D>::Move ()
   MomBC (_dn, _U);
   MomBC (_dnf, _Uf);
   MomBC (_dna, _Ua);
-
-  // if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-  // {
-  //   Smooth (_dn, false);
-  //   Smooth (_dna, false);
-  //   Smooth (_dnf, false);
-  //   Smooth (_U, false);
-  //   Smooth (_Ua, false);
-  //   Smooth (_Uf, false);
-  // }
 }

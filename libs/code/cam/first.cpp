@@ -15,5 +15,6 @@ template<class B, class T, int D>
 void CAMCode<B,T,D>::First ()
 {
   MomFirst ();
+
   _Bh = _B;
 }

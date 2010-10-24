@@ -55,12 +55,4 @@ void CAMCode<B,T,D>::MomLast ()
   MomBC (_dn, _U);
   MomBC (_dna, _Ua);
   MomNorm (_dn, _U);
-
-  // if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-  // {
-  //   Smooth (_dn, false);
-  //   Smooth (_dna, false);
-  //   Smooth (_U, false);
-  //   Smooth (_Ua, false);
-  // }
 }

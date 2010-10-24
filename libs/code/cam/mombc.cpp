@@ -14,9 +14,6 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::MomBC (ScaField &dn, VecField &blk)
 {
-  // dn.Sync ();
-  // blk.Sync ();
-
   Domain<D> dom;
   for (int i=0; i<D; ++i)
   {

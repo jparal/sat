@@ -16,7 +16,7 @@ void CAMCode<B,T,D>::AdvMom ()
 {
   CalcE (_B, _Ua, _dnf, true);
 
-  T ni, dth = (T)0.5 * _time.Dt ();
+  T ni, dth = T(.5) * _time.Dt ();
   FldVector ui, uf, bi, ei;
 
   Domain<D> dom;
@@ -39,11 +39,4 @@ void CAMCode<B,T,D>::AdvMom ()
     _U(itu) = uf + dth * (ni*ei + ui % bi);
   }
   while (itu.Next() && itb.Next() && ite.Next());
-
-  // if (_momsmooth && (_time.Iter() % _momsmooth == 0))
-  // {
-  //   /// @TODO Why smoothing when I did not advance it?
-  //   // Smooth (_dn, false);
-  //   Smooth (_U, false);
-  // }
 }
