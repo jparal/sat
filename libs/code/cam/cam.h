@@ -312,12 +312,12 @@ public:
    * can speed up the computations in the case where we require to compute curl
    * of electric field and the last term would be zero anyway.
    *
-   * @param[in] mf    Magnetic field
-   * @param[in] blk   Bulk velocity
+   * @param[in] b     Magnetic field
+   * @param[in] u     Bulk velocity
    * @param[in] dn    Number density
    * @param[in] enpe  Enable electron pressure term?
    */
-  void CalcE (const VecField &mf, const VecField &blk, const ScaField &dn,
+  void CalcE (const VecField &b, const VecField &u, const ScaField &dn,
               bool enpe = true);
 
   void CalcPsi (T dt, const VecField &b, ScaField &psi);

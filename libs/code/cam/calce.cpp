@@ -12,14 +12,14 @@
  */
 
 template<class B, class T, int D>
-void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
+void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
 			    const ScaField &dn, bool enpe)
 {
   Domain<D> dom;
 
   DomainIterator<D> itb, itu, ite;
-  mf.GetDomainIterator (itb, true);
-  blk.GetDomainIterator (itu, true);
+  b.GetDomainIterator (itb, true);
+  u.GetDomainIterator (itu, true);
   _E.GetDomainIterator (ite, false);
 
   if (enpe)
@@ -41,10 +41,10 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     // TODO: compute dnc and uc is quite a waste of time ... especially when we
     // advance field since we can compute this values (dnc, uc) only once
     // instead of nsub*2 times
-    CartStencil::Average (dn,  itu, dnc);
-    CartStencil::Average (blk, itu, uc);
-    CartStencil::Average (mf,  itb, bc);
-    CartStencil::Curl (mf, itb, cb);
+    CartStencil::Average (dn, itu, dnc);
+    CartStencil::Average (u, itu, uc);
+    CartStencil::Average (b,  itb, bc);
+    CartStencil::Curl (b, itb, cb);
     CartStencil::Lapl (_E, ite, elapl);
     elapl *= _viscos * emask;
     resist = Resist (ite);
