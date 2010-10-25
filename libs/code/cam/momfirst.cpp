@@ -36,9 +36,8 @@ void CAMCode<B,T,D>::MomFirst ()
     T dm = sp->MassPerPcle ();
     T q2m = dq*dq/dm;
 
-    Domain<D> dom;
-    _dn.GetDomain (dom);
-    DomainIterator<D> it (dom);
+    DomainIterator<D> it;
+    _dn.GetDomainIterator (it, false);
 
     do
     {

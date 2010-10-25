@@ -165,7 +165,7 @@ public:
    * @param pos position
    * @return resistivity
    */
-  T ResistAdd (const PosVector &pos) const
+  T ResistAdd (const DomainIterator<D> &iter) const
   { return 0.; }
 
   /**
@@ -329,11 +329,8 @@ public:
   void AdvMom ();
 
   /// Return resistivity at the given position.
-  /// @todo We can add the extra parameter to the configuration file and add
-  ///       extra resistivity at the box boundaries when we are dealing with
-  ///       open boundary problem.
-  T Resist (const PosVector &pos)
-  { return _resist + static_cast<B*>(this)->ResistAdd (pos); };
+  T Resist (const DomainIterator<D> &iter)
+  { return _resist + static_cast<B*>(this)->ResistAdd (iter); };
 
   /// Normalize bulk velocity by the given density.
   void MomNorm (const ScaField &dn, VecField &blk);

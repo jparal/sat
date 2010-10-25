@@ -68,8 +68,10 @@ public:
   DomainIterator (const Domain<D> &dom)
   { Initialize (dom); }
 
-  DomainIterator (const Domain<D> &dom, const Vector<double,D> &origin)
-  { Initialize (dom, origin); }
+  DomainIterator (const Domain<D> &dom, const Vector<double,D> &origin,
+		  const Vector<double,D> &dx)
+
+  { Initialize (dom, origin, dx); }
 
   void Initialize ()
   { _haveOrigin = false; }
@@ -78,7 +80,8 @@ public:
 
   /// Origin is a position of location [0,0] in the cell units with respect to
   /// entire simulation domain (including other MPI processes)
-  void Initialize (const Domain<D> &dom, const Vector<double,D> &origin);
+  void Initialize (const Domain<D> &dom, const Vector<double,D> &origin,
+		   const Vector<double,D> &dx);
 
   void Reset ();
 
@@ -96,13 +99,14 @@ public:
     SAT_ASSERT (_haveOrigin);
     Vector<double,D> pos = _origin;
     pos += _loc;
+    pos *= _dx;
     return pos;
   }
 
   double GetPosition (int dim) const
   {
     SAT_ASSERT (_haveOrigin);
-    return _origin[dim] + double(_loc[dim]);
+    return (_origin[dim] + double(_loc[dim])) * _dx[dim];
   }
 
   bool HasNext ()
@@ -124,6 +128,7 @@ private:
   /// origin of location [0,0,0] in cell units.  This number can be non integer
   /// because of the mesh alignment
   Vector<double,D> _origin;
+  Vector<double,D> _dx;
   Loc<D> _loc;
   int _idx;
   int _nidx;

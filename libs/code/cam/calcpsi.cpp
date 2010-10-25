@@ -16,12 +16,9 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::CalcPsi (T dt, const VecField &b, ScaField &psi)
 {
-  Domain<D> dom;
-  b.GetDomain (dom);
-  DomainIterator<D> itb (dom);
-  psi.GetDomainAll (dom);
-  dom.HiAdd (-1);
-  DomainIterator<D> itp (dom);
+  DomainIterator<D> itb, itp;
+  b.GetDomainIterator (itb, false);
+  psi.GetDomainIteratorAll (itp, true);
 
   T divb, c2 = 5.*5.;
   do

@@ -88,13 +88,13 @@ public:
 
   void EfieldAdd ()
   {
-    Domain<D> dom;
-    ((TBase*)this)->_E.GetDomain (dom);  DomainIterator<D> ite (dom);
+    DomainIterator<D> ite;
+    ((TBase*)this)->_E.GetDomainIterator (ite, false);
     PosVector xp;
     do
     {
-      for (int i=0; i<D; ++i)
-        xp[i] = ( T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i] )*_dx[i] - _cx[i];
+      xp = ite.GetPosition ();
+      xp -= _cx;
 
       if (xp.Norm2() < _radius2)
         ((TBase*)this)->_E(ite) = 0.;
@@ -104,9 +104,8 @@ public:
 
   bool EcalcAdd (const DomainIterator<D> &ite)
   {
-    PosVector xp;
-    for (int i=0; i<D; ++i)
-      xp[i] = ( T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i] )*_dx[i] - _cx[i];
+    PosVector xp = ite.GetPosition ();
+    xp -= _cx;
 
     if (xp.Norm2() < _radius2)
       return true;
@@ -128,9 +127,8 @@ public:
 
   bool BcalcAdd (const DomainIterator<D> &itb)
   {
-    PosVector xp;
-    for (int i=0; i<D; ++i)
-      xp[i] = ( T(itb.GetLoc()[i])+ _ip[i]*_nc[i] )*_dx[i] - _cx[i];
+    PosVector xp = itb.GetPosition ();
+    xp -= _cx;
 
     if (xp.Norm2() < _radius2)
       return true;
@@ -157,7 +155,8 @@ public:
     // dipole field since it is not necessary anyway and cases it problems in
     // variable outputs and FPEs.
     const T r3min = _radius2*0.8*0.8 * _radius*0.8;
-    DomainIterator<D> it( b.GetDomainAll() );
+    DomainIterator<D> it;
+    b.GetDomainIteratorAll (it, false);
     do
     {
       for (int i=0; i<D; ++i)
@@ -176,11 +175,10 @@ public:
     while (it.Next());
   }
 
-  T ResistAdd (const PosVector &pos) const
+  T ResistAdd (const DomainIterator<D> &iter) const
   {
-    PosVector cp;
-    for (int i=0; i<D; ++i)
-      cp[i] = pos[i]*_dx[i] - _cx[i];
+    PosVector cp = iter.GetPosition ();
+    cp -= _cx;
 
     /// Exponential resistivity
     // T ld = 4.0;
@@ -197,9 +195,8 @@ public:
 
   T BmaskAdd (const DomainIterator<D> &itb)
   {
-    PosVector xp;
-    for (int i=0; i<D; ++i)
-      xp[i] = (T(itb.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+    PosVector xp = itb.GetPosition ();
+    xp -= _cx;
 
     T ld = 2.;
     T ee = (xp.Norm()-_radius)/ld;
@@ -229,11 +226,13 @@ public:
       return;
 
     PosVector xp;
-    DomainIterator<D> it( dn.GetDomainAll() );
+    DomainIterator<D> it;
+    dn.GetDomainIteratorAll (it, false);
+
     do
     {
-      for (int i=0; i<D; ++i)
-        xp[i] = ( (T)(it.GetLoc()[i])+ _ip[i]*_nc[i] ) * _dx[i] - _cx[i];
+      xp = it.GetPosition ();
+      xp -= _cx;
 
       if (xp.Norm2 () < _radius2)
         dn(it) = 0.;

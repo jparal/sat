@@ -14,9 +14,8 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::MomNorm (const ScaField &dn, VecField &blk)
 {
-  Domain<D> dom;
-  dn.GetDomain (dom);
-  DomainIterator<D> it (dom);
+  DomainIterator<D> it;
+  dn.GetDomainIterator (it, false);
 
   T dni;
   do

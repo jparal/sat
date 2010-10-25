@@ -1,6 +1,6 @@
 # Intel ICC has problems with gdb debuging (otherwise should be faster)
-CXX=g++-4.4
-CC=gcc-4.4
+CXX=g++-4.3
+CC=gcc-4.3
 # CXX=pgCC
 # CC=pgcc
 # CXX=icpc
@@ -13,7 +13,7 @@ enable_64bit=yes
 # enable_debug=yes
 # enable_debug=memory,reference,valgrind
 with_cxxflags_dbg="-funroll-loops -fno-inline"
-with_cxxflags_opt="-mtune=native -march=native -g"
+with_cxxflags_opt="-g" # -mtune=native -march=native 
 
 prefix="$HOME/install/sat"
 with_hdf5_libs=-lz

@@ -102,8 +102,14 @@ public:
   /// Subtract a constant from this vector
   TVector& operator-= (const T &val);
 
+  /// Multiply vector by vector element wise
+  TVector& operator*= (const Vector<T,D> &v);
+
   /// Multiply vector by constant
   TVector& operator*= (T v);
+
+  /// Divide vector by vector element wise
+  TVector& operator/= (const Vector<T,D> &v);
 
   /// Divide vector by constant
   TVector& operator/= (T v);

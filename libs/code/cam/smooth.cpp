@@ -15,9 +15,9 @@ template<class B, class T, int D>
 template<class T2, int D2>
 void CAMCode<B,T,D>::Smooth (Field<T2,D2> &fld)
 {
-  Domain<D2> dom;
-  fld.GetDomain (dom);
-  DomainIterator<D2> it (dom);
+  DomainIterator<D2> it;
+  fld.GetDomainIterator (it, false);
+
   const T wgt = MetaInv<4*D2>::Is;
   Vector<int,D2> loc;
 

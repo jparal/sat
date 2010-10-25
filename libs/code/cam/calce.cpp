@@ -17,9 +17,10 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
 {
   Domain<D> dom;
 
-  mf.GetDomain (dom);  dom.HiAdd (-1); DomainIterator<D> itb (dom);
-  blk.GetDomain (dom); dom.HiAdd (-1); DomainIterator<D> itu (dom);
-  _E.GetDomain (dom);  DomainIterator<D> ite (dom);
+  DomainIterator<D> itb, itu, ite;
+  mf.GetDomainIterator (itb, true);
+  blk.GetDomainIterator (itu, true);
+  _E.GetDomainIterator (ite, false);
 
   if (enpe)
     CalcPe (dn);
@@ -46,15 +47,10 @@ void CAMCode<B,T,D>::CalcE (const VecField &mf, const VecField &blk,
     CartStencil::Curl (mf, itb, cb);
     CartStencil::Lapl (_E, ite, elapl);
     elapl *= _viscos * emask;
+    resist = Resist (ite);
 
     if (enpe)
       CartStencil::Grad (_pe, itu, gpe);
-
-    // @TODO Move to iterator instead of calculating the position here
-    for (int i=0; i<D; ++i)
-      pos[i] = itb.GetLoc(i) +
-	(_B.Size(i)-1) * _B.GetLayout().GetDecomp().GetPosition(i);
-    resist = Resist (pos);
 
     if (dnc < _dnmin)
     {

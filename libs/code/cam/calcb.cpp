@@ -14,12 +14,9 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::CalcB (T dt, const ScaField &psi, VecField &Ba)
 {
-  Domain<D> dom;
-  Ba.GetDomain (dom);
-  DomainIterator<D> itb (dom);
-  _E.GetDomainAll (dom);
-  dom.HiAdd (-1);
-  DomainIterator<D> ite (dom);
+  DomainIterator<D> itb, ite;
+  Ba.GetDomainIterator (itb, false);
+  _E.GetDomainIteratorAll (ite, true);
 
   T ld = 10.;
   FldVector curle, gradpsi;

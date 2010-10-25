@@ -94,9 +94,23 @@ Vector<T,D>& Vector<T,D>::operator-= (const T &val)
 }
 
 template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator*= (const Vector<T,D> &v)
+{
+  for (int i=0; i<D; ++i) _d[i] *= v._d[i];
+  return *this;
+}
+
+template <class T, int D> inline
 Vector<T,D>& Vector<T,D>::operator*= (T v)
 {
   for (int i=0; i<D; ++i) _d[i] *= v;
+  return *this;
+}
+
+template <class T, int D> inline
+Vector<T,D>& Vector<T,D>::operator/= (const Vector<T,D> &v)
+{
+  for (int i=0; i<D; ++i) _d[i] /= v._d[i];
   return *this;
 }
 

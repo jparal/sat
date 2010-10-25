@@ -98,7 +98,7 @@ void Field<T,D>::InitIterator (DomainIterator<D> &iter, Domain<D> &dom,
       origin[i] =  orig + double(pos * len);
     }
 
-    iter.Initialize (dom, origin);
+    iter.Initialize (dom, origin, _mesh.Resol ());
   }
   else
   {

@@ -35,11 +35,13 @@ void DomainIterator<D>::Initialize (const Domain<D> &dom)
 
 template<int D>
 void DomainIterator<D>::Initialize (const Domain<D> &dom,
-				    const Vector<double,D> &origin)
+				    const Vector<double,D> &origin,
+				    const Vector<double,D> &dx)
 {
   Initialize (dom);
 
   _origin = origin;
+  _dx = dx;
   _haveOrigin = true;
 }
 

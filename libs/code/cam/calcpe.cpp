@@ -14,9 +14,8 @@
 template<class B,class T, int D>
 void CAMCode<B,T,D>::CalcPe (const ScaField &dn)
 {
-  Domain<D> dom;
-  dn.GetDomain (dom);
-  DomainIterator<D> itn (dom);
+  DomainIterator<D> itn;
+  dn.GetDomainIterator (itn, false);
 
   do
   {

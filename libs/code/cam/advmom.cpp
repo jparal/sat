@@ -19,14 +19,10 @@ void CAMCode<B,T,D>::AdvMom ()
   T ni, dth = T(.5) * _time.Dt ();
   FldVector ui, uf, bi, ei;
 
-  Domain<D> dom;
-  _dn.GetDomain (dom);
-  DomainIterator<D> itu (dom);
-  _B.GetDomain (dom);
-  DomainIterator<D> itb (dom);
-  _E.GetDomainAll (dom);
-  dom.HiAdd (-1);
-  DomainIterator<D> ite (dom);
+  DomainIterator<D> itu, itb, ite;
+  _dn.GetDomainIterator (itu, false);
+  _B.GetDomainIterator (itb, false);
+  _E.GetDomainIteratorAll (ite, true);
 
   do
   {
