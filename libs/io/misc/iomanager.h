@@ -67,8 +67,8 @@ public:
    */
   void Initialize (const ConfigFile &cfg);
 
-  String GetFileName (const char *tag, const SimulTime &stime);
-  String GetFileName (const char *tag);
+  String GetFileName (const char *tag, const SimulTime &stime) const;
+  String GetFileName (const char *tag) const;
 
   template<class T, int D>
   void Write (Field<T,D> &fld, const SimulTime &stime, const char *tag);

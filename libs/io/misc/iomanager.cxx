@@ -16,7 +16,7 @@
 
 IOManager::IOManager ()
 {
-  Initialize (IO_FORMAT_HDF5, "out", "");
+  Initialize (IO_FORMAT_HDF5, "", "");
 }
 
 IOManager::~IOManager ()
@@ -29,6 +29,9 @@ void IOManager::Initialize (IOFormat format, String runname, String dir)
   _format = format;
   _dir = dir;
   _runname = runname;
+
+  if (dir != "")
+    IO::Mkdir (dir);
 }
 
 void IOManager::Initialize (const ConfigEntry &cfg)
@@ -73,7 +76,7 @@ void IOManager::Initialize (const ConfigFile &cfg)
   Initialize (entry);
 }
 
-String IOManager::GetFileName (const char *tag, const SimulTime &stime)
+String IOManager::GetFileName (const char *tag, const SimulTime &stime) const
 {
   String name;
 
@@ -84,7 +87,7 @@ String IOManager::GetFileName (const char *tag, const SimulTime &stime)
   return name;
 }
 
-String IOManager::GetFileName (const char *tag)
+String IOManager::GetFileName (const char *tag) const
 {
   String name;
 
@@ -95,7 +98,6 @@ String IOManager::GetFileName (const char *tag)
   }
   else
   {
-    IO::Mkdir (_dir);
     name = _dir.GetData ();
     name += "/";
     name += tag;
