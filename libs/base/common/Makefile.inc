@@ -41,8 +41,7 @@ lochdrs += \
  	common/reftrack.h
 
 preproc += \
-	common/list.cpp \
-	common/timer.cpp
+	common/list.cpp
 
 sources += \
  	common/callstack-impl.cxx \
