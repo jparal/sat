@@ -97,6 +97,9 @@ public:
   bool IsBeforeLastHyb () const
   { return _iter == _itout-1; }
 
+  iter_t HybIters () const
+  { return _itout; }
+
   void IterStr (char *buff, int size, bool fill = false) const;
 
   /// return maximum number iteration we have to achieve
