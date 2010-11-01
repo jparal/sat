@@ -38,7 +38,7 @@ int RunAllTests (TestReporter   &reporter,
 {
   TestResults result (&reporter);
 
-  Timer overallTimer ("SuiteTime");
+  Timer overallTimer;
   overallTimer.Start();
 
   Test const* curTest = list.GetHead();
@@ -46,14 +46,14 @@ int RunAllTests (TestReporter   &reporter,
   {
     if (suiteName == 0 || !std::strcmp(curTest->m_details.suiteName, suiteName))
     {
-      Timer testTimer ("TestTime");
+      Timer testTimer;
       testTimer.Start ();
       result.OnTestStart (curTest->m_details);
 
       curTest->Run (result);
 
       testTimer.Stop ();
-      double const testTimeInMs = testTimer.GetTotalTime ();
+      double const testTimeInMs = testTimer.GetWallclockTime ();
       if (maxTestTimeInMs > 0. &&
 	  testTimeInMs > maxTestTimeInMs &&
 	  !curTest->m_timeConstraintExempt)
@@ -70,7 +70,7 @@ int RunAllTests (TestReporter   &reporter,
   }
 
   overallTimer.Stop ();
-  double const secondsElapsed = overallTimer.GetTotalTime ();
+  double const secondsElapsed = overallTimer.GetWallclockTime ();
   reporter.ReportSummary (result.GetTotalTestCount(),
 			  result.GetFailedTestCount(),
 			  result.GetFailureCount(),
