@@ -23,8 +23,7 @@ headers += \
 	sys/sysdefs.h
 
 preproc += \
-	sys/assert.cpp \
-	sys/clock.cpp
+	sys/assert.cpp
 
 sources += \
 	sys/assert.cxx \

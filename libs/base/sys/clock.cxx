@@ -15,5 +15,15 @@
 
 #include <stdlib.h>
 
-struct tms Clock::s_tmsbuff;
-clock_t Clock::s_nullclock;
+void Clock::GetWallTime (double& wall)
+{
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  wall = tv.tv_sec;
+  wall += (double)tv.tv_usec / 1000000.0;
+}
+
+double Clock::ClockCycle()
+{
+  return double(sysconf(_SC_CLK_TCK));
+}
