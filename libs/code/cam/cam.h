@@ -381,6 +381,11 @@ public:
   /// @}
 
 public:
+
+  // Statistics:
+  Timer _timer;      ///< Wall clock timer
+  Array<double> _itertime; ///< Time it took to compute an iteration
+
   SimulTime _time;   ///< simulation time
 
   int _nsub;         ///< number substep for magnetic field

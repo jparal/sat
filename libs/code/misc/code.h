@@ -73,7 +73,7 @@ protected:
   /// Finalize all tasks (i.e. MPI)
   void Finalize ();
 
-private:
+protected:
   ConfigFile _cfg;   ///< parsed configuration file
   satversion_t _ver; ///< version of configuration file
 

@@ -110,6 +110,8 @@ void CAMCode<B,T,D>::Initialize ()
   cfg.GetValue ("plasma.vmax", _vmax, -1.);
   DBG_INFO ("max velocity of pcles : "<<_vmax);
 
+  Timer tspec;
+  tspec.Start ();
   ConfigEntry &species = cfg.GetEntry ("plasma.specie");
   for (int i=0; i<species.GetLength (); ++i)
   {
@@ -121,6 +123,8 @@ void CAMCode<B,T,D>::Initialize ()
     rmdstot += sp->RelMassDens ();
     currtot += sp->RelMassDens () * sp->InitalVel ();
   }
+  tspec.Stop ();
+  DBG_INFO ("pcles loaded in : "<<tspec);
 
   SAT_ASSERT_MSG( Math::Abs( rmdstot-1.0 ) < M_MEPS,
                   "Sum of relative mass densities has to be zero!");

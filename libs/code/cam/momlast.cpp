@@ -14,10 +14,10 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::MomLast ()
 {
-  _dn  = 0.;
-  _dna = 0.;
-  _U   = FldVector (0.);
-  _Ua  = FldVector (0.);
+  _dn  = T(0);
+  _dna = T(0);
+  _U   = T(0);
+  _Ua  = T(0);
 
   ScaField dnsa;
   dnsa.Initialize (_meshu, _layou);
