@@ -69,6 +69,9 @@ public:
 
   void SaveAll (SimulTime &stime);
 
+  const IOManager& GetIOManager () const
+  { return _iomng; }
+
 private:
   RefArray<Sensor> _sensors;
   IOManager _iomng;

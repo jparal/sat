@@ -109,7 +109,6 @@ private:
 
       v = pcle.vel;
       FillCache (pcle.pos, cache);
-      cache.ipos += 1; // we have one ghost!!!
       CartStencil::BilinearWeight (*_B, cache, bp);
 
       bp = v >> bp.Unit ();

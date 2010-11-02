@@ -12,7 +12,8 @@ headers += \
 	sensor/kenergy.h \
 	sensor/laplace.h \
 	sensor/sensmng.h \
-	sensor/sensor.h
+	sensor/sensor.h \
+	sensor/temp.h
 
 # preproc += 
 

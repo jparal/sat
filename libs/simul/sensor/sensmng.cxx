@@ -75,13 +75,15 @@ void SensorManager::Save (const char *id, const SimulTime &stime)
 void SensorManager::SaveAll (SimulTime &stime)
 {
   stime.Print ();
-
+  Timer tsave;
+  tsave.Start ();
   for (int i=0; i<_sensors.GetSize (); ++i)
   {
     Sensor *sensor = _sensors.Get (i);
     sensor->Save (_iomng, stime);
   }
-  DBG_INFO ("sensors saved..");
+  tsave.Stop ();
+  DBG_INFO ("sensors saved in "<< tsave);
 }
 
 void SensorManager::AddSensor (Sensor *sens)

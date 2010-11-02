@@ -11,5 +11,6 @@
 #include "simul/sensor/laplace.h"
 #include "simul/sensor/sensmng.h"
 #include "simul/sensor/sensor.h"
+#include "simul/sensor/temp.h"
 
 #endif /* __sat_simul_satsensor_h__ */
