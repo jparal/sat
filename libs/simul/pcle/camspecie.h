@@ -78,9 +78,11 @@ public:
    * @param[in] u bulk velocity defined on the mesh vertexes
    * @param[in] b background magnetic field
    */
-  void LoadPcles (const Field<T,D> &dn, const Field<Vector<T,3>,D> &u,
-		  Vector<T,3> b);
-
+  void LoadPcles (const Field<T,D> &dn,
+		  const Field<Vector<T,3>,D> &u,
+		  const Field<Vector<T,3>,D> &b,
+		  const Field<T,D> &vthper, const Field<T,D> &vthpar,
+		  Vector<T,3> b0);
   /// @}
 
   /// @name Information

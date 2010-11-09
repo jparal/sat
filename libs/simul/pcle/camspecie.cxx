@@ -72,18 +72,24 @@ void CamSpecie<T,D>::Initialize (const ConfigEntry &cfg,
 
 template<class T, int D>
 void CamSpecie<T,D>::LoadPcles (const Field<T,D> &dn,
-				const Field<Vector<T,3>,D> &u, Vector<T,3> b)
+				const Field<Vector<T,3>,D> &u,
+				const Field<Vector<T,3>,D> &b,
+				const Field<T,D> &vthper,
+				const Field<T,D> &vthpar,
+				Vector<T,3> b0)
 {
   TParticle pcle;
-  _bimax.Initialize( b, Vthper(), Vthpar() );
+  Vector<T,3> bb;
+  T vper, vpar;
 
   Domain<D> dom;
   for (int i=0; i<D; ++i)
     // Go from 0 .. number of vertexes - 2
-    dom[i] = Range( 0, _mesh.GetCells( i ) - 2 );
+    dom[i] = Range( 0, _mesh.GetCells (i) - 2 );
 
-  DomainIterator<D> it( dom );
-  while (it.HasNext())
+  BilinearWeightCache<T,D> cache;
+  DomainIterator<D> it (dom);
+  do
   {
     T dnl;
     CartStencil::Average (dn, it, dnl);
@@ -92,16 +98,25 @@ void CamSpecie<T,D>::LoadPcles (const Field<T,D> &dn,
     for (int i=0; i<np; ++i)
     {
       for (int j=0; j<D; ++j)
-	pcle.pos[j] = _rnd.Get() + (T)it.GetLoc(j);
+	pcle.pos[j] = _rnd.Get () + (T)it.GetLoc (j);
 
-      CartStencil::BilinearWeight( u, pcle.pos, pcle.vel );
-      pcle.vel += _bimax.Get();
+      FillCache (pcle.pos, cache);
+      CartStencil::BilinearWeight (b, pcle.pos, bb);
+      cache.ipos += 1;
+      CartStencil::BilinearWeight (vthper, pcle.pos, vper);
+      CartStencil::BilinearWeight (vthpar, pcle.pos, vpar);
+      bb.Normalize ();
+      _bimax.Initialize (bb, vper, vpar);
 
-      this->Push( pcle );
+      CartStencil::BilinearWeight (u, pcle.pos, pcle.vel);
+      pcle.vel += _bimax.Get ();
+
+      this->Push (pcle);
     }
-
-    it.Next();
   }
+  while (it.Next ());
+
+  _bimax.Initialize (b0, Vthper(), Vthpar());
 }
 
 /*******************/

@@ -141,6 +141,18 @@ public:
   { return; }
 
   /**
+   * @brief Initialize thermal velocity of the initial distribution.
+   * Note that vthper = A * vthpar. When this function is called vthpar and
+   * vthper are already initialize to the values from configuration file.
+   *
+   * @param sp Specie
+   * @param vthper Perpendicular thermal velocity
+   * @param vthpar Parallel thermal velocity
+   */
+  void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
+  { return; }
+
+  /**
    * @brief Initialize bulk velocity for the given specie.
    * Default value is specified in configuration file by parameter @e v0 in the
    * section @e plasma.specie.name.
