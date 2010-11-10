@@ -107,10 +107,14 @@ public:
   /// Species initial bulk velocity
   const Vector<T,3>& InitalVel () const
   { return _vs; }
-  /// ration between perpendicular and parallel temperature
+  /// ration between perpendicular and parallel thermal velocity
   /// @f$ v_{th,\perp}/v_{th,\parallel} @f$
   T RatioVth () const
   { return _rvth; }
+  /// ration between perpendicular and parallel temperature
+  /// @f$ T_\perp/T_\parallel @f$
+  T Anisotropy () const
+  { return _rvth*_rvth; }
   /// Parallel thermal velocity
   T Vthpar () const
   { return _vthpa; }
