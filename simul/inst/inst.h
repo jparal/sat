@@ -44,6 +44,7 @@ public:
   typedef Particle<T,D> TParticle;
   typedef typename TBase::ScaField ScaField;
   typedef typename TBase::VecField VecField;
+  typedef typename TBase::PosVector PosVector;
 
   /// @brief Parse the configuration file arguments before CAM code does.
   /// @param cfg Root of configuration file.
@@ -65,26 +66,25 @@ public:
       ip[i] = U.GetLayout ().GetDecomp ().GetPosition (i);
     }
 
-    DomainIterator<D> it (U.GetDomainAll ());
-
-    T pos;
-    while (it.HasNext ())
+    DomainIterator<D> it;
+    U.GetDomainIteratorAll (it, false);
+    do
     {
-      pos = (T)0.;
+      T pos = T(0);
       for (int i=0; i<D; ++i)
         pos += (T)(it.GetLoc()[i] + ip[i]*nc[i]) * _k[i];
 
       // T kx = _k * it.GetPosition ();
       U(it)[1] += _amp * Math::Cos (pos);
       U(it)[2] += _amp * Math::Sin (pos);
-
-      it.Next ();
     }
+    while (it.Next ());
   }
 
   void BInitAdd (VecField &b)
   {
-    if (!_wave) return;
+    if (!_wave)
+      return;
 
     Vector<int,D> nc, ip;
     for (int i=0; i<D; ++i)
@@ -96,7 +96,7 @@ public:
     DomainIterator<D> it (b.GetDomainAll ());
 
     T pos;
-    while (it.HasNext ())
+    do
     {
       pos = (T)0.;
       for (int i=0; i<D; ++i)
@@ -104,12 +104,40 @@ public:
 
       b(it.GetLoc())[1] -= _amp * Math::Cos (pos);
       b(it.GetLoc())[2] -= _amp * Math::Sin (pos);
-
-      it.Next ();
     }
+    while (it.Next ());
+  }
+
+  void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
+  {
+    if (!_anisotropy)
+      return;
+
+    PosVector xp;
+    DomainIterator<D> it;
+    vthper.GetDomainIteratorAll (it, false);
+    T spani = sp->Anisotropy ();
+    do
+    {
+      xp = it.GetPosition ();
+      xp -= _acx;
+
+      T pos = xp[0];
+      T kill = 1.; //0.5 * (-Math::Tanh ((xp.Norm () - dist)/_radius) + 1.);
+      T ani = (_aamp-spani)*kill*Math::Exp (-pos*pos / (2.*_awidth)) + spani;
+      T rvth = Math::Sqrt (ani);
+      vthper(it) = rvth * vthpar(it);
+    }
+    while (it.Next());
   }
 
 private:
+  bool _anisotropy;     ///< enable anisotropy profile initialization
+  T _aamp;              ///< Amplitude of anisotropy
+  T _awidth;            ///< Width of anisotropy profile
+  T _arx;               ///< Relative position of the center of anisotropy
+  Vector<T,D> _acx;     ///< Center of anisotropy (i.e arx * Lx)
+
   bool _wave;           ///< enable wave initialization
   String _mode;
   T _angle;             ///< angle (k,x) in XY plane

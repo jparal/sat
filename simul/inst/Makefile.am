@@ -9,15 +9,17 @@
 #
 include $(top_srcdir)/mk/amake/Makefile.sat
 
-exename = inst
-srcfile = inst.cxx
+exename = inst1d inst2d
+srcfile1d = inst1d.cxx
+srcfile2d = inst2d.cxx
 hdrfile = init.cpp inst.h
 cfgfile = *.sin
 instdir = $(prefix)/simul/inst
 
 EXTRA_PROGRAMS = $(exename)
-inst_SOURCES = $(srcfile)
-dist_noinst_DATA = $(srcfile) $(hdrfile) $(cfgfile)
+inst1d_SOURCES = $(srcfile1d)
+inst2d_SOURCES = $(srcfile2d)
+dist_noinst_DATA = $(srcfile1d) $(srcfile2d) $(hdrfile) $(cfgfile)
 # nobase_inst_DATA = $(cfgfile)
 
 SUBDIRS = linear

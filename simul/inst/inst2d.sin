@@ -1,0 +1,83 @@
+#------------------------------------------------------------------------------
+# CAM Config file
+#------------------------------------------------------------------------------
+
+anisotropy:
+{
+  amp = 2.;
+  width = 10;
+  rx = 0.5;
+};
+
+simul:
+{
+  step    = 0.02;
+  tmax    = 5;
+  start   = 0.;
+  restart = false;     # restart app
+  momsmooth = 2;       # Steps between moment smooth 
+  esmooth   = 0;       # Steps between el. field smooth
+};
+
+grid:
+{
+  cells  = [ 1024, 512, 100 ];
+  resol  = [ .25, .25, 1. ];           # [c/omega_p]
+  openbc = [ false, false, false ];  # Open Boundary Conditions
+};
+
+field:
+{
+  nsub   = 10;                       # number of sub-steps of B-field
+  imf    = { phi = 0.; psi = 0.; };  # orientation of B-field
+  dnmin  = 0.005;                    # minimal density to resolve
+  resist = 0.0;                      # artificial resistivity
+};
+
+plasma:
+{
+  betae = 0.1;
+  specie:
+  {
+    proton = { pcles = 500.; beta = 2.; ani = 1.; rmds = 1.; qms = 1.;
+      v0 = [0.,0.,0.]; };
+  };
+};
+
+output:
+{
+  logfile = "alfven.log";    # Default: progname.log
+
+  format:
+  {
+    type     = "hdf5"; version = 1; parallel = false;
+    dir      = "cyclotron";
+    runname  = "test";
+    compress = { gz = 6; shuffle = true; };   # output compression
+  };
+
+  dtout = 0.1;
+
+  sensors:
+  {
+    density  = { tag = "Dn"; };
+    magfield = { tag = "B"; };
+    elfield  = { tag = "E"; };
+    velocity = { tag = "U"; };
+    temp     = { tag = "T"; };
+    # kenergy  = { tag = "KEn"; perpar = true; };
+    # dbdt     = { tag = "DbDt"; };
+    # jxb      = { tag = "JxB"; };
+    # cbxb     = { tag = "CBxB"; };
+    #     distfnc  = { tag = "Df"; bins = [21, 21, 21]; perpar = true;
+      #       vmin = [-2., -2., -2.]; vmax = [2., 2., 2.]; };
+  };
+};
+
+parallel:
+{
+  mpi = { proc = [ 1, 1, 1 ]; };  # ratio of CPU splitting in X,Y,Z dimensions
+  omp = { threads = -1; };        # -1 when setup is dynamically
+};
+
+sat= { version = [1,0,0]; };
