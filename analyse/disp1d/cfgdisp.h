@@ -62,6 +62,8 @@ public:
 
   int Nspecie () const { return _nsp; }
   double Mass (int sp) const;
+  double TotalMassDn () const;
+  double MassDn (int sp) const { return Mass (sp) * Density (sp); }
   double Charge (int sp) const { return double(_charge[sp]); }
   double ChargeAbs (int sp) const { return Math::Abs (Charge(sp)); }
   double Density (int sp) const { return _rdn[sp]; }

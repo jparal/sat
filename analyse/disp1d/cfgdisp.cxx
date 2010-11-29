@@ -96,9 +96,17 @@ ConfigDisp::Mass (int sp) const
 }
 
 double
+ConfigDisp::TotalMassDn () const
+{
+  double totmdn = 0.;
+  for (int sp=1; sp<_nsp; ++sp)
+    totmdn += MassDn (sp);
+}
+
+double
 ConfigDisp::VthPar (int sp) const
 {
-  return Math::Sqrt (Beta(sp) / (2.* Density(sp) * Mass(sp)));
+  return Math::Sqrt (Beta(sp) / (2.* MassDn (sp)));
 }
 
 double
