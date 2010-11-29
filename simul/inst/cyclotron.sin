@@ -5,7 +5,7 @@
 simul:
 {
   step    = 0.02;
-  tmax    = 5;
+  tmax    = 200;
   start   = 0.;
   restart = false;     # restart app
   momsmooth = 2;       # Steps between moment smooth 
@@ -24,7 +24,7 @@ field:
   nsub   = 10;                       # number of sub-steps of B-field
   imf    = { phi = 0.; psi = 0.; };  # orientation of B-field
   dnmin  = 0.005;                    # minimal density to resolve
-  resist = 0.01;                     # artificial resistivity
+  resist = 0.0;                     # artificial resistivity
 };
 
 plasma:
@@ -57,7 +57,7 @@ output:
     magfield = { tag = "B"; };
     elfield  = { tag = "E"; };
     velocity = { tag = "U"; };
-    # temp     = { tag = "T"; };
+    temp     = { tag = "T"; };
     # kenergy  = { tag = "KEn"; perpar = true; };
     # dbdt     = { tag = "DbDt"; };
     # jxb      = { tag = "JxB"; };
