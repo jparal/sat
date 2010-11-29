@@ -35,6 +35,7 @@ public:
   typedef typename TBase::VecField VecField;
   typedef typename TBase::PosVector PosVector;
   typedef typename TBase::FldVector FldVector;
+  typedef typename TBase::VelVector VelVector;
 
   /// @brief Parse the configuration file arguments before CAM code does.
   /// @param cfg Root of configuration file.
@@ -57,6 +58,22 @@ public:
       return true;
     }
 
+    /// Reflect particle from the surface with random velocity smaller then the
+    /// original one
+    if (dist2 < _radius2*(1.01*1.01))
+    {
+      VelVector vpar, vper, vnor = T(0);
+      for (int i=0; i<D; ++i)
+        vnor[i] = xp[i];
+
+      vnor.Normalize ();
+      vpar = pcle.vel >> vnor;
+      vper = pcle.vel - vpar;
+      vnor *= vpar.Norm () * _rand.Get ();
+      pcle.vel = vnor + vper;
+    }
+
+    /// Emit particle at random place of the night side
     // if (dist2 < _radius2*(1.01*1.01))
     // {
     //   bool repeat;
@@ -166,11 +183,11 @@ public:
       xp.Normalize();
 
       if (r3 > r3min)
-	b(it) += ((T)3.*(mv*xp) * xp - mv)/r3;
+        b(it) += ((T)3.*(mv*xp) * xp - mv)/r3;
       else if (r3 > M_EPS)
-	b(it) += ((T)3.*(mv*xp) * xp - mv)/r3min;
+        b(it) += ((T)3.*(mv*xp) * xp - mv)/r3min;
       else
-	continue;
+        continue;
     }
     while (it.Next());
   }
@@ -244,6 +261,30 @@ public:
       T ee = xp.Norm()-_radius;
 
       dn(it) = am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+    }
+    while (it.Next());
+  }
+
+  void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
+  {
+    PosVector xp;
+    DomainIterator<D> it;
+    vthper.GetDomainIteratorAll (it, false);
+    T spani = sp->Anisotropy ();
+    do
+    {
+      xp = it.GetPosition ();
+      xp -= _cx;
+
+      T width = _radius / 3.;
+      T ampl = 2.;
+      T dist = _radius * 3.;
+
+      T pos = xp[D-1];
+      T kill = 0.5 * (-Math::Tanh ((xp.Norm () - dist)/_radius) + 1.);
+      T ani = (ampl-spani)*kill*Math::Exp (-pos*pos / (2.*width)) + spani;
+      T rvth = Math::Sqrt (ani);
+      vthper(it) = ani * vthpar(it);
     }
     while (it.Next());
   }
