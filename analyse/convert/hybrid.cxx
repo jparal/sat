@@ -17,7 +17,12 @@
 int main (int argc, char **argv)
 {
   if (argc != 3)
-    printf ("Usage: %s B0 n0\n", argv[0]);
+  {
+    printf ("Usage: %s B0 n0\n\n", argv[0]);
+    printf ("  B0 [nT]     is solar wind magnetic field\n");
+    printf ("  n0 [cm^-3]  is solar wind particle density\n\n");
+    exit (1);
+  }
 
   float b0; // [nT]
   float n0; // [cm^-3]
