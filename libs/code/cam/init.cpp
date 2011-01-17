@@ -126,10 +126,10 @@ void CAMCode<B,T,D>::Initialize ()
   tspec.Stop ();
   DBG_INFO ("pcles loaded in : "<<tspec);
 
-  SAT_ASSERT_MSG( Math::Abs( rmdstot-1.0 ) < M_MEPS,
-                  "Sum of relative mass densities has to be zero!");
-  if (Math::Abs( currtot.Abs() ) > M_MEPS)
-    DBG_WARN ("Total current is non-zero: "<<currtot);
+  // SAT_ASSERT_MSG( Math::Abs( rmdstot-1.0 ) < M_MEPS,
+  //                 "Sum of relative mass densities has to be zero!");
+  // if (Math::Abs( currtot.Abs() ) > M_MEPS)
+  //   DBG_WARN ("Total current is non-zero: "<<currtot);
 
   /******************/
   /* Section: FIELD */
