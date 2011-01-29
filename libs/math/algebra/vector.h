@@ -259,8 +259,8 @@ public:
   void Set (T v0, T v1);
   void Set (T v0, T v1, T v2);
   void Set (T v0, T v1, T v2, T v3);
-  template <class T2>
-  void Set (const Vector<T2,D> &v);
+  template <class T2, int D2>
+  void Set (const Vector<T2,D2> &v);
 
   /// Return raw data pointer
   T* GetData ()

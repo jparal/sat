@@ -116,6 +116,9 @@ public:
   bool EcalcAdd (const DomainIterator<D> &ite)
   { return false; }
 
+  bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
+  { return true; }
+
   T BmaskAdd (const DomainIterator<D> &itb)
   { return (T)1.; }
 

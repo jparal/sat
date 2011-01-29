@@ -60,6 +60,12 @@ template <class T> static T ACos (T v);
 template <class T> static T ATan (T v);
 /// ArcTan2
 template <class T> static T ATan2 (T v1, T v2);
+/// Return smaller value
+template <class T> const T& Min (const T &a, const T &b)
+{ return (a<b) ? a:b; }
+/// Return smaller value
+template <class T> const T& Max (const T &a, const T &b)
+{ return (a>b) ? a:b; }
 
 }; // namespace Math
 

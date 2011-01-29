@@ -160,11 +160,12 @@ void Vector<T,D>::Set (T v0, T v1, T v2, T v3)
   _d[0] = v0; _d[1] = v1; _d[2] = v2; _d[3] = v3;
 }
 
-template <class T, int D>
-template<class T2> inline
-void Vector<T,D>::Set (const Vector<T2,D> &v)
+template<class T, int D>
+template<class T2, int D2> inline
+void Vector<T,D>::Set (const Vector<T2,D2> &v)
 {
-  for (int i=0; i<D; ++i) _d[i] = v._d[i];
+  for (int i=0; i<Math::Min (D,D2); ++i) _d[i] = v._d[i];
+  for (int i=Math::Min (D,D2); i<D; ++i) _d[i] = T(0);
 }
 
 template <class T, int D> inline

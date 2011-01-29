@@ -15,8 +15,6 @@ template<class B, class T, int D>
 void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
 			    const ScaField &dn, bool enpe)
 {
-  Domain<D> dom;
-
   DomainIterator<D> itb, itu, ite;
   b.GetDomainIterator (itb, true);
   u.GetDomainIterator (itu, true);
@@ -27,7 +25,9 @@ void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
 
   T dnc, resist, emask;
   PosVector pos;
-  FldVector bc, uc, uxb, cb, gpe, elapl, enew, efld;
+  FldVector bc, uc, uxb, cb, gpe, elapl, enew, efld, efsrc;
+  efsrc = T(0);
+
   do
   {
     if_pf (static_cast<B*>(this)->EcalcAdd (ite))
@@ -73,6 +73,9 @@ void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
 
     efld = _E(ite);
     efld += (enew - efld) * emask;
+
+    if (static_cast<B*>(this)->EcalcSrc (ite, efsrc))
+      efld += efsrc;
 
     _E(ite) = efld;
   }
