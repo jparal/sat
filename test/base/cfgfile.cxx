@@ -13,6 +13,7 @@ SUITE (CfgfileSuite)
     try
     {
       cfg.ReadFile ("cfgfile.sin");
+      cfg.SetAutoConvert ();
     }
     catch (ParseException& ex)
     {
@@ -36,6 +37,14 @@ SUITE (CfgfileSuite)
     CHECK (npcl == 70);
 
     CHECK (cfg.Exists ("output.runname"));
+
+    ConfigEntry &pos = cfg.GetEntry ("position");
+    Vector<float, 3> vec;
+    for (int i=0; i<pos.GetLength (); ++i)
+    {
+      pos.GetValue (i, vec);
+      DBG_INFO (vec);
+    }
   }
 
   TEST (ParserTest)

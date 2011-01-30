@@ -212,6 +212,8 @@ public:
   void GetValue(const char *path, String &value) const throw(ConfigFileException);
   template<class T, int D>
   void GetValue(const char *path, Vector<T,D> &value) const throw(ConfigFileException);
+  template<class T, int D>
+  void GetValue(int pos, Vector<T,D> &value) const throw(ConfigFileException);
 
   inline void GetValue(const String &path, bool &value) const
     throw(ConfigFileException)

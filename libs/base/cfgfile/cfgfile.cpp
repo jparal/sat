@@ -65,3 +65,13 @@ void ConfigEntry::GetValue(const char *path, Vector<T,D> &value)
   ConfigEntry &entry = operator[](path);
   for (int i=0; i<D; ++i ) value[i] = (T)entry[i];
 }
+
+template<class T, int D>
+void ConfigEntry::GetValue(int pos, Vector<T,D> &value)
+  const throw(ConfigFileException)
+{
+  SAT_ASSERT (pos < GetLength ());
+  ConfigEntry &entry = operator[](pos);
+  for (int i=0; i<D; ++i)
+    value[i] = (T)entry[i];
+}
