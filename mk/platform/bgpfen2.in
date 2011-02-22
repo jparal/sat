@@ -1,9 +1,10 @@
 #
 # Set "cross_compiling=no" in 'configure' script
+# -env "VPROF_PROFILE=yes" for profiling
 #
-# nohup mpirun -partition r000n04-c64i4 -cwd $PWD -exe -np 128 -mode DUAL
-#    -env "DCMF_EAGER=1000000 VPROF_PROFILE=yes DCMF_RECFIFO=100000000"
-#    dipole > dipole.log &
+# nohup mpirun -cwd $PWD -env "DCMF_EAGER=1000000 DCMF_RECFIFO=100000000"
+#     -partition r000n04-c64i4 -np 128 -mode VN
+#     -exe dipole -args "dipole.sin" > dipole.log &
 
 CXX=mpicxx
 CC=mpicc
