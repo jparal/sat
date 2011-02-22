@@ -11,10 +11,10 @@ dipole:
 
 ulfsrc:
 {
-  amp = .05;
-#  omega = 1;
-  dist = 6;  # in planets radii
-  width = 3; # in planets radii
+  amp = .1;
+  omega = .1;
+  dist = 100.;
+  width = 10;
 };
 
 simul:
@@ -29,15 +29,15 @@ simul:
 
 grid:
 {
-  cells  = [ 200, 200, 200 ];
-  resol  = [ 2., 2., 1.0 ];           # [c/omega_p]
+  cells  = [ 300, 300, 200 ];
+  resol  = [ 1.0, 1.0, 1.0 ];           # [c/omega_p]
   openbc = [ true, true, true ];   # Open Boundary Conditions
 };
 
 field:
 {
   nsub   = 10;                       # number of sub-steps of B-field
-  imf    = { phi = 0.; psi = 90.; amp = 0.; };  # orientation of B-field
+  imf    = { phi = 0.; psi = 90.; amp = 1.; };  # orientation of B-field
   dnmin  = 0.1;                    # minimal density to resolve
   resist = 0.1;                     # artificial resistivity
   viscos = 0.0;
@@ -77,16 +77,17 @@ output:
     magfield = { tag = "B"; };
     elfield  = { tag = "E"; };
     velocity = { tag = "U"; };
-    # temp     = { tag = "T"; perpar = true; };
+    temp     = { tag = "T"; perpar = true; };
     # laplace  = { tag = "LE"; };
     # kenergy  = { tag = "KEn"; perpar = true; };
     # dbdt     = { tag = "DbDt"; };
     # jxb      = { tag = "JxB"; };
     # cbxb     = { tag = "CBxB"; };
-    # distfnc  = { tag= "Df"; perpar= true;
-    #   bins = [40, 20, 20]; vmin= [-5, 0, 0]; vmax= [5, 5, 5];
-    #   list = ([40, 60], [40, 70], [40, 80], [40, 90], [40, 100]);
-    #   };
+    # distfnc  = { tag= "Df"; perpar= true; balance= true; epsgl= [5e-3, 5e-3];
+    #   vmin= [-10, -10, -10]; vmax= [10, 10, 10]; minmaxlev= [3, 9];
+    #   loclist={ radius= 2.; poslist= ([12, 2, 2], [3, 4, 5]) };
+      #      locdomn={ resol= [2.,2.,2.]; };
+    #  };
   };
 };
 

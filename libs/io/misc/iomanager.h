@@ -18,7 +18,11 @@
 #include "base/satcfgfile.h"
 #include "base/common/string.h"
 #include "simul/satfield.h"
+#include "simul/sensor/rectdflist.h"
 #include "io/sathdf5.h"
+
+template<class T, int DP, int DV>
+class DistFunctionList;
 
 /// @addtogroup io_misc
 /// @{
@@ -72,6 +76,10 @@ public:
 
   template<class T, int D>
   void Write (Field<T,D> &fld, const SimulTime &stime, const char *tag);
+
+  template<class T, int DP, int DV>
+  void Write (DistFunctionList<T, DP, DV> &dfl, const SimulTime &stime,
+	      const char *tag);
 
 private:
   IOFormat _format;

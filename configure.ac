@@ -101,6 +101,7 @@ AC_CONFIG_FILES([
     docs/tech/cam/fig/Makefile
     docs/tech/cam/pic/Makefile
     example/Makefile
+    example/dfnc/Makefile
     example/rand/Makefile
     example/ref/Makefile
     example/zfnc/Makefile
@@ -168,6 +169,7 @@ AC_CONFIG_FILES([
     mk/scripts/runbench.sh
     simul/Makefile
     simul/dipole/Makefile
+    simul/herm/Makefile
     simul/hions/Makefile
     simul/inst/Makefile
     simul/inst/linear/Makefile

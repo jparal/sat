@@ -16,6 +16,7 @@
 #define __SAT_DISTFNC_H__
 
 #include "sensor.h"
+#include "rectdflist.h"
 #include "simul/pcle/camspecie.h"
 
 /// @addtogroup simul_sensor
@@ -43,12 +44,16 @@ public:
   virtual void SaveData (IOManager &iomng, const SimulTime &stime);
 
 private:
+  void CalculatePerPar (const TParticle &pcle, Vector<T,2> &vel) const;
+
   TSpecieRefArray *_species;
   Vector<int,3> _bins;
-  Vector<float,3> _vmin, _vmax;
+  Vector<int,D> _nclo, _nchi;
+  Vector<T,3> _vmin, _vmax;
   bool _perpar;
-  bool _collect;
   TVecField *_bfld;
+  DistFunctionList<T,D,2> _df2d;
+  DistFunctionList<T,D,3> _df3d;
 };
 
 /// @}

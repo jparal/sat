@@ -270,7 +270,7 @@ void CAMCode<B,T,D>::Initialize ()
   _E = _E0;
   //  _Psi = T(0); // initial value for psi function
   //  _Psih = T(0);
-  _B = _B0; // _Bh is initialized in function First()
+  _B = b0; // _Bh is initialized in function First()
   static_cast<B*>(this)->BInitAdd (_B);
 
   /*******************/
@@ -306,6 +306,10 @@ void CAMCode<B,T,D>::Initialize ()
     Mpi::SumReduceOne (&cleaned);
     totcleaned += cleaned;
   }
+
+  // Initialize B field one more time but with actual B0 (can be zero)
+  _B = _B0; // _Bh is initialized in function First()
+  static_cast<B*>(this)->BInitAdd (_B);
 
   DBG_INFO ("Particles cleaned during init: " << totcleaned);
 }

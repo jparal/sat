@@ -16,100 +16,134 @@
 
 template <class T, int D>
 void DistFncSensor<T,D>::Initialize (ConfigFile &cfg, const char *id,
-				     TSpecieRefArray *sparr, TVecField *bfld)
+                                     TSpecieRefArray *sparr, TVecField *bfld)
 {
   Sensor::Initialize (cfg, id);
-  _species = sparr;
-  _bfld = bfld;
 
   // local configuration
-  if (Enabled ())
+  if (!Enabled ())
+    return;
+
+  _species = sparr;
+  _bfld = bfld;
+  _nchi = bfld->GetSize () - 1;
+  Vector<int,D> iproc;
+  for (int i=0; i<D; ++i)
+    iproc[i] = bfld->GetLayout().GetDecomp().GetPosition (i);
+
+  _nclo = _nchi;
+  _nclo *= iproc;
+  _nchi += _nclo - 1;
+
+  ConfigEntry &ent = cfg.GetEntry (GetEntryID ());
+  _bins = 20;
+  ent.GetValue ("bins", _bins, _bins);
+  ent.GetValue ("vmin", _vmin);
+  ent.GetValue ("vmax", _vmax);
+  ent.GetValue ("perpar", _perpar, true);
+
+  SAT_ASSERT (_vmin < _vmax);
+
+  DBG_INFO("  bins   : "<<_bins);
+  DBG_INFO("  vmin   : "<<_vmin);
+  DBG_INFO("  vmax   : "<<_vmax);
+
+  if (_perpar)
   {
-    ConfigEntry &ent = cfg.GetEntry (GetEntryID ());
-    _bins = 20;
-    ent.GetValue ("bins", _bins, _bins);
-    _bins += 2;
-    ent.GetValue ("vmin", _vmin);
-    ent.GetValue ("vmax", _vmax);
-    SAT_ASSERT (_vmin < _vmax);
-    ent.GetValue ("perpar", _perpar, true);
-    ent.GetValue ("collect", _collect, true);
-    DBG_INFO("  bins   : "<<_bins);
-    DBG_INFO("  vmin   : "<<_vmin);
-    DBG_INFO("  vmax   : "<<_vmax);
+    Vector<T,2> vmin2, vmax2;
+    Vector<int,2> bins2;
+    for (int i=0; i<2; ++i)
+    {
+      vmin2[i] = _vmin[i];
+      vmax2[i] = _vmax[i];
+      bins2[i] = _bins[i];
+    }
+    _df2d.Initialize (bins2, vmin2, vmax2);
+  }
+  else
+    _df3d.Initialize (_bins, _vmin, _vmax);
+
+  Vector<int,D> pos;
+  ConfigEntry &list = ent["list"];
+  for (int i=0; i<list.GetLength (); ++i)
+  {
+    list.GetValue (i, pos);
+
+    bool enable = true;
+    for (int id=0; id<D; ++id)
+      if (pos[id] < _nclo[id] || _nchi[id] < pos[id])
+	enable = false;
+
+    if (!enable)
+      continue;
+
+    // convert into local coordinates
+    pos -= _nclo;
+
+    if (_perpar)
+      _df2d.AddDF (pos, _nclo);
+    else
+      _df3d.AddDF (pos, _nclo);
   }
 }
 
 template <class T, int D>
 void DistFncSensor<T,D>::SaveData (IOManager &iomng, const SimulTime &stime)
 {
-  Field<uint32_t, D+3> fld;
-  Vector<int, D+3> dims;
 
-  TSpecie *specie = _species->Get (0);
-  const Mesh<D> &mesh = specie->GetMesh ();
-
-  for (int i=0; i<D+3; ++i)
+  for (int sp=0; sp<_species->GetSize (); ++sp)
   {
-    if (i<D)
-      dims[i] = mesh.GetCells (i)-1;
-    else
-      dims[i] = _bins[i-D];
-  }
+    TSpecie *specie = _species->Get (sp);
 
-  fld.Initialize (dims);
-  fld = 0;
-
-  float vmin, vmax;
-  Vector<int,D+3> pspos;
-  for (int i=0; i<specie->GetSize (); ++i)
-  {
-    const TParticle &pcle = specie->Get (i);
-    for (int j=0; j<D+3; ++j)
+    for (int pc=0; pc<specie->GetSize (); ++pc)
     {
-      if (j<D)
+      const TParticle &pcle = specie->Get (pc);
+
+      if (_perpar)
       {
-	pspos[j] = (int)Math::Floor (pcle.pos[j]);
+        int idx = _df2d.GetDistFncIndex (pcle.pos);
+        if (idx < 0)
+          continue;
+
+        Vector<T,2> vel;
+        CalculatePerPar (pcle, vel);
+        _df2d.Update (idx, vel);
       }
       else
-      {
-	vmin = _vmin[j-D];
-	vmax = _vmax[j-D];
-
-	if (pcle.vel[j-D] < vmin)
-	{
-	  if (_collect)
-	    pspos[j] = 0;
-	}
-	else if (pcle.vel[j-D] > vmax)
-	{
-	  if (_collect)
-	    pspos[j] = _bins[j-D] - 1;
-	}
-	else
-	{
-	  float cast = float(_bins[j-D]-1) / (vmax-vmin);
-	  pspos[j] = (int)Math::Floor ((pcle.vel[j-D]-vmin)*cast);
-	}
-      }
+        _df3d.Update (pcle.pos, pcle.vel);
     }
-
-    fld (pspos) += 1;
   }
 
-  iomng.Write (fld, stime, GetTag ());
+  if (_perpar)
+    iomng.Write (_df2d, stime, GetTag ());
+  else
+    iomng.Write (_df2d, stime, GetTag ());
+
+}
+
+template <class T, int D>
+void DistFncSensor<T,D>::CalculatePerPar (const TParticle &pcle,
+                                          Vector<T,2> &vel) const
+{
+  Vector<T,3> bf;
+  CartStencil::BilinearWeight (*_bfld, pcle.pos, bf);
+
+  bf.Normalize ();
+  vel[0] = pcle.vel * bf; // Parallel
+  bf = pcle.vel % bf;
+  vel[1] = bf.Norm (); // Perpendicular
 }
 
 /*******************/
 /* Specialization: */
 /*******************/
 
-#define DISTFNCSENS_SPECIALIZE_DIM(type,dim) \
+#define DISTFNCSENS_SPECIALIZE_DIM(type,dim)	\
   template class DistFncSensor<type,dim>;
 
-#define DISTFNCSENS_SPECIALIZE(type) \
-  DISTFNCSENS_SPECIALIZE_DIM(type,1) \
-  DISTFNCSENS_SPECIALIZE_DIM(type,2) \
+#define DISTFNCSENS_SPECIALIZE(type)		\
+  DISTFNCSENS_SPECIALIZE_DIM(type,1)		\
+  DISTFNCSENS_SPECIALIZE_DIM(type,2)		\
   DISTFNCSENS_SPECIALIZE_DIM(type,3)
 
 DISTFNCSENS_SPECIALIZE(float)

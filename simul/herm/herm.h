@@ -3,8 +3,8 @@
  *   See docs/license/sat file for copying and redistribution conditions.     *
  ******************************************************************************/
 /**
- * @file   dipole.h
- * @brief  Simulation of magnetic dipole in solar wind.
+ * @file   herm.h
+ * @brief  Simulation of magnetic herm in solar wind.
  * @author @jparal
  *
  * @revision{1.1}
@@ -12,23 +12,23 @@
  * @revmessg{Initial version}
  */
 
-#ifndef __SAT_DIPOLE_CAM_H__
-#define __SAT_DIPOLE_CAM_H__
+#ifndef __SAT_HERM_CAM_H__
+#define __SAT_HERM_CAM_H__
 
 #include "sat.h"
 
 /**
- * @brief Simulation of magnetic dipole in solar wind.
+ * @brief Simulation of magnetic herm in solar wind.
  *
  * @revision{1.1}
  * @reventry{2010/07, @jparal}
  * @revmessg{Initial version}
  */
 template<class T, int D>
-class DipoleCAMCode : public CAMCode<DipoleCAMCode<T,D>,T,D>
+class HermCAMCode : public CAMCode<HermCAMCode<T,D>,T,D>
 {
 public:
-  typedef CAMCode<DipoleCAMCode<T,D>,T,D> TBase;
+  typedef CAMCode<HermCAMCode<T,D>,T,D> TBase;
   typedef Particle<T,D> TParticle;
   typedef typename TBase::TSpecie TSpecie;
   typedef typename TBase::ScaField ScaField;
@@ -116,43 +116,43 @@ public:
     return false;
   }
 
-  bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
-  {
-    /// Apply ULF source in equator plane
-    if (!_ulfenable)
-      return false;
+  // bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
+  // {
+  //   /// Apply ULF source in equator plane
+  //   if (!_ulfenable)
+  //     return false;
 
-    PosVector xp = ite.GetPosition ();
-    xp -= _cx;
+  //   PosVector xp = ite.GetPosition ();
+  //   xp -= _cx;
 
-    T tht = Math::ATan (xp[1]/xp[0]) / (M_PI/15.);
-    if (tht > 5.)
-      return false;
+  //   T tht = Math::ATan (xp[1]/xp[0]) / (M_PI/15.);
+  //   if (tht > 5.)
+  //     return false;
 
-    T dis = (_ulfdist - Math::Abs (xp[0])) / _ulfwidth;
-    if (dis > 5.)
-      return false;
+  //   T dis = (_ulfdist - Math::Abs (xp[0])) / _ulfwidth;
+  //   if (dis > 5.)
+  //     return false;
 
-    FldVector bdip;
-    CalcDipole (xp, bdip);
+  //   FldVector bdip;
+  //   CalcDipole (xp, bdip);
 
-    FldVector epar, eper;
-    bdip.Normalize ();
-    eper.Set (xp);
-    epar.Set (bdip);
+  //   FldVector epar, eper;
+  //   bdip.Normalize ();
+  //   eper.Set (xp);
+  //   epar.Set (bdip);
 
-    epar *= bdip * eper;
-    eper -= epar;
-    eper.Normalize ();
+  //   epar *= bdip * eper;
+  //   eper -= epar;
+  //   eper.Normalize ();
 
-    T amp = _ulfamp * Math::Exp (- (tht*tht + dis*dis));
-    T arg = _ulfomega * ((TBase*)this)->_time.Time ();
+  //   T amp = _ulfamp * Math::Exp (- (tht*tht + dis*dis));
+  //   T arg = _ulfomega * ((TBase*)this)->_time.Time ();
 
-    eper *= amp * Math::Sin (arg);
-    efsrc = eper;
+  //   eper *= amp * Math::Sin (arg);
+  //   efsrc = eper;
 
-    return true;
-  }
+  //   return true;
+  // }
 
   void BInitAdd (VecField &b)
   {
@@ -280,7 +280,7 @@ private:
 
 #include "init.cpp"
 
-#endif /* __SAT_DIPOLE_CAM_H__ */
+#endif /* __SAT_HERM_CAM_H__ */
 
 
 /// Reset tangential component of E field at the surface

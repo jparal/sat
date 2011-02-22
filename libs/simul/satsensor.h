@@ -9,6 +9,8 @@
 #include "simul/sensor/jxb.h"
 #include "simul/sensor/kenergy.h"
 #include "simul/sensor/laplace.h"
+#include "simul/sensor/rectdfcell.h"
+#include "simul/sensor/rectdflist.h"
 #include "simul/sensor/sensmng.h"
 #include "simul/sensor/sensor.h"
 #include "simul/sensor/temp.h"

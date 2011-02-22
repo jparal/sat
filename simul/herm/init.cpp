@@ -12,7 +12,7 @@
  */
 
 template<class T, int D>
-void DipoleCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
+void HermCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
 {
   if (cfg.Exists ("dipole"))
   {
@@ -56,7 +56,7 @@ void DipoleCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
 }
 
 template<class T, int D>
-void DipoleCAMCode<T,D>::PostInitialize (const ConfigFile &cfg)
+void HermCAMCode<T,D>::PostInitialize (const ConfigFile &cfg)
 {
   if (_dipole)
   {

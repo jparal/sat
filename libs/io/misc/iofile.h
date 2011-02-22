@@ -60,6 +60,20 @@ public:
   bool Parallel () const
   { return _driver >= 2; }
 
+  void SetSerial ()
+  { _driver = 0; }
+
+  void SetSeparate ()
+  { _driver = 1; }
+
+  void SetParallel ()
+  { _driver = 2; }
+
+  int GetDriver () const
+  { return _driver; }
+  void SetDriver (int driver)
+  { _driver = driver; }
+
   int Gzip () const
   { return _gz; }
 
