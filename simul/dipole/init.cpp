@@ -20,6 +20,7 @@ void DipoleCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
     cfg.GetValue ("dipole.amp", _amp);
     cfg.GetValue ("dipole.rpos", _rpos);
     cfg.GetValue ("dipole.radius", _radius);
+    cfg.GetValue ("dipole.vthnorm", _vthplnorm, 0.1);
     _radius2 = _radius * _radius;
   }
   else
@@ -67,12 +68,13 @@ void DipoleCAMCode<T,D>::PostInitialize (const ConfigFile &cfg)
     if (r3 > M_EPS)
       b0 += ((T)3.*(mv*xp) * xp - mv)/r3;
 
-    _maxw.Initialize (1.);
     DBG_INFO ("Dipole initialization:");
     DBG_INFO ("  amplitude      : "<<_amp);
     DBG_INFO ("  relative pos.  : "<<_rpos);
     DBG_INFO ("  planet radius  : "<< Math::Sqrt(_radius2));
     DBG_INFO ("  B/B0 @ surface : "<< b0.Norm ());
+
+    _maxwplnorm.Initialize (_vthplnorm);
   }
 
   if (_ulfenable)

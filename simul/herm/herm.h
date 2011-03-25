@@ -15,6 +15,8 @@
 #ifndef __SAT_HERM_CAM_H__
 #define __SAT_HERM_CAM_H__
 
+#define BASE(var) ((TBase*)this)->var
+
 #include "sat.h"
 
 /**
@@ -52,7 +54,7 @@ public:
       xp[i] = (pcle.pos[i] + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
 
     T dist2 = xp.Norm2 ();
-    if (dist2 < _radius2*(0.99*0.99))
+    if (dist2 < _radius2*(0.99*0.99) && BASE(_time).Iter() == 0)
     {
       sp->Exec (id, PCLE_CMD_REMOVE);
       return true;
@@ -62,15 +64,11 @@ public:
     /// original one
     if (dist2 < _radius2*(1.01*1.01))
     {
-      VelVector vpar, vper, vnor = T(0);
-      for (int i=0; i<D; ++i)
-        vnor[i] = xp[i];
+      const T maxw1 = _maxwplnorm.Get ();
+      const T maxw2 = _maxwplnorm.Get ();
 
-      vnor.Normalize ();
-      vpar = pcle.vel >> vnor;
-      vper = pcle.vel - vpar;
-      vnor *= vpar.Norm () * _rand.Get ();
-      pcle.vel = vnor + vper;
+      pcle.vel.Set (xp);
+      pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
     }
 
     return false;
@@ -79,7 +77,7 @@ public:
   void EfieldAdd ()
   {
     DomainIterator<D> ite;
-    ((TBase*)this)->_E.GetDomainIterator (ite, false);
+    BASE(_E).GetDomainIterator (ite, false);
     PosVector xp;
     do
     {
@@ -87,7 +85,7 @@ public:
       xp -= _cx;
 
       if (xp.Norm2() < _radius2)
-        ((TBase*)this)->_E(ite) = 0.;
+        BASE(_E)(ite) = 0.;
     }
     while (ite.Next());
   }
@@ -115,44 +113,6 @@ public:
 
     return false;
   }
-
-  // bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
-  // {
-  //   /// Apply ULF source in equator plane
-  //   if (!_ulfenable)
-  //     return false;
-
-  //   PosVector xp = ite.GetPosition ();
-  //   xp -= _cx;
-
-  //   T tht = Math::ATan (xp[1]/xp[0]) / (M_PI/15.);
-  //   if (tht > 5.)
-  //     return false;
-
-  //   T dis = (_ulfdist - Math::Abs (xp[0])) / _ulfwidth;
-  //   if (dis > 5.)
-  //     return false;
-
-  //   FldVector bdip;
-  //   CalcDipole (xp, bdip);
-
-  //   FldVector epar, eper;
-  //   bdip.Normalize ();
-  //   eper.Set (xp);
-  //   epar.Set (bdip);
-
-  //   epar *= bdip * eper;
-  //   eper -= epar;
-  //   eper.Normalize ();
-
-  //   T amp = _ulfamp * Math::Exp (- (tht*tht + dis*dis));
-  //   T arg = _ulfomega * ((TBase*)this)->_time.Time ();
-
-  //   eper *= amp * Math::Sin (arg);
-  //   efsrc = eper;
-
-  //   return true;
-  // }
 
   void BInitAdd (VecField &b)
   {
@@ -182,15 +142,15 @@ public:
     while (it.Next());
   }
 
-  T ResistAdd (const DomainIterator<D> &iter) const
-  {
-    PosVector cp = iter.GetPosition ();
-    cp -= _cx;
+  // T ResistAdd (const DomainIterator<D> &iter) const
+  // {
+  //   PosVector cp = iter.GetPosition ();
+  //   cp -= _cx;
 
-    /// Tangential resistivity
-    T ld = 4.0, am = 0.8, rm = 0.8, ee = cp.Norm()-_radius;
-    return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
-  }
+  //   /// Tangential resistivity
+  //   T ld = 4.0, am = 0.8, rm = 0.8, ee = cp.Norm()-_radius;
+  //   return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+  // }
 
   T BmaskAdd (const DomainIterator<D> &itb)
   {
@@ -215,6 +175,24 @@ public:
       return (T)1.;
     else
       return (T)1. - Math::Exp (-ee*ee);
+  }
+
+  void BulkInitAdd (TSpecie *sp, VecField &u)
+  {
+    PosVector xp;
+    DomainIterator<D> it;
+    u.GetDomainIteratorAll (it, false);
+
+    const FldVector u0 = BASE(_v0);
+    const T ld = 10, rm = 3;
+
+    do
+    {
+      xp = it.GetPosition ();
+      u(it) = u0;
+      u(it) *= Math::ATan ((-xp[0]+ld)/rm)/M_PI+0.5;
+    }
+    while (it.Next());
   }
 
   void DnInitAdd (TSpecie *sp, ScaField &dn)
@@ -266,14 +244,11 @@ public:
 
 private:
   RandomGen<T> _rand;
-  MaxwellRandGen<T> _maxw;
+  MaxwellRandGen<T> _maxwplnorm;
 
-  // ULF source
-  bool _ulfenable;
-  T _ulfamp, _ulfomega, _ulfdist, _ulfwidth;
-
-  // Planet position
+  // Planet configuration
   bool _dipole;
+  T _vthplnorm;
   T _amp, _radius, _radius2;
   Vector<T,D> _rpos, _nc, _ip, _cx, _dx;
 };
@@ -315,8 +290,8 @@ private:
 //     for (int i=0; i<D; ++i)
 //     {
 //       pcle.pos[i] = (xp[i]/_dx[i] - _ip[i]*_nc[i]);
-//       if (pcle.pos[i] <= ((TBase*)this)->_pmin[i] ||
-//           ((TBase*)this)->_pmax[i] <= pcle.pos[i])
+//       if (pcle.pos[i] <= BASE(_pmin)[i] ||
+//           BASE(_pmax)[i] <= pcle.pos[i])
 //         repeat = true;
 //     }
 //   }

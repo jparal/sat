@@ -17,6 +17,8 @@
 
 #include "sat.h"
 
+#define BASE(var) ((TBase*)this)->var
+
 /**
  * @brief Simulation of magnetic dipole in solar wind.
  *
@@ -52,7 +54,7 @@ public:
       xp[i] = (pcle.pos[i] + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
 
     T dist2 = xp.Norm2 ();
-    if (dist2 < _radius2*(0.99*0.99))
+    if (dist2 < _radius2*(0.99*0.99) && BASE(_time).Iter() == 0)
     {
       sp->Exec (id, PCLE_CMD_REMOVE);
       return true;
@@ -62,15 +64,11 @@ public:
     /// original one
     if (dist2 < _radius2*(1.01*1.01))
     {
-      VelVector vpar, vper, vnor = T(0);
-      for (int i=0; i<D; ++i)
-        vnor[i] = xp[i];
+      const T maxw1 = _maxwplnorm.Get ();
+      const T maxw2 = _maxwplnorm.Get ();
 
-      vnor.Normalize ();
-      vpar = pcle.vel >> vnor;
-      vper = pcle.vel - vpar;
-      vnor *= vpar.Norm () * _rand.Get ();
-      pcle.vel = vnor + vper;
+      pcle.vel.Set (xp);
+      pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
     }
 
     return false;
@@ -79,7 +77,7 @@ public:
   void EfieldAdd ()
   {
     DomainIterator<D> ite;
-    ((TBase*)this)->_E.GetDomainIterator (ite, false);
+    BASE(_E).GetDomainIterator (ite, false);
     PosVector xp;
     do
     {
@@ -87,7 +85,7 @@ public:
       xp -= _cx;
 
       if (xp.Norm2() < _radius2)
-        ((TBase*)this)->_E(ite) = 0.;
+        BASE(_E)(ite) = 0.;
     }
     while (ite.Next());
   }
@@ -136,20 +134,21 @@ public:
     FldVector bdip;
     CalcDipole (xp, bdip);
 
-    FldVector epar, eper;
-    bdip.Normalize ();
-    eper.Set (xp);
-    epar.Set (bdip);
+    FldVector ep, ea, er; // parallel, azimuthal, radial E direction
+    er.Set (xp);
+    ep.Set (bdip);
+    ea = ep % er;
+    er = ea % ep;
 
-    epar *= bdip * eper;
-    eper -= epar;
-    eper.Normalize ();
+    ep.Normalize ();
+    ea.Normalize ();
+    er.Normalize ();
 
     T amp = _ulfamp * Math::Exp (- (tht*tht + dis*dis));
-    T arg = _ulfomega * ((TBase*)this)->_time.Time ();
+    T arg = _ulfomega * BASE(_time).Time ();
 
-    eper *= amp * Math::Sin (arg);
-    efsrc = eper;
+    ea *= amp * Math::Sin (arg);
+    efsrc = ea;
 
     return true;
   }
@@ -266,14 +265,15 @@ public:
 
 private:
   RandomGen<T> _rand;
-  MaxwellRandGen<T> _maxw;
+  MaxwellRandGen<T> _maxwplnorm;
 
   // ULF source
   bool _ulfenable;
   T _ulfamp, _ulfomega, _ulfdist, _ulfwidth;
 
-  // Planet position
+  // Planet configuration
   bool _dipole;
+  T _vthplnorm;
   T _amp, _radius, _radius2;
   Vector<T,D> _rpos, _nc, _ip, _cx, _dx;
 };
