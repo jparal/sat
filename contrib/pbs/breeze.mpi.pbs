@@ -1,0 +1,24 @@
+#PBS -S /bin/sh
+#PBS -M jparal@gmail.com
+#PBS -m bea
+##PBS -q default
+#PBS -l walltime=24:00:00
+#PBS -l procs=16
+
+export NUM_CPUS=SAME_LIKE_PROCS
+export EXE_FILE=EXE_FILENAME
+export SIN_FILE=FILE_WITHOUT_SUFFIX
+
+cd $PBS_O_WORKDIR
+
+[ -f $HOME/.bashrc ]       && source $HOME/.bashrc
+[ -f $HOME/.bash_profile ] && source $HOME/.bash_profile
+[ -f $HOME/.profile ]      && source $HOME/.profile
+
+echo "Current working directory is `pwd`"
+
+echo "Starting run at: `date`"
+
+mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin > $SIN_FILE.log
+
+echo "Job finished at: `date`" 

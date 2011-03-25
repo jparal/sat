@@ -1,0 +1,15 @@
+
+with_cxxflags="-L$HOME/install/lib -I$HOME/install/include"
+
+enable_64bit=yes
+# with_cxxflags_opt=""
+
+enable_openmp=yes
+enable_mpi=yes
+
+with_hdf5="$HOME/install"
+prefix="$HOME/install/sat"
+
+with_mpi_include="/global/software/openmpi-gcc/include/"
+with_mpi_libdir="/global/software/openmpi-gcc/lib/"
+with_mpi_libs="mpi"

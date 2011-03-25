@@ -3,10 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-files = inputrc bashrc login satrc
-instdir = $(prefix)/contrib/etc
+files = *.profile
+instdir = $(prefix)/contrib/etc/machine
 
 dist_noinst_DATA = $(files)
 nobase_inst_DATA = $(files)
-
-SUBDIRS=machine
