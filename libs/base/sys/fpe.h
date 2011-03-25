@@ -17,7 +17,8 @@
 
 #include "satconfig.h"
 
-#if defined(HAVE_SIGNAL_H) && defined(HAVE_FENV_H)
+#if defined(HAVE_SIGNAL_H) && defined(HAVE_FENV_H)	\
+  && defined(HAVE_FEENABLEEXCEPT)
 #  define SAT_ENABLE_FPEXCEPTION 1
 #  include <signal.h>
 #  include <fenv.h>

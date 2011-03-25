@@ -6,9 +6,6 @@ AC_DEFUN([AC_CHECK_SAT_HEADERS],
     save_CPPFLAGS=$CPPFLAGS
     CPPFLAGS="$CPPFLAGS $CFLAGS_MPI"
 
-    # AC_CHECK_HEADER([fpu_control.h],[AC_DEFINE([HAVE_FPU_CONTROL_H],[1],
-    #       [Define to 1 if you have the <fpu_control.h> header file.])])
-
     AC_CHECK_HEADER([signal.h],[AC_DEFINE([HAVE_SIGNAL_H],[1],
           [Define to 1 if you have the <signal.h> header file.])])
     AC_CHECK_HEADER([fenv.h],[AC_DEFINE([HAVE_FENV_H],[1],

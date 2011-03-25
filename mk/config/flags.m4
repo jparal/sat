@@ -262,6 +262,11 @@ AC_DEFUN([AC_CMP_FLAGS],[
         [add extra profile CXXFLAGS]),
       [CXXFLAGS_PRF="$CXXFLAGS_PRF $withval"])
 
+    AC_ARG_WITH([arflags],
+      AC_HELP_STRING([--with-arflags],
+        [overwrite ARFLAGS]),
+      [ARFLAGS="$withval"])
+
     AC_ARG_WITH([ldflags],
       AC_HELP_STRING([--with-ldflags],
         [add extra flags to LDFLAGS]),

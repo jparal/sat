@@ -234,3 +234,8 @@ CallStack* CallStackHelper::CreateCallStack (int skip, bool fast)
 }
 
 #endif
+
+CallStack* CallStackHelper::CreateCallStack (int skip, bool fast)
+{
+  return 0;
+}
