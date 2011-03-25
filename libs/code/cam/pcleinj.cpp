@@ -50,6 +50,9 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
         PosVector loc = it.GetLoc();
         for (int ip=0; ip<npcles; ++ip)
         {
+	  // The bug in random number generator prevents particles to be
+	  // released from left boundary (probably repeating rand numbers).
+          pcle.vel = v0 + max.Get();
           pcle.vel = v0 + max.Get();
 
           T r2 = rnd.Get();
