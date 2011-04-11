@@ -26,6 +26,7 @@ for itag=1:length(tag)
                 for i=0:split(1)-1
                     rank = k*split(1)*split(2) + j*split(1) + i;
                     fname = sio_fname(sensor,basename,iter,rank);
+                    fprintf('Reading %s from %s\n', ctag, fname);
                     tmp = hdf5read(fname,ctag);
                     ss = size(tmp);
 
