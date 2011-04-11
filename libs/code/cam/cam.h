@@ -268,6 +268,9 @@ public:
   /// overload to add problem specific particle injection)
   void Inject (TSpecie *sp, ScaField &dn, VecField &U);
 
+  void InjectAdd (TSpecie *sp)
+  { return; }
+
   /// @}
 
   /// @name Update/Calculate

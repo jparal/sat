@@ -14,6 +14,9 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
 {
+  /// Inject problem dependent particles
+  static_cast<B*>(this)->InjectAdd (sp);
+
   TParticle pcle;
   size_t pid;
 
