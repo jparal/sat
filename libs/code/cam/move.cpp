@@ -14,7 +14,7 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Move ()
 {
-  CalcE (_B, _U, _dnf, true);
+  CalcE (_B, _U, _dnf);
 
   _dn  = 0.; _U  = 0.;
   _dna = 0.; _Ua = 0.;

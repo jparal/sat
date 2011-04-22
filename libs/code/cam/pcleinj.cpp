@@ -17,6 +17,9 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
   /// Inject problem dependent particles
   static_cast<B*>(this)->InjectAdd (sp);
 
+  if (sp->GetName () == "ionosphere")
+    return;
+
   TParticle pcle;
   size_t pid;
 

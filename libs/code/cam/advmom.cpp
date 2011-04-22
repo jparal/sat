@@ -14,7 +14,7 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::AdvMom ()
 {
-  CalcE (_B, _Ua, _dnf, true);
+  CalcE (_B, _Ua, _dnf);
 
   T ni, dth = T(.5) * _time.Dt ();
   FldVector ui, uf, bi, ei;

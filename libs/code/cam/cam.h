@@ -326,17 +326,12 @@ public:
    * \frac{(\nabla \times \mathbf{B}) \times \mathbf{B}}{\mu_0 \rho_c} -
    * \frac{\nabla p_e}{\rho_c}
    * @f]
-   * where the last term can be disabled by the last parameter @p enpe. This
-   * can speed up the computations in the case where we require to compute curl
-   * of electric field and the last term would be zero anyway.
    *
    * @param[in] b     Magnetic field
    * @param[in] u     Bulk velocity
    * @param[in] dn    Number density
-   * @param[in] enpe  Enable electron pressure term?
    */
-  void CalcE (const VecField &b, const VecField &u, const ScaField &dn,
-              bool enpe = true);
+  void CalcE (const VecField &b, const VecField &u, const ScaField &dn);
 
   void CalcPsi (T dt, const VecField &b, ScaField &psi);
 

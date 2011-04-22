@@ -20,25 +20,25 @@ void CAMCode<B,T,D>::AdvField (T dt)
   /******************************/
   /* Advance B to t = t + dt!   */
   /******************************/
-  CalcE (_B, _Ua, _dna, false);
+  CalcE (_B, _Ua, _dna);
   CalcB (tbh, _Psi, _Bh);
   //  CalcPsi (dth, _B, _Psih);
 
   for (int step=1; step<_nsub; ++step)
   {
-    CalcE (_Bh, _Ua, _dna, false);
+    CalcE (_Bh, _Ua, _dna);
     CalcB (dtb, _Psih, _B);
     //    CalcPsi (dtb, _Bh, _Psi);
-    CalcE (_B,  _Ua, _dna, false);
+    CalcE (_B,  _Ua, _dna);
     CalcB (dtb, _Psi, _Bh);
     //    CalcPsi (dtb, _B, _Psih);
   }
 
-  CalcE (_Bh, _Ua, _dna, false);
+  CalcE (_Bh, _Ua, _dna);
   CalcB (dtb, _Psih, _B);
   //  CalcPsi (dtb, _Bh, _Psi);
 
-  CalcE (_B,  _Ua, _dna, false);
+  CalcE (_B,  _Ua, _dna);
   CalcB (tbh, _Psi, _Bh);
   //  CalcPsi (dth, _B, _Psi);
 }

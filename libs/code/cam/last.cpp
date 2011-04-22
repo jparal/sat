@@ -19,5 +19,5 @@ void CAMCode<B,T,D>::Last ()
   _B += _Bh;
   _B *= (T)0.5;
 
-  CalcE (_B, _Ua, _dna, true);
+  CalcE (_B, _Ua, _dna);
 }

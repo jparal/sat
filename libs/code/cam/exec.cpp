@@ -17,7 +17,7 @@ void CAMCode<B,T,D>::Exec ()
   _timer.Start ();
 
   MomInit ();
-  CalcE (_B, _Ua, _dn, true);
+  CalcE (_B, _Ua, _dn);
 
   Timer thyb;
   do

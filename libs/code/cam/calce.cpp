@@ -13,15 +13,14 @@
 
 template<class B, class T, int D>
 void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
-			    const ScaField &dn, bool enpe)
+			    const ScaField &dn)
 {
   DomainIterator<D> itb, itu, ite;
   b.GetDomainIterator (itb, true);
   u.GetDomainIterator (itu, true);
   _E.GetDomainIterator (ite, false);
 
-  if (enpe)
-    CalcPe (dn);
+  CalcPe (dn);
 
   T dnc, resist, emask;
   PosVector pos;
@@ -49,8 +48,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
     elapl *= _viscos * emask;
     resist = Resist (ite);
 
-    if (enpe)
-      CartStencil::Grad (_pe, itu, gpe);
+    CartStencil::Grad (_pe, itu, gpe);
 
     if (dnc < _dnmin)
     {
@@ -63,7 +61,7 @@ void CAMCode<B,T,D>::CalcE (const VecField &b, const VecField &u,
 
       enew = cb % bc;
       enew -= uxb;
-      if (enpe) enew -= gpe;
+      enew -= gpe;
       enew /= dnc;
 
       cb *= resist;
