@@ -17,9 +17,17 @@
 
 int main (int argc, char **argv)
 {
-  MaxwellRandGen<double> maxw;
-  maxw.Initialize (1.);
+  double vth = 1.;
+  int nsamp = 10;
 
-  for (int i=0; i<1000000; i++)
-    printf ("%lf\n", maxw.Get ());
+  if (argc >= 2)
+    vth = atof (argv[1]);
+  if (argc >= 3)
+    nsamp = atoi (argv[2]);
+
+  MaxwellRandGen<double> maxw;
+  maxw.Initialize (vth);
+
+  for (int i=0; i<nsamp; i++)
+    printf ("%+.20lf\n", maxw.Get ());
 }
