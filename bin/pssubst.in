@@ -180,7 +180,7 @@ function pssubst()
 
 
 TMPDIR="/tmp/$$"
-SCRIPTNAME=`basename $0`
+SCRIPTNAME=`basename $0`  # ${0##*/} in case of basename is not available
 
 if [ $# -lt 1 ]; then
     print_help

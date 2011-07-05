@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ "$#" != 3 ]; then
+    echo "Compress a sequence of HDF5 file"
+    echo
+    echo "  USAGE: h5zipsq <iter_beg> <iter_step> <iter_end>"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+fi
+
+for it in `seq $1 $2 $3`; do
+    h5zip `ls *i$it.h5`
+done

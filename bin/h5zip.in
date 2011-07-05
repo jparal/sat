@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+    echo "Compress a list of HDF5 file"
+    echo
+    echo "  USAGE: h5zip <files>"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+fi
+
+while [ x"$1" != x"" ]
+do
+    echo "Packing: $1"
+    h5repack -i "$1" -o "$1.gz" -f SHUF -f GZIP=9
+    mv "$1.gz" "$1"
+    shift
+done

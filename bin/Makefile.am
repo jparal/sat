@@ -3,8 +3,8 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-genscripts = filetops gzeps pssubst
+genscripts = filetops gzeps h5zip h5zipsq pssubst
 
 bin_SCRIPTS = $(genscripts)
 CLEANFILES = $(genscripts)
-EXTRA_DIST = $(genscripts:=.in)  h5zip
+EXTRA_DIST = $(genscripts:=.in)
