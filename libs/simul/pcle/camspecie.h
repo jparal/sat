@@ -121,6 +121,9 @@ public:
   /// Perpendicular thermal velocity
   T Vthper () const
   { return _vthpe; }
+  /// Mass of the specie
+  T Mass () const
+  { return  _sm*_ng; }
   /// relative mass density particle represent with respect to @f$ n_0 @f$
   T RelMassDens () const
   { return _rmds; }

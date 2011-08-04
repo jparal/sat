@@ -46,6 +46,19 @@ public:
 
   int Length () const;
 
+  void Copy (const Domain<D> &from)
+  {
+    for (int i=0; i<D; ++i)
+      _range[i] = from._range[i];
+  }
+
+  Domain () {}
+  Domain (const Domain<D> &from)
+  { Copy (from); }
+
+  void operator= (const Domain<D> &from)
+  { Copy (from); }
+
 private:
   Range _range[D];
 };
