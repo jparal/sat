@@ -186,7 +186,7 @@
 ;; Key mapping
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(global-set-key (kbd "M-<return>") 'complete-tag)
+(global-set-key (kbd "M-<return>") 'complete-symbol)
 (global-set-key (kbd "C-c ;") 'comment-or-uncomment-region) ;; Uncomment region
 (global-set-key (kbd "M-p") 'ppindent-h) ;; Preprocessor indent
 (global-set-key (kbd "C-x c") 'compile)        ;; Run compile cmd
