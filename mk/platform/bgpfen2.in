@@ -6,17 +6,28 @@
 #     -partition r000n04-c64i4 -np 128 -mode VN
 #     -exe dipole -args "dipole.sin" > dipole.log &
 
-CXX=mpicxx
-CC=mpicc
+# CXX=mpicxx
+# CC=mpicc
 
-with_ldflags="-Wl,--allow-multiple-definition /opt/ibmcmp/xlmass/bg/4.4/bglib/libmass.a -L/soft/lib /soft/lib/libmpitrace.a"
-with_cxxflags="-I/soft/include -I/soft/hdf5-1.6.6/include"
+CXX=mpixlcxx
+CC=mpixlc
 
-with_cxxflags_dbg="-O -finline-functions -funroll-loops -g"
-with_cxxflags_opt="-O -finline-functions -funroll-loops -g"
+XLOPT="-O3"
+VSACHDE="/gpfs/DDNgpfs1/vsachde/xkvsachde/MOAB-project/all-installations/profiled-GNU-installation/"
 
-# enable_openmp=yes
-# enable_64bit=yes
+# -Wl,--allow-multiple-definition /opt/ibmcmp/xlmass/bg/4.4/bglib/libmass.aw
+# -I/soft/hdf5-1.6.6/include"
+
+with_ldflags="$XLOPT -L/soft/lib -L/soft/lib -L$VSACHDE/szip/lib"
+with_cxxflags="-I/soft/include -DH5_USE_16_API -I$VSACHDE/HDF5-1.8.6/include"
+
+with_cxxflags_dbg="-O -g"
+with_cxxflags_opt="$XLOPT -qunroll=yes -g"
+
+## GCC settings
+# with_cxxflags_dbg="-O -finline-functions -funroll-loops -g"
+# with_cxxflags_opt="-O -finline-functions -funroll-loops -g"
+
 enable_mpi=yes
 with_mpirun="mpirun -np @NP @PROG @ARGS"
 

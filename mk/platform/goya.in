@@ -1,6 +1,6 @@
 # Intel ICC has problems with gdb debuging (otherwise should be faster)
-CXX=g++-4.5
-CC=gcc-4.5
+CXX=g++-4.6
+CC=gcc-4.6
 # CXX=pgCC
 # CC=pgcc
 # CXX=icpc
