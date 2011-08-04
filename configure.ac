@@ -69,6 +69,8 @@ DX_INIT_DOXYGEN(SAT, $srcdir/docs/doxygen.cfg)
 #------------------------------------------------------------------------------
 AC_CONFIG_FILES([bin/filetops], [chmod +x bin/filetops])
 AC_CONFIG_FILES([bin/gzeps],    [chmod +x bin/gzeps])
+AC_CONFIG_FILES([bin/h5zip],    [chmod +x bin/h5zip])
+AC_CONFIG_FILES([bin/h5zipsq],  [chmod +x bin/h5zipsq])
 AC_CONFIG_FILES([bin/pssubst],  [chmod +x bin/pssubst])
 
 AC_CONFIG_FILES([
@@ -105,6 +107,7 @@ AC_CONFIG_FILES([
     example/dfnc/Makefile
     example/rand/Makefile
     example/ref/Makefile
+    example/transfrm/Makefile
     example/zfnc/Makefile
     example/tmpl/Makefile
     example/tmpl/TEMPLATE.cxx.tpl
