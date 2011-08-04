@@ -166,9 +166,8 @@ public:
 
   T EmaskAdd (const DomainIterator<D> &ite)
   {
-    PosVector xp;
-    for (int i=0; i<D; ++i)
-      xp[i] = (T(ite.GetLoc()[i]) - 0.5 + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
+    PosVector xp = ite.GetPosition ();
+    xp -= _cx;
 
     T ld = 2., ee = (xp.Norm()-_radius)/ld;
     if (ee > 5.)
@@ -184,7 +183,7 @@ public:
     u.GetDomainIteratorAll (it, false);
 
     const FldVector u0 = BASE(_v0);
-    const T ld = 10, rm = 3;
+    const T ld = 0.5*(_cx[0]-_radius), rm = 2.*_radius;
 
     do
     {

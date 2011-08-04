@@ -24,6 +24,7 @@ grid:
   cells  = [ 600, 300, 300 ];
   resol  = [ 0.4, 1.0, 1.0 ];           # [c/omega_p]
   openbc = [ true, true, true ];   # Open Boundary Conditions
+  bclen  = [ 2., 2., 2. ];
 };
 
 field:

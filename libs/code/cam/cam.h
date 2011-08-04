@@ -113,16 +113,20 @@ public:
    */
   bool BcalcAdd (const DomainIterator<D> &itb)
   { return false; }
+
   bool EcalcAdd (const DomainIterator<D> &ite)
   { return false; }
+
+  void EcalcBC (const DomainIterator<D> &ite)
+  { return; }
 
   bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
   { return true; }
 
-  T BmaskAdd (const DomainIterator<D> &itb)
+  T EmaskAdd (const DomainIterator<D> &ite)
   { return (T)1.; }
 
-  T EmaskAdd (const DomainIterator<D> &ite)
+  T BmaskAdd (const DomainIterator<D> &itb)
   { return (T)1.; }
 
   /// Extra magnetic field initialization (called at the very beginning)
@@ -236,6 +240,8 @@ public:
 
   /// Electric field boundary conditions.
   void EfieldBC ();
+
+  T MaskBC (const DomainIterator<D> &it) const;
 
   /// @}
 
@@ -422,6 +428,8 @@ public:
   T _vmax;                  ///< Square of maximal particle velocity.
   RefArray<TSpecie> _specie; ///< proton species
   PosVector _pmin, _pmax;    ///< minimal/maximal position of particle
+  PosVector _domsize;        ///< Size of computational domain (hyb units)
+  PosVector _bcleni;         ///< Length of masked boundary layer
 
   SensorManager _sensmng;   ///< sensor manager
   CartDomDecomp<D> _decomp; ///< domain decomposition
@@ -488,6 +496,7 @@ public:
 #include "mombc.cpp"
 #include "pclebc.cpp"
 #include "pcleinj.cpp"
+#include "maskbc.cpp"
 
 /// @}
 

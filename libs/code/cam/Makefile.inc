@@ -20,6 +20,7 @@ preproc_cam = \
 	cam/hyb.cpp \
 	cam/init.cpp \
 	cam/last.cpp \
+	cam/maskbc.cpp \
 	cam/mombc.cpp \
 	cam/mominit.cpp \
 	cam/momfirst.cpp \

@@ -47,6 +47,9 @@ void CAMCode<B,T,D>::Initialize ()
 
   cfg.GetValue ("parallel.mpi.proc", ratio);
   cfg.GetValue ("grid.openbc", openbc);
+  cfg.GetValue ("grid.bclen", _bcleni);
+  for (int i=0; i<D; ++i)
+    _bcleni[i] = T(1)/_bcleni[i];
 
   mesh.Initialize (cfg.GetEntry ("grid"));
   _decomp.Initialize (ratio, Mpi::COMM_WORLD);
@@ -58,6 +61,7 @@ void CAMCode<B,T,D>::Initialize ()
     while (mesh.Cells()[i] % _decomp.Size()[i] != 0)
       mesh.Cells()[i]++;
 
+  _domsize = mesh.Size ();
   DBG_INFO ("total number of cells    : "<<mesh.Cells ());
   DBG_INFO ("   X spatial resolution  : "<<mesh.Resol ());
   DBG_INFO ("   = physical size       : "<<mesh.Size ());
