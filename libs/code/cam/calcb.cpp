@@ -18,7 +18,7 @@ void CAMCode<B,T,D>::CalcB (T dt, const ScaField &psi, VecField &Ba)
   Ba.GetDomainIterator (itb, false);
   _E.GetDomainIteratorAll (ite, true);
 
-  T mask = T(1);
+  T mask;
   FldVector curle, gradpsi;
   do
   {
@@ -27,7 +27,7 @@ void CAMCode<B,T,D>::CalcB (T dt, const ScaField &psi, VecField &Ba)
       CartStencil::Curl (_E, ite, curle);
       //      CartStencil::Grad (psi, ite, gradpsi);
 
-      mask *= MaskBC (itb);
+      mask = MaskBC (itb);
       mask *= static_cast<B*>(this)->BmaskAdd (itb);
 
       curle *= dt * mask;
