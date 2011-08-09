@@ -26,11 +26,11 @@ T CAMCode<B,T,D>::MaskBC (const DomainIterator<D> &it) const
 
     // left & right boundaries
     ee = xp[i] * _bcleni[i];
-    if (ee < 5.)
+    if (ee < T(10))
       mask *= T(1) - Math::Exp (-ee*ee);
 
     ee = (_domsize[i] - xp[i]) * _bcleni[i];
-    if (ee < 5.)
+    if (ee < T(10))
       mask *= T(1) - Math::Exp (-ee*ee);
   }
 
