@@ -49,8 +49,9 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
     vh += dth * (ep + v % bp);
     v += dta * (ep + vh % bp);
 
-    if (_vmax > 0. && v.Norm2() > vmax2)
-      v.Normalize (_vmax);
+    /// Cap the maximal speed of pcle
+    // if (_vmax > 0. && v.Norm2() > vmax2)
+    //   v.Normalize (_vmax);
 
     /// Advance position x^1/2 -> x^3/2
     x = pcle.pos;
