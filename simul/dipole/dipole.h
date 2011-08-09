@@ -93,9 +93,27 @@ public:
 
       pcle.vel = vpu;
       for (int i=0; i<D; ++i)
-	pcle.pos[i] = (xp[i] + _cx[i]) / _dx[i] - _ip[i]*_nc[i];
+        pcle.pos[i] = (xp[i] + _cx[i]) * _dxi[i] - _ip[i]*_nc[i];
     }
+    else if (dist2 < _radius2*(1.5*1.5))
+    {
+      VelVector u;
+      CartStencil::BilinearWeight (BASE(_U), pcle.pos, u);
 
+      T mask = T(1), ee = (xp.Norm()-_radius) * _plbcleni;
+      if (ee < T(10))
+	mask = T(1) - Math::Exp (-ee*ee);
+
+      /// Angle of rotation of Z-axis
+      T phiz = atan2(xp[0],xp[1]);
+      ZRotMatrix3<T> rotz (phiz);
+      ReversibleTransform<T> trans (rotz, u);
+      u = trans.Other2ThisRelative (u);
+      u[1] *= mask;
+      u = trans.This2OtherRelative (u);
+
+      pcle.vel -= u;
+    }
     /*
    /// Reflect particle from the surface with random velocity smaller then the
    /// original one
@@ -231,7 +249,7 @@ public:
       xp -= _cx;
 
       if (xp.Norm2() < _radius2)
-	BASE(_E)(ite) = 0.;
+        BASE(_E)(ite) = 0.;
     }
     while (ite.Next());
   }
@@ -354,15 +372,17 @@ public:
     while (it.Next());
   }
 
-  // T ResistAdd (const DomainIterator<D> &iter) const
-  // {
-  //   PosVector cp = iter.GetPosition ();
-  //   cp -= _cx;
+  /*
+    T ResistAdd (const DomainIterator<D> &iter) const
+    {
+    PosVector cp = iter.GetPosition ();
+    cp -= _cx;
 
-  //   /// Tangential resistivity
-  //   T ld = 4.0, am = 0.8, rm = 0.8, ee = cp.Norm()-_radius;
-  //   return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
-  // }
+    /// Tangential resistivity
+    T ld = 4.0, am = 0.8, rm = 0.8, ee = cp.Norm()-_radius;
+    return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+    }
+  */
 
   T BmaskAdd (const DomainIterator<D> &itb)
   {
@@ -375,16 +395,14 @@ public:
     xp -= _cx;
 
     T ee = (xp.Norm()-_radius) * _plbcleni;
-    if (ee < 5.)
+    if (ee < T(10))
       mask = (T)1. - Math::Exp (-ee*ee);
 
     return mask;
   }
 
   T EmaskAdd (const DomainIterator<D> &ite)
-  {
-    return BmaskAdd (ite);
-  }
+  { return BmaskAdd (ite); }
 
   // void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
   // {
@@ -427,7 +445,7 @@ public:
       xp -= _cx;
 
       if (xp.Norm2 () < _radius2)
-	dn(it) = 0.;
+        dn(it) = 0.;
 
       dn(it) = CalcDn (sp, xp);
     }
