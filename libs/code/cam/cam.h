@@ -114,6 +114,9 @@ public:
   bool BcalcAdd (const DomainIterator<D> &itb)
   { return false; }
 
+  void BcalcBC (VecField &Ba, const DomainIterator<D> &itb)
+  { return; }
+
   bool EcalcAdd (const DomainIterator<D> &ite)
   { return false; }
 

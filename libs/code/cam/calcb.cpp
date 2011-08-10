@@ -34,6 +34,7 @@ void CAMCode<B,T,D>::CalcB (T dt, const ScaField &psi, VecField &Ba)
       //      gradpsi *= dt * mask;
       Ba (itb) -= curle;
       //      Ba (itb) += gradpsi;
+      static_cast<B*>(this)->BcalcBC (Ba, itb);
     }
   }
   while (itb.Next() && ite.Next());
