@@ -6,8 +6,8 @@ dipole:
 {
   amp = 50000;              # Amplitude of dipole: mu0 m / 4Pi
   rpos = [0.5, 0.5, 0.5];  # Relative position in simul box
-  radius = 15.9;
-  bclen = 2.;
+  radius = 18.;
+  bclen = 10.;
 #  vthnorm = 0.1;
 };
 
@@ -21,7 +21,7 @@ ulfsrc:
 
 simul:
 {
-  step    = 0.02;
+  step    = 0.005;
   tmax    = 1000;
   start   = 0.;
   restart = false;     # restart app
@@ -31,10 +31,10 @@ simul:
 
 grid:
 {
-  cells  = [ 1000, 1000, 200 ];
-  resol  = [ 0.2, 0.2, 1.0 ];           # [c/omega_p]
-  openbc = [ true, true, true ];   # Open Boundary Conditions
-  bclen  = [ 2., 2., 2. ];
+  cells  = [ 1000, 1000 ];
+  resol  = [ 0.2, 0.2 ];           # [c/omega_p]
+  openbc = [ true, true ];   # Open Boundary Conditions
+  bclen  = [ 3., 3.];
 };
 
 field:

@@ -114,129 +114,9 @@ public:
 
       pcle.vel -= u;
     }
-    /*
-   /// Reflect particle from the surface with random velocity smaller then the
-   /// original one
-   if (dist2 < _radius2*(.99 * .99))
-   {
-   const T maxw1 = _maxwplnorm.Get ();
-   const T maxw2 = _maxwplnorm.Get ();
-
-   pcle.vel.Set (xp);
-   pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
-   }
-    */
 
     return false;
   }
-
-  /*
- /// Random particle injection from the surface of the planet
- void InjectAdd (TSpecie *sp)
- {
- // if (sp->GetName () != "ionosphere")
- //   return;
-
- const T injdn = 10.0;
-
- const T ngpcles = sp->InitalPcles ();
- const T drinj = _vthplnorm * BASE(_time).Dt ();
- const T radinj = _radius + drinj;
- const T radius = _radius + _rand.Get () * drinj;
-
- T shellvol;
- if (D == 1)
- shellvol = T(2.) * (radinj - _radius);
- else if (D == 2)
- shellvol = T(M_PI) * (radinj*radinj - _radius2);
- else
- shellvol = T(4./3.*M_PI) * (radinj*radinj*radinj - _radius2*_radius);
-
- static T plinjpcle = 0.;
- plinjpcle += injdn * ngpcles * shellvol / _dx.Mult ();
-
- TParticle pcle;
- FldVector bdip;
- PosVector pos;
- size_t pid;
- T u,v,tht,phi;
- T sinphi, cosphi, sintht, costht;
- while (plinjpcle > 1.)
- {
- plinjpcle--;
-
- u = _rand.Get ();
- v = _rand.Get ();
- phi = u * M_2PI;
- tht = v * M_PI; // Math::ACos (2.*v - 1.); // increase # pcles at poles
- sinphi = Math::Sin (phi);
- cosphi = Math::Cos (phi);
- sintht = Math::Sin (tht);
- costht = Math::Cos (tht);
-
- if (D >= 1)
- {
- pos[0] = radius*sintht*cosphi;
- pcle.pos[0] = _dxi[0]*(pos[0] + _cx[0]) - _ip[0]*_nc[0];
- if (pcle.pos[0] < BASE(_pmin)[0] || BASE(_pmax)[0] < pcle.pos[0])
- continue;
- }
-
- if (D >= 2)
- {
- pos[1] = radius*sintht*sinphi;
- pcle.pos[1] = _dxi[1]*(pos[1] + _cx[1]) - _ip[1]*_nc[1];
- if (pcle.pos[1] < BASE(_pmin)[1] || BASE(_pmax)[1] < pcle.pos[1])
- continue;
- }
-
- if (D >= 3)
- {
- pos[2] = radius*costht;
- pcle.pos[2] = _dxi[2]*(pos[2] + _cx[2]) - _ip[2]*_nc[2];
- if (pcle.pos[2] < BASE(_pmin)[2] || BASE(_pmax)[2] < pcle.pos[2])
- continue;
- }
-
- // Add theta angle with cos distribution
- CalcDipole (pos, bdip);
- bdip.Normalize ();
- if (pos[D-1] > 0.)
- bdip *= -1.; // change orientation to outwards
-
- if (D == 3)
- phi = Math::ATan2 (pos[0], pos[1]);
- else
- phi = 0.;
- tht = Math::ACos (bdip[D-1]);
- tht += _thtgen.Get ();
-
- sinphi = Math::Sin (phi);
- cosphi = Math::Cos (phi);
- sintht = Math::Sin (tht);
- costht = Math::Cos (tht);
-
- pcle.vel[0] = sintht*cosphi;
- pcle.vel[1] = sintht*sinphi;
- pcle.vel[2] = costht;
-
- // Rotate around local axis by (0, 2Pi>
- FldVector axis;
- axis.Set (pos);
- Quaternion<T> q (axis, M_2PI * _rand.Get ());
- pcle.vel = q.Rotate (pcle.vel);
-
- // Normalize velocity to random Maxwell DF with vth = dipole.vthnorm
- const T maxw1 = _maxwplnorm.Get ();
- const T maxw2 = _maxwplnorm.Get ();
- //      pcle.vel.Set (pos);
- pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
-
- pid = sp->Push (pcle);
- sp->Exec (pid, PCLE_CMD_ARRIVED);
- }
- }
-  */
 
   void EfieldAdd ()
   {
@@ -266,32 +146,6 @@ public:
     return false;
   }
 
-  // void EcalcBC (const DomainIterator<D> &ite)
-  // {
-  //   PosVector xp = ite.GetPosition ();
-  //   xp -= _cx;
-
-  //   T xpnorm = xp.Norm ();
-  //   static T radmax = _radius + _dx.Norm ();
-  //   if (xpnorm < radmax)
-  //   {
-  //     /// Angle of rotation of Z-axis
-  //     T phiz = atan2(xp[0], xp[1]);
-  //     ZRotMatrix3<T> rotz (phiz);
-  //     ReversibleTransform<T> trans (rotz, T(0));
-
-  //     FldVector ef;
-
-  //     ef = BASE(_E)(ite);
-  //     ef = trans.Other2ThisRelative (ef);
-  //     ef[0] = ef[0] * (xpnorm-_radius);
-  //     ef[1] = Math::Abs (ef[1]);
-  //     ef = trans.This2OtherRelative (ef);
-
-  //     BASE(_E)(ite) = ef;
-  //   }
-  // }
-
   bool BcalcAdd (const DomainIterator<D> &itb)
   {
     PosVector xp = itb.GetPosition ();
@@ -303,45 +157,6 @@ public:
 
     return false;
   }
-
-  // bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
-  // {
-  //   /// Apply ULF source in equator plane
-  //   if (!_ulfenable)
-  //     return false;
-
-  //   PosVector xp = ite.GetPosition ();
-  //   xp -= _cx;
-
-  //   T tht = Math::ATan (xp[1]/xp[0]) / (M_PI/15.);
-  //   if (tht > 5.)
-  //     return false;
-
-  //   T dis = (_ulfdist - Math::Abs (xp[0])) / _ulfwidth;
-  //   if (dis > 5.)
-  //     return false;
-
-  //   FldVector bdip;
-  //   CalcDipole (xp, bdip);
-
-  //   FldVector ep, ea, er; // parallel, azimuthal, radial E direction
-  //   er.Set (xp);
-  //   ep.Set (bdip);
-  //   ea = ep % er;
-  //   er = ea % ep;
-
-  //   ep.Normalize ();
-  //   ea.Normalize ();
-  //   er.Normalize ();
-
-  //   T amp = _ulfamp * Math::Exp (- (tht*tht + dis*dis));
-  //   T arg = _ulfomega * BASE(_time).Time ();
-
-  //   ea *= amp * Math::Sin (arg);
-  //   efsrc = ea;
-
-  //   return true;
-  // }
 
   void BInitAdd (VecField &b)
   {
@@ -373,15 +188,18 @@ public:
   }
 
   /*
-    T ResistAdd (const DomainIterator<D> &iter) const
-    {
-    PosVector cp = iter.GetPosition ();
-    cp -= _cx;
+  T ResistAdd (const DomainIterator<D> &iter) const
+  {
+    PosVector xp = iter.GetPosition ();
+    xp -= _cx;
 
-    /// Tangential resistivity
-    T ld = 4.0, am = 0.8, rm = 0.8, ee = cp.Norm()-_radius;
-    return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
-    }
+    T am = 0.8 - BASE(_resist);
+    T ee = (xp.Norm()-_radius) * _plbcleni;
+    if (ee < T(10))
+      return am*Math::Exp (-ee*ee);
+    else
+      return T(0);
+  }
   */
 
   T BmaskAdd (const DomainIterator<D> &itb)
@@ -403,35 +221,6 @@ public:
 
   T EmaskAdd (const DomainIterator<D> &ite)
   { return BmaskAdd (ite); }
-
-  // void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
-  // {
-  //   PosVector xp;
-  //   DomainIterator<D> it;
-  //   vthper.GetDomainIteratorAll (it, false);
-  //   T vthpar0 = sp->Vthpar ();
-  //   T vthper0 = sp->Vthper ();
-
-  //   T spani = sp->Anisotropy ();
-  //   SAT_ASSERT_MSG (Math::Abs (spani - 1.) < 0.0001, "Anisotropy must be 1");
-
-  //   /// See chan94 for explanation
-  //   T dn, p0, ms, vth;
-  //   do
-  //   {
-  //     xp = it.GetPosition ();
-  //     xp -= _cx;
-
-  //     dn = CalcDn (sp, xp);
-  //     ms = sp->Mass ();
-  //     CalcPressure0 (sp, xp, p0);
-  //     vth = Math::Sqrt (p0 / (dn*ms));
-
-  //     vthpar(it) = vth;
-  //     vthper(it) = vth;
-  //   }
-  //   while (it.Next());
-  // }
 
   void DnInitAdd (TSpecie *sp, ScaField &dn)
   {
@@ -485,22 +274,6 @@ public:
 
     return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
   }
-
-  // /// Returns B0vacuum / Bvacuum
-  // T CalcB0B (const PosVector &xp)
-  // {
-  //   const T radius = xp.Norm ();
-  //   if (radius < 0.0001)
-  //     return 0.;
-
-  //   const T lambda = Math::ASin (xp[D-1]/radius);
-  //   const T sinlam = Math::Sin (lambda);
-  //   const T coslam = Math::Cos (lambda);
-  //   const T sin2 = sinlam*sinlam;
-  //   const T cos6 = coslam*coslam*coslam*coslam*coslam*coslam;
-
-  //   return cos6 / Math::Sqrt (1. + 3. *sin2);
-  // }
 
   /// Calculate dipole field adjusted to keep plasma in equilibrium
   /// B = Bv (1-beta_vacuum/2)
@@ -675,3 +448,248 @@ private:
 //   pcle.vel[1] = xp[1];
 //   pcle.vel[2] = 0.;
 // }
+
+
+    /*
+   /// Reflect particle from the surface with random velocity smaller then the
+   /// original one
+   if (dist2 < _radius2*(.99 * .99))
+   {
+   const T maxw1 = _maxwplnorm.Get ();
+   const T maxw2 = _maxwplnorm.Get ();
+
+   pcle.vel.Set (xp);
+   pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
+   }
+    */
+
+
+
+  /*
+ /// Random particle injection from the surface of the planet
+ void InjectAdd (TSpecie *sp)
+ {
+ // if (sp->GetName () != "ionosphere")
+ //   return;
+
+ const T injdn = 10.0;
+
+ const T ngpcles = sp->InitalPcles ();
+ const T drinj = _vthplnorm * BASE(_time).Dt ();
+ const T radinj = _radius + drinj;
+ const T radius = _radius + _rand.Get () * drinj;
+
+ T shellvol;
+ if (D == 1)
+ shellvol = T(2.) * (radinj - _radius);
+ else if (D == 2)
+ shellvol = T(M_PI) * (radinj*radinj - _radius2);
+ else
+ shellvol = T(4./3.*M_PI) * (radinj*radinj*radinj - _radius2*_radius);
+
+ static T plinjpcle = 0.;
+ plinjpcle += injdn * ngpcles * shellvol / _dx.Mult ();
+
+ TParticle pcle;
+ FldVector bdip;
+ PosVector pos;
+ size_t pid;
+ T u,v,tht,phi;
+ T sinphi, cosphi, sintht, costht;
+ while (plinjpcle > 1.)
+ {
+ plinjpcle--;
+
+ u = _rand.Get ();
+ v = _rand.Get ();
+ phi = u * M_2PI;
+ tht = v * M_PI; // Math::ACos (2.*v - 1.); // increase # pcles at poles
+ sinphi = Math::Sin (phi);
+ cosphi = Math::Cos (phi);
+ sintht = Math::Sin (tht);
+ costht = Math::Cos (tht);
+
+ if (D >= 1)
+ {
+ pos[0] = radius*sintht*cosphi;
+ pcle.pos[0] = _dxi[0]*(pos[0] + _cx[0]) - _ip[0]*_nc[0];
+ if (pcle.pos[0] < BASE(_pmin)[0] || BASE(_pmax)[0] < pcle.pos[0])
+ continue;
+ }
+
+ if (D >= 2)
+ {
+ pos[1] = radius*sintht*sinphi;
+ pcle.pos[1] = _dxi[1]*(pos[1] + _cx[1]) - _ip[1]*_nc[1];
+ if (pcle.pos[1] < BASE(_pmin)[1] || BASE(_pmax)[1] < pcle.pos[1])
+ continue;
+ }
+
+ if (D >= 3)
+ {
+ pos[2] = radius*costht;
+ pcle.pos[2] = _dxi[2]*(pos[2] + _cx[2]) - _ip[2]*_nc[2];
+ if (pcle.pos[2] < BASE(_pmin)[2] || BASE(_pmax)[2] < pcle.pos[2])
+ continue;
+ }
+
+ // Add theta angle with cos distribution
+ CalcDipole (pos, bdip);
+ bdip.Normalize ();
+ if (pos[D-1] > 0.)
+ bdip *= -1.; // change orientation to outwards
+
+ if (D == 3)
+ phi = Math::ATan2 (pos[0], pos[1]);
+ else
+ phi = 0.;
+ tht = Math::ACos (bdip[D-1]);
+ tht += _thtgen.Get ();
+
+ sinphi = Math::Sin (phi);
+ cosphi = Math::Cos (phi);
+ sintht = Math::Sin (tht);
+ costht = Math::Cos (tht);
+
+ pcle.vel[0] = sintht*cosphi;
+ pcle.vel[1] = sintht*sinphi;
+ pcle.vel[2] = costht;
+
+ // Rotate around local axis by (0, 2Pi>
+ FldVector axis;
+ axis.Set (pos);
+ Quaternion<T> q (axis, M_2PI * _rand.Get ());
+ pcle.vel = q.Rotate (pcle.vel);
+
+ // Normalize velocity to random Maxwell DF with vth = dipole.vthnorm
+ const T maxw1 = _maxwplnorm.Get ();
+ const T maxw2 = _maxwplnorm.Get ();
+ //      pcle.vel.Set (pos);
+ pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
+
+ pid = sp->Push (pcle);
+ sp->Exec (pid, PCLE_CMD_ARRIVED);
+ }
+ }
+  */
+
+
+
+
+  // bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
+  // {
+  //   /// Apply ULF source in equator plane
+  //   if (!_ulfenable)
+  //     return false;
+
+  //   PosVector xp = ite.GetPosition ();
+  //   xp -= _cx;
+
+  //   T tht = Math::ATan (xp[1]/xp[0]) / (M_PI/15.);
+  //   if (tht > 5.)
+  //     return false;
+
+  //   T dis = (_ulfdist - Math::Abs (xp[0])) / _ulfwidth;
+  //   if (dis > 5.)
+  //     return false;
+
+  //   FldVector bdip;
+  //   CalcDipole (xp, bdip);
+
+  //   FldVector ep, ea, er; // parallel, azimuthal, radial E direction
+  //   er.Set (xp);
+  //   ep.Set (bdip);
+  //   ea = ep % er;
+  //   er = ea % ep;
+
+  //   ep.Normalize ();
+  //   ea.Normalize ();
+  //   er.Normalize ();
+
+  //   T amp = _ulfamp * Math::Exp (- (tht*tht + dis*dis));
+  //   T arg = _ulfomega * BASE(_time).Time ();
+
+  //   ea *= amp * Math::Sin (arg);
+  //   efsrc = ea;
+
+  //   return true;
+  // }
+
+
+
+  // void EcalcBC (const DomainIterator<D> &ite)
+  // {
+  //   PosVector xp = ite.GetPosition ();
+  //   xp -= _cx;
+
+  //   T xpnorm = xp.Norm ();
+  //   static T radmax = _radius + _dx.Norm ();
+  //   if (xpnorm < radmax)
+  //   {
+  //     /// Angle of rotation of Z-axis
+  //     T phiz = atan2(xp[0], xp[1]);
+  //     ZRotMatrix3<T> rotz (phiz);
+  //     ReversibleTransform<T> trans (rotz, T(0));
+
+  //     FldVector ef;
+
+  //     ef = BASE(_E)(ite);
+  //     ef = trans.Other2ThisRelative (ef);
+  //     ef[0] = ef[0] * (xpnorm-_radius);
+  //     ef[1] = Math::Abs (ef[1]);
+  //     ef = trans.This2OtherRelative (ef);
+
+  //     BASE(_E)(ite) = ef;
+  //   }
+  // }
+
+
+
+
+  // void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
+  // {
+  //   PosVector xp;
+  //   DomainIterator<D> it;
+  //   vthper.GetDomainIteratorAll (it, false);
+  //   T vthpar0 = sp->Vthpar ();
+  //   T vthper0 = sp->Vthper ();
+
+  //   T spani = sp->Anisotropy ();
+  //   SAT_ASSERT_MSG (Math::Abs (spani - 1.) < 0.0001, "Anisotropy must be 1");
+
+  //   /// See chan94 for explanation
+  //   T dn, p0, ms, vth;
+  //   do
+  //   {
+  //     xp = it.GetPosition ();
+  //     xp -= _cx;
+
+  //     dn = CalcDn (sp, xp);
+  //     ms = sp->Mass ();
+  //     CalcPressure0 (sp, xp, p0);
+  //     vth = Math::Sqrt (p0 / (dn*ms));
+
+  //     vthpar(it) = vth;
+  //     vthper(it) = vth;
+  //   }
+  //   while (it.Next());
+  // }
+
+
+
+
+  // /// Returns B0vacuum / Bvacuum
+  // T CalcB0B (const PosVector &xp)
+  // {
+  //   const T radius = xp.Norm ();
+  //   if (radius < 0.0001)
+  //     return 0.;
+
+  //   const T lambda = Math::ASin (xp[D-1]/radius);
+  //   const T sinlam = Math::Sin (lambda);
+  //   const T coslam = Math::Cos (lambda);
+  //   const T sin2 = sinlam*sinlam;
+  //   const T cos6 = coslam*coslam*coslam*coslam*coslam*coslam;
+
+  //   return cos6 / Math::Sqrt (1. + 3. *sin2);
+  // }
