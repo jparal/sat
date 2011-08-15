@@ -11,5 +11,22 @@ if (nargin == 5)
     fname = sio_fname(sensor,basename,iter,rank);
 end
 
-[data,attr] = hdf5read(fname,tag,'ReadAttributes',true);
+while true
+try
+    [data,attr] = hdf5read(fname,tag,'ReadAttributes',true);
+    break;
+catch exeption
+    fprintf('Error in reading %s\n',fname);
+    reply = input('Read again? y/n [y]: ','s');
+    if isempty(reply)
+        reply = 'y';
+    end
+    if reply == 'y'
+        continue;
+    else
+        rethrow(exeption);
+    end
+end
+end
+
 data=permute(data,length(size(data)):-1:1);
