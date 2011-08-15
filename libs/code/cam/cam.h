@@ -159,8 +159,8 @@ public:
    * @param vthper Perpendicular thermal velocity
    * @param vthpar Parallel thermal velocity
    */
-  void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
-  { return; }
+  bool VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
+  { return false; }
 
   /**
    * @brief Initialize bulk velocity for the given specie.

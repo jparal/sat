@@ -146,9 +146,6 @@ public:
   friend T operator* (const TVector &v1, const Vector<T, D> &v2)
   {
     return MetaLoops<D>::Dot (v1._d, (T*)v2._d);
-    // T retval = v1._d[0] * (T)(v2._d[0]);
-    // for (int i=1; i<D; ++i) retval += v1._d[i] * (T)(v2._d[i]);
-    // return retval;
   }
 
   /// Cross product of two vectors (speciealized only for D = 3)
