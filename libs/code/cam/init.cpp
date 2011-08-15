@@ -293,9 +293,11 @@ void CAMCode<B,T,D>::Initialize ()
 
     static_cast<B*>(this)->DnInitAdd (sp, _dn);
     static_cast<B*>(this)->BulkInitAdd (sp, _U);
-    static_cast<B*>(this)->VthInitAdd (sp, _dnf, _dna);
 
-    sp->LoadPcles (_dn, _U, _B, _dnf, _dna, b0);
+    if (static_cast<B*>(this)->VthInitAdd (sp, _dnf, _dna))
+      sp->LoadPcles (_dn, _U, _B, _dnf, _dna, b0);
+    else
+      sp->LoadPcles (_dn, _U, b0);
 
     /// Remove particles based on the problem (for example: inside of the
     /// planet for the dipole problem)
