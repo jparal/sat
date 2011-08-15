@@ -187,7 +187,6 @@ public:
     while (it.Next());
   }
 
-  /*
   T ResistAdd (const DomainIterator<D> &iter) const
   {
     PosVector xp = iter.GetPosition ();
@@ -200,7 +199,6 @@ public:
     else
       return T(0);
   }
-  */
 
   T BmaskAdd (const DomainIterator<D> &itb)
   {
