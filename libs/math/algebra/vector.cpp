@@ -13,6 +13,7 @@
  */
 
 #include "math/func/stdmath.h"
+#include "math/misc/const.h"
 
 template <class T, int D> inline
 Vector<T,D>::Vector (T v)
@@ -182,7 +183,7 @@ void Vector<T,D>::Normalize (const T mag)
 {
   T len = _d[0] * _d[0];
   for (int i=1; i<D; ++i) len += _d[i] * _d[i];
-  if (len < SMALL_EPS) return;
+  if (len < M_MEPS) return;
   *this /= Math::Sqrt (len) / mag;
 }
 
