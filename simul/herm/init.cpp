@@ -20,8 +20,10 @@ void HermCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
     cfg.GetValue ("dipole.amp", _amp);
     cfg.GetValue ("dipole.rpos", _rpos);
     cfg.GetValue ("dipole.radius", _radius);
+    cfg.GetValue ("dipole.bclen", _plbcleni);
     cfg.GetValue ("dipole.vthnorm", _vthplnorm, 0.1);
     _radius2 = _radius * _radius;
+    _plbcleni = T(1) / _plbcleni;
   }
   else
   {

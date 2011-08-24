@@ -54,21 +54,65 @@ public:
       xp[i] = (pcle.pos[i] + _ip[i]*_nc[i]) * _dx[i] - _cx[i];
 
     T dist2 = xp.Norm2 ();
-    if (dist2 < _radius2*(0.99*0.99) && BASE(_time).Iter() == 0)
+    if ((dist2 < _radius2) && BASE(_time).Iter() == 0)
     {
       sp->Exec (id, PCLE_CMD_REMOVE);
       return true;
     }
 
-    /// Reflect particle from the surface with random velocity smaller then the
-    /// original one
-    if (dist2 < _radius2*(1.01*1.01))
+    if (dist2 < _radius2)
     {
-      const T maxw1 = _maxwplnorm.Get ();
-      const T maxw2 = _maxwplnorm.Get ();
+      VelVector vp = pcle.vel;
 
-      pcle.vel.Set (xp);
-      pcle.vel.Normalize (Math::Sqrt (maxw1*maxw1 + maxw2*maxw2));
+      T a = vp[0]*vp[0] + vp[1]*vp[1];
+      T b = -2.*(xp[0]*vp[0] + xp[1]*vp[1]);
+      T c = xp[0]*xp[0] + xp[1]*xp[1] - _radius2;
+      T dtc = (-b + Math::Sqrt(b*b - 4.*a*c))/(2.*a);
+
+      /// Position where pcle crossed the surface
+      VelVector xpc;
+      xpc.Set (xp);
+      xpc -= dtc*vp;
+
+      /// Angle of rotation of Z-axis
+      T phiz = Math::ATan2 (xpc[0],xpc[1]);
+      ZRotMatrix3<T> rotz (phiz);
+      ReversibleTransform<T> trans (rotz, xpc);
+
+      VelVector vpu, xpu;
+
+      vpu.Set (vp);
+      vpu = trans.Other2ThisRelative (vpu);
+      vpu[1] = -vpu[1];
+      vpu = trans.This2OtherRelative (vpu);
+
+      xpu.Set (xp);
+      xpu = trans.Other2This (xpu);
+      xpu[1] = -xpu[1];
+      xpu = trans.This2Other (xpu);
+
+      pcle.vel = vpu;
+      for (int i=0; i<D; ++i)
+        pcle.pos[i] = (xp[i] + _cx[i]) * _dxi[i] - _ip[i]*_nc[i];
+    }
+    else if (dist2 < _radius2*(1.5*1.5))
+    {
+      VelVector u;
+      CartStencil::BilinearWeight (BASE(_U), pcle.pos, u);
+
+      T mask = T(1), ee = (xp.Norm()-_radius) * _plbcleni;
+      if (ee < T(10))
+	mask = T(1) - Math::Exp (-ee*ee);
+
+      /// Angle of rotation of Z-axis
+      T phiz = atan2(xp[0],xp[1]);
+      ZRotMatrix3<T> rotz (phiz);
+      ReversibleTransform<T> trans (rotz, u);
+      u = trans.Other2ThisRelative (u);
+      u[1] *= mask;
+      u = trans.This2OtherRelative (u);
+
+      pcle.vel -= u;
     }
 
     return false;
@@ -96,7 +140,7 @@ public:
     xp -= _cx;
 
     // Don't update electric field inside of the planet
-    if (xp.Norm2() < _radius2)
+    if (xp.Norm2 () < _radius2)
       return true;
 
     return false;
@@ -116,7 +160,7 @@ public:
 
   void BInitAdd (VecField &b)
   {
-    _nc=0.; _ip=0.; _cx=0.; _dx=0.;
+    _nc=0.; _ip=0.; _cx=0.; _dx=0.; _dxi=0.;
     FldVector bdip, np=0., lx=0.;
     PosVector xp;
     for (int i=0; i<D; ++i)
@@ -125,6 +169,7 @@ public:
       np[i] = b.GetLayout().GetDecomp().GetSize(i);
       _ip[i] = b.GetLayout().GetDecomp().GetPosition(i);
       _dx[i] = b.GetMesh().GetResol(i);
+      _dxi[i] = 1./_dx[i];
       lx[i] = _nc[i] * np[i] * _dx[i];
       _cx[i] = lx[i] * _rpos[i];
     }
@@ -142,39 +187,38 @@ public:
     while (it.Next());
   }
 
-  // T ResistAdd (const DomainIterator<D> &iter) const
-  // {
-  //   PosVector cp = iter.GetPosition ();
-  //   cp -= _cx;
+  T ResistAdd (const DomainIterator<D> &iter) const
+  {
+    PosVector xp = iter.GetPosition ();
+    xp -= _cx;
 
-  //   /// Tangential resistivity
-  //   T ld = 4.0, am = 0.8, rm = 0.8, ee = cp.Norm()-_radius;
-  //   return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
-  // }
+    T am = 0.8 - BASE(_resist);
+    T ee = (xp.Norm()-_radius) * _plbcleni;
+    if (ee < T(10))
+      return am*Math::Exp (-ee*ee);
+    else
+      return T(0);
+  }
 
   T BmaskAdd (const DomainIterator<D> &itb)
   {
+    T mask = T(1);
+
+    if (_plbcleni < T(0))
+      return mask;
+
     PosVector xp = itb.GetPosition ();
     xp -= _cx;
 
-    T ld = 2., ee = (xp.Norm()-_radius)/ld;
-    if (ee > 5.)
-      return (T)1.;
-    else
-      return (T)1. - Math::Exp (-ee*ee);
+    T ee = (xp.Norm()-_radius) * _plbcleni;
+    if (ee < T(10))
+      mask = (T)1. - Math::Exp (-ee*ee);
+
+    return mask;
   }
 
   T EmaskAdd (const DomainIterator<D> &ite)
-  {
-    PosVector xp = ite.GetPosition ();
-    xp -= _cx;
-
-    T ld = 2., ee = (xp.Norm()-_radius)/ld;
-    if (ee > 5.)
-      return (T)1.;
-    else
-      return (T)1. - Math::Exp (-ee*ee);
-  }
+  { return BmaskAdd (ite); }
 
   void BulkInitAdd (TSpecie *sp, VecField &u)
   {
@@ -247,9 +291,10 @@ private:
 
   // Planet configuration
   bool _dipole;
+  T _plbcleni;
   T _vthplnorm;
   T _amp, _radius, _radius2;
-  Vector<T,D> _rpos, _nc, _ip, _cx, _dx;
+  Vector<T,D> _rpos, _nc, _ip, _cx, _dx, _dxi;
 };
 
 #include "init.cpp"

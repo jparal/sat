@@ -17,7 +17,7 @@
 int main (int argc, char **argv)
 {
   SAT::EnableFPException();
-  HermCAMCode<float,3> herm;
+  HermCAMCode<float,2> herm;
   herm.Initialize (&argc, &argv);
   herm.Exec ();
 

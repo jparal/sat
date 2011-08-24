@@ -7,12 +7,12 @@ dipole:
   amp = 50000;              # Amplitude of dipole: mu0 m / 4Pi
   rpos = [0.3, 0.5, 0.5];  # Relative position in simul box
   radius = 15.9;
-  bclen = 10.;
+  bclen = 5.;
 };
 
 simul:
 {
-  step    = 0.02;
+  step    = 0.005;
   tmax    = 200;
   start   = 0.;
   restart = false;     # restart app
@@ -22,8 +22,8 @@ simul:
 
 grid:
 {
-  cells  = [ 600, 300, 300 ];
-  resol  = [ 0.4, 1.0, 1.0 ];           # [c/omega_p]
+  cells  = [ 2400, 2400, 300 ];
+  resol  = [ 0.2, 0.2, 1.0 ];           # [c/omega_p]
   openbc = [ true, true, true ];   # Open Boundary Conditions
   bclen  = [ 2., 2., 2. ];
 };
@@ -31,7 +31,7 @@ grid:
 field:
 {
   nsub   = 10;                       # number of sub-steps of B-field
-  imf    = { phi = 0.; psi = -20.; amp = 1.; };  # orientation of B-field
+  imf    = { phi = 90.; psi = 0.; amp = 1.; };  # orientation of B-field
   dnmin  = 0.05;                    # minimal density to resolve
   resist = 0.1;                     # artificial resistivity
   viscos = 0.0;
@@ -43,8 +43,8 @@ plasma:
   vmax  = -1;  # Particle maximal velocity [default: off (ie -1)]
   specie:
   {
-    solarwind = { pcles = 100.; beta = 1.; ani = 1.; rmds = 1.; qms = 1.;
-      v0 = [4.,0.,0.]; };
+    solarwind = { pcles = 400.; beta = 1.; ani = 1.; rmds = 1.; qms = 1.;
+      v0 = [5.,0.,0.]; };
     # ionosphere = { pcles = 100.; beta = .0001; ani = 1.; rmds = .1; qms = 1.;
     #   v0 = [0.,0.,0.]; };
   };
@@ -57,8 +57,8 @@ output:
   format:
   {
     type     = "hdf5"; version = 1;
-    driver   = 0; # 0:serial | 1:separate | 2: parallel
-    dir      = "outh2";
+    driver   = 2; # 0:serial | 1:separate | 2: parallel
+    dir      = "out";
     runname  = "test";
     compress = { gz = 9; shuffle = true; };   # output compression
   };
