@@ -12,17 +12,20 @@
 
 export EXE_FILE=FILE_WITHOUT_SUFFIX
 export SIN_FILE=FILE_WITHOUT_SUFFIX
-export NUM_CPUS=NODES_TIMES_PPN
 
 cd $PBS_O_WORKDIR
+export NUM_CPUS=`/bin/awk 'END {print NR}' $PBS_NODEFILE`
 
 [ -f $HOME/.bashrc ]       && source $HOME/.bashrc
 [ -f $HOME/.bash_profile ] && source $HOME/.bash_profile
 [ -f $HOME/.profile ]      && source $HOME/.profile
 
 echo "Current working directory is `pwd`"
-
 echo "Starting run at: `date`"
+echo "Node file: $PBS_NODEFILE :"
+echo "---------------------"
+cat $PBS_NODEFILE
+echo "---------------------"
 
 mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin > $SIN_FILE.log
 
