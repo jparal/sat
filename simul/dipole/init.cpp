@@ -37,9 +37,7 @@ void DipoleCAMCode<T,D>::PreInitialize (const ConfigFile &cfg)
     cfg.GetValue ("ulfsrc.amp", _ulfamp);
     cfg.GetValue ("ulfsrc.dist", _ulfdist);
     cfg.GetValue ("ulfsrc.width", _ulfwidth);
-
     _ulfdist *= _radius;
-    _ulfwidth *= _radius;
 
     if (cfg.Exists ("ulfsrc.omega"))
       cfg.GetValue ("ulfsrc.omega", _ulfomega);

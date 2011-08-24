@@ -75,7 +75,7 @@ public:
       xpc -= dtc*vp;
 
       /// Angle of rotation of Z-axis
-      T phiz = atan2(xpc[0],xpc[1]);
+      T phiz = Math::ATan2 (xpc[0],xpc[1]);
       ZRotMatrix3<T> rotz (phiz);
       ReversibleTransform<T> trans (rotz, xpc);
 
@@ -161,7 +161,7 @@ public:
   void BInitAdd (VecField &b)
   {
     _nc=0.; _ip=0.; _cx=0.; _dx=0.; _dxi=0.;
-    FldVector bdip, np=0., lx=0.;
+    FldVector ulf, bdip, np=0., lx=0.;
     PosVector xp;
     for (int i=0; i<D; ++i)
     {
@@ -182,7 +182,9 @@ public:
       xp -= _cx;
 
       CalcDipole (xp, bdip);
+      CalcUlfWave (xp, ulf);
       b(it) += bdip;
+      b(it) += ulf;
     }
     while (it.Next());
   }
@@ -271,6 +273,33 @@ public:
     T ee = xp.Norm()-_radius;
 
     return am*(Math::ATan ((-ee+ld)/rm)/M_PI+0.5);
+  }
+
+  void CalcUlfWave (const PosVector &xp, FldVector &ulf)
+  {
+    ulf = T(0);
+    if (!_ulfenable)
+      return;
+
+    // actual angle from equator
+    T lambda = Math::ATan2 (xp[0], Math::Abs (xp[1]));
+    T coslam = Math::Cos (lambda);
+    if (Math::Abs (coslam) < M_EPS)
+      return;
+
+    T amp;
+    T r0 = xp.Norm () / (coslam*coslam);
+    T ee = Math::Abs (_ulfdist - r0) / _ulfwidth;
+    if (ee < T(10))
+      amp = _ulfamp * Math::Exp (-ee*ee);
+    else
+      return;
+
+    // lambda angle where field line enters planet
+    T lamp = Math::ACos (Math::Sqrt (_radius/_ulfdist));
+    // relative angle -pi pi at surface of planet
+    T rellam = lambda / lamp * M_PI_2;
+    ulf[2] = amp * Math::Sin (rellam);
   }
 
   /// Calculate dipole field adjusted to keep plasma in equilibrium
