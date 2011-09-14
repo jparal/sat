@@ -1,9 +1,13 @@
 #PBS -S /bin/sh
 #PBS -M jparal@gmail.com
-#PBS -m bea
+##PBS -m bea
 ##PBS -q default
-#PBS -l walltime=48:00:00
-#PBS -l procs=120
+#PBS -l walltime=131:00:00
+#PBS -l procs=510
+#PBS -l pmem=8gb
+
+## NOTES:
+## 1) Walltime is maximum allowed at grex: 2,800/510*24 = 131 hours
 
 export NUM_CPUS=NUM_PROCS
 export EXE_FILE=EXE_FILE_NAME

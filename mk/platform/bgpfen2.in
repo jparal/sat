@@ -18,7 +18,7 @@ VSACHDE="/gpfs/DDNgpfs1/vsachde/xkvsachde/MOAB-project/all-installations/profile
 # -Wl,--allow-multiple-definition /opt/ibmcmp/xlmass/bg/4.4/bglib/libmass.aw
 # -I/soft/hdf5-1.6.6/include"
 
-with_ldflags="$XLOPT -L/soft/lib -L/soft/lib -L$VSACHDE/szip/lib"
+with_ldflags="$XLOPT -L/soft/lib -L$VSACHDE/szip/lib"
 with_cxxflags="-I/soft/include -DH5_USE_16_API -I$VSACHDE/HDF5-1.8.6/include"
 
 with_cxxflags_dbg="-O -g"
@@ -31,7 +31,7 @@ with_cxxflags_opt="$XLOPT -qunroll=yes -g"
 enable_mpi=yes
 with_mpirun="mpirun -np @NP @PROG @ARGS"
 
-with_hdf5="/soft/hdf5-1.6.6/"
-with_hdf5_libs="-lz /opt/ibmcmp/vac/bg/9.0/bglib/libxl.a"
+with_hdf5="$VSACHDE/HDF5-1.8.6"
+with_hdf5_libs="-lz -lsz /opt/ibmcmp/vac/bg/9.0/bglib/libxl.a"
 
 prefix="$HOME/install/sat"

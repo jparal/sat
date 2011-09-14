@@ -4,7 +4,7 @@ DIR=hdf5-1.8.7
 
 tar xzfv $DIR.tar.gz
 cd $DIR
-./configure --prefix=$HOME/install --disable-cxx --disable-hl
+./configure --prefix=$HOME/install --disable-cxx --disable-hl --enable-parallel --with-default-api-version=v16
 make -j2
 make install
 cd ..

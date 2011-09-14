@@ -4,7 +4,7 @@
 ##PBS -q default
 #PBS -l walltime=24:00:00
 #PBS -l nodes=4:ppn=8
-#PBS -l mem=40gb
+#PBS -l pmem=1.25GB
 
 ## NOTES:
 ## 1) Memory is 10 times number of nodes

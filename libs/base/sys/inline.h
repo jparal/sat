@@ -25,7 +25,7 @@
 #define SAT_INLINE inline
 
 #ifdef HAVE_ATTRIBUTE_ALWAYS_INLINE
-#  define SAT_INLINE_ALWAYS SAT_ATTRIBUTE(always_inline)
+#  define SAT_INLINE_ALWAYS inline // SAT_ATTRIBUTE(always_inline)
 #else
 #  define SAT_INLINE_ALWAYS inline
 #endif
@@ -34,7 +34,7 @@
 #define SAT_FORCEINLINE_TEMPLATEMETHOD inline
 
 #ifdef HAVE_ATTRIBUTE_FLATTEN
-#  define SAT_INLINE_FLATTEN SAT_ATTRIBUTE(flatten)
+#  define SAT_INLINE_FLATTEN inline // SAT_ATTRIBUTE(flatten)
 #else
 #  define SAT_INLINE_FLATTEN inline
 #endif
