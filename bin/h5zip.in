@@ -13,8 +13,14 @@ fi
 
 while [ x"$1" != x"" ]
 do
-    echo "Packing: $1"
-    h5repack -i "$1" -o "$1.gz" -f SHUF -f GZIP=9
-    mv "$1.gz" "$1"
+    echo -n "Packing: $1 .. "
+    
+    if h5ls -v $1 | grep deflate > /dev/null; then
+        echo done
+    else
+        h5repack -i "$1" -o "$1.gz" -f SHUF -f GZIP=9
+        mv "$1.gz" "$1"
+        echo done
+    fi
     shift
 done
