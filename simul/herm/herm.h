@@ -226,16 +226,37 @@ public:
     DomainIterator<D> it;
     u.GetDomainIteratorAll (it, false);
 
+    /// See [Shue et al. 1997] for r0 and alpha explanation
+    const T r0 = _radius * 2.;
+    const T alpha = 0.6;
+    const T rm = 0.2 *_radius;
     const FldVector u0 = BASE(_v0);
-    const T ld = 0.5*(_cx[0]-_radius), rm = 2.*_radius;
 
     do
     {
       xp = it.GetPosition ();
+      xp -= _cx;
+      T tht = Math::ATan2 (xp[1], -xp[0]);
+      T dist = r0 * Math::Pow (T(2)/ (T(1)+Math::Cos(tht)), alpha);
       u(it) = u0;
-      u(it) *= Math::ATan ((-xp[0]+ld)/rm)/M_PI+0.5;
+      u(it) *= Math::ATan ((xp.Norm()-dist)/rm)/M_PI+0.5;
     }
     while (it.Next());
+
+    // PosVector xp;
+    // DomainIterator<D> it;
+    // u.GetDomainIteratorAll (it, false);
+
+    // const FldVector u0 = BASE(_v0);
+    // const T ld = 0.5*(_cx[0]-_radius), rm = 2.*_radius;
+
+    // do
+    // {
+    //   xp = it.GetPosition ();
+    //   u(it) = u0;
+    //   u(it) *= Math::ATan ((-xp[0]+ld)/rm)/M_PI+0.5;
+    // }
+    // while (it.Next());
   }
 
   void DnInitAdd (TSpecie *sp, ScaField &dn)
