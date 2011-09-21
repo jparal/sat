@@ -8,6 +8,7 @@ enable_openmp=yes
 enable_mpi=yes
 
 with_hdf5="$HOME/install"
+with_hdf5_libs="-lz"
 prefix="$HOME/install/sat"
 
 with_mpi_include="/global/software/openmpi-gcc/include/"
