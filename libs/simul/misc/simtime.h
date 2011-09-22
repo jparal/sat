@@ -50,7 +50,7 @@ public:
    * @param tbeg time begin of simulation
    */
   void Initialize (double dt, double tmax,
-		   bool restart = false, double tbeg = -1.);
+		   iter_t itbegin, bool restart);
 
   /**
    * Initialize simulation time from ConfigEntry class
@@ -60,8 +60,10 @@ public:
    * {
    *   step    = 0.0025;
    *   tmax    = 1000.;
-   *   start   = 0.;
+   *
+   *   itstart = 100;
    *   restart = false;
+   *   ncheckpt = 10;        # checkpoint every n of dtout
    * };
    * @endcode
    *
@@ -112,10 +114,22 @@ public:
   bool Restart () const
   { return _restart; }
 
+  /// are we restarting the simulation?
+  void SetRestart (bool restart)
+  { _restart = restart; }
+
   void SetMilestone (iter_t niter);
+
+  void Save (FILE *file) const;
+
+  void Load (FILE *file);
+
+  int NCheckPoint () const
+  { return _ncheckpt; }
 
 private:
   bool _restart;
+  int _ncheckpt;
   double _dt;
   double _time;
   double _tmax;

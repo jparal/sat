@@ -247,6 +247,20 @@ public:
   /// Return Layout object of this Field.
   const Layout<D>& GetLayout () const { return _layout; }
 
+  void Save (FILE *file)
+  {
+    size_t size = GetSize ().Mult ();
+    fwrite (&size, sizeof(size), 1, file);
+    fwrite (_data, sizeof (T), size, file);
+  }
+
+  void Load (FILE *file)
+  {
+    size_t size;
+    fread (&size, sizeof(size), 1, file);
+    fread (_data, sizeof(T), size, file);
+  }
+
 private:
   /// Allocate new memory (assume that _len is all set already
   void Alloc (int dim);

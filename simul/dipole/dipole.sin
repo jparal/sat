@@ -23,8 +23,11 @@ simul:
 {
   step    = 0.005;
   tmax    = 1000;
-  start   = 0.;
-  restart = false;     # restart app
+
+  restart = true;      # restart app
+  itstart  = 60;
+  ncheckpt = 2;        # checkpoint every n of dtout
+
   momsmooth = 1;       # Steps between moment smooth 
   esmooth   = 1;       # Steps between el. field smooth
 };

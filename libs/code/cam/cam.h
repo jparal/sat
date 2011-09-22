@@ -261,6 +261,10 @@ public:
   void Hyb ();
   /// Called before moving the particles (for DEBUG purpose, I suppose)
   void PreMove () {};
+
+  void CheckPointSave ();
+  void CheckPointLoad ();
+
   //@}
 
   /// @name Particles
@@ -478,6 +482,7 @@ public:
 #include "hyb.cpp"
 #include "first.cpp"
 #include "last.cpp"
+#include "checkpoint.cpp"
 // Particles
 #include "movesp.cpp"
 #include "move.cpp"

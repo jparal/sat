@@ -14,6 +14,7 @@ preproc_cam = \
 	cam/calcmom.cpp \
 	cam/calcpe.cpp \
 	cam/calcpsi.cpp \
+	cam/checkpoint.cpp \
 	cam/efldbc.cpp \
 	cam/exec.cpp \
 	cam/first.cpp \

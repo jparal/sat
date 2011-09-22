@@ -591,6 +591,26 @@ public:
     return *this;
   }
 
+  void Save (FILE *file)
+  {
+    size_t size = GetSize ();
+    fwrite (&size, sizeof(size), 1, file);
+    fwrite (GetData (), sizeof (T), size, file);
+  }
+
+  void Load (FILE *file)
+  {
+    size_t size;
+    fread (&size, sizeof(size), 1, file);
+    T *ptr = (T*)malloc (sizeof(T) * size);
+    fread (ptr, sizeof(T), size, file);
+
+    DeleteAll ();
+    for (size_t i=0; i<size; ++i) Push (ptr[i]);
+
+    free (ptr);
+  }
+
   /// Return the number of elements in the array.
   size_t GetSize () const
   {

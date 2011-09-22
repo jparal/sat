@@ -22,8 +22,18 @@ void CAMCode<B,T,D>::Exec ()
   Timer thyb;
   do
   {
-    _sensmng.SaveAll (_time);
-    _sensmng.SetNextOutput (_time);
+    if (_time.Restart ())
+    {
+      _time.Print ();
+      CheckPointLoad ();
+      _time.SetRestart (false);
+    }
+    else
+    {
+      _sensmng.SaveAll (_time);
+      _sensmng.SetNextOutput (_time);
+    }
+    CheckPointSave ();
 
     DBG_INFO ("iteration time : "<<thyb);
     _timer.Update ();

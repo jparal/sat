@@ -203,6 +203,12 @@ public:
 
   /// @}
 
+  void Save (FILE *file)
+  { _pcles.Save (file); }
+
+  void Load (FILE *file)
+  { _pcles.Load (file); }
+
 private:
 
   Array<TParticle> _pcles;

@@ -18,17 +18,18 @@
 SimulTime::SimulTime ()
   : _itout(0), _lastPrint(0) {}
 
-void SimulTime::Initialize (double dt, double tmax, bool restart, double tbeg)
+void SimulTime::Initialize (double dt, double tmax,
+			    iter_t itbegin, bool restart)
 {
   _dt = dt;
   _tmax = tmax;
   _maxiter = (iter_t)(0.5 + tmax / dt);
   _restart = restart;
 
-  if (restart && (tbeg > 0.))
+  if (restart && (itbegin > 0))
   {
-    _iter = (iter_t)(0.5 + tbeg / dt);
-    _time = tbeg;
+    _iter = itbegin;
+    _time = itbegin * dt;
   }
   else
   {
@@ -39,16 +40,17 @@ void SimulTime::Initialize (double dt, double tmax, bool restart, double tbeg)
 
 void SimulTime::Initialize (ConfigEntry &cfg, satversion_t ver)
 {
-  double dt, max, start;
+  double dt, max, itstart;
   bool restart;
 
   cfg.GetValue ("step", dt);
   cfg.GetValue ("tmax", max);
 
-  cfg.GetValue ("start", start, 0.);
+  cfg.GetValue ("itstart", itstart, 0);
+  cfg.GetValue ("ncheckpt", _ncheckpt, 10);
   cfg.GetValue ("restart", restart, false);
 
-  Initialize (dt, max, restart, start);
+  Initialize (dt, max, itstart, restart);
 }
 
 void SimulTime::Initialize (ConfigFile &cfg, satversion_t ver)
@@ -119,4 +121,28 @@ void SimulTime::Print ()
 	      Iter ()<<"; time = "<<(float)Time ()<<" *****");
     _lastPrint = Iter();
   }
+}
+
+void SimulTime::Save (FILE *file) const
+{
+  fwrite (&_restart, sizeof(_restart), 1, file);
+  fwrite (&_dt, sizeof(_dt), 1, file);
+  fwrite (&_time, sizeof(_time), 1, file);
+  fwrite (&_tmax, sizeof(_tmax), 1, file);
+  fwrite (&_iter, sizeof(_iter), 1, file);
+  fwrite (&_itout, sizeof(_itout), 1, file);
+  fwrite (&_maxiter, sizeof(_maxiter), 1, file);
+  fwrite (&_lastPrint, sizeof(_lastPrint), 1, file);
+}
+
+void SimulTime::Load (FILE *file)
+{
+  fread (&_restart, sizeof(_restart), 1, file);
+  fread (&_dt, sizeof(_dt), 1, file);
+  fread (&_time, sizeof(_time), 1, file);
+  fread (&_tmax, sizeof(_tmax), 1, file);
+  fread (&_iter, sizeof(_iter), 1, file);
+  fread (&_itout, sizeof(_itout), 1, file);
+  fread (&_maxiter, sizeof(_maxiter), 1, file);
+  fread (&_lastPrint, sizeof(_lastPrint), 1, file);
 }
