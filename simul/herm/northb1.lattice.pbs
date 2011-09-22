@@ -1,0 +1,32 @@
+#PBS -S /bin/sh
+#PBS -M jparal@gmail.com
+#PBS -m bea
+##PBS -q default
+#PBS -l walltime=168:00:00
+#PBS -l nodes=64:ppn=8
+#PBS -l mem=640GB
+
+## NOTES:
+## 1) Memory is 10 times number of nodes
+## 2) Specify only nodes and keep ppn=8
+
+export EXE_FILE=herm
+export SIN_FILE=northb1
+
+cd $PBS_O_WORKDIR
+export NUM_CPUS=`/bin/awk 'END {print NR}' $PBS_NODEFILE`
+
+[ -f $HOME/.bashrc ]       && source $HOME/.bashrc
+[ -f $HOME/.bash_profile ] && source $HOME/.bash_profile
+[ -f $HOME/.profile ]      && source $HOME/.profile
+
+echo "Current working directory is `pwd`"
+echo "Starting run at: `date`"
+echo "Node file: $PBS_NODEFILE :"
+echo "---------------------"
+cat $PBS_NODEFILE
+echo "---------------------"
+
+mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin >> $SIN_FILE.log
+
+echo "Job finished at: `date`" 

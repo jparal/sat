@@ -12,7 +12,7 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 exename = herm
 srcfile = herm.cxx
 hdrfile = herm.h init.cpp
-cfgfile = *.sin
+cfgfile = *.sin *.pbs
 instdir = $(prefix)/simul/herm
 
 EXTRA_PROGRAMS = $(exename)

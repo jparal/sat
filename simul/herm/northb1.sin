@@ -13,11 +13,11 @@ dipole:
 simul:
 {
   step    = 0.008;
-  tmax    = 200;
+  tmax    = 500;
 
   restart = false;      # restart app
   itstart  = 0;
-  ncheckpt = 10;        # checkpoint every n of dtout
+  ncheckpt = 100;        # checkpoint every n of dtout
 
   momsmooth = 1;       # Steps between moment smooth 
   esmooth   = 1;       # Steps between el. field smooth
@@ -25,7 +25,7 @@ simul:
 
 grid:
 {
-  cells  = [ 2000, 2000, 300 ];
+  cells  = [ 2300, 2300, 300 ];
   resol  = [ 0.3, 0.3, 1.0 ];           # [c/omega_p]
   openbc = [ true, true, true ];   # Open Boundary Conditions
   bclen  = [ 2., 2., 2. ];
