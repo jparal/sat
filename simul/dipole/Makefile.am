@@ -21,3 +21,4 @@ dist_noinst_DATA = $(srcfile) $(hdrfile) $(cfgfile)
 # nobase_inst_DATA = $(cfgfile)
 
 # SUBDIRS =
+EXTRA_DIST = clean

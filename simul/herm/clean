@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf out* *~ *.log
+rm checkpoint_*
