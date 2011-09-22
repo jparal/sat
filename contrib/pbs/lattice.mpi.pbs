@@ -27,6 +27,6 @@ echo "---------------------"
 cat $PBS_NODEFILE
 echo "---------------------"
 
-mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin > $SIN_FILE.log
+mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin >> $SIN_FILE.log
 
 echo "Job finished at: `date`" 

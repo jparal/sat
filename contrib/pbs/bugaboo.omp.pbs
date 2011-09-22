@@ -17,5 +17,5 @@ echo "Current working directory is `pwd`"
 
 export OMP_NUM_THREADS=$MP_PROCS
 echo "Starting run at: `date`"
-./hions $SIN_FILE.sin --threads $MP_PROCS > $SIN_FILE.log
+./hions $SIN_FILE.sin --threads $MP_PROCS >> $SIN_FILE.log
 echo "Job finished at: `date`" 

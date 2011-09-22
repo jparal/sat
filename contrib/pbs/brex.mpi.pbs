@@ -20,6 +20,6 @@ echo "Current working directory is `pwd`"
 
 echo "Starting run at: `date`"
 
-mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin > $SIN_FILE.log
+mpirun -np $NUM_CPUS ./$EXE_FILE $SIN_FILE.sin >> $SIN_FILE.log
 
 echo "Job finished at: `date`" 
