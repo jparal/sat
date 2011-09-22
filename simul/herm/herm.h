@@ -229,7 +229,7 @@ public:
     /// See [Shue et al. 1997] for r0 and alpha explanation
     const T r0 = _radius * 2.;
     const T alpha = 0.6;
-    const T rm = 0.2 *_radius;
+    const T rm = 0.5 *_radius;
     const FldVector u0 = BASE(_v0);
 
     do
