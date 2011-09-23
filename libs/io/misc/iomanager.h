@@ -81,6 +81,12 @@ public:
   void Write (DistFunctionList<T, DP, DV> &dfl, const SimulTime &stime,
 	      const char *tag);
 
+  String GetDir () const
+  {
+    String dir = _dir;
+    return dir;
+  }
+
 private:
   IOFormat _format;
   IOFile *_file;

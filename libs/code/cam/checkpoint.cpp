@@ -29,7 +29,9 @@ void CAMCode<B,T,D>::CheckPointSave ()
   DBG_INFO ("Checkpointing .. Save");
 
   char fname[64];
-  snprintf (fname, 64, "checkpoint_%d_%d.dat", _time.Iter (), Mpi::Rank ());
+  String dir = _sensmng.GetDir();
+  snprintf (fname, 64, "%s/checkpoint_%d_%d.dat",
+	    dir.GetData (), _time.Iter (), Mpi::Rank ());
   FILE *file = fopen (fname, "w");
 
   _itertime.Save (file);
@@ -60,7 +62,9 @@ void CAMCode<B,T,D>::CheckPointLoad ()
   DBG_INFO ("Checkpointing .. Load");
 
   char fname[64];
-  snprintf (fname, 64, "checkpoint_%d_%d.dat", _time.Iter (), Mpi::Rank ());
+  String dir = _sensmng.GetDir();
+  snprintf (fname, 64, "%s/checkpoint_%d_%d.dat",
+	    dir.GetData (), _time.Iter (), Mpi::Rank ());
   FILE *file = NULL;
   file = fopen (fname, "r");
   SAT_ASSERT_MSG (file != NULL, "Checkpointing files doesn't exist!!");

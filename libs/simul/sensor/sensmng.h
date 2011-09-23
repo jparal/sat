@@ -72,6 +72,12 @@ public:
   const IOManager& GetIOManager () const
   { return _iomng; }
 
+  String GetDir () const
+  {
+    String dir = _iomng.GetDir ();
+    return dir;
+  }
+
 private:
   RefArray<Sensor> _sensors;
   IOManager _iomng;
