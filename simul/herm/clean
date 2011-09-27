@@ -1,4 +1,3 @@
 #!/bin/bash
 
-rm -rf out* *~ *.log
-
+rm -rf out* *~ *.log *.avi *.mp4

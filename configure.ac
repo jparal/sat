@@ -72,6 +72,7 @@ AC_CONFIG_FILES([bin/gzeps],    [chmod +x bin/gzeps])
 AC_CONFIG_FILES([bin/h5zip],    [chmod +x bin/h5zip])
 AC_CONFIG_FILES([bin/h5zipsq],  [chmod +x bin/h5zipsq])
 AC_CONFIG_FILES([bin/pssubst],  [chmod +x bin/pssubst])
+AC_CONFIG_FILES([bin/datzip],   [chmod +x bin/datzip])
 
 AC_CONFIG_FILES([
     Makefile

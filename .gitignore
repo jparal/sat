@@ -1,5 +1,6 @@
 *.[oa]
 *.h5
+*.tmp
 *~
 .deps
 cachegrind.out.*

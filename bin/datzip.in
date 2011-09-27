@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+    echo "Compress a list of TecPlot dat files"
+    echo
+    echo "  USAGE: datzip <files>"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+fi
+
+while [ x"$1" != x"" ]
+do
+    echo "Packing: $1"
+    name=`basename $1 dat`
+    if [ ! -f "$name"plt ]; then
+        preplot "$name"dat "$name"plt > /dev/null
+    fi
+    shift
+done
