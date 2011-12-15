@@ -371,9 +371,6 @@ namespace SAT
 {
   namespace Container
   {
-    typedef SAT::Memory::AllocatorMalloc ArrayAllocDefault;
-    typedef ArrayCapacityFixedGrow<16> ArrayCapacityDefault;
-
     template<int MaxGrow = 1 << 20>
     struct ArrayCapacityExponential
     {
@@ -387,6 +384,11 @@ namespace SAT
 	return newCap < MaxGrow ? newCap : MaxGrow;
       }
     };
+
+  typedef SAT::Memory::AllocatorMalloc ArrayAllocDefault;
+  typedef ArrayCapacityFixedGrow<32> ArrayCapacityDefault;
+  // typedef ArrayCapacityExponential<1 << 10> ArrayCapacityDefault;
+
   } // namespace Container
 } // namespace SAT
 

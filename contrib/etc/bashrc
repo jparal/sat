@@ -42,6 +42,7 @@ export LD_LIBRARY_PATH="$HOME/install/lib/:/usr/local/lib/"
 # RED machine BLUE work_dir $ BLACK
 PS1='\[\033[01;31m\]\h\[\033[01;34m\] \w \$\[\033[00m\] '
 
-if [ -f ~/.profile ]; then
-   . ~/.profile
+if [ -r /etc/bash_completion ]; then
+        # Source completion code.
+    . /etc/bash_completion
 fi

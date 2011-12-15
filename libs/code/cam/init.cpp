@@ -233,7 +233,7 @@ void CAMCode<B,T,D>::Initialize ()
   VecFieldSensor<T,3,D> *esens = new VecFieldSensor<T,3,D>;
   VecFieldSensor<T,3,D> *usens = new VecFieldSensor<T,3,D>;
   TemperatureSensor<T,3,D> *tsens = new TemperatureSensor<T,3,D>;
-  DistFncSensor<T,D> *dfsens = new DistFncSensor<T,D>;
+  // DistFncSensor<T,D> *dfsens = new DistFncSensor<T,D>;
   DbDtVecFieldSensor<T,3,D> *dbdtsens = new DbDtVecFieldSensor<T,3,D>;
   JxBSensor<T,3,D> *jxbsens = new JxBSensor<T,3,D>;
   CurlBxBSensor<T,3,D> *cbxbsens = new CurlBxBSensor<T,3,D>;
@@ -246,7 +246,7 @@ void CAMCode<B,T,D>::Initialize ()
   usens->Initialize (cfg, "velocity", &_U);
   tsens->Initialize (cfg, "temp", &_specie, &_B, &_U, &_dn);
   ken->Initialize (cfg, "kenergy", &_specie, &_B);
-  dfsens->Initialize (cfg, "distfnc", &_specie, &_B);
+  // dfsens->Initialize (cfg, "distfnc", &_specie, &_B);
 
   psisens->Initialize (cfg, "psifnc", &_Psi);
   lap->Initialize (cfg, "laplace", &_E);
@@ -260,7 +260,7 @@ void CAMCode<B,T,D>::Initialize ()
   _sensmng.AddSensor (usens);
   _sensmng.AddSensor (tsens);
   _sensmng.AddSensor (ken);
-  _sensmng.AddSensor (dfsens);
+  // _sensmng.AddSensor (dfsens);
 
   _sensmng.AddSensor (psisens);
   _sensmng.AddSensor (lap);

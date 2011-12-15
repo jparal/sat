@@ -2,45 +2,44 @@
 # CAM Config file
 #------------------------------------------------------------------------------
 
-anisotropy:
-{
-  amp = 2.;
-  width = 10;
-  rx = 0.5;
-};
-
 simul:
 {
-  step    = 0.02;
-  tmax    = 5;
-  start   = 0.;
-  restart = false;     # restart app
-  momsmooth = 2;       # Steps between moment smooth 
-  esmooth   = 0;       # Steps between el. field smooth
+  step    = 0.008;
+  tmax    = 200;
+
+  restart = false;      # restart app
+  itstart  = 0;
+  ncheckpt = 25;        # checkpoint every n of dtout
+
+  momsmooth = 1;       # Steps between moment smooth 
+  esmooth   = 1;       # Steps between el. field smooth
 };
 
 grid:
 {
-  cells  = [ 1024, 512, 100 ];
-  resol  = [ .25, .25, 1. ];           # [c/omega_p]
-  openbc = [ false, false, false ];  # Open Boundary Conditions
+  cells  = [ 100, 100, 100 ];
+  resol  = [ .5, 0.5, 1. ];           # [c/omega_p]
+  openbc = [ true, true, true ];  # Open Boundary Conditions
+  bclen  = [ 5., 5., 5. ];
 };
 
 field:
 {
   nsub   = 10;                       # number of sub-steps of B-field
-  imf    = { phi = 0.; psi = 0.; };  # orientation of B-field
-  dnmin  = 0.005;                    # minimal density to resolve
-  resist = 0.0;                      # artificial resistivity
+  imf    = { phi = 0.; psi = 45.; amp = 1.; };  # orientation of B-field
+  dnmin  = 0.08;                    # minimal density to resolve
+  resist = 0.15;                     # artificial resistivity
+  viscos = 0.0;
 };
 
 plasma:
 {
-  betae = 0.1;
+  betae = 0.5;
+  vmax  = -1;  # Particle maximal velocity [default: off (ie -1)]
   specie:
   {
-    proton = { pcles = 500.; beta = 2.; ani = 1.; rmds = 1.; qms = 1.;
-      v0 = [0.,0.,0.]; };
+    solarwind = { pcles = 140.; beta = 0.4; ani = 1.; rmds = 1.; qms = 1.;
+      v0 = [7.39, 0., 0.]; };
   };
 };
 
@@ -50,13 +49,14 @@ output:
 
   format:
   {
-    type     = "hdf5"; version = 1; parallel = false;
-    dir      = "cyclotron";
+    type     = "hdf5"; version = 1;
+    driver   = 2; # 0:serial | 1:separate | 2: parallel
+    dir      = "test";
     runname  = "test";
     compress = { gz = 6; shuffle = true; };   # output compression
   };
 
-  dtout = 0.1;
+  dtout = 0.2;
 
   sensors:
   {

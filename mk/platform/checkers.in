@@ -12,10 +12,10 @@ enable_64bit=yes
 # enable_debug=yes
 # enable_debug=memory,reference,valgrind
 with_cxxflags_dbg="-funroll-loops -fno-inline"
-with_cxxflags_opt="-mtune=native -march=native"
+with_cxxflags_opt=""
 
 prefix="$HOME/install/sat"
-with_cxxflags="-L$HOME/install/lib -I$HOME/install/include"
+with_cxxflags="-L$HOME/install/lib -I$HOME/install/include -DH5_USE_16_API"
 with_hdf5="$HOME/install"
 with_hdf5_libs="-lz"
 

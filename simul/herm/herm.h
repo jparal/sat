@@ -220,44 +220,44 @@ public:
   T EmaskAdd (const DomainIterator<D> &ite)
   { return BmaskAdd (ite); }
 
-  void BulkInitAdd (TSpecie *sp, VecField &u)
-  {
-    PosVector xp;
-    DomainIterator<D> it;
-    u.GetDomainIteratorAll (it, false);
+  // void BulkInitAdd (TSpecie *sp, VecField &u)
+  // {
+  //   PosVector xp;
+  //   DomainIterator<D> it;
+  //   u.GetDomainIteratorAll (it, false);
 
-    /// See [Shue et al. 1997] for r0 and alpha explanation
-    const T r0 = _radius * 2.;
-    const T alpha = 0.6;
-    const T rm = 0.5 *_radius;
-    const FldVector u0 = BASE(_v0);
+  //   /// See [Shue et al. 1997] for r0 and alpha explanation
+  //   const T r0 = _radius * 2.;
+  //   const T alpha = 0.6;
+  //   const T rm = 0.5 *_radius;
+  //   const FldVector u0 = BASE(_v0);
 
-    do
-    {
-      xp = it.GetPosition ();
-      xp -= _cx;
-      T tht = Math::ATan2 (xp[1], -xp[0]);
-      T dist = r0 * Math::Pow (T(2)/ (T(1)+Math::Cos(tht)), alpha);
-      u(it) = u0;
-      u(it) *= Math::ATan ((xp.Norm()-dist)/rm)/M_PI+0.5;
-    }
-    while (it.Next());
+  //   do
+  //   {
+  //     xp = it.GetPosition ();
+  //     xp -= _cx;
+  //     T tht = Math::ATan2 (xp[1], -xp[0]);
+  //     T dist = r0 * Math::Pow (T(2)/ (T(1)+Math::Cos(tht)), alpha);
+  //     u(it) = u0;
+  //     u(it) *= Math::ATan ((xp.Norm()-dist)/rm)/M_PI+0.5;
+  //   }
+  //   while (it.Next());
 
-    // PosVector xp;
-    // DomainIterator<D> it;
-    // u.GetDomainIteratorAll (it, false);
+  //   PosVector xp;
+  //   DomainIterator<D> it;
+  //   u.GetDomainIteratorAll (it, false);
 
-    // const FldVector u0 = BASE(_v0);
-    // const T ld = 0.5*(_cx[0]-_radius), rm = 2.*_radius;
+  //   const FldVector u0 = BASE(_v0);
+  //   const T ld = 0.5*(_cx[0]-_radius), rm = 2.*_radius;
 
-    // do
-    // {
-    //   xp = it.GetPosition ();
-    //   u(it) = u0;
-    //   u(it) *= Math::ATan ((-xp[0]+ld)/rm)/M_PI+0.5;
-    // }
-    // while (it.Next());
-  }
+  //   do
+  //   {
+  //     xp = it.GetPosition ();
+  //     u(it) = u0;
+  //     u(it) *= Math::ATan ((-xp[0]+ld)/rm)/M_PI+0.5;
+  //   }
+  //   while (it.Next());
+  // }
 
   void DnInitAdd (TSpecie *sp, ScaField &dn)
   {
@@ -290,20 +290,27 @@ public:
   void CalcDipole (const PosVector &relpos, FldVector &bdip)
   {
     FldVector xp = 0., mv = 0.;
-    for (int i=0; i<D; ++i) xp[i] = relpos[i];
+    T r3;
     // Set minimal radius at 80% of _radius, under which we dont calculate
     // dipole field since it is not necessary anyway and cases it problems in
     // variable outputs and FPEs.
     const T r3min = _radius2*0.8*0.8 * _radius*0.8;
     mv[D-1] = -_amp;
 
-    T r3 = xp.Norm() * xp.Norm2();
+    xp.Set (relpos);
+    r3 = xp.Norm() * xp.Norm2();
     xp.Normalize();
 
     if (r3 > r3min)
       bdip = ((T)3.*(mv*xp) * xp - mv)/r3;
     else
       bdip = ((T)3.*(mv*xp) * xp - mv)/r3min;
+
+    xp.Set (relpos);
+    xp[0] += T(2) * _cx[0];
+    r3 = xp.Norm() * xp.Norm2();
+    xp.Normalize();
+    bdip += ((T)3.*(mv*xp) * xp - mv)/r3;
   }
 
 private:

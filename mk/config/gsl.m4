@@ -10,6 +10,8 @@ AC_DEFUN([AC_LIB_GSL],
       gsl_exec_prefix="$withval", gsl_exec_prefix="")
     AC_ARG_ENABLE(gsltest, [  --disable-gsltest       Do not try to compile and run a test GSL program],
       , enable_gsltest=yes)
+    AC_ARG_ENABLE(gsl, [  --disable-gsl           Do not compile GSL support],
+      , enable_gsl=yes, enable_gsl=no)
 
     if test "x${GSL_CONFIG+set}" != xset ; then
       if test "x$gsl_prefix" != x ; then
@@ -24,7 +26,7 @@ AC_DEFUN([AC_LIB_GSL],
     min_gsl_version=ifelse([$1], ,0.2.5,$1)
     AC_MSG_CHECKING(for GSL - version >= $min_gsl_version)
     no_gsl=""
-    if test "$GSL_CONFIG" = "no" ; then
+    if test "$GSL_CONFIG" = "no" -o "$enable_gsl" = "no"; then
       no_gsl=yes
     else
       GSL_CFLAGS=`$GSL_CONFIG --cflags`

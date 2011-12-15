@@ -108,10 +108,10 @@ public:
     while (it.Next ());
   }
 
-  void VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
+  bool VthInitAdd (TSpecie *sp, ScaField &vthper, ScaField &vthpar)
   {
     if (!_anisotropy)
-      return;
+      return false;
 
     PosVector xp;
     DomainIterator<D> it;
@@ -129,6 +129,8 @@ public:
       vthper(it) = rvth * vthpar(it);
     }
     while (it.Next());
+
+    return true;
   }
 
 private:
