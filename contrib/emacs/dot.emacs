@@ -12,6 +12,7 @@
 (add-to-list 'auto-mode-alist '("/configure\\.\\(ac\\|in\\)\\'" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.m4$" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.pbs$" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.sh$" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.tex$" . latex-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
 
@@ -116,9 +117,9 @@
 ;;
 ;; Emacs.Font: Monospace-8
 ;; Emacs.FontBackend: xft
-;;
-;; (if (>= emacs-major-version 23)
-;;    (set-default-font "Monospace-8"))
+
+(if (>= emacs-major-version 23)
+    (set-default-font "Monospace-9"))
 
 ;; C-q TAB   ... make a TAB
 ;; C-x h and use M-x untabify
@@ -316,5 +317,9 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+
+;; (load "~/.emacs.d/nxhtml/autostart.el")
+;; (setq mumamo-background-colors nil) 
+;; (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode))
 
 (message ".emacs loaded")

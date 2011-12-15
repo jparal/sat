@@ -16,9 +16,9 @@ do
     echo -n "Packing: $1 .. "
     
     if h5ls -v $1 | grep deflate > /dev/null; then
-        echo done
+        echo skipped
     else
-        h5repack -i "$1" -o "$1.gz" -f SHUF -f GZIP=9
+        h5repack -i "$1" -o "$1.gz" -f SHUF -f GZIP=6
         mv "$1.gz" "$1"
         echo done
     fi

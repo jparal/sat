@@ -18,5 +18,13 @@ do
     if [ ! -f "$name"plt ]; then
         preplot "$name"dat "$name"plt > /dev/null
     fi
+
+    name=`basename $1 dat.gz`
+    if [ -f "$name"dat.gz -a ! -f "$name"plt ]; then
+        cp "$name"dat.gz "bak_$name"dat.gz
+        gzip -d "bak_$name"dat.gz
+        preplot "bak_$name"dat "$name"plt > /dev/null
+        rm "bak_$name"dat
+    fi
     shift
 done
