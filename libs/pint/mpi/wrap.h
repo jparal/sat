@@ -302,6 +302,8 @@ struct Mpi
    * of MPI processors.
    */
   static int TreeDepth ();
+
+  static void PrintInfo ();
   /** @} */
 
 private:

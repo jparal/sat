@@ -149,7 +149,9 @@ public:
    */
   void Exec (size_t ipcle, pclecmd_t cmd)
   {
-    size_t pos =_cmdqueue.InsertSortedUnique (PcleCommandInfo (ipcle, cmd));
+    size_t pos;
+    SAT_OMP_CRITICAL // Required by movesp parallel loop
+    pos =_cmdqueue.InsertSortedUnique (PcleCommandInfo (ipcle, cmd));
     // @TODO we could use third parameter of InsertSortedUnique to update cmd
     //       parameter only in the case when command already exists (faster)
     _cmdqueue[pos].cmd |= cmd;

@@ -90,7 +90,7 @@ output:
 parallel:
 {
   mpi = { proc = [ 1, 1, 1 ]; };  # ratio of CPU splitting in X,Y,Z dimensions
-  omp = { threads = -1; };        # -1 when setup is dynamically
+  omp = { threads = 2; };        # -1 when setup is dynamically
 };
 
 sat= { version = [1,0,0]; };

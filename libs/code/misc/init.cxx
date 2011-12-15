@@ -119,6 +119,8 @@ void Code::Initialize (int *pargc, char ***pargv, bool mpi, bool omp)
       Omp::Initialize (threads);
     else
       Omp::Initialize (_cfg);
+
+  Mpi::PrintInfo ();
 }
 
 void Code::Finalize ()

@@ -83,7 +83,7 @@ int Omp::GetNumThreads ()
 void Omp::PrintInfo ()
 {
 #ifdef HAVE_OPENMP
-  DBG_INFO ("OpenMP Initialization");
+  DBG_INFO ("OpenMP Information");
   SAT_PRAGMA_OMP (parallel)
   {
     if (omp_get_thread_num () == 0)

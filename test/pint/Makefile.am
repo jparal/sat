@@ -8,6 +8,7 @@
 include $(top_srcdir)/mk/amake/Makefile.first
 include $(top_srcdir)/mk/amake/Makefile.test
 include $(top_srcdir)/mk/amake/Makefile.pint
+include $(top_srcdir)/mk/amake/Makefile.base
 
 EXTRA_DIST = wrap.mpi mpistream.mpi
 

@@ -12,6 +12,7 @@
  */
 
 #include "wrap.h"
+#include "satbase.h"
 
 Mpi::Comm Mpi::s_comm     = (Mpi::Comm) 0;
 int       Mpi::s_noutmsg  = 0;
@@ -59,6 +60,16 @@ void Mpi::Finalize ()
   if (s_isinit)
     MPI_Finalize();
 #endif
+}
+
+void Mpi::PrintInfo ()
+{
+#ifdef HAVE_MPI
+  DBG_INFO ("MPI Information");
+  DBG_INFO ("  number of nodes: " << Mpi::Nodes ());
+#else
+  DBG_WARN ("MPI: Support is not compiled in!");
+#endif // HAVE_MPI
 }
 
 /*

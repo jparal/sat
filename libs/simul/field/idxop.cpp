@@ -222,6 +222,7 @@ void Field<T,D>::AddAdj (const Vector<T2,D> &loc,
   int idx = MetaLoops<D>::Dot (loc._d, _str);
   Vector<int,MetaPow<2,D>::Is> off = IdxUtils<D>::GetOffset (_str);
 
-  for (int i=0; i<MetaPow<2,D>::Is; ++i)
-    _data[idx+off[i]] += adj[i];
+  SAT_OMP_CRITICAL
+    for (int i=0; i<MetaPow<2,D>::Is; ++i)
+      _data[idx+off[i]] += adj[i];
 }

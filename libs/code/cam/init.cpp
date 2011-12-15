@@ -11,10 +11,12 @@
  * @revmessg{Initial version}
  */
 
+#include "satpint.h"
+
 template<class B, class T, int D>
 void CAMCode<B,T,D>::Initialize (int *pargc, char ***pargv)
 {
-  Code::Initialize (pargc, pargv, true, false);
+  Code::Initialize (pargc, pargv, true, true);
 
   DBG_INFO ("=========== PreInitialize: ==========");
   PreInitialize (Code::GetCfgFile ());

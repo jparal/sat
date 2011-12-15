@@ -18,19 +18,21 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
   dnsa = (T)0.; Usa = (T)0.;
   dnsb = (T)0.; Usb = (T)0.;
 
-  T dt = _time.Dt ();
-  T dta = (sp->ChargePerPcle () / sp->MassPerPcle ()) * dt;
-  T dth = 0.5 * dta;
-  T vmax2 = _vmax*_vmax;
+  const T dt = _time.Dt ();
+  const T dta = (sp->ChargePerPcle () / sp->MassPerPcle ()) * dt;
+  const T dth = 0.5 * dta;
+  const T vmax2 = _vmax*_vmax;
 
   const PosVector p05 (0.5);
   const PosVector dxi = _meshp.GetResolInv ();
   PosVector x; // Particle position
   VelVector v, vh; // Particle velocity and half step velocity
   FldVector ep, bp; // E and B fields at particle position
-
   BilinearWeightCache<T,D> cache;
+
   size_t npcle = sp->GetSize ();
+  SAT_PRAGMA_OMP (parallel for schedule(static)
+		  private(x,v,vh,ep,bp,cache) shared(dnsa,dnsb,Usa,Usb))
   for (int pid=0; pid<npcle; ++pid)
   {
     TParticle &pcle = sp->Get (pid);
