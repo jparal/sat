@@ -105,7 +105,7 @@ int main (int argc, char **argv)
   if (enScale) radius /= scale;
   double r3 = radius*radius*radius;
   DBG_INFO ("Radius   = " << radius << " Lin");
-  DBG_INFO ("Dip Mom  = "<<250./b0 * r3);
+  DBG_INFO ("Dip Mom  = "<<195./b0 * r3);
 
   if (enTpev)
     DBG_INFO ("vth      = " << si2h.Speed (sqrt(tpev/1.0440e-08), false) <<" vA");

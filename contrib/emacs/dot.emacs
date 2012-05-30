@@ -2,6 +2,9 @@
 ;; My local elisp files
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
+(set-foreground-color "#101416")
+(set-background-color "#f6f3e8")
+
 (mwheel-install)  ;(emacs21)
 (setq gdb-many-windows "t")
 
@@ -244,7 +247,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable/Disable FlySpell for specific modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(dolist (hook '(LaTeX-mode-hook))
+(dolist (hook '(latex-mode-hook))
   (add-hook hook (lambda () (flyspell-mode 1))))
 
 (add-hook 'c-mode-hook          'flyspell-prog-mode 1)
@@ -273,8 +276,8 @@
 			    'font-lock-comment-face))))))
 
 (add-hook 'change-log-mode-hook 'turn-on-auto-fill)
-(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
-(add-hook 'LaTeX-mode-hook 'turn-on-filladapt-mode)
+(add-hook 'latex-mode-hook 'turn-on-auto-fill)
+(add-hook 'latex-mode-hook 'turn-on-filladapt-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Check for shebang magic in file after save, make executable if found.

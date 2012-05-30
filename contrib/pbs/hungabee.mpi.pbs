@@ -1,0 +1,23 @@
+#!/bin/bash
+
+## procs should be a multiple of 16
+## pmem (per core memory) should avoid multiple of 8gb
+
+#PBS -S /bin/bash
+#PBS -l pmem=8190mb
+#PBS -l procs=512
+#PBS -l walltime=12:00:00
+
+cd $PBS_O_WORKDIR
+
+[ -f $HOME/.bashrc ]       && source $HOME/.bashrc
+[ -f $HOME/.bash_profile ] && source $HOME/.bash_profile
+[ -f $HOME/.profile ]      && source $HOME/.profile
+
+export EXE_FILE=FILE_WITHOUT_SUFFIX
+export SIN_FILE=FILE_WITHOUT_SUFFIX
+
+module load compiler/intel/12.1
+module load library/mpt/2.05
+
+mpirun -np $PBS_NP ./$EXE_FILE $SIN_FILE.sin >> $SIN_FILE.log

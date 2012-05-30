@@ -32,7 +32,7 @@ void CAMCode<B,T,D>::MoveSp (TSpecie *sp, ScaField &dnsa, VecField &Usa,
 
   size_t npcle = sp->GetSize ();
   SAT_PRAGMA_OMP (parallel for schedule(static)
-		  private(x,v,vh,ep,bp,cache) shared(dnsa,dnsb,Usa,Usb))
+  		  private(x,v,vh,ep,bp,cache) shared(dnsa,dnsb,Usa,Usb))
   for (int pid=0; pid<npcle; ++pid)
   {
     TParticle &pcle = sp->Get (pid);

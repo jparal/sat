@@ -1,4 +1,13 @@
 
+Optimizations:
+
+* SetCapacity() for pcle in Array::Load(), Specie::LoadPcles()
+* There is something wrong with memory allocation
+   uniform plasma flowing in one direction has increasing time per iteration
+* MPI is using very small messages to transfer particles
+* MPI is using synchronous calling
+   Look at timing produced with MPI tracing using Bob's code
+
 * Review order of position/velocity advancing in movesp.cpp
 * Is smoothing of _dn in advmom.cpp necessary? I'm not calculating it there.
 * When some of the eprocesses and up in the centre of the planet we get:
