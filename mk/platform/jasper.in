@@ -1,0 +1,14 @@
+CXX=icpc
+CC=icc
+
+enable_64bit=yes
+with_cxxflags="-L$HOME/install/lib -I$HOME/install/include -DMPICH_SKIP_MPICXX"
+
+# enable_openmp=yes
+enable_mpi=yes
+with_mpirun="mpirun -np @NP @PROG @ARGS"
+
+with_hdf5="$HOME/install/"
+with_hdf5_libs="-lm -lz"
+
+prefix="$HOME/install/sat"
