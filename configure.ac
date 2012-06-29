@@ -69,6 +69,7 @@ DX_INIT_DOXYGEN(SAT, $srcdir/docs/doxygen.cfg)
 #------------------------------------------------------------------------------
 AC_CONFIG_FILES([bin/filetops], [chmod +x bin/filetops])
 AC_CONFIG_FILES([bin/gzeps],    [chmod +x bin/gzeps])
+AC_CONFIG_FILES([bin/h5tarsq],  [chmod +x bin/h5tarsq])
 AC_CONFIG_FILES([bin/h5zip],    [chmod +x bin/h5zip])
 AC_CONFIG_FILES([bin/h5zipsq],  [chmod +x bin/h5zipsq])
 AC_CONFIG_FILES([bin/pssubst],  [chmod +x bin/pssubst])

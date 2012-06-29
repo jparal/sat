@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ "$#" != 3 ]; then
+    echo "Tar multiple HDF5 files together. This can be useful when dealing"
+    echo "with all processing writing into separate files."
+    echo
+    echo "  USAGE: h5tarsq <iter_beg> <iter_step> <iter_end>"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+fi
+
+for it in `seq $1 $2 $3`; do
+
+    for i in `ls *i$it\_0.h5 2> /dev/null`; do
+        FBASE=`echo "$i"|sed 's/_0.h5//'`
+        echo -n "Packing $FBASE .. "
+        tar cf "$FBASE.tar" $FBASE\_* > /dev/null 2>&1
+        if [ "$?" -eq 0 ]; then
+            echo done
+            rm -f $FBASE\_*
+        else
+            echo skip
+        fi
+    done
+
+done
