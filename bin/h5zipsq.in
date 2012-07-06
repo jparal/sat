@@ -12,5 +12,8 @@ if [ "$#" != 3 ]; then
 fi
 
 for it in `seq $1 $2 $3`; do
-    h5zip `ls *i$it.h5`
+    for i in `ls *i$it.h5`; do
+        h5zip $i &
+    done
+    wait
 done
