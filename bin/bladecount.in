@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Count number of blades of a given job"
+    echo
+    echo "  USAGE: bladecount <job id>"
+    echo
+    echo "@PACKAGE_NAME@ v@SAT_VERSION@"
+    echo "Report bugs to <@PACKAGE_BUGREPORT@>"
+    echo "@PACKAGE_COPYRIGHT@"
+    exit 1
+fi
+
+qstat -i $1 -n | tr -s '+' '\n' | grep '/0' | wc -l

@@ -3,7 +3,7 @@
 ##   See docs/license/sat file for copying and redistribution conditions.     #
 ###############################################################################
 
-genscripts = filetops gzeps h5tarsq h5zip h5zipsq pssubst datzip
+genscripts = bladecount filetops gzeps h5tarsq h5zip h5zipsq pssubst datzip
 
 bin_SCRIPTS = $(genscripts)
 CLEANFILES = $(genscripts)
