@@ -16,24 +16,43 @@
 template<class B, class T, int D>
 void CAMCode<B,T,D>::EfieldBC ()
 {
+  Domain<D> dom;
+  DomainIterator<D> it;
+
   _E.Sync ();
 
-  Domain<D> dom;
   for (int i=0; i<D; ++i)
   {
-    if (_layop.IsOpen (i) && _layop.GetDecomp ().IsLeftBnd (i))
-    {
-      _E.GetDomainAll( dom );
-      dom[i] = Range( 0, 0 );
-      _E.Set( dom, _E0 );
-    }
+    if (!_layop.IsOpen (i) || !_layop.GetDecomp ().IsLeftBnd (i))
+      continue;
 
-    if (_layop.IsOpen (i) && _layop.GetDecomp ().IsRightBnd (i))
+    _E.GetDomainAll( dom );
+    _E.GetDomainIteratorAll(it, false);
+    dom[i] = Range( 0, 0 );
+    it.SetDomain(dom);
+
+    do
     {
-      _E.GetDomainAll( dom );
-      dom[i] = Range( _E.Size(i)-1, _E.Size(i)-1 );
-      _E.Set( dom, _E0 );
-    }
+      _E(it) = static_cast<B*>(this)->EcalcBCAdd(it);
+    } while(it.Next());
+
+  }
+
+  for (int i=0; i<D; ++i)
+  {
+    if (!_layop.IsOpen (i) || !_layop.GetDecomp ().IsRightBnd (i))
+      continue;
+
+    _E.GetDomainAll( dom );
+    _E.GetDomainIteratorAll(it, false);
+
+    dom[i] = Range( _E.Size(i)-1, _E.Size(i)-1 );
+    it.SetDomain(dom);
+
+    do
+    {
+      _E(it) = static_cast<B*>(this)->EcalcBCAdd(it);
+    } while(it.Next());
   }
 
   static_cast<B*>(this)->EfieldAdd ();

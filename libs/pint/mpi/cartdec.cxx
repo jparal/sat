@@ -71,6 +71,16 @@ void CartDomDecomp<D>::Decompose (Vector<int,D> &vec)
 }
 
 template<int D>
+Vector<int,D> CartDomDecomp<D>::Position () const
+{
+  Vector<int,D> pos;
+  for (int i=0; i<D; ++i)
+    pos[i] = GetPosition (i, _iproc);
+
+  return pos;
+}
+
+template<int D>
 int CartDomDecomp<D>::GetPosition (int idim, int iproc) const
 {
   SAT_DBG_ASSERT (iproc<_nproc);

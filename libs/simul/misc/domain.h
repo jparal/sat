@@ -89,12 +89,16 @@ public:
   void Initialize ()
   { _haveOrigin = false; }
 
+  /// Fresh initialization
   void Initialize (const Domain<D> &dom);
 
   /// Origin is a position of location [0,0] in the cell units with respect to
   /// entire simulation domain (including other MPI processes)
   void Initialize (const Domain<D> &dom, const Vector<double,D> &origin,
 		   const Vector<double,D> &dx);
+
+  /// Non-fresh initialization (assumes that someone already called init)
+  void SetDomain (const Domain<D> &dom);
 
   void Reset ();
 

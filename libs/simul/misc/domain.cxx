@@ -46,6 +46,15 @@ void DomainIterator<D>::Initialize (const Domain<D> &dom,
 }
 
 template<int D>
+void DomainIterator<D>::SetDomain (const Domain<D> &dom)
+{
+  for (int i=0; i<D; ++i)
+    _range[i] = dom[i];
+
+  Reset ();
+}
+
+template<int D>
 void DomainIterator<D>::Reset ()
 {
   _idx = 0;

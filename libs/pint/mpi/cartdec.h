@@ -62,6 +62,8 @@ public:
   int GetPosition (int idim) const
   { return GetPosition (idim, _iproc); }
 
+  Vector<int,D> Position () const;
+
   int GetLeft (int idim) const
   { return GetLeft (idim, _iproc); }
 

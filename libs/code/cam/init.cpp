@@ -78,6 +78,15 @@ void CAMCode<B,T,D>::Initialize ()
   _pmax = mesh.Cells ();
   DBG_INFO2 ("pmin; pmax               : " << _pmin<< "; "<<_pmax);
 
+  // Minimal/Maximal of mesh excluding ghost cells:
+  _pminabs = mesh.Cells();
+  _pmaxabs = mesh.Cells();
+  for (int i=0; i<D; ++i)
+  {
+    _pminabs[i] *= _decomp.GetPosition(i);
+    _pmaxabs[i] += _pminabs[i];
+  }
+
   // Variable:  # grid points  # ghosts  # share   # total    Centring
   // =================================================================
   //    E         #cells           1         0    #cells + 2    Cell

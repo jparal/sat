@@ -31,7 +31,14 @@ void HDF5File::Open (const char *fname, IOFile::Flags flags)
   {
     hid_t pfopen;
     Mpi::Comm comm = Mpi::COMM_WORLD;
+
     MPI_Info info = MPI_INFO_NULL;
+    // MPI_Info info; //Commented by Belaid = MPI_INFO_NULL;
+    // MPI_Info_create(&info);
+    // MPI_Info_set(info, "romio_ds_read", "disable");
+    // MPI_Info_set(info, "romio_ds_write", "disable");
+    // MPI_Info_set(info, "romio_cb_read", "enable");
+    // MPI_Info_set(info, "romio_cb_write", "enable");
 
     pfopen = H5Pcreate (H5P_FILE_ACCESS);
     H5Pset_fapl_mpio (pfopen, comm, info);

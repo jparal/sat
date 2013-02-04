@@ -34,7 +34,6 @@ void CAMCode<B,T,D>::Move ()
     T sq = sp->ChargePerPcle ();
     T sm = sp->MassPerPcle ();
     T qom = sq / sm;
-    size_t npcle;
 
     MoveSp (sp, dnsa, usa, dnsb, usb);
     Inject (sp, dnsb, usb);

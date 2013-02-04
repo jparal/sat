@@ -123,6 +123,9 @@ public:
   void EcalcBC (const DomainIterator<D> &ite)
   { return; }
 
+  FldVector EcalcBCAdd (const DomainIterator<D> &ite)
+  { return _E0; }
+
   bool EcalcSrc (const DomainIterator<D> &ite, FldVector &efsrc)
   { return true; }
 
@@ -210,6 +213,15 @@ public:
   /// Problem specific moment boundary conditions
   void MomBCAdd (ScaField &dn, VecField &blk)
   { return; }
+
+  void DnBC (ScaField &dn, Domain<D> &dom);
+  void BulkBC (VecField &blk, Domain<D> &dom);
+
+  T DnBCAdd (TSpecie *sp, const PosVector &pos)
+  { return sp->RelMassDens(); }
+
+  VelVector BulkBCAdd (TSpecie *sp, const PosVector &pos)
+  { return sp->InitalVel(); }
 
   /// @}
 
@@ -435,6 +447,7 @@ public:
   T _vmax;                  ///< Square of maximal particle velocity.
   RefArray<TSpecie> _specie; ///< proton species
   PosVector _pmin, _pmax;    ///< minimal/maximal position of particle
+  PosVector _pminabs, _pmaxabs; ///< minimal/maximal of absolute particle position
   PosVector _domsize;        ///< Size of computational domain (hyb units)
   PosVector _bcleni;         ///< Length of masked boundary layer
 

@@ -17,18 +17,16 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
   /// Inject problem dependent particles
   static_cast<B*>(this)->InjectAdd (sp);
 
-  if (sp->GetName () == "ionosphere")
-    return;
-
   TParticle pcle;
   size_t pid;
 
   T dt = _time.Dt ();
+  const PosVector dx = _meshp.Resol ();
   const PosVector dxi = _meshp.GetResolInv ();
+  const PosVector origin = _pminabs + PosVector(-1.0);
+
   RandomGen<T> &rnd = *(sp->GetRndGen());
   BiMaxwellRandGen<T> &max = *(sp->GetBiMaxwGen());
-  Vector<T,3> v0 = sp->InitalVel();
-  // @TODO deal with the types...
   const size_t npcles = (size_t)sp->InitalPcles ();
 
   for (int dim=0; dim<D; ++dim)
@@ -50,14 +48,23 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
     {
       dom[dim] = Range( 0, 0 );
 
-      DomainIterator<D> it( dom );
+      DomainIterator<D> it(dom, origin, dx);
       do
       {
         PosVector loc = it.GetLoc();
-        for (int ip=0; ip<npcles; ++ip)
+        PosVector pos = it.GetLoc();
+	VelVector v0 = static_cast<B*>(this)->BulkBCAdd (sp, it.GetPosition ());
+	const T dninj = static_cast<B*>(this)->DnBCAdd (sp, it.GetPosition ());
+
+	//	DBG_INFO (loc);
+	// DBG_INFO (loc << "  <=>  " << it.GetPosition () << "   " <<
+	// 	  v0 << "    " << dninj);
+        for (int ip=0; ip<npcles * dninj; ++ip)
         {
 	  // The bug in random number generator prevents particles to be
 	  // released from left boundary (probably repeating rand numbers).
+          // pcle.vel = v0 + max.Get();
+          // pcle.vel = v0 + max.Get();
           pcle.vel = v0 + max.Get();
           pcle.vel = v0 + max.Get();
 
@@ -91,13 +98,16 @@ void CAMCode<B,T,D>::Inject (TSpecie *sp, ScaField &dn, VecField &us)
     {
       dom[dim] = Range( _meshp.GetCells( dim )-1, _meshp.GetCells( dim )-1 );
 
-      DomainIterator<D> it( dom );
+      DomainIterator<D> it(dom, origin, dx);
       do
       {
         PosVector loc = it.GetLoc();
-        for (int ip=0; ip<npcles; ++ip)
+	VelVector v0 = static_cast<B*>(this)->BulkBCAdd (sp, it.GetPosition ());
+	const T dninj = static_cast<B*>(this)->DnBCAdd (sp, it.GetPosition ());
+
+        for (int ip=0; ip<npcles * dninj; ++ip)
         {
-          pcle.vel = v0 + max.Get();
+	  pcle.vel = v0 + max.Get();
 
           T r2 = rnd.Get();
           bool in = true;
