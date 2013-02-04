@@ -180,6 +180,7 @@ AC_CONFIG_FILES([
     simul/hions/Makefile
     simul/inst/Makefile
     simul/inst/linear/Makefile
+    simul/khbox/Makefile
     simul/shock/Makefile
     simul/tmpl/Makefile
     simul/tmpl/TEMPLATE.cxx.tpl
