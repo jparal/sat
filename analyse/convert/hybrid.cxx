@@ -52,9 +52,9 @@ int main (int argc, char **argv)
   DBG_INFO ("Accel:   m/s^2 = "<< si2h.Accel (1, false));
   DBG_INFO ("======= [ Hyb to SI ] ========");
   DBG_INFO ("Time:    1/Wp  = "<< si2h.Time (1, true) << " s");
-  DBG_INFO ("Length:  Lin   = "<< si2h.Length (1, true) << " m");
-  DBG_INFO ("Speed:   vA    = "<< si2h.Speed (1, true) << " m/s");
-  DBG_INFO ("Accel:   Acc   = "<< si2h.Accel (1, true) << " m/s^2");
+  DBG_INFO ("Length:  Lin   = "<< si2h.Length (1, true)/1000. << " km");
+  DBG_INFO ("Speed:   vA    = "<< si2h.Speed (1, true)/1000. << " km/s");
+  DBG_INFO ("Accel:   Acc   = "<< si2h.Accel (1, true)/1000. << " km/s^2");
 
   double scale, tpev, vkms;
   bool enScale = false, enTpev = false, enVkms = false;
