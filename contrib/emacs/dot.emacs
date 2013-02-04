@@ -2,7 +2,7 @@
 ;; My local elisp files
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
-(set-foreground-color "#101416")
+;(set-foreground-color "#101416")
 (set-background-color "#f6f3e8")
 
 (mwheel-install)  ;(emacs21)
@@ -66,8 +66,10 @@
 (autoload 'align-cols "align" "Align text in the region." t)
 (column-number-mode 1)
 
-(setq ess-ask-for-ess-directory nil)
 (setq ess-local-process-name "R")
+(setq ess-eval-visibly-p nil) ;otherwise C-c C-r (eval region) takes forever
+(setq ess-ask-for-ess-directory nil) ;otherwise you are prompted each time you
+                                     ;start an interactive R session
 (setq ansi-color-for-comint-mode 'filter)
 (setq comint-prompt-read-only nil)
 (setq comint-scroll-to-bottom-on-input t)
@@ -122,7 +124,7 @@
 ;; Emacs.FontBackend: xft
 
 (if (>= emacs-major-version 23)
-    (set-default-font "Monospace-9"))
+    (set-default-font "Monospace-8"))
 
 ;; C-q TAB   ... make a TAB
 ;; C-x h and use M-x untabify
@@ -190,7 +192,7 @@
 ;; Key mapping
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "M-<return>") 'complete-symbol)
+;(global-set-key (kbd "M-<return>") 'complete-symbol)
 (global-set-key (kbd "C-c ;") 'comment-or-uncomment-region) ;; Uncomment region
 (global-set-key (kbd "M-p") 'ppindent-h) ;; Preprocessor indent
 (global-set-key (kbd "C-x c") 'compile)        ;; Run compile cmd
@@ -247,9 +249,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable/Disable FlySpell for specific modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(dolist (hook '(latex-mode-hook))
-  (add-hook hook (lambda () (flyspell-mode 1))))
+;; (dolist (hook '(latex-mode-hook))
+;;   (add-hook hook (lambda () (flyspell-mode 1))))
 
+(add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
 (add-hook 'c-mode-hook          'flyspell-prog-mode 1)
 (add-hook 'c++-mode-hook        'flyspell-prog-mode 1)
 (add-hook 'cperl-mode-hook      'flyspell-prog-mode 1)
@@ -282,35 +285,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Check for shebang magic in file after save, make executable if found.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq my-shebang-patterns
-      (list "^#!/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
-	    "^#!/usr/.*/sh"
-	    "^#!/usr/.*/bash"
-	    "^#!/bin/sh"
-	    "^#!/bin/bash"))
-(add-hook
- 'after-save-hook
- (lambda ()
-   (if (not (= (shell-command (concat "test -x " (buffer-file-name))) 0))
-       (progn
-	 ;; This puts message in *Message* twice, but minibuffer
-	 ;; output looks better.
-	 (message (concat "Wrote " (buffer-file-name)))
-	 (save-excursion
-	   (goto-char (point-min))
-	   ;; Always checks every pattern even after
-	   ;; match.  Inefficient but easy.
-	   (dolist (my-shebang-pat my-shebang-patterns)
-	     (if (looking-at my-shebang-pat)
-		 (if (= (shell-command
-			 (concat "chmod u+x " (buffer-file-name)))
-			0)
-		     (message (concat
-			       "Wrote and made executable "
-			       (buffer-file-name))))))))
-     ;; This puts message in *Message* twice, but minibuffer output
-     ;; looks better.
-     (message (concat "Wrote " (buffer-file-name))))))
+;; (setq my-shebang-patterns
+;;       (list "^#!/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
+;; 	    "^#!/usr/.*/sh"
+;; 	    "^#!/usr/.*/bash"
+;; 	    "^#!/bin/sh"
+;; 	    "^#!/bin/bash"))
+;; (add-hook
+;;  'after-save-hook
+;;  (lambda ()
+;;    (if (not (= (shell-command (concat "test -x " (buffer-file-name))) 0))
+;;        (progn
+;; 	 ;; This puts message in *Message* twice, but minibuffer
+;; 	 ;; output looks better.
+;; 	 (message (concat "Wrote " (buffer-file-name)))
+;; 	 (save-excursion
+;; 	   (goto-char (point-min))
+;; 	   ;; Always checks every pattern even after
+;; 	   ;; match.  Inefficient but easy.
+;; 	   (dolist (my-shebang-pat my-shebang-patterns)
+;; 	     (if (looking-at my-shebang-pat)
+;; 		 (if (= (shell-command
+;; 			 (concat "chmod u+x " (buffer-file-name)))
+;; 			0)
+;; 		     (message (concat
+;; 			       "Wrote and made executable "
+;; 			       (buffer-file-name))))))))
+;;      ;; This puts message in *Message* twice, but minibuffer output
+;;      ;; looks better.
+;;      (message (concat "Wrote " (buffer-file-name))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
