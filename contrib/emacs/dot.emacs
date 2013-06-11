@@ -3,9 +3,15 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
 ;(set-foreground-color "#101416")
-(set-background-color "#f6f3e8")
+;(set-background-color "#f6f3e8")
 
-(mwheel-install)  ;(emacs21)
+(tool-bar-mode -1)
+
+(require 'color-theme)
+(color-theme-initialize)
+(when (window-system) (color-theme-emacs-21) )
+
+;(mwheel-install)  ;(emacs21)
 (setq gdb-many-windows "t")
 
 ;; Save emacs settings on exit
@@ -18,7 +24,7 @@
 (add-to-list 'auto-mode-alist '("\\.sh$" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.tex$" . latex-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
-
+(add-to-list 'auto-mode-alist '("\\.inc$" . fortran-mode))
 (setq auto-mode-alist (append `(("\.h$" . c++-mode)) auto-mode-alist))
 (setq auto-mode-alist (append `(("\.xmf$" . xml-mode)) auto-mode-alist))
 
@@ -66,43 +72,43 @@
 (autoload 'align-cols "align" "Align text in the region." t)
 (column-number-mode 1)
 
-(setq ess-local-process-name "R")
-(setq ess-eval-visibly-p nil) ;otherwise C-c C-r (eval region) takes forever
-(setq ess-ask-for-ess-directory nil) ;otherwise you are prompted each time you
-                                     ;start an interactive R session
-(setq ansi-color-for-comint-mode 'filter)
-(setq comint-prompt-read-only nil)
-(setq comint-scroll-to-bottom-on-input t)
-(setq comint-scroll-to-bottom-on-output t)
-(setq comint-move-point-for-output t)
+;; (setq ess-local-process-name "R")
+;; (setq ess-eval-visibly-p nil) ;otherwise C-c C-r (eval region) takes forever
+;; (setq ess-ask-for-ess-directory nil) ;otherwise you are prompted each time you
+;;                                      ;start an interactive R session
+;; (setq ansi-color-for-comint-mode 'filter)
+;; (setq comint-prompt-read-only nil)
+;; (setq comint-scroll-to-bottom-on-input t)
+;; (setq comint-scroll-to-bottom-on-output t)
+;; (setq comint-move-point-for-output t)
 
-(defun my-ess-start-R ()
-  (interactive)
-  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-	(delete-other-windows)
-	(setq w1 (selected-window))
-	(setq w1name (buffer-name))
-	(setq w2 (split-window w1))
-	(R)
-	(set-window-buffer w2 "*R*")
-	(set-window-buffer w1 w1name))))
+;; (defun my-ess-start-R ()
+;;   (interactive)
+;;   (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
+;;       (progn
+;; 	(delete-other-windows)
+;; 	(setq w1 (selected-window))
+;; 	(setq w1name (buffer-name))
+;; 	(setq w2 (split-window w1))
+;; 	(R)
+;; 	(set-window-buffer w2 "*R*")
+;; 	(set-window-buffer w1 w1name))))
 
-(defun my-ess-eval ()
-  (interactive)
-  (my-ess-start-R)
-  (if (and transient-mark-mode mark-active)
-      (call-interactively 'ess-eval-region)
-    (call-interactively 'ess-eval-line-and-step)))
+;; (defun my-ess-eval ()
+;;   (interactive)
+;;   (my-ess-start-R)
+;;   (if (and transient-mark-mode mark-active)
+;;       (call-interactively 'ess-eval-region)
+;;     (call-interactively 'ess-eval-line-and-step)))
 
-(add-hook 'ess-mode-hook
-          '(lambda()
-             (local-set-key [(shift return)] 'my-ess-eval)))
+;; (add-hook 'ess-mode-hook
+;;           '(lambda()
+;;              (local-set-key [(shift return)] 'my-ess-eval)))
 
-(add-hook 'inferior-ess-mode-hook
-          '(lambda()
-             (local-set-key [C-up] 'comint-previous-input)
-             (local-set-key [C-down] 'comint-next-input)))
+;; (add-hook 'inferior-ess-mode-hook
+;;           '(lambda()
+;;              (local-set-key [C-up] 'comint-previous-input)
+;;              (local-set-key [C-down] 'comint-next-input)))
 
 ;; (require 'ess-site)
 (require 'git)
@@ -182,7 +188,6 @@
  '(show-paren-mode t)
  '(tabbar-cycle-scope (quote tabs))
  '(tabbar-mode t nil (tabbar))
- '(tool-bar-mode nil nil (tool-bar))
  '(transient-mark-mode t)
  '(user-full-name "Jan Paral")
  '(user-mail-address "jparal@gmail.com")
@@ -196,7 +201,7 @@
 (global-set-key (kbd "C-c ;") 'comment-or-uncomment-region) ;; Uncomment region
 (global-set-key (kbd "M-p") 'ppindent-h) ;; Preprocessor indent
 (global-set-key (kbd "C-x c") 'compile)        ;; Run compile cmd
-;; (global-set-key (kbd "C-x C-l") 'goto-line)    ;; Go To line (M-g g)
+;; (global-set-key (kbd "M-g M-g") 'goto-line)    ;; Go To line (M-g M-g)
 (global-set-key (kbd "C-x C-b") 'bs-show)      ;; Buffer switch
 (global-set-key (kbd "C-c q") 'filladapt-mode) ;; Enable fill-mode
 (global-set-key (kbd "C-c a") 'align-cols) ;; Align columns
@@ -285,35 +290,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Check for shebang magic in file after save, make executable if found.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq my-shebang-patterns
-;;       (list "^#!/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
-;; 	    "^#!/usr/.*/sh"
-;; 	    "^#!/usr/.*/bash"
-;; 	    "^#!/bin/sh"
-;; 	    "^#!/bin/bash"))
-;; (add-hook
-;;  'after-save-hook
-;;  (lambda ()
-;;    (if (not (= (shell-command (concat "test -x " (buffer-file-name))) 0))
-;;        (progn
-;; 	 ;; This puts message in *Message* twice, but minibuffer
-;; 	 ;; output looks better.
-;; 	 (message (concat "Wrote " (buffer-file-name)))
-;; 	 (save-excursion
-;; 	   (goto-char (point-min))
-;; 	   ;; Always checks every pattern even after
-;; 	   ;; match.  Inefficient but easy.
-;; 	   (dolist (my-shebang-pat my-shebang-patterns)
-;; 	     (if (looking-at my-shebang-pat)
-;; 		 (if (= (shell-command
-;; 			 (concat "chmod u+x " (buffer-file-name)))
-;; 			0)
-;; 		     (message (concat
-;; 			       "Wrote and made executable "
-;; 			       (buffer-file-name))))))))
-;;      ;; This puts message in *Message* twice, but minibuffer output
-;;      ;; looks better.
-;;      (message (concat "Wrote " (buffer-file-name))))))
+(setq my-shebang-patterns
+      (list "^#!/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
+	    "^#!/usr/.*/sh"
+	    "^#!/usr/.*/bash"
+	    "^#!/bin/sh"
+	    "^#!/bin/bash"))
+(add-hook
+ 'after-save-hook
+ (lambda ()
+   (if (not (= (shell-command (concat "test -x " (buffer-file-name))) 0))
+       (progn
+	 ;; This puts message in *Message* twice, but minibuffer
+	 ;; output looks better.
+	 (message (concat "Wrote " (buffer-file-name)))
+	 (save-excursion
+	   (goto-char (point-min))
+	   ;; Always checks every pattern even after
+	   ;; match.  Inefficient but easy.
+	   (dolist (my-shebang-pat my-shebang-patterns)
+	     (if (looking-at my-shebang-pat)
+		 (if (= (shell-command
+			 (concat "chmod u+x " (buffer-file-name)))
+			0)
+		     (message (concat
+			       "Wrote and made executable "
+			       (buffer-file-name))))))))
+     ;; This puts message in *Message* twice, but minibuffer output
+     ;; looks better.
+     (message (concat "Wrote " (buffer-file-name))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
