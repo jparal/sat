@@ -1,4 +1,7 @@
-SAT
-===
+Simulate & Analyse Toolkit (SAT)
+================================
 
-Simulate &amp; Analyse Toolkit (SAT)
+TODO
+----
+
+- Describe instalation process
