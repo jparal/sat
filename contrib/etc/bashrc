@@ -31,7 +31,7 @@ alias duh="du -hs"
 alias dfh="df -h"
 alias su="su -"
 alias jam="jam -j 2"
-alias make="make -j"
+alias cmatlab="matlab -nodesktop -nosplash"
 alias ushowq="showq -u `whoami`"
 alias uqstat="qstat -u `whoami`"
 
