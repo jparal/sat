@@ -100,8 +100,14 @@ int main (int argc, char **argv)
 
   }
 
+  double radius;
+  DBG_INFO ("======= [ Moon ] ========");
+  radius = si2h.Length (M_PHYS_MOON_RADIUS*1e3, false);
+  if (enScale) radius /= scale;
+  DBG_INFO ("Radius   = " << radius << " Lin");
+
   DBG_INFO ("======= [ Mercury ] ========");
-  double radius = si2h.Length (M_PHYS_MERCURY_RADIUS*1e3, false);
+  radius = si2h.Length (M_PHYS_MERCURY_RADIUS*1e3, false);
   if (enScale) radius /= scale;
   double r3 = radius*radius*radius;
   DBG_INFO ("Radius   = " << radius << " Lin");
