@@ -20,6 +20,7 @@
 #include "simul/field/mesh.h"
 
 #ifdef HAVE_HDF5
+#define H5_USE_16_API 1
 #include <hdf5.h>
 #include "hdf5types.h"
 #endif
