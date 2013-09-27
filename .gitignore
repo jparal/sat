@@ -15,12 +15,10 @@ callgrind.out.*
 /autom4te.cache
 /config.log
 /config.status
-/configure
 /conftest*
 /*.lineno
 /confdefs.h
 Makefile
-Makefile.in
 TEMPLATE.c.tpl
 TEMPLATE.cpp.tpl
 TEMPLATE.cxx.tpl
