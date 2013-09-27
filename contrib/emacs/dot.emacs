@@ -17,6 +17,10 @@
 ;; Save emacs settings on exit
 ;; (desktop-save-mode 1)
 
+; Note you need "python-mode" package installed
+;(setq ipython-command "/usr/local/bin/ipython")
+(require 'ipython)
+
 (eval-after-load "sh-script" '(require 'sh-autoconf))
 (add-to-list 'auto-mode-alist '("/configure\\.\\(ac\\|in\\)\\'" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.m4$" . sh-mode))
@@ -27,6 +31,7 @@
 (add-to-list 'auto-mode-alist '("\\.inc$" . fortran-mode))
 (setq auto-mode-alist (append `(("\.h$" . c++-mode)) auto-mode-alist))
 (setq auto-mode-alist (append `(("\.xmf$" . xml-mode)) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.ipy$" . python-mode))
 
 (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
 (add-to-list 'auto-mode-alist '("\\.m$" . matlab-mode))
@@ -120,8 +125,8 @@
 (require 'dirvars)
 (require 'ppindent)
 (require 'template)
-(require 'jam-mode)
 ; (load "vtags")
+; (require 'jam-mode)
 (template-initialize)
 
 ;; in file ~/.Xresources put
