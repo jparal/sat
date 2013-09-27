@@ -1,0 +1,95 @@
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 09:00 UT  Duration:    100
+CXD Parameters: Tmid =  857.1, DDT =  990.0, FW =   2, FFW =   3
+  0    0.00    0.83  -47.78    0.23 -102.71    0.22    9.43
+  1   16.50    0.61   54.64    0.28  -47.87    0.44   -6.97
+  2   33.00    2.01   48.02    0.52 -132.34   -0.00  -14.46
+  3   49.50    1.59   37.31    0.76 -162.57   -0.14  -24.82
+  4   66.00    0.62   95.93    0.32  124.50   -0.20   25.70
+  5   82.50    0.80   89.96    0.31   63.59    0.15   19.46
+  6   99.00    0.91    1.36    0.21 -142.08    0.13  -10.54
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 07:00 UT  Duration:    100
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 08:00 UT  Duration:    100
+CXD Parameters: Tmid =  750.0, DDT =  990.0, FW =   2, FFW =   3
+  0    0.00    1.33   22.01    0.55 -161.73   -0.02  -22.45
+  1   16.50    0.73   -7.91    0.42 -179.38    0.06  -29.92
+  2   33.00    1.16  -48.00    0.40  110.48   -0.11  -17.95
+  3   49.50    1.10  -68.24    0.28   18.39   -0.26    0.93
+  4   66.00    0.33 -102.27    0.69  -44.57   -0.37   73.52
+  5   82.50    0.78   36.04    0.45  -62.20    0.57   -7.03
+  6   99.00    1.69   24.72    0.32 -159.71   -0.01  -10.51
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 09:00 UT  Duration:    120
+CXD Parameters: Tmid =  800.0, DDT =  892.5, FW =   2, FFW =   4
+  0    0.00    0.54 -100.89    0.79 -108.77    0.06   56.05
+  1   14.88    0.71    6.24    0.25  -84.78    0.35   -0.41
+  2   29.75    1.77   -1.67    0.31  161.05   -0.05   -9.54
+  3   44.62    1.60  -25.73    0.79  133.87   -0.14  -25.37
+  4   59.50    0.96  -34.29    0.19   67.28   -0.19   -2.35
+  5   74.38    0.68  -26.77    0.38  -15.52   -0.08   29.00
+  6   89.25    0.38 -122.00    0.12   57.51   -0.00  -17.83
+  7  104.12    0.78 -167.36    0.72  -95.07   -0.72   37.49
+  8  119.00    0.59 -132.73    1.42 -100.04   -0.20   69.78
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 10:00 UT  Duration:    120
+CXD Parameters: Tmid =  800.0, DDT =  892.5, FW =   2, FFW =   4
+  0    0.00    0.41  135.07    0.25  177.15   -0.33   27.88
+  1   14.88    0.49  106.29    0.20 -144.82   -0.38   -8.83
+  2   29.75    0.67   19.91    0.21   96.03   -0.30    4.77
+  3   44.62    0.69   12.00    1.24   84.39   -0.51   76.90
+  4   59.50    0.56  109.90    1.20   71.39    0.25   68.59
+  5   74.38    1.17  115.15    0.41   45.93    0.32    7.97
+  6   89.25    0.88   87.89    0.13   78.34    0.02    8.53
+  7  104.12    0.39    4.93    0.08  -12.11    0.06   11.27
+  8  119.00    0.25  -52.46    0.17  -93.55    0.34   31.26
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 09:00 UT  Duration:    300
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 06:00 UT  Duration:    100
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 08:00 UT  Duration:    100
+CXD Parameters: Tmid =  750.0, DDT =  990.0, FW =   2, FFW =   3
+  0    0.00    1.33   22.01    0.55 -161.73   -0.02  -22.45
+  1   16.50    0.73   -7.91    0.42 -179.38    0.06  -29.92
+  2   33.00    1.16  -48.00    0.40  110.48   -0.11  -17.95
+  3   49.50    1.10  -68.24    0.28   18.39   -0.26    0.93
+  4   66.00    0.33 -102.27    0.69  -44.57   -0.37   73.52
+  5   82.50    0.78   36.04    0.45  -62.20    0.57   -7.03
+  6   99.00    1.69   24.72    0.32 -159.71   -0.01  -10.51
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 11:30 UT  Duration:    100
+CXD Parameters: Tmid =  666.7, DDT =  742.5, FW =   2, FFW =   4
+  0    0.00    0.33 -107.11    0.36  100.08    0.24  -47.24
+  1   12.38    0.19  166.14    0.15   73.77    0.76   -4.36
+  2   24.75    0.23  129.51    0.09  -16.83    0.19  -18.42
+  3   37.12    0.44  136.17    0.19  -95.00   -0.32  -17.32
+  4   49.50    0.69  120.73    0.32 -144.03   -0.46   -3.09
+  5   61.88    0.67  103.41    0.40 -175.87   -0.58    8.27
+  6   74.25    0.51   82.14    0.50  170.19   -0.96   24.54
+  7   86.62    0.35   27.72    0.60  152.91   -0.42  -66.98
+  8   99.00    0.40  -50.54    0.56  125.66   -0.03  -54.32
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 06:00 UT  Duration:     80
+CXD Parameters: Tmid =  694.3, DDT =  790.0, FW =   2, FFW =   3
+  0    0.00    0.53  150.18    0.10   31.39    0.17   -5.57
+  1   13.17    1.57  -25.55    0.59 -173.01    0.18  -18.05
+  2   26.33    2.37  -95.49    0.68  177.40    0.28    0.90
+  3   39.50    2.35 -168.35    0.44 -151.34   -0.05   10.05
+  4   52.67    1.29  102.05    0.79 -159.69   -0.60   -7.92
+  5   65.83    1.26  -22.51    0.89  165.25    0.06  -35.11
+  6   79.00    1.36 -118.67    0.44  103.44    0.21  -14.19
+Running Complex Demodulation on 
+/home/ealee/share/imsi/data/lanl/20000716/mpavelocity.txt
+Start time 06:00 UT  Duration:     80
