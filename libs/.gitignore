@@ -1,4 +1,4 @@
 *.pdf
 /satconfig.h
 /stamp-h1
-satconfig.h.in
+
