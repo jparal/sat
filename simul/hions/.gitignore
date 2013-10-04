@@ -1,5 +1,4 @@
 /hions
 out_*
 *.gz
-*.in
 *.h5part
