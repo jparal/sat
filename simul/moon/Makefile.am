@@ -12,7 +12,7 @@ include $(top_srcdir)/mk/amake/Makefile.sat
 exename = moon
 srcfile = moon.cxx
 hdrfile = moon.h init.cpp
-cfgfile = *.sin *.pbs
+cfgfile = *.sin
 instdir = $(prefix)/simul/moon
 
 EXTRA_PROGRAMS = $(exename)

@@ -10,8 +10,6 @@ callgrind.out.*
 /.rsync
 /build-*
 /*.tar.gz
-/acinclude.m4
-/aclocal.m4
 /autom4te.cache
 /config.log
 /config.status
