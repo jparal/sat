@@ -295,7 +295,7 @@ public:
     // dipole field since it is not necessary anyway and cases it problems in
     // variable outputs and FPEs.
     const T r3min = _radius2*0.8*0.8 * _radius*0.8;
-    mv[D-1] = -_amp;
+    mv[2] = -_amp;
 
     xp.Set (relpos);
     r3 = xp.Norm() * xp.Norm2();
